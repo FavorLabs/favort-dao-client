@@ -38,7 +38,12 @@ bower_components
 build/Release
 
 # Dependency directories
-node_modules/
+# dependencies
+/node_modules
+/npm-debug.log*
+/yarn-error.log
+/yarn.lock
+/package-lock.json
 jspm_packages/
 
 # TypeScript v1 declaration files
@@ -102,3 +107,9 @@ dist
 
 # TernJS port file
 .tern-port
+
+# umi
+/src/.umi
+/src/.umi-production
+/src/.umi-test
+/.env.local
