@@ -69,7 +69,9 @@ const ChannelHome: React.FC<Props> = (props) => {
                     lg={{ span: 8 }}
                     xl={{ span: 6 }}
                     onClick={() => {
-                      history.push(`/video/${item.id}`);
+                      history.push(
+                        `${history.location.pathname}/video/${item.id}`,
+                      );
                     }}
                   >
                     <VideoCard videoInfo={item} />

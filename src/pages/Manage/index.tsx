@@ -36,16 +36,18 @@ const Manage: React.FC<Props> = (props) => {
     {
       key: 1,
       label: 'Videos',
-      path: '/manage',
+      path: ``,
       icon: <VideoCameraOutlined />,
     },
     {
       key: 2,
       label: 'Others',
-      path: '/manage/others',
+      path: `others`,
       icon: <VideoCameraOutlined />,
     },
   ];
+
+  console.log('path', history);
 
   const editChannelName = () => {
     setEditNameLoading(true);
@@ -135,7 +137,10 @@ const Manage: React.FC<Props> = (props) => {
                         }`}
                         key={item.key}
                         onClick={() => {
-                          history.push(item.path);
+                          console.log('path', history);
+                          history.push({
+                            pathname: `/manage/${item.path}`,
+                          });
                         }}
                       >
                         <span className={styles.icon}>{item.icon}</span>

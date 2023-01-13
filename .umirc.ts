@@ -22,4 +22,7 @@ export default defineConfig({
   publicPath: './',
   routes,
   theme,
+  history: {
+    type: 'hash',
+  },
 });

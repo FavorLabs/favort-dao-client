@@ -22,12 +22,16 @@
   "dependencies": {
     "@ant-design/icons": "^5.0.0",
     "@ant-design/pro-layout": "^6.5.0",
+    "@walletconnect/web3-provider": "^1.8.0",
+    "axios": "^1.2.2",
+    "nprogress": "^0.2.0",
     "react": "17.x",
     "react-dom": "17.x",
     "umi": "^3.5.36",
     "web3": "^1.8.1"
   },
   "devDependencies": {
+    "@types/nprogress": "^0.2.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@umijs/preset-react": "1.x",
