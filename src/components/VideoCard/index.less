@@ -1,0 +1,39 @@
+.content {
+  .videoCard {
+    transition: transform 0.2s ease-in-out;
+    cursor: pointer;
+    .thumbnail {
+      width: 100%;
+      padding-bottom: 56.2%;
+      border-radius: 10px;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+    }
+    .details {
+      max-width: 580px;
+      margin: 0 5px;
+      .title {
+        display: -webkit-box;
+        overflow: hidden;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        margin: 5px 0;
+      }
+      .viewsDate {
+        display: -webkit-box;
+        overflow: hidden;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+        color: #888;
+        font-size: 10px;
+        .separator {
+          margin: 0 8px;
+        }
+      }
+    }
+  }
+  .videoCard:hover {
+    transform: scale(1.01);
+  }
+}

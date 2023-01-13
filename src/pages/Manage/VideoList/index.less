@@ -1,0 +1,19 @@
+.content {
+  .title {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  .videoList {
+    .videoTable {
+      .actions {
+        > * {
+          transition: transform 0.1s ease-in-out;
+        }
+        > *:hover {
+          color: @mainColor;
+          transform: scale(1.2);
+        }
+      }
+    }
+  }
+}

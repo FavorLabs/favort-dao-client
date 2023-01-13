@@ -1,0 +1,134 @@
+.content {
+  .topBar {
+    height: 60px;
+    padding: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      .switchMenu {
+        margin-left: 20px;
+        cursor: pointer;
+      }
+    }
+    .uploadVideo {
+      font-size: 16px;
+    }
+  }
+  .main {
+    max-width: unset;
+    margin: 0;
+    .row {
+      .asideCol {
+        .aside {
+          height: 100vh;
+          padding: 16px 0;
+          border-right: 1px solid #ccc;
+          .channelEdit {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin-bottom: 16px;
+            .channelName {
+              margin: 10px 0;
+              font-weight: bold;
+              .editName {
+                display: none;
+                color: #000;
+                margin-left: 4px;
+                cursor: pointer;
+              }
+            }
+            .channelName:hover {
+              .name {
+                color: #aaa;
+              }
+              .editName {
+                display: inline-block;
+              }
+            }
+          }
+          .navList {
+            .navItem {
+              font-weight: bold;
+              padding: 16px;
+              cursor: pointer;
+              .icon {
+                font-size: 24px;
+                margin-right: 18px;
+                vertical-align: middle;
+              }
+            }
+            .active {
+              border-left: 4px solid @mainColor;
+              background-color: #e5e5e5;
+              .icon {
+                color: @mainColor;
+              }
+            }
+          }
+        }
+      }
+      .editCol {
+        article {
+          padding: 30px;
+        }
+      }
+    }
+  }
+}
+
+.editNameModal {
+  .modalContent {
+    .title {
+      font-size: 18px;
+      font-weight: bolder;
+    }
+    .currentName {
+      margin-bottom: 16px;
+      .label {
+        opacity: 0.7;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+.editMoreModal {
+  .modalContent {
+    .title {
+      font-size: 18px;
+      font-weight: bolder;
+    }
+    .item {
+      .label {
+        opacity: 0.7;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+    }
+    .channelDescription {
+      margin-bottom: 16px;
+    }
+  }
+}
+
+.uploadVideoModal {
+  .modalContent {
+    .title {
+      font-size: 18px;
+      font-weight: bolder;
+    }
+    .item {
+      .label {
+        opacity: 0.7;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+    }
+  }
+}
