@@ -1,0 +1,61 @@
+.content {
+  .topVideo {
+    margin-bottom: 0;
+    .thumbnail {
+      width: 424px;
+      height: 238px;
+      border-radius: 10px;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+    }
+    .details {
+      max-width: 400px;
+      max-height: 238px;
+      .title,
+      .viewsDate {
+        margin-bottom: 12px;
+      }
+      .viewsDate {
+        color: #888;
+        font-size: 10px;
+        .separator {
+          margin: 0 10px;
+        }
+      }
+      .description {
+        display: -webkit-box;
+        overflow: hidden;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 5;
+        margin-bottom: 10px;
+      }
+      .readMore {
+        font-weight: bold;
+        cursor: pointer;
+      }
+    }
+  }
+  main {
+    .allVideos {
+      .title {
+        font-weight: bold;
+        margin-bottom: 8px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .content {
+    .topVideo {
+      .thumbnailCol {
+        width: 90%;
+        .thumbnail {
+          width: 100%;
+          min-width: 240px;
+        }
+      }
+    }
+  }
+}

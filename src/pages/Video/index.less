@@ -1,0 +1,103 @@
+.content {
+  .topBar {
+    height: 60px;
+    margin-bottom: 16px;
+    padding: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+    }
+  }
+  .VideoMain {
+    max-width: 1500px;
+    .row {
+      margin: 0 16px !important;
+      .col {
+        //margin: 0 16px;
+      }
+      .mainLeft {
+        .detail {
+          .title {
+            display: -webkit-box;
+            overflow: hidden;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 4;
+            font-weight: bold;
+            font-size: 18px;
+            margin: 10px 0;
+          }
+          .userActions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .left {
+              display: flex;
+              justify-content: flex-start;
+              align-items: center;
+              .channelDetail {
+                margin-left: 16px;
+                .name {
+                  font-size: 18px;
+                  font-weight: bold;
+                }
+                .subscribers {
+                  color: #777;
+                  font-size: 14px;
+                }
+              }
+              .subscribe {
+                margin-left: 16px;
+              }
+            }
+            .right {
+              .actionBtn {
+                font-size: 20px;
+              }
+              .actionBtn:hover {
+                color: @mainColor;
+                cursor: pointer;
+              }
+              .likeOrDislikeOrShare {
+                padding: 16px 32px;
+                border-radius: 50px;
+                background-color: #eee;
+                > span {
+                  margin-right: 16px;
+                }
+                > span:last-child {
+                  margin-right: 0;
+                }
+                .like,
+                .dislike,
+                .share {
+                  margin-right: 5px;
+                  vertical-align: middle;
+                }
+              }
+            }
+          }
+          .extra {
+            margin-top: 20px;
+            padding: 16px;
+            border-radius: 6px;
+            background-color: #ebebeb;
+            .viewsAndDate {
+              font-weight: bold;
+            }
+          }
+        }
+        .comments {
+          height: 200px;
+          font-weight: bold;
+        }
+      }
+      .mainRight {
+        padding: 0 10px;
+      }
+    }
+  }
+}

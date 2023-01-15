@@ -2,6 +2,7 @@ import ModelsType, { Models } from '@/declare/modelType';
 
 import { WebsocketProvider } from 'web3-core';
 import Web3 from 'web3';
+
 import { getEndPoint, splitUrl, websocket } from '@/utils/util';
 
 import { ApiPort } from '@/declare/api';
@@ -27,8 +28,8 @@ export default {
     api: sessionStorage.getItem(ApiURL) || getEndPoint() || DefaultApi,
     debugApi: '',
     ws: null,
-    nodeWeb3: null,
     web3: null,
+    nodeWeb3: null,
     address: '',
     proxyGroup: '',
     requestLoading: true,

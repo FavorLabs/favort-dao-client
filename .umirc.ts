@@ -10,6 +10,9 @@ export default defineConfig({
   nodeModulesTransform: {
     type: 'none',
   },
+  history: {
+    type: 'hash',
+  },
   fastRefresh: {},
   dva: {
     immer: true,

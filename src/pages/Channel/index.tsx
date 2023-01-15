@@ -1,5 +1,3 @@
-import * as React from 'react';
-import styles from './index.less';
 import { useEffect } from 'react';
 import { useDispatch, useSelector, history } from 'umi';
 import Web3 from 'web3';
@@ -24,6 +22,7 @@ const Channel: React.FC<Props> = (props) => {
   useEffect(() => {
     async function fetch() {
       const { address } = props.match.params;
+      console.log('address', address);
       if (Web3.utils.isAddress(address)) {
         const { data } = await ChainApi.getService({ address });
         console.log('Service', data);
@@ -39,14 +38,15 @@ const Channel: React.FC<Props> = (props) => {
         }
       }
       message.info('Channel does not exist');
-      history.replace('/home');
+      // history.replace('/home');
     }
 
     fetch();
   }, [props.match.params.address]);
   return (
     <>
-      {requestLoading ? (
+      {/*requestLoading*/}
+      {false ? (
         <Loading text={'Connecting to a p2p network'} status={requestLoading} />
       ) : (
         props.children
