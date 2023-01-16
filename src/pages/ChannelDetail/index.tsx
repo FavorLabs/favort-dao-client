@@ -5,11 +5,12 @@ import type { TabsProps } from 'antd';
 import bannerBg from '@/assets/img/material.jpg';
 import ChannelHome from '@/components/ChannelHome';
 import { useHistory } from 'umi';
-import { history } from '@@/core/history';
+import { usePath } from '@/utils/hooks';
 
 export type Props = {};
 const ChannelDetail: React.FC<Props> = (props) => {
   const history = useHistory();
+  const path = usePath();
 
   const tabItems: TabsProps['items'] = [
     {
@@ -47,7 +48,8 @@ const ChannelDetail: React.FC<Props> = (props) => {
                 className={styles.manage}
                 type="primary"
                 onClick={() => {
-                  history.push(`${history.location.pathname}/manage`);
+                  // history.push(`${history.location.pathname}/manage`);
+                  path('/manage/');
                 }}
               >
                 Manage

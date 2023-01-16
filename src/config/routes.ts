@@ -48,6 +48,10 @@ export default [
                 component: '@/pages/Manage/Others',
                 name: 'others',
               },
+              {
+                path: '/:address/manage/details/:id',
+                component: '@/pages/Manage/Details',
+              },
             ],
           },
         ],

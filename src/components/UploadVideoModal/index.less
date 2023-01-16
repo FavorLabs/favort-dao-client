@@ -1,0 +1,76 @@
+.uploadVideoModal {
+  .modalContent {
+    .title {
+      font-size: 18px;
+      font-weight: bolder;
+    }
+    > div {
+      max-height: 360px;
+      overflow-y: scroll;
+      .uploadVideoFile {
+        .uploadContainer {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+          .selectContainer {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            cursor: pointer;
+            .uploadSelectBtn {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              width: 160px;
+              height: 100px;
+              margin: 0 auto;
+              background-color: #fafafa;
+              border: 1px dashed #ccc;
+              border-radius: 4px;
+              .uploadIcon {
+                color: #aaa;
+                font-size: 24px;
+              }
+            }
+            .uploadSelectText {
+              margin: 0 auto;
+              margin-top: 10px;
+            }
+          }
+        }
+        .uploadInstructions {
+          color: #aaa;
+          font-size: 12px;
+          margin-top: 80px;
+          p {
+            text-align: center;
+          }
+        }
+      }
+      .uploadVideoDetail {
+        .item {
+          margin-bottom: 10px;
+          padding: 10px 10px 20px 10px;
+          border-radius: 4px;
+          background-color: #eee;
+          .label {
+            opacity: 0.7;
+            font-weight: bold;
+            line-height: 14px;
+            margin-bottom: 10px;
+          }
+          .value {
+            //
+          }
+        }
+        .subTitle {
+          font-size: 16px;
+          margin-bottom: 20px;
+          padding: 0;
+          background-color: unset;
+        }
+      }
+    }
+  }
+}

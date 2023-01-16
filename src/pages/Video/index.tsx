@@ -10,6 +10,7 @@ import {
 import VideoInfo, { video } from '@/config/temp';
 import VideoCard from '@/components/VideoCard';
 import { history } from '@@/core/history';
+import { usePath } from '@/utils/hooks';
 
 export type Props = {
   match: {
@@ -19,6 +20,7 @@ export type Props = {
   };
 };
 const Video: React.FC<Props> = (props) => {
+  const path = usePath();
   const [videoUrl, setVideoUrl] = useState<string>('');
   const [videoList, setVideoList] = useState<video[]>([]);
 
@@ -138,7 +140,7 @@ const Video: React.FC<Props> = (props) => {
                     <div
                       key={index}
                       onClick={() => {
-                        history.push(`/video/${item.id}`);
+                        path(`/video/${item.id}`);
                       }}
                     >
                       <VideoCard videoInfo={item} />
