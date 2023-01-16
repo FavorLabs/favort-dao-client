@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector, history } from 'umi';
 import Web3 from 'web3';
 import ChainApi from '@/services/ChainApi';
@@ -38,15 +38,14 @@ const Channel: React.FC<Props> = (props) => {
         }
       }
       message.info('Channel does not exist');
-      // history.replace('/home');
+      history.replace('/home');
     }
 
     fetch();
   }, [props.match.params.address]);
   return (
     <>
-      {/*requestLoading*/}
-      {false ? (
+      {requestLoading ? (
         <Loading text={'Connecting to a p2p network'} status={requestLoading} />
       ) : (
         props.children

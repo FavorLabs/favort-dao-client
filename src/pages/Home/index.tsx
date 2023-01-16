@@ -81,7 +81,7 @@ const Home: React.FC<Props> = (props) => {
               My Channel
             </Button>
           ) : (
-            <Button type="dashed" href="/create">
+            <Button type="dashed" href="#/create">
               Create Channel
             </Button>
           )}
