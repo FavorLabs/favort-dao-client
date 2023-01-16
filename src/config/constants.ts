@@ -5,7 +5,7 @@ export const ConnectType = 'connectType';
 
 export const ApiURL = 'api';
 
-export const DefaultApi: string = 'http://localhost:1632';
+export const DefaultApi: string = 'http://localhost:1633';
 
 export const ProxyGroup = 'favortube';
 export const DomainName = 'favortube.com';

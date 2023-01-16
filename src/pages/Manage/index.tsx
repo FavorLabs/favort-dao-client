@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styles from './index.less';
 import { Avatar, Button, Row, Col, Modal, Input, Divider } from 'antd';
+
 const { TextArea } = Input;
 import {
   UploadOutlined,
@@ -9,7 +10,8 @@ import {
   EditOutlined,
 } from '@ant-design/icons';
 import { ReactElement, useState } from 'react';
-import { useHistory } from 'umi';
+import { history } from 'umi';
+import { usePath } from '@/utils/hooks';
 
 export type Props = {};
 type navItems = {
@@ -20,8 +22,7 @@ type navItems = {
 };
 
 const Manage: React.FC<Props> = (props) => {
-  const history = useHistory();
-
+  const gotoPath = usePath();
   const [channelName, setChannelName] = useState<string>('');
   const [channelDescription, setChannelDescription] = useState<string>('');
 
@@ -138,9 +139,7 @@ const Manage: React.FC<Props> = (props) => {
                         key={item.key}
                         onClick={() => {
                           console.log('path', history);
-                          history.push({
-                            pathname: `/manage/${item.path}`,
-                          });
+                          gotoPath('manage/others');
                         }}
                       >
                         <span className={styles.icon}>{item.icon}</span>
