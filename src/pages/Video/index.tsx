@@ -9,7 +9,6 @@ import {
 } from '@ant-design/icons';
 import VideoInfo, { video } from '@/config/temp';
 import VideoCard from '@/components/VideoCard';
-import { history } from '@@/core/history';
 import { usePath } from '@/utils/hooks';
 
 export type Props = {
@@ -43,8 +42,8 @@ const Video: React.FC<Props> = (props) => {
 
   return (
     <>
-      <div className={styles.content}>
-        <header>
+      <div className={`${styles.content} pageContent`}>
+        <header className={'header'}>
           <div className={styles.topBar}>
             <div className={styles.logo}>FavorTube</div>
           </div>

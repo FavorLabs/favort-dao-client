@@ -1,7 +1,6 @@
 .content {
   .topBar {
     height: 60px;
-    margin-bottom: 16px;
     padding: 12px;
     display: flex;
     justify-content: space-between;
@@ -34,10 +33,18 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            .left,
+            .right {
+              margin-bottom: 24px;
+            }
             .left {
               display: flex;
               justify-content: flex-start;
               align-items: center;
+              .avatar {
+                flex-shrink: 0;
+              }
               .channelDetail {
                 margin-left: 16px;
                 .name {
@@ -62,6 +69,9 @@
                 cursor: pointer;
               }
               .likeOrDislikeOrShare {
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
                 padding: 16px 32px;
                 border-radius: 50px;
                 background-color: #eee;
@@ -81,7 +91,6 @@
             }
           }
           .extra {
-            margin-top: 20px;
             padding: 16px;
             border-radius: 6px;
             background-color: #ebebeb;

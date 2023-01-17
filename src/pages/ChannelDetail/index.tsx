@@ -31,8 +31,8 @@ const ChannelDetail: React.FC<Props> = (props) => {
 
   return (
     <>
-      <div className={styles.content}>
-        <header>
+      <div className={`${styles.content} pageContent`}>
+        <header className={'header'}>
           <div className={styles.topBar}>
             <div className={styles.logo}>FavorTube</div>
             <div className={styles.actions}>
@@ -48,7 +48,6 @@ const ChannelDetail: React.FC<Props> = (props) => {
                 className={styles.manage}
                 type="primary"
                 onClick={() => {
-                  // history.push(`${history.location.pathname}/manage`);
                   path('/manage/');
                 }}
               >
