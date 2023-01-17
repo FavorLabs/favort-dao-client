@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styles from './index.less';
-import { Avatar, Button, Row, Col, Modal, Input, Divider } from 'antd';
+import { Avatar, Button, Row, Col } from 'antd';
 import {
   UploadOutlined,
   MenuOutlined,
@@ -8,8 +8,8 @@ import {
   EditOutlined,
 } from '@ant-design/icons';
 import { ReactElement, useState } from 'react';
-import { useHistory } from 'umi';
 import { usePath } from '@/utils/hooks';
+import { history } from 'umi';
 import EditNameModal from '@/components/EditNameModal';
 import EditMoreModal from '@/components/EditMoreModal';
 import UploadVideoModal from '@/components/UploadVideoModal';
@@ -23,7 +23,6 @@ type navItems = {
 };
 
 const Manage: React.FC<Props> = (props) => {
-  const history = useHistory();
   const path = usePath();
 
   const [channelNameModal, setChannelNameModal] = useState<boolean>(false);
