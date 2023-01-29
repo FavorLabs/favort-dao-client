@@ -45,8 +45,7 @@ const Channel: React.FC<Props> = (props) => {
   }, [props.match.params.address]);
   return (
     <>
-      {/*requestLoading*/}
-      {false ? (
+      {requestLoading ? (
         <Loading text={'Connecting to a p2p network'} status={requestLoading} />
       ) : (
         props.children
