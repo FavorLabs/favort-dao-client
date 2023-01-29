@@ -1,249 +1,163 @@
 import * as React from 'react';
 import styles from './index.less';
-import { Avatar, Button, Row, Col, Modal, Input, Divider } from 'antd';
-
-const { TextArea } = Input;
+import { Avatar, Button, Row, Col, Layout, Menu } from 'antd';
+const { Sider } = Layout;
 import {
   UploadOutlined,
   MenuOutlined,
   VideoCameraOutlined,
   EditOutlined,
 } from '@ant-design/icons';
-import { ReactElement, useState } from 'react';
-import { history } from 'umi';
+import { useState } from 'react';
 import { usePath } from '@/utils/hooks';
+import { isMobile } from '@/utils/util';
+import { history } from 'umi';
+import EditNameModal from '@/components/EditNameModal';
+import EditMoreModal from '@/components/EditMoreModal';
+import UploadVideoModal from '@/components/UploadVideoModal';
 
 export type Props = {};
-type navItems = {
-  key: number;
-  label: string;
-  path: string;
-  icon: ReactElement;
-};
 
 const Manage: React.FC<Props> = (props) => {
-  const gotoPath = usePath();
-  const [channelName, setChannelName] = useState<string>('');
-  const [channelDescription, setChannelDescription] = useState<string>('');
+  const path = usePath();
 
+  const [collapsed, setCollapsed] = useState(false);
   const [channelNameModal, setChannelNameModal] = useState<boolean>(false);
-  const [editNameLoading, setEditNameLoading] = useState<boolean>(false);
   const [channelMoreModal, setChannelMoreModal] = useState<boolean>(false);
-  const [editMoreLoading, setEditMoreLoading] = useState<boolean>(false);
   const [uploadVideoModal, setUploadVideoModal] = useState<boolean>(false);
-  const [uploadVideoLoading, setUploadVideoLoading] = useState<boolean>(false);
 
-  const NavItems: navItems[] = [
+  const NavItems = [
     {
-      key: 1,
+      key: '1',
       label: 'Videos',
-      path: ``,
       icon: <VideoCameraOutlined />,
+      onClick: () => {
+        path('/manage');
+        isMobile() ? setCollapsed(true) : '';
+      },
     },
     {
-      key: 2,
+      key: '2',
       label: 'Others',
-      path: `others`,
       icon: <VideoCameraOutlined />,
+      onClick: () => {
+        path('/manage/others');
+        isMobile() ? setCollapsed(true) : '';
+      },
     },
   ];
 
-  console.log('path', history);
-
-  const editChannelName = () => {
-    setEditNameLoading(true);
-    setTimeout(() => {
-      setEditNameLoading(false);
-      setChannelNameModal(false);
-    }, 2000);
-  };
-
-  const editChannelMore = () => {
-    setEditMoreLoading(true);
-    setTimeout(() => {
-      setEditMoreLoading(false);
-      setChannelMoreModal(false);
-    }, 2000);
-  };
-
-  const uploadVideo = () => {
-    setUploadVideoLoading(true);
-    setTimeout(() => {
-      setUploadVideoLoading(false);
-      setUploadVideoModal(false);
-    }, 2000);
-  };
-
   return (
     <>
-      <div className={styles.content}>
-        <header>
+      <div className={`${styles.content} pageContent`}>
+        <header className={'header'}>
           <div className={styles.topBar}>
             <div className={styles.logo}>
               <span>FavorTube</span>
-              <MenuOutlined className={styles.switchMenu} />
+              <MenuOutlined
+                className={styles.switchMenu}
+                onClick={() => {
+                  setCollapsed(!collapsed);
+                }}
+              />
             </div>
             <Button
               type="primary"
               shape="circle"
               className={styles.uploadVideo}
+              onClick={() => {
+                setUploadVideoModal(true);
+              }}
             >
               <UploadOutlined />
             </Button>
           </div>
         </header>
         <main className={styles.main}>
-          <Row className={styles.row}>
-            <Col className={styles.asideCol} span={3}>
-              <aside className={styles.aside}>
-                <div className={styles.channelEdit}>
-                  <Avatar
-                    className={styles.avatar}
-                    size={80}
-                    style={{ backgroundColor: '#F44336', fontSize: '24px' }}
-                  >
-                    U
-                  </Avatar>
-                  <span className={styles.channelName}>
-                    <span className={styles.name}>User</span>
-                    <span
-                      className={styles.editName}
-                      onClick={() => {
-                        setChannelNameModal(true);
-                      }}
-                    >
-                      <EditOutlined />
-                    </span>
-                  </span>
-                  <Button
-                    className={styles.editMore}
-                    type="primary"
-                    shape="round"
-                    size="small"
-                    onClick={() => {
-                      setChannelMoreModal(true);
-                    }}
-                  >
-                    Edit More
-                  </Button>
-                </div>
-                <nav className={styles.navList}>
-                  {NavItems.map((item, index) => {
-                    return (
-                      <div
-                        className={`${styles.navItem} ${
-                          item.path === history.location.pathname
-                            ? styles.active
-                            : ''
-                        }`}
-                        key={item.key}
-                        onClick={() => {
-                          console.log('path', history);
-                          gotoPath('manage/others');
-                        }}
-                      >
-                        <span className={styles.icon}>{item.icon}</span>
-                        <span className={styles.label}>{item.label}</span>
-                      </div>
-                    );
-                  })}
-                </nav>
-              </aside>
-            </Col>
-            <Col className={styles.editCol} span={21}>
-              <article>{props.children}</article>
-            </Col>
-          </Row>
-          <Modal
-            title={null}
-            centered
-            maskClosable={false}
-            className={styles.editNameModal}
-            open={channelNameModal}
-            onOk={editChannelName}
-            confirmLoading={editNameLoading}
-            onCancel={() => {
-              setChannelNameModal(false);
-            }}
-          >
-            <div className={styles.modalContent}>
-              <p className={styles.title}>Edit channel name</p>
-              <Divider style={{ margin: '16px 0' }} />
-              <p className={styles.currentName}>
-                <span className={styles.label}>Current Name:&emsp;</span>
-                <span className={styles.current}>User</span>
-              </p>
-              <Input
-                placeholder="Please enter channel name"
-                allowClear
-                onChange={(e) => {
-                  setChannelName(e.target.value);
-                }}
-              />
-            </div>
-          </Modal>
-          <Modal
-            title={null}
-            centered
-            maskClosable={false}
-            className={styles.editMoreModal}
-            open={channelMoreModal}
-            onOk={editChannelMore}
-            confirmLoading={editMoreLoading}
-            onCancel={() => {
-              setChannelMoreModal(false);
-            }}
-          >
-            <div className={styles.modalContent}>
-              <p className={styles.title}>Edit channel Info</p>
-              <Divider style={{ margin: '16px 0' }} />
-              <div className={`${styles.channelDescription} ${styles.item}`}>
-                <p className={styles.label}>Description:</p>
-                <TextArea
-                  allowClear
-                  showCount
-                  autoSize={{ minRows: 2, maxRows: 6 }}
-                  placeholder="Please enter channel description"
-                  onChange={(e) => {
-                    setChannelDescription(e.target.value);
-                  }}
-                />
-              </div>
-              <div className={`${styles.channelAvatar} ${styles.item}`}>
-                <p className={styles.label}>Avatar:</p>
+          <Layout>
+            <Sider
+              trigger={null}
+              collapsible
+              collapsed={collapsed}
+              className={styles.aside}
+              breakpoint="xl"
+              collapsedWidth="0"
+              onBreakpoint={(broken) => {
+                setCollapsed(broken);
+              }}
+              onCollapse={(collapsed, type) => {
+                // console.log(collapsed, type);
+              }}
+            >
+              <div className={styles.channelEdit}>
                 <Avatar
                   className={styles.avatar}
-                  size={36}
-                  style={{ backgroundColor: '#F44336', fontSize: '16px' }}
+                  size={80}
+                  style={{ backgroundColor: '#F44336', fontSize: '24px' }}
                 >
                   U
                 </Avatar>
+                <span className={styles.channelName}>
+                  <span className={styles.name}>User</span>
+                  <span
+                    className={styles.editName}
+                    onClick={() => {
+                      setChannelNameModal(true);
+                    }}
+                  >
+                    <EditOutlined />
+                  </span>
+                </span>
+                <Button
+                  className={styles.editMore}
+                  type="primary"
+                  shape="round"
+                  size="small"
+                  onClick={() => {
+                    setChannelMoreModal(true);
+                  }}
+                >
+                  Edit More
+                </Button>
               </div>
-            </div>
-          </Modal>
-          <Modal
-            title={null}
-            centered
-            maskClosable={false}
-            className={styles.uploadVideoModal}
+              <Menu
+                theme="light"
+                mode="inline"
+                defaultSelectedKeys={['1']}
+                items={NavItems}
+              />
+            </Sider>
+            <Layout className="site-layout">
+              <article>{props.children}</article>
+            </Layout>
+          </Layout>
+          <EditNameModal
+            open={channelNameModal}
+            openModal={() => {
+              setChannelNameModal(true);
+            }}
+            closeModal={() => {
+              setChannelNameModal(false);
+            }}
+          />
+          <EditMoreModal
+            open={channelMoreModal}
+            openModal={() => {
+              setChannelMoreModal(true);
+            }}
+            closeModal={() => {
+              setChannelMoreModal(false);
+            }}
+          />
+          <UploadVideoModal
             open={uploadVideoModal}
-            onOk={uploadVideo}
-            confirmLoading={uploadVideoLoading}
-            onCancel={() => {
+            openModal={() => {
+              setUploadVideoModal(true);
+            }}
+            closeModal={() => {
               setUploadVideoModal(false);
             }}
-          >
-            <div className={styles.modalContent}>
-              <p className={styles.title}>Upload Video</p>
-              <Divider style={{ margin: '16px 0' }} />
-              <div className={styles.videoDetail}>
-                <div className={`${styles.text} ${styles.item}`}>
-                  <p className={styles.label}>Details</p>
-                </div>
-                <div className={styles.thumbnail}>thumbnail</div>
-              </div>
-            </div>
-          </Modal>
+          />
         </main>
       </div>
     </>

@@ -2,19 +2,19 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import styles from './index.less';
 import { Space, Table, Tag } from 'antd';
-const { Column, ColumnGroup } = Table;
+const { Column } = Table;
 import {
   EditOutlined,
   PlayCircleOutlined,
   DeleteOutlined,
 } from '@ant-design/icons';
-import { useHistory } from 'umi';
+import { usePath } from '@/utils/hooks';
 import VideoInfo, { video } from '@/config/temp';
 
 export type Props = {};
 
 const VideoList: React.FC<Props> = (props) => {
-  const history = useHistory();
+  const path = usePath();
   const [videoData, setVideoData] = useState<video[]>([]);
 
   const getVideoList = () => {
@@ -72,11 +72,16 @@ const VideoList: React.FC<Props> = (props) => {
                   className={styles.actions}
                   style={{ fontSize: '18px', color: '#666', cursor: 'pointer' }}
                 >
-                  <EditOutlined className={styles.edit} />
+                  <EditOutlined
+                    className={styles.edit}
+                    onClick={() => {
+                      path(`/manage/details/${record.id}`);
+                    }}
+                  />
                   <PlayCircleOutlined
                     className={styles.play}
                     onClick={() => {
-                      history.push(`/video/${record.id}`);
+                      path(`/video/${record.id}`);
                     }}
                   />
                   <DeleteOutlined

@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 import NProgress from 'nprogress';
 
 const request = axios.create({
-  baseURL: 'https://favortest.favorlabs.io/api/v1/chain',
+  baseURL: 'http://favortest.favorlabs.io/api/v1/chain',
   timeout: 1e3,
 });
 

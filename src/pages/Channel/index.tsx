@@ -38,14 +38,15 @@ const Channel: React.FC<Props> = (props) => {
         }
       }
       message.info('Channel does not exist');
-      history.replace('/home');
+      // history.replace('/home');
     }
 
     fetch();
   }, [props.match.params.address]);
   return (
     <>
-      {requestLoading ? (
+      {/*requestLoading*/}
+      {false ? (
         <Loading text={'Connecting to a p2p network'} status={requestLoading} />
       ) : (
         props.children
