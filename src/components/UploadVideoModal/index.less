@@ -1,3 +1,29 @@
+.overlay,
+.overlay .overlayContent {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  z-index: 9999;
+}
+.overlay {
+  .overlayContent {
+    overflow: auto;
+    outline: 0;
+    color: #fff;
+    margin-top: 4px;
+    padding: 0 20px;
+    font-size: 20px;
+    flex-direction: column;
+    background-color: rgb(33, 33, 33);
+    opacity: 0.46;
+  }
+}
 .uploadVideoModal {
   .modalContent {
     .title {

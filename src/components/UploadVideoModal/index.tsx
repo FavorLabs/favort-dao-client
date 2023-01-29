@@ -1,48 +1,286 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './index.less';
-import { UploadOutlined } from '@ant-design/icons';
-import { Button, Divider, message, Modal, Upload, Input, Select } from 'antd';
+import { UploadOutlined, LoadingOutlined } from '@ant-design/icons';
+import {
+  Button,
+  Divider,
+  message,
+  Modal,
+  Upload,
+  Input,
+  Select,
+  Progress,
+  Spin,
+} from 'antd';
 const { TextArea } = Input;
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import ImgCrop from 'antd-img-crop';
+import { useSelector } from 'umi';
+import Api from '@/services/Api';
+import { Models } from '@/declare/modelType';
+import { StoreGroup, StorageOverlay } from '@/config/constants';
+import { stringToBinary, getProgress } from '@/utils/util';
+import { useUrl } from '@/utils/hooks';
 
 export type Props = {
   open: boolean;
   openModal: () => void;
   closeModal: () => void;
 };
+
+interface VideoDetail {
+  title: string;
+  description: string;
+  tags: string[];
+  thumbnail: string;
+  url: '';
+  category: string;
+  overlay: '';
+}
 const UploadVideoModal: React.FC<Props> = (props) => {
-  const [uploaded, setUploaded] = useState<boolean>(false);
-  const [uploadVideoLoading, setUploadVideoLoading] = useState<boolean>(false);
-  const [videoTitle, setVideoTitle] = useState<string>('');
-  const [videoDesc, setVideoDesc] = useState<string>('');
-  const [videoVisibility, setVideoVisibility] = useState<string>('');
-  const [videoCategory, setVideoCategory] = useState<string>('');
+  const favorUrl = useUrl();
+
+  const [uploaded, setUploaded] = useState<boolean>(true);
+  const [uploading, setUploading] = useState<boolean>(false);
+  const [statusTip, setStatusTip] = useState<string>('');
+  const [progressValue, setProgressValue] = useState<number>(0);
+  const [formData, setFormData] = useState<VideoDetail>({
+    title: '',
+    description: '',
+    tags: [],
+    thumbnail: '',
+    url: '',
+    category: '',
+    overlay: '',
+  });
   const [thumbnailFileList, setThumbnailFileList] = useState<UploadFile[]>([]);
+
+  const { api, debugApi, ws } = useSelector((state: Models) => state.global);
+
+  const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+
+  const uploadToStorageNode = async (hash: string, len: number) => {
+    let connected: string[] = [];
+    let bad: any = {};
+    let overlay: string;
+    let storageResult: string;
+    let downloadResult: string;
+
+    let storageTimer: NodeJS.Timer | null = null;
+    let downloadTimer: NodeJS.Timer | null = null;
+    if (!ws) throw new Error('Websocket not connected');
+
+    return new Promise((resolve, reject) => {
+      const downloadFailed = () => {
+        bad[overlay] = bad[overlay] ? ++bad[overlay] : 1;
+        ws.emit('choiceOverlay');
+      };
+      const groupSubscribe = () => {
+        ws.send(
+          {
+            id: 1,
+            jsonrpc: '2.0',
+            method: 'group_subscribe',
+            params: ['peers', StoreGroup],
+          },
+          (err, res) => {
+            if (err || res?.error) {
+              return reject(err || res?.error?.message);
+            }
+            if (!res) {
+              return reject('JsonPpcResponse is undefined');
+            }
+            storageResult = res.result;
+            console.log('storageResult', storageResult);
+            storageTimer = setTimeout(() => {
+              reject('Failed to connect to the P2P network');
+            }, 1000 * 20);
+            // @ts-ignore
+            ws.on(storageResult, async (res) => {
+              console.log('storageArr', res);
+              connected = res.connected ? res.connected : [];
+              if (connected.length && storageTimer) {
+                clearTimeout(storageTimer);
+                storageTimer = null;
+                ws.emit('choiceOverlay');
+              }
+            });
+          },
+        );
+      };
+      const choiceOverlay = async () => {
+        if (bad[overlay] === 1) {
+          try {
+            await Api.connect(debugApi, overlay);
+          } catch (e) {
+            downloadFailed();
+            return;
+          }
+        }
+        overlay = connected.filter((item) => bad[item] < 2 || !bad[item])[0];
+        console.log('overlay', overlay);
+        if (!overlay) {
+          reject('Failed to connect to the P2P network');
+          return;
+        }
+        if (downloadResult) setStatusTip('Switching nodes for upload');
+        let res = null;
+        try {
+          res = await Api.sendMessage(api, debugApi, overlay, hash, StoreGroup);
+        } catch (e) {
+          downloadFailed();
+          return;
+        }
+        let data = JSON.parse(window.atob(res.data.data));
+        console.log('message', data);
+        setProgressValue(
+          getProgress(stringToBinary(data.vector.b, data.vector.len), len),
+        );
+        console.log('progress', progressValue);
+        if (progressValue === 100) {
+          resolve({
+            text: 'Upload successful',
+            overlay,
+          });
+          return;
+        }
+        if (!downloadResult) {
+          ws.emit('chunkInfoSubscribe');
+        }
+      };
+      const chunkInfoSubscribe = () => {
+        ws.send(
+          {
+            id: 3,
+            jsonrpc: '2.0',
+            method: 'chunkInfo_subscribe',
+            params: ['retrievalProgress', hash],
+          },
+          (err, res) => {
+            console.log('downloadResult', res);
+            if (err || res.error) {
+              reject(err || res.error.message);
+              return;
+            }
+            downloadResult = res.result;
+            ws.emit('download');
+          },
+        );
+      };
+      const download = () => {
+        console.log('start download');
+        downloadTimer = setTimeout(() => {
+          downloadFailed();
+        }, 1000 * 20);
+        // @ts-ignore
+        ws.on(downloadResult, async (res) => {
+          console.log('download', res);
+          let downloadData = res.find((item) => item.Overlay === overlay);
+          if (!downloadData) return;
+          setStatusTip('Uploading the file to the P2P storage node');
+          clearTimeout(downloadTimer?.ref());
+          downloadTimer = setTimeout(() => {
+            downloadFailed();
+          }, 1000 * 10);
+          setProgressValue(
+            getProgress(
+              stringToBinary(
+                downloadData.Bitvector.b,
+                downloadData.Bitvector.len,
+              ),
+              len,
+            ),
+          );
+          console.log('progress', progressValue);
+          if (progressValue === 100) {
+            resolve({
+              text: 'Upload successful',
+              overlay,
+            });
+          }
+        });
+      };
+      ws.on('groupSubscribe', groupSubscribe);
+      ws.on('choiceOverlay', choiceOverlay);
+      ws.on('chunkInfoSubscribe', chunkInfoSubscribe);
+      ws.on('download', download);
+      setStatusTip('Uploading the file to the P2P storage node');
+      ws.emit('groupSubscribe');
+    }).finally(() => {
+      if (storageResult) {
+        ws.send(
+          {
+            id: 1,
+            jsonrpc: '2.0',
+            method: 'group_unsubscribe',
+            params: [storageResult],
+          },
+          () => {},
+        );
+      }
+      if (downloadResult) {
+        ws.send(
+          {
+            id: 4,
+            jsonrpc: '2.0',
+            method: 'chunkInfo_unsubscribe',
+            params: [downloadResult],
+          },
+          () => {},
+        );
+      }
+      ws.removeAllListeners('groupSubscribe');
+      ws.removeAllListeners('choiceOverlay');
+      ws.removeAllListeners('chunkInfoSubscribe');
+      ws.removeAllListeners('download');
+    });
+  };
+
+  const uploadVideo = async (file: RcFile) => {
+    console.log('uploadVideo', file);
+
+    // if (file) return;
+
+    try {
+      setUploading(true);
+      setStatusTip('Uploading the file to local node');
+      await Api.observeStorageGroup(api, StoreGroup, [StorageOverlay]);
+      let data = await Api.uploadFile(api, file);
+      let hash: string = data.data.reference;
+      console.log('hash', hash);
+      let uploadedList = JSON.parse(
+        sessionStorage.getItem('uploaded_list') || '{}',
+      );
+      let uploadOverlay = uploadedList[hash];
+      if (!uploadOverlay) {
+        let fileInfo = await Api.getFileInfo(api, hash);
+        let len: number = fileInfo.data.list[0].bitVector.len;
+        // @ts-ignore
+        const { text, overlay } = await uploadToStorageNode(hash, len);
+        message.success(text);
+        uploadOverlay = overlay;
+        uploadedList[hash] = overlay;
+        sessionStorage.setItem('uploaded_list', JSON.stringify(uploadedList));
+      }
+      let video = await Api.uploadVideo(hash, uploadOverlay);
+      setFormData({ ...formData, url: hash });
+      video = video.data.data;
+      setFormData({ ...formData, id: video._id });
+      setUploaded(true);
+    } catch (e: any) {
+      message.error(e?.message || e);
+    } finally {
+      setUploading(false);
+    }
+  };
 
   const uploadVideoProps: UploadProps = {
     name: 'file',
-    action: '',
+    // @ts-ignore
+    action: uploadVideo,
     accept: 'video/mp4',
-    onChange(info) {
-      if (info.file.status !== 'uploading') {
-        console.log(info.file, info.fileList);
-      }
-      if (info.file.status === 'done') {
-        message.success(`${info.file.name} file uploaded successfully`);
-      } else if (info.file.status === 'error') {
-        message.error(`${info.file.name} file upload failed.`);
-      }
-    },
-  };
-
-  const uploadVideo = () => {
-    setUploadVideoLoading(true);
-    setTimeout(() => {
-      setUploadVideoLoading(false);
-      props.closeModal();
-    }, 2000);
+    maxCount: 1,
   };
 
   const thumbnailPreview = async (file: UploadFile) => {
@@ -66,6 +304,24 @@ const UploadVideoModal: React.FC<Props> = (props) => {
     setThumbnailFileList(newFileList);
   };
 
+  // const getCategories = async () => {
+  //   setCategoryLoading(true);
+  //   const categories = await Api.getAll(favorUrl)
+  //     .catch((err) => {
+  //       console.log(err);
+  //     })
+  //     .finally(() => (setCategoryLoading(false)));
+  //   setCategoriesTitles(categories.data.data.map((category: any) => {
+  //     return category.title;
+  //   }));
+  //   setCategories(categories.data.data);
+  // }
+  //
+  // useEffect(() => {
+  //   if (!proxyGroup) return;
+  //   getCategories();
+  // }, [proxyGroup]);
+
   return (
     <>
       <Modal
@@ -79,6 +335,24 @@ const UploadVideoModal: React.FC<Props> = (props) => {
           props.closeModal();
         }}
       >
+        {uploading ? (
+          <div className={styles.overlay}>
+            <div className={styles.overlayContent}>
+              {progressValue ? (
+                <Progress
+                  percent={progressValue}
+                  showInfo={false}
+                  strokeWidth={12}
+                />
+              ) : (
+                <Spin size="large" indicator={antIcon} />
+              )}
+              <p className={styles.statusTip}>{statusTip}</p>
+            </div>
+          </div>
+        ) : (
+          <></>
+        )}
         <div className={styles.modalContent}>
           <p className={styles.title}>Upload Video</p>
           <div>
@@ -120,7 +394,7 @@ const UploadVideoModal: React.FC<Props> = (props) => {
                     maxLength={100}
                     placeholder="Please enter video title"
                     onChange={(e) => {
-                      setVideoTitle(e.target.value);
+                      setFormData({ ...formData, title: e.target.value });
                     }}
                   />
                 </div>
@@ -133,32 +407,20 @@ const UploadVideoModal: React.FC<Props> = (props) => {
                     autoSize={{ minRows: 2, maxRows: 5 }}
                     placeholder="Please enter channel description"
                     onChange={(e) => {
-                      setVideoDesc(e.target.value);
+                      setFormData({ ...formData, description: e.target.value });
                     }}
                   />
                 </div>
-                <div className={`${styles.videoVisibility} ${styles.item}`}>
-                  <p className={styles.label}>Visibility</p>
-                  <Select
-                    defaultValue=""
-                    style={{ width: '100%' }}
-                    onChange={(value) => {
-                      setVideoVisibility(value);
+                <div className={`${styles.videoTags} ${styles.item}`}>
+                  <p className={styles.label}>Tags</p>
+                  <Input
+                    className={styles.value}
+                    showCount
+                    maxLength={100}
+                    placeholder="Please enter video tag"
+                    onChange={(e) => {
+                      setFormData({ ...formData, title: e.target.value });
                     }}
-                    options={[
-                      {
-                        value: 'public',
-                        label: 'Public',
-                      },
-                      {
-                        value: 'member',
-                        label: 'Member',
-                      },
-                      {
-                        value: 'private',
-                        label: 'Private',
-                      },
-                    ]}
                   />
                 </div>
                 <div className={`${styles.videoCategory} ${styles.item}`}>
@@ -167,7 +429,7 @@ const UploadVideoModal: React.FC<Props> = (props) => {
                     defaultValue=""
                     style={{ width: '100%' }}
                     onChange={(value) => {
-                      setVideoCategory(value);
+                      setFormData({ ...formData, category: value });
                     }}
                     options={[
                       {
