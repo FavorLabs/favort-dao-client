@@ -4,13 +4,21 @@ import { Button, Avatar, Tabs } from 'antd';
 import type { TabsProps } from 'antd';
 import bannerBg from '@/assets/img/material.jpg';
 import ChannelHome from '@/components/ChannelHome';
-import { useHistory } from 'umi';
-import { usePath } from '@/utils/hooks';
+import { history } from 'umi';
+import { usePath, useUrl } from '@/utils/hooks';
+import { useEffect } from 'react';
+import Api from '@/services/Api';
 
-export type Props = {};
+type Props = {
+  match: {
+    params: {
+      address: string;
+    };
+  };
+};
 const ChannelDetail: React.FC<Props> = (props) => {
-  const history = useHistory();
   const path = usePath();
+  const url = useUrl();
 
   const tabItems: TabsProps['items'] = [
     {
@@ -28,6 +36,15 @@ const ChannelDetail: React.FC<Props> = (props) => {
   const tabChange = (key: string) => {
     console.log(key);
   };
+
+  useEffect(() => {
+    async function fetch() {
+      const data = await Api.getChannelInfo(url, props.match.params.address);
+      console.log(data);
+    }
+
+    fetch();
+  }, []);
 
   return (
     <>

@@ -51,6 +51,11 @@ const CreateChannel: React.FC<Props> = (props) => {
           proxyGroup: data.group,
         },
       });
+      const url =
+        api + '/group/http/' + data.group + '/' + DomainName + '/api/v1';
+      await Api.createChannel(url, {
+        address,
+      });
       history.replace(`/${address}`);
     } catch (e) {
       message.error('Address or channel name is registered');

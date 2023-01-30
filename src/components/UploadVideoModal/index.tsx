@@ -23,6 +23,7 @@ import { StoreGroup, StorageOverlay } from '@/config/constants';
 import { stringToBinary, getProgress } from '@/utils/util';
 import { useUrl } from '@/utils/hooks';
 import imageCompression from 'browser-image-compression';
+import Video from '@/services/Api';
 
 export type Props = {
   open: boolean;
@@ -30,16 +31,6 @@ export type Props = {
   closeModal: () => void;
 };
 
-export interface VideoDetail {
-  channelId: string;
-  title: string;
-  description: string;
-  tags: string[];
-  thumbnail: string;
-  url: string;
-  category: string;
-  overlay: string;
-}
 const UploadVideoModal: React.FC<Props> = (props) => {
   const url = useUrl();
   const [uploaded, setUploaded] = useState<boolean>(false);
@@ -48,7 +39,7 @@ const UploadVideoModal: React.FC<Props> = (props) => {
   const [submitDisable, setSubmitDisable] = useState<boolean>(true);
   const [thumbnailLoading, setThumbnailLoading] = useState<boolean>(false);
   const [progressValue, setProgressValue] = useState<number>(0);
-  const [formData, setFormData] = useState<VideoDetail>({
+  const [formData, setFormData] = useState<Video>({
     channelId: '63d620d3bb7f2c91bb06bee2',
     title: '',
     description: '',
@@ -271,10 +262,10 @@ const UploadVideoModal: React.FC<Props> = (props) => {
         uploadedList[hash] = overlay;
         sessionStorage.setItem('uploaded_list', JSON.stringify(uploadedList));
       }
-      let video = await Api.uploadVideo(url, hash, uploadOverlay);
-      setFormData({ ...formData, url: hash });
-      video = video.data.data;
-      setFormData({ ...formData, id: video._id });
+      let video = await Api.uploadVideoInfo(url, hash, uploadOverlay);
+      setFormData({ ...formData, url: hash, overlay: uploadOverlay });
+      // video = video.data.data;
+      // setFormData({ ...formData, id: video._id });
       setUploaded(true);
     } catch (e: any) {
       message.error(e?.message || e);
