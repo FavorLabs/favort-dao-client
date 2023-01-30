@@ -22,6 +22,7 @@ import { Models } from '@/declare/modelType';
 import { StoreGroup, StorageOverlay } from '@/config/constants';
 import { stringToBinary, getProgress } from '@/utils/util';
 import { useUrl } from '@/utils/hooks';
+import imageCompression from 'browser-image-compression';
 
 export type Props = {
   open: boolean;
@@ -29,26 +30,29 @@ export type Props = {
   closeModal: () => void;
 };
 
-interface VideoDetail {
+export interface VideoDetail {
+  channelId: string;
   title: string;
   description: string;
   tags: string[];
   thumbnail: string;
-  url: '';
+  url: string;
   category: string;
-  overlay: '';
+  overlay: string;
 }
 const UploadVideoModal: React.FC<Props> = (props) => {
-  const favorUrl = useUrl();
-
-  const [uploaded, setUploaded] = useState<boolean>(true);
+  const url = useUrl();
+  const [uploaded, setUploaded] = useState<boolean>(false);
   const [uploading, setUploading] = useState<boolean>(false);
   const [statusTip, setStatusTip] = useState<string>('');
+  const [submitDisable, setSubmitDisable] = useState<boolean>(true);
+  const [thumbnailLoading, setThumbnailLoading] = useState<boolean>(false);
   const [progressValue, setProgressValue] = useState<number>(0);
   const [formData, setFormData] = useState<VideoDetail>({
+    channelId: '63d620d3bb7f2c91bb06bee2',
     title: '',
     description: '',
-    tags: [],
+    tags: [''],
     thumbnail: '',
     url: '',
     category: '',
@@ -56,7 +60,9 @@ const UploadVideoModal: React.FC<Props> = (props) => {
   });
   const [thumbnailFileList, setThumbnailFileList] = useState<UploadFile[]>([]);
 
-  const { api, debugApi, ws } = useSelector((state: Models) => state.global);
+  const { api, debugApi, ws, proxyGroup } = useSelector(
+    (state: Models) => state.global,
+  );
 
   const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
@@ -134,11 +140,13 @@ const UploadVideoModal: React.FC<Props> = (props) => {
         }
         let data = JSON.parse(window.atob(res.data.data));
         console.log('message', data);
-        setProgressValue(
-          getProgress(stringToBinary(data.vector.b, data.vector.len), len),
+        const p = getProgress(
+          stringToBinary(data.vector.b, data.vector.len),
+          len,
         );
-        console.log('progress', progressValue);
-        if (progressValue === 100) {
+        setProgressValue(p);
+        console.log('progress', p);
+        if (p === 100) {
           resolve({
             text: 'Upload successful',
             overlay,
@@ -179,7 +187,7 @@ const UploadVideoModal: React.FC<Props> = (props) => {
           let downloadData = res.find((item) => item.Overlay === overlay);
           if (!downloadData) return;
           setStatusTip('Uploading the file to the P2P storage node');
-          clearTimeout(downloadTimer?.ref());
+          clearTimeout(downloadTimer);
           downloadTimer = setTimeout(() => {
             downloadFailed();
           }, 1000 * 10);
@@ -263,7 +271,7 @@ const UploadVideoModal: React.FC<Props> = (props) => {
         uploadedList[hash] = overlay;
         sessionStorage.setItem('uploaded_list', JSON.stringify(uploadedList));
       }
-      let video = await Api.uploadVideo(hash, uploadOverlay);
+      let video = await Api.uploadVideo(url, hash, uploadOverlay);
       setFormData({ ...formData, url: hash });
       video = video.data.data;
       setFormData({ ...formData, id: video._id });
@@ -302,25 +310,41 @@ const UploadVideoModal: React.FC<Props> = (props) => {
     fileList: newFileList,
   }) => {
     setThumbnailFileList(newFileList);
+    if (newFileList[0].status === 'uploading') setThumbnailLoading(true);
+    else if (newFileList[0].status === 'done') setThumbnailLoading(false);
   };
 
-  // const getCategories = async () => {
-  //   setCategoryLoading(true);
-  //   const categories = await Api.getAll(favorUrl)
-  //     .catch((err) => {
-  //       console.log(err);
-  //     })
-  //     .finally(() => (setCategoryLoading(false)));
-  //   setCategoriesTitles(categories.data.data.map((category: any) => {
-  //     return category.title;
-  //   }));
-  //   setCategories(categories.data.data);
-  // }
-  //
-  // useEffect(() => {
-  //   if (!proxyGroup) return;
-  //   getCategories();
-  // }, [proxyGroup]);
+  const convertThumbnail = async (file: RcFile) => {
+    const options = {
+      initialQuality: 0.45,
+      // alwaysKeepResolution: true,
+    };
+    try {
+      const compressedFile = await imageCompression(file, options);
+      // console.log('compressedFile instanceof Blob', compressedFile instanceof Blob); // true
+      // console.log(`compressedFile size ${compressedFile.size / 1024 / 1024} MB`); // smaller than maxSizeMB
+
+      let reader = new FileReader();
+      reader.readAsDataURL(compressedFile);
+      reader.onload = function () {
+        // @ts-ignore
+        setFormData({ ...formData, thumbnail: reader.result });
+        setSubmitDisable(false);
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const submit = async () => {
+    const tempData = { ...formData, tags: formData.tags[0].split(',') };
+    try {
+      const { data } = await Api.createVideo(url, tempData);
+      props.closeModal();
+    } catch (err: any) {
+      message.error(err.message);
+    }
+  };
 
   return (
     <>
@@ -331,6 +355,7 @@ const UploadVideoModal: React.FC<Props> = (props) => {
         maskClosable={false}
         className={styles.uploadVideoModal}
         open={props.open}
+        destroyOnClose={true}
         onCancel={() => {
           props.closeModal();
         }}
@@ -341,7 +366,7 @@ const UploadVideoModal: React.FC<Props> = (props) => {
               {progressValue ? (
                 <Progress
                   percent={progressValue}
-                  showInfo={false}
+                  showInfo={true}
                   strokeWidth={12}
                 />
               ) : (
@@ -355,7 +380,7 @@ const UploadVideoModal: React.FC<Props> = (props) => {
         )}
         <div className={styles.modalContent}>
           <p className={styles.title}>Upload Video</p>
-          <div>
+          <div style={{ padding: '0 4px' }}>
             <Divider style={{ margin: '16px 0' }} />
             {!uploaded ? (
               <div className={styles.uploadVideoFile}>
@@ -419,39 +444,54 @@ const UploadVideoModal: React.FC<Props> = (props) => {
                     maxLength={100}
                     placeholder="Please enter video tag"
                     onChange={(e) => {
-                      setFormData({ ...formData, title: e.target.value });
+                      setFormData({ ...formData, tags: [e.target.value] });
                     }}
                   />
                 </div>
                 <div className={`${styles.videoCategory} ${styles.item}`}>
                   <p className={styles.label}>Category</p>
-                  <Select
-                    defaultValue=""
-                    style={{ width: '100%' }}
-                    onChange={(value) => {
-                      setFormData({ ...formData, category: value });
+                  <Input
+                    className={styles.value}
+                    showCount
+                    maxLength={100}
+                    placeholder="Please enter video category"
+                    onChange={(e) => {
+                      setFormData({ ...formData, category: e.target.value });
                     }}
-                    options={[
-                      {
-                        value: 'people',
-                        label: 'People',
-                      },
-                    ]}
                   />
                 </div>
                 <div className={`${styles.videoThumbnail} ${styles.item}`}>
                   <p className={styles.label}>Thumbnail</p>
-                  <ImgCrop aspect={2} rotate={true} grid={true}>
-                    <Upload
-                      accept={'image/png, image/jpeg'}
-                      onChange={thumbnailChange}
-                      onPreview={thumbnailPreview}
-                      listType="picture-card"
-                      fileList={thumbnailFileList}
-                    >
-                      {thumbnailFileList.length === 0 && '+ Upload'}
-                    </Upload>
-                  </ImgCrop>
+                  <div className={styles.cropWrap}>
+                    <ImgCrop aspect={2} rotate={true} grid={true}>
+                      <Upload
+                        accept={'image/png, image/jpeg'}
+                        action={convertThumbnail}
+                        onChange={thumbnailChange}
+                        onPreview={thumbnailPreview}
+                        listType="picture-card"
+                        fileList={thumbnailFileList}
+                      >
+                        {thumbnailFileList.length === 0 && '+ Upload'}
+                      </Upload>
+                    </ImgCrop>
+                    {thumbnailLoading ? (
+                      <Spin size="large" indicator={antIcon} />
+                    ) : (
+                      <></>
+                    )}
+                  </div>
+                </div>
+                <Divider style={{ margin: '16px 0' }} />
+                <div className={styles.footer}>
+                  <Button
+                    className={styles.submit}
+                    type="primary"
+                    disabled={submitDisable}
+                    onClick={submit}
+                  >
+                    Submit
+                  </Button>
                 </div>
               </div>
             )}

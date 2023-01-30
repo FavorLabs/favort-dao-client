@@ -2,6 +2,7 @@ import request from './index';
 import { AxiosResponse } from 'axios';
 import { ApiPort } from '@/declare/api';
 import { RcFile } from 'antd/es/upload/interface';
+import { VideoDetail } from '@/components/UploadVideoModal';
 
 export default {
   observeProxyGroup(api: string, proxyGroup: string, proxyNodes: string[]) {
@@ -77,10 +78,13 @@ export default {
       { timeout: 30 * 1000 },
     );
   },
-  uploadVideo(url: string, overlay: string) {
-    return request.post('videos', { url, overlay });
+  uploadVideo(url: string, hash: string, overlay: string) {
+    return request.post(url + '/videos', { url: hash, overlay });
   },
-  getAll(favorUrl: string) {
-    return request.get(favorUrl + '/category');
+  createVideo(url: string, data: VideoDetail) {
+    return request.post(url + '/videos', data);
+  },
+  getAll(url: string) {
+    return request.get(url + '/category');
   },
 };
