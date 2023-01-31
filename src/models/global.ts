@@ -5,7 +5,7 @@ import Web3 from 'web3';
 
 import { getEndPoint, splitUrl, websocket } from '@/utils/util';
 
-import { ApiPort } from '@/declare/api';
+import { ApiPort, ChannelInfo } from '@/declare/api';
 import { message } from 'antd';
 import Api from '@/services/Api';
 import { AxiosResponse } from 'axios';
@@ -21,6 +21,7 @@ export interface State {
   proxyGroup: string;
   requestLoading: boolean;
   status: boolean;
+  channelInfo: ChannelInfo | {};
 }
 
 export default {
@@ -34,6 +35,8 @@ export default {
     proxyGroup: '',
     requestLoading: true,
     status: true,
+    channelInfo:
+      JSON.parse(sessionStorage.getItem('channelInfo') as string) || {},
   },
   reducers: {
     updateState(state, { payload }) {

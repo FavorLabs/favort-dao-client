@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { ProxyOverlay, ProxyGroup, DomainName } from '@/config/constants';
 import Api from '@/services/Api';
 import ChainApi from '@/services/ChainApi';
+import ProxyApi from '@/services/ProxyApi';
 import { useDispatch, useSelector, history } from 'umi';
 import { Models } from '@/declare/modelType';
 import { AxiosError } from 'axios';
@@ -53,7 +54,7 @@ const CreateChannel: React.FC<Props> = (props) => {
       });
       const url =
         api + '/group/http/' + data.group + '/' + DomainName + '/api/v1';
-      await Api.createChannel(url, {
+      await ProxyApi.createChannel(url, {
         address,
       });
       history.replace(`/${address}`);

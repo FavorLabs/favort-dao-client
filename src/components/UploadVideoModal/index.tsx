@@ -18,12 +18,13 @@ import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import ImgCrop from 'antd-img-crop';
 import { useSelector } from 'umi';
 import Api from '@/services/Api';
+import ProxyApi from '@/services/ProxyApi';
 import { Models } from '@/declare/modelType';
 import { StoreGroup, StorageOverlay } from '@/config/constants';
 import { stringToBinary, getProgress } from '@/utils/util';
 import { useUrl } from '@/utils/hooks';
 import imageCompression from 'browser-image-compression';
-import Video from '@/services/Api';
+import { VideoCreatePS } from '@/declare/api';
 
 export type Props = {
   open: boolean;
@@ -39,19 +40,19 @@ const UploadVideoModal: React.FC<Props> = (props) => {
   const [submitDisable, setSubmitDisable] = useState<boolean>(true);
   const [thumbnailLoading, setThumbnailLoading] = useState<boolean>(false);
   const [progressValue, setProgressValue] = useState<number>(0);
-  const [formData, setFormData] = useState<Video>({
-    channelId: '63d620d3bb7f2c91bb06bee2',
+  const [formData, setFormData] = useState<VideoCreatePS>({
+    channelId: '',
     title: '',
     description: '',
     tags: [''],
     thumbnail: '',
-    url: '',
+    hash: '',
     category: '',
     overlay: '',
   });
   const [thumbnailFileList, setThumbnailFileList] = useState<UploadFile[]>([]);
 
-  const { api, debugApi, ws, proxyGroup } = useSelector(
+  const { api, debugApi, ws, proxyGroup, channelInfo } = useSelector(
     (state: Models) => state.global,
   );
 
@@ -262,10 +263,19 @@ const UploadVideoModal: React.FC<Props> = (props) => {
         uploadedList[hash] = overlay;
         sessionStorage.setItem('uploaded_list', JSON.stringify(uploadedList));
       }
-      let video = await Api.uploadVideoInfo(url, hash, uploadOverlay);
-      setFormData({ ...formData, url: hash, overlay: uploadOverlay });
-      // video = video.data.data;
-      // setFormData({ ...formData, id: video._id });
+      // @ts-ignore
+      let video = await Api.uploadVideo(url, {
+        channelId: channelInfo._id,
+        hash,
+        overlay: uploadOverlay,
+      });
+      // @ts-ignore
+      setFormData({
+        ...formData,
+        channelId: channelInfo._id,
+        hash,
+        overlay: uploadOverlay,
+      });
       setUploaded(true);
     } catch (e: any) {
       message.error(e?.message || e);
@@ -328,9 +338,12 @@ const UploadVideoModal: React.FC<Props> = (props) => {
   };
 
   const submit = async () => {
-    const tempData = { ...formData, tags: formData.tags[0].split(',') };
+    let tempData;
+    if (formData?.tags?.length)
+      tempData = { ...formData, tags: formData.tags[0].split(',') };
+    else tempData = { ...formData };
     try {
-      const { data } = await Api.createVideo(url, tempData);
+      const { data } = await ProxyApi.uploadVideo(url, tempData);
       props.closeModal();
     } catch (err: any) {
       message.error(err.message);
