@@ -1,37 +1,99 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import styles from './index.less';
-import { Space, Table, Tag } from 'antd';
+import { Space, Table, Tag, Modal, Divider, message } from 'antd';
 const { Column } = Table;
+import { TablePaginationConfig } from 'antd/es/table';
 import {
   EditOutlined,
   PlayCircleOutlined,
   DeleteOutlined,
 } from '@ant-design/icons';
-import { usePath } from '@/utils/hooks';
+import { usePath, useUrl } from '@/utils/hooks';
+import Api from '@/services/Api';
+import ProxyApi from '@/services/ProxyApi';
 import VideoInfo, { video } from '@/config/temp';
+import { useSelector } from 'umi';
+import { Models } from '@/declare/modelType';
+import { VideoRes } from '@/declare/api';
+import { TableCurrentDataSource } from 'antd/lib/table/interface';
 
 export type Props = {};
+type OnChange = (
+  pagination: TablePaginationConfig,
+  extra: TableCurrentDataSource<VideoRes>,
+) => void;
+const pageSizeOption = [10, 20, 50, 100];
 
 const VideoList: React.FC<Props> = (props) => {
   const path = usePath();
-  const [videoData, setVideoData] = useState<video[]>([]);
+  const url = useUrl();
+  const { channelInfo } = useSelector((state: Models) => state.global);
 
-  const getVideoList = () => {
-    const arr: video[] = [];
-    for (let i = 0; i < 10; i++) {
-      arr.push(VideoInfo);
+  const [videoData, setVideoData] = useState<VideoRes[]>([]);
+  const [videoDataLoading, setVideoDataLoading] = useState<boolean>(false);
+  const [pageNum, setPageNum] = useState<number | undefined>(1);
+  const [pageSize, setPageSize] = useState<number | undefined>(
+    pageSizeOption[0],
+  );
+  const [vidoesTotal, setVidoesTotal] = useState<number>(0);
+  const [deleteVideoModal, setDeleteVideoModal] = useState<boolean>(false);
+  const [deleteVideoInfo, setDeleteVideoInfo] = useState<VideoRes | {}>({});
+  const [deleteVideoLoading, setDeleteVideoLoading] = useState<boolean>(false);
+
+  const getVideoList = async () => {
+    setVideoDataLoading(true);
+    const { data } = await ProxyApi.getVideos(url, {
+      page: pageNum,
+      count: pageSize,
+      channelId: channelInfo._id,
+    });
+    setVideoDataLoading(false);
+    if (data.data) {
+      setVideoData(data.data.list);
+      setVidoesTotal(data.data.total);
     }
-    return arr;
   };
 
-  const deleteVideo = (id: string) => {
-    //
+  const deleteVideo = async (id: string) => {
+    console.log('id', id);
+    try {
+      setDeleteVideoLoading(true);
+      await ProxyApi.deleteVideo(url, id);
+      setDeleteVideoModal(false);
+    } catch (err: any) {
+      message.error(err.message);
+    } finally {
+      setDeleteVideoLoading(false);
+    }
+  };
+
+  const tableChange: OnChange = (pagination, extra) => {
+    if (extra.action === 'paginate') {
+      paginationChange(pagination);
+    }
+  };
+
+  const paginationChange = (p: TablePaginationConfig) => {
+    setPageNum(p.current);
+    setPageSize(p.pageSize);
+    updateVideoList(p.current, p.pageSize);
+  };
+
+  const updateVideoList = async (page: number, count: number) => {
+    const { data } = await ProxyApi.getVideos(url, {
+      page,
+      count,
+      channelId: channelInfo._id,
+    });
+    if (data.data) {
+      setVideoData(data.data.list);
+      setVidoesTotal(data.data.total);
+    }
   };
 
   useEffect(() => {
-    const videoData = getVideoList();
-    setVideoData(videoData);
+    getVideoList();
   }, []);
 
   return (
@@ -42,9 +104,20 @@ const VideoList: React.FC<Props> = (props) => {
           <Table
             className={styles.videoTable}
             dataSource={videoData}
+            loading={videoDataLoading}
             pagination={{
-              pageSize: 5,
+              position: ['bottomRight'],
+              responsive: true,
+              showTitle: false,
+              showSizeChanger: true,
+              pageSizeOptions: pageSizeOption,
+              current: pageNum,
+              pageSize: pageSize,
+              total: vidoesTotal,
             }}
+            // @ts-ignore
+            onChange={tableChange}
+            locale={{ emptyText: 'No Data' }}
           >
             <Column title="Video" dataIndex="title" key="title" />
             <Column title="Views" dataIndex="views" key="views" />
@@ -66,7 +139,7 @@ const VideoList: React.FC<Props> = (props) => {
             <Column
               title="Action"
               key="action"
-              render={(_: any, record: video) => (
+              render={(_: any, record: VideoRes) => (
                 <Space
                   size="middle"
                   className={styles.actions}
@@ -75,19 +148,20 @@ const VideoList: React.FC<Props> = (props) => {
                   <EditOutlined
                     className={styles.edit}
                     onClick={() => {
-                      path(`/manage/details/${record.id}`);
+                      path(`/manage/details/${record._id}`);
                     }}
                   />
                   <PlayCircleOutlined
                     className={styles.play}
                     onClick={() => {
-                      path(`/video/${record.id}`);
+                      path(`/video/${record._id}`);
                     }}
                   />
                   <DeleteOutlined
                     className={styles.delete}
                     onClick={() => {
-                      deleteVideo(record.id);
+                      setDeleteVideoInfo(record);
+                      setDeleteVideoModal(true);
                     }}
                   />
                 </Space>
@@ -96,6 +170,32 @@ const VideoList: React.FC<Props> = (props) => {
           </Table>
         </div>
       </div>
+      <Modal
+        title={null}
+        centered
+        maskClosable={false}
+        className={styles.deleteVideoModal}
+        open={deleteVideoModal}
+        onOk={() => {
+          deleteVideo(deleteVideoInfo._id);
+        }}
+        confirmLoading={deleteVideoLoading}
+        onCancel={() => {
+          setDeleteVideoModal(false);
+        }}
+      >
+        <div className={styles.modalContent}>
+          <p className={styles.title}>Delete Video</p>
+          <Divider style={{ margin: '16px 0' }} />
+          <p className={styles.desc}>
+            Are you sure you want to delete the video?
+          </p>
+          <p className={styles.deleteVideoInfo}>
+            <span className={styles.label}>Title:&nbsp;</span>
+            <span className={styles.videoTitle}>{deleteVideoInfo.title}</span>
+          </p>
+        </div>
+      </Modal>
     </>
   );
 };

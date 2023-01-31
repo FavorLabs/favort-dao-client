@@ -8,6 +8,7 @@ import { history } from 'umi';
 import { usePath, useUrl } from '@/utils/hooks';
 import { useEffect } from 'react';
 import Api from '@/services/Api';
+import ProxyApi from '@/services/ProxyApi';
 
 type Props = {
   match: {
@@ -39,7 +40,10 @@ const ChannelDetail: React.FC<Props> = (props) => {
 
   useEffect(() => {
     async function fetch() {
-      const data = await Api.getChannelInfo(url, props.match.params.address);
+      const data = await ProxyApi.getChannelInfo(
+        url,
+        props.match.params.address,
+      );
       console.log(data);
     }
 

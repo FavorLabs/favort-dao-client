@@ -3,9 +3,11 @@ import { useDispatch, useSelector, history } from 'umi';
 import Web3 from 'web3';
 import ChainApi from '@/services/ChainApi';
 import Api from '@/services/Api';
+import ProxyApi from '@/services/ProxyApi';
 import { Models } from '@/declare/modelType';
 import { message } from 'antd';
 import Loading from '@/components/Loading';
+import { DomainName } from '@/config/constants';
 
 type Props = {
   match: {
@@ -32,6 +34,16 @@ const Channel: React.FC<Props> = (props) => {
             type: 'global/updateState',
             payload: {
               proxyGroup: data.group,
+            },
+          });
+          const url =
+            api + '/group/http/' + data.group + '/' + DomainName + '/api/v1';
+          const info = await ProxyApi.getChannelInfo(url, address);
+          console.log('channelInfo', info);
+          dispatch({
+            type: 'global/updateState',
+            payload: {
+              channelInfo: info.data.data || {},
             },
           });
           return;
