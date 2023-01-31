@@ -1,7 +1,13 @@
 import * as React from 'react';
 import styles from './index.less';
-import { Avatar, Divider, Input, Modal } from 'antd';
-import { useState } from 'react';
+import { Avatar, Divider, Input, message, Modal } from 'antd';
+import { useRef, useState } from 'react';
+import ImageCrop from '@/components/ImageCrop';
+import { useUrl } from '@/utils/hooks';
+import { useDispatch, useSelector } from 'umi';
+import { Models } from '@/declare/modelType';
+import ProxyApi from '@/services/ProxyApi';
+
 const { TextArea } = Input;
 
 export type Props = {
@@ -10,15 +16,33 @@ export type Props = {
   closeModal: () => void;
 };
 const EditMoreModal: React.FC<Props> = (props) => {
+  const url = useUrl();
+  const dispatch = useDispatch();
+  const { channelInfo } = useSelector((state: Models) => state.global);
   const [editMoreLoading, setEditMoreLoading] = useState<boolean>(false);
-  const [channelDescription, setChannelDescription] = useState<string>('');
+  const [channelDescription, setChannelDescription] = useState<string>(
+    channelInfo.introduction,
+  );
+  const imgRef = useRef<string>();
 
-  const editChannelMore = () => {
+  const editChannelMore = async () => {
     setEditMoreLoading(true);
-    setTimeout(() => {
+    try {
+      const info = await ProxyApi.updateChanel(url, channelInfo.address, {
+        avatar: imgRef.current,
+        introduction: channelDescription,
+      });
+      dispatch({
+        type: 'global/updateState',
+        payload: {
+          channelInfo: info.data.data,
+        },
+      });
+    } catch (e) {
+      if (e instanceof Error) message.info(e.message);
+    } finally {
       setEditMoreLoading(false);
-      props.closeModal();
-    }, 2000);
+    }
   };
 
   return (
@@ -45,6 +69,7 @@ const EditMoreModal: React.FC<Props> = (props) => {
               showCount
               autoSize={{ minRows: 2, maxRows: 6 }}
               placeholder="Please enter channel description"
+              value={channelDescription}
               onChange={(e) => {
                 setChannelDescription(e.target.value);
               }}
@@ -52,13 +77,13 @@ const EditMoreModal: React.FC<Props> = (props) => {
           </div>
           <div className={`${styles.channelAvatar} ${styles.item}`}>
             <p className={styles.label}>Avatar:</p>
-            <Avatar
-              className={styles.avatar}
-              size={36}
-              style={{ backgroundColor: '#F44336', fontSize: '16px' }}
-            >
-              U
-            </Avatar>
+            <ImageCrop
+              url={channelInfo.avatar}
+              shape={'round'}
+              setImgBase64={(imgBase64) => {
+                imgRef.current = imgBase64;
+              }}
+            />
           </div>
         </div>
       </Modal>

@@ -1,7 +1,12 @@
 import * as React from 'react';
 import styles from './index.less';
-import { Divider, Input, Modal } from 'antd';
+import { Divider, Input, message, Modal } from 'antd';
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'umi';
+import { Models } from '@/declare/modelType';
+import ChainApi from '@/services/ChainApi';
+import ProxyApi from '@/services/ProxyApi';
+import { useUrl } from '@/utils/hooks';
 
 export type Props = {
   open: boolean;
@@ -9,15 +14,35 @@ export type Props = {
   closeModal: () => void;
 };
 const EditNameModal: React.FC<Props> = (props) => {
+  const url = useUrl();
+  const dispatch = useDispatch();
+  const { channelInfo } = useSelector((state: Models) => state.global);
   const [channelName, setChannelName] = useState<string>('');
   const [editNameLoading, setEditNameLoading] = useState<boolean>(false);
 
-  const editChannelName = () => {
+  const editChannelName = async () => {
     setEditNameLoading(true);
-    setTimeout(() => {
+    try {
+      let [_, info] = await Promise.all([
+        ChainApi.updateChannelName({
+          address: channelInfo.address,
+          channelName,
+        }),
+        ProxyApi.updateChanel(url, channelInfo.address, {
+          name: channelName,
+        }),
+      ]);
+      dispatch({
+        type: 'global/updateState',
+        payload: {
+          channelInfo: info.data.data,
+        },
+      });
+    } catch (e) {
+      if (e instanceof Error) message.error(e.message);
+    } finally {
       setEditNameLoading(false);
-      props.closeModal();
-    }, 2000);
+    }
   };
 
   return (
@@ -39,7 +64,7 @@ const EditNameModal: React.FC<Props> = (props) => {
           <Divider style={{ margin: '16px 0' }} />
           <p className={styles.currentName}>
             <span className={styles.label}>Current Name:&emsp;</span>
-            <span className={styles.current}>User</span>
+            <span className={styles.current}>{channelInfo.name}</span>
           </p>
           <Input
             placeholder="Please enter channel name"

@@ -4,7 +4,7 @@ export declare type ApiPort = {
 };
 
 type FilterOptional<T extends {}> = {
-  [K in keyof T]?: undefined extends K ? T[K] : never;
+  [K in keyof T]?: undefined extends T[K] ? T[K] : never;
 };
 
 export type MongoDBRes = {
@@ -25,7 +25,8 @@ export type CLCreatePS<T = string> = {
 
 export type CLUpdatePS = FilterOptional<CLCreatePS>;
 
-export type CLRes = CLCreatePS<Required<VideoCreatePS> | null> & MongoDBRes;
+export type CLRes = Required<CLCreatePS<Required<VideoCreatePS>> | null> &
+  MongoDBRes;
 
 export type VideoCreatePS<T = string> = {
   channelId: T;

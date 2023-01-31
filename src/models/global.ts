@@ -5,7 +5,7 @@ import Web3 from 'web3';
 
 import { getEndPoint, splitUrl, websocket } from '@/utils/util';
 
-import { ApiPort, ChannelInfo } from '@/declare/api';
+import { ApiPort, CLRes } from '@/declare/api';
 import { message } from 'antd';
 import Api from '@/services/Api';
 import { AxiosResponse } from 'axios';
@@ -21,7 +21,7 @@ export interface State {
   proxyGroup: string;
   requestLoading: boolean;
   status: boolean;
-  channelInfo: ChannelInfo | {};
+  channelInfo: CLRes;
 }
 
 export default {
@@ -51,7 +51,6 @@ export default {
         let { debugApiPort, rpcWsPort } = apiPort.data;
         if (!debugApiPort || !rpcWsPort)
           throw new Error('DebugApi or Websocket is not enabled');
-
         let [protocol, hostname] = splitUrl(api);
         let debugApi = `${protocol}//${hostname}:${debugApiPort}`;
         let wsApi = `${

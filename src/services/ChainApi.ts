@@ -3,7 +3,7 @@ import NProgress from 'nprogress';
 
 const request = axios.create({
   baseURL: 'http://favortest.favorlabs.io/api/v1/chain',
-  timeout: 2e3,
+  timeout: 5e3,
 });
 
 request.interceptors.response.use(
