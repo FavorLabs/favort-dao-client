@@ -37,7 +37,7 @@ export default {
   ): Promise<AxiosResponse<Data<CLRes>>> {
     return request({
       url: url + '/channel/' + address,
-      method: 'patch',
+      method: 'put',
       data,
     });
   },
@@ -78,7 +78,7 @@ export default {
   ): Promise<AxiosResponse<Data<Required<VideoRes>>>> {
     return request({
       url: url + '/videos/' + id,
-      method: 'patch',
+      method: 'put',
       data,
     });
   },
