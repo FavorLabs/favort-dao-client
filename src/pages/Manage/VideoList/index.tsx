@@ -29,6 +29,7 @@ const VideoList: React.FC<Props> = (props) => {
   const path = usePath();
   const url = useUrl();
   const { channelInfo } = useSelector((state: Models) => state.global);
+  const { refreshVideoList } = useSelector((state: Models) => state.manage);
 
   const [videoData, setVideoData] = useState<VideoRes[]>([]);
   const [videoDataLoading, setVideoDataLoading] = useState<boolean>(false);
@@ -61,6 +62,7 @@ const VideoList: React.FC<Props> = (props) => {
       setDeleteVideoLoading(true);
       await ProxyApi.deleteVideo(url, id);
       setDeleteVideoModal(false);
+      updateVideoList(pageNum, pageSize);
     } catch (err: any) {
       message.error(err.message);
     } finally {
@@ -80,12 +82,17 @@ const VideoList: React.FC<Props> = (props) => {
     updateVideoList(p.current, p.pageSize);
   };
 
-  const updateVideoList = async (page: number, count: number) => {
+  const updateVideoList = async (
+    page: number | undefined,
+    count: number | undefined,
+  ) => {
+    setVideoDataLoading(true);
     const { data } = await ProxyApi.getVideos(url, {
       page,
       count,
       channelId: channelInfo._id,
     });
+    setVideoDataLoading(false);
     if (data.data) {
       setVideoData(data.data.list);
       setVidoesTotal(data.data.total);
@@ -94,7 +101,7 @@ const VideoList: React.FC<Props> = (props) => {
 
   useEffect(() => {
     getVideoList();
-  }, []);
+  }, [refreshVideoList]);
 
   return (
     <>

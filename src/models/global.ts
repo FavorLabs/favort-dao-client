@@ -5,23 +5,24 @@ import Web3 from 'web3';
 
 import { getEndPoint, splitUrl, websocket } from '@/utils/util';
 
-import { ApiPort, ChannelInfo } from '@/declare/api';
+import { ApiPort, CLRes } from '@/declare/api';
 import { message } from 'antd';
 import Api from '@/services/Api';
 import { AxiosResponse } from 'axios';
 import { ApiURL, DefaultApi } from '@/config/constants';
+import * as Events from 'events';
 
 export interface State {
   api: string;
   debugApi: string;
-  ws: null | WebsocketProvider;
+  ws: null | (WebsocketProvider & Events);
   web3: null | Web3;
   nodeWeb3: null | Web3;
   address: string;
   proxyGroup: string;
   requestLoading: boolean;
   status: boolean;
-  channelInfo: ChannelInfo | {};
+  channelInfo: CLRes | {};
 }
 
 export default {

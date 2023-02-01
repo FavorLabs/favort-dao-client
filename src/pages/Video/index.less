@@ -19,6 +19,11 @@
         //margin: 0 16px;
       }
       .mainLeft {
+        .skeleton {
+          width: 100%;
+          min-height: 602px;
+          background-color: rgba(0, 0, 0, 0.06);
+        }
         .detail {
           .title {
             display: -webkit-box;
@@ -106,6 +111,21 @@
       }
       .mainRight {
         padding: 0 10px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .content {
+    .VideoMain {
+      .row {
+        .mainLeft {
+          .skeleton {
+            width: 100%;
+            min-height: 176px;
+          }
+        }
       }
     }
   }

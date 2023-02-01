@@ -37,7 +37,7 @@ export default {
   ): Promise<AxiosResponse<Data<CLRes>>> {
     return request({
       url: url + '/channel/' + address,
-      method: 'patch',
+      method: 'put',
       data,
     });
   },
@@ -63,7 +63,11 @@ export default {
   },
   uploadVideo(
     url: string,
-    data: VideoUpdatePS,
+    data: {
+      channelId: string;
+      hash: string;
+      overlay: string;
+    },
   ): Promise<AxiosResponse<Data<Required<VideoRes>>>> {
     return request({
       url: url + '/videos',
@@ -78,7 +82,7 @@ export default {
   ): Promise<AxiosResponse<Data<Required<VideoRes>>>> {
     return request({
       url: url + '/videos/' + id,
-      method: 'patch',
+      method: 'put',
       data,
     });
   },
