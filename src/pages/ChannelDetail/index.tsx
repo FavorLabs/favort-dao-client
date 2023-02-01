@@ -47,7 +47,7 @@ const ChannelDetail: React.FC<Props> = (props) => {
   ];
 
   const tabChange = (key: string) => {
-    console.log(key);
+    // console.log(key);
   };
 
   useEffect(() => {
@@ -86,7 +86,7 @@ const ChannelDetail: React.FC<Props> = (props) => {
               >
                 Search
               </Button>
-              {address !== channelInfo?.address ? (
+              {address.toLowerCase() !== channelInfo?.address?.toLowerCase() ? (
                 <Button
                   className={styles.subscribe}
                   type="primary"
@@ -126,7 +126,9 @@ const ChannelDetail: React.FC<Props> = (props) => {
                 src={channelInfo?.avatar}
                 style={{ backgroundColor: '#F44336', fontSize: '24px' }}
               >
-                {channelInfo?.name?.toUpperCase().substr(0, 1)}
+                {channelInfo?.name
+                  ? channelInfo?.name?.toUpperCase().substr(0, 1)
+                  : 'U'}
               </Avatar>
               <div className={styles.channelDetail}>
                 <p className={styles.channelName}>

@@ -120,7 +120,9 @@ const Video: React.FC<Props> = (props) => {
                           }}
                           src={channelInfo?.avatar}
                         >
-                          {channelInfo?.name?.toUpperCase().substr(0, 1)}
+                          {channelInfo?.name
+                            ? channelInfo?.name?.toUpperCase().substr(0, 1)
+                            : 'U'}
                         </Avatar>
                         <div className={styles.channelDetail}>
                           <p className={styles.name}>

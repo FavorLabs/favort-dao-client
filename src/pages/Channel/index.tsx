@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector, history } from 'umi';
 import Web3 from 'web3';
 import ChainApi from '@/services/ChainApi';
@@ -20,15 +20,14 @@ type Props = {
 
 const Channel: React.FC<Props> = (props) => {
   const dispatch = useDispatch();
+  const [clInfoLoading, setClInfoLoading] = useState<boolean>(true);
   const { api, requestLoading } = useSelector((state: Models) => state.global);
 
   useEffect(() => {
     async function fetch() {
       const { address } = props.match.params;
-      console.log('address', address);
       if (Web3.utils.isAddress(address)) {
         const { data } = await ChainApi.getService({ address });
-        console.log('Service', data);
         if (data) {
           await Api.observeProxyGroup(api, data.group, [data.overlay]);
           dispatch({
@@ -40,13 +39,13 @@ const Channel: React.FC<Props> = (props) => {
           const url =
             api + '/group/http/' + data.group + '/' + DomainName + '/api/v1';
           const info = await ProxyApi.getChannelInfo(url, address);
-          console.log('channelInfo', info);
-          dispatch({
+          await dispatch({
             type: 'global/updateState',
             payload: {
               channelInfo: info.data.data || {},
             },
           });
+          setClInfoLoading(false);
           return;
         }
       }
@@ -58,7 +57,7 @@ const Channel: React.FC<Props> = (props) => {
   }, [props.match.params.address]);
   return (
     <>
-      {requestLoading ? (
+      {requestLoading || clInfoLoading ? (
         <Loading text={'Connecting to a p2p network'} status={requestLoading} />
       ) : (
         props.children

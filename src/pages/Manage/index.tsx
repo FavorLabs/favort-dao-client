@@ -112,7 +112,9 @@ const Manage: React.FC<Props> = (props) => {
                     path('');
                   }}
                 >
-                  {channelInfo?.name?.toUpperCase().substr(0, 1)}
+                  {channelInfo?.name
+                    ? channelInfo?.name?.toUpperCase().substr(0, 1)
+                    : 'U'}
                 </Avatar>
                 <span className={styles.channelName}>
                   <span className={styles.name}>

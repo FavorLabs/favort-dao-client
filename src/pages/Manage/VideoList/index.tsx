@@ -104,10 +104,8 @@ const VideoList: React.FC<Props> = (props) => {
   };
 
   useEffect(() => {
-    if (channelInfo?._id) {
-      getVideoList();
-    }
-  }, [channelInfo?._id, refreshVideoList]);
+    getVideoList();
+  }, [refreshVideoList]);
 
   return (
     <>

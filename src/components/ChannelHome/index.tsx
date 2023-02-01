@@ -30,53 +30,58 @@ const ChannelHome: React.FC<Props> = (props) => {
   };
 
   useEffect(() => {
-    if (channelInfo?._id) {
-      getVideoList();
-    }
-  }, [channelInfo]);
+    getVideoList();
+  }, []);
 
   return (
     <>
       <div className={styles.content}>
         <header>
           <figure className={styles.topVideo}>
-            <Row
-              gutter={[20, 20]}
-              justify={{ xs: 'center', md: 'center', lg: 'start' }}
-            >
-              <Col className={styles.thumbnailCol}>
-                <div
-                  className={styles.thumbnail}
-                  onClick={() => {
-                    path(`video/${videoList[0].id}`);
-                  }}
-                  style={{ backgroundImage: `url(${videoList[0]?.thumbnail})` }}
-                ></div>
-              </Col>
-              <Col>
-                <figcaption className={styles.details}>
-                  <p className={styles.title}>{videoList[0]?.title}</p>
-                  <p className={styles.viewsDate}>
-                    <span className={styles.views}>{0} views</span>
-                    <span className={styles.separator}>&bull;</span>
-                    <span className={styles.date}>
-                      {videoList[0]?.createdAt}
-                    </span>
-                  </p>
-                  <p className={styles.description}>
-                    {videoList[0]?.description}
-                  </p>
-                  <span
-                    className={styles.readMore}
+            <p className={styles.title}>Top Video</p>
+            {videoList[0] ? (
+              <Row
+                gutter={[20, 20]}
+                justify={{ xs: 'center', md: 'center', lg: 'start' }}
+              >
+                <Col className={styles.thumbnailCol}>
+                  <div
+                    className={styles.thumbnail}
                     onClick={() => {
                       path(`video/${videoList[0].id}`);
                     }}
-                  >
-                    Read More
-                  </span>
-                </figcaption>
-              </Col>
-            </Row>
+                    style={{
+                      backgroundImage: `url(${videoList[0]?.thumbnail})`,
+                    }}
+                  ></div>
+                </Col>
+                <Col>
+                  <figcaption className={styles.details}>
+                    <p className={styles.title}>{videoList[0]?.title}</p>
+                    <p className={styles.viewsDate}>
+                      <span className={styles.views}>{0} views</span>
+                      <span className={styles.separator}>&bull;</span>
+                      <span className={styles.date}>
+                        {videoList[0]?.createdAt}
+                      </span>
+                    </p>
+                    <p className={styles.description}>
+                      {videoList[0]?.description}
+                    </p>
+                    <span
+                      className={styles.readMore}
+                      onClick={() => {
+                        path(`video/${videoList[0].id}`);
+                      }}
+                    >
+                      Read More
+                    </span>
+                  </figcaption>
+                </Col>
+              </Row>
+            ) : (
+              <></>
+            )}
           </figure>
         </header>
         <Divider />
@@ -97,6 +102,7 @@ const ChannelHome: React.FC<Props> = (props) => {
                     md={{ span: 12 }}
                     lg={{ span: 8 }}
                     xl={{ span: 6 }}
+                    style={{ width: '100%' }}
                     onClick={() => {
                       path(`video/${item.id}`);
                     }}
