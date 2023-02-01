@@ -9,9 +9,11 @@
     .logo {
       font-size: 24px;
       font-weight: bold;
+      cursor: pointer;
     }
   }
   .VideoMain {
+    margin-top: 10px;
     max-width: 1500px;
     .row {
       margin: 0 16px !important;
@@ -19,6 +21,11 @@
         //margin: 0 16px;
       }
       .mainLeft {
+        .skeleton {
+          width: 100%;
+          min-height: 602px;
+          background-color: @skeletonColor;
+        }
         .detail {
           .title {
             display: -webkit-box;
@@ -95,7 +102,11 @@
             border-radius: 6px;
             background-color: #ebebeb;
             .viewsAndDate {
+              margin-bottom: 10px;
               font-weight: bold;
+              .date {
+                margin-left: 16px;
+              }
             }
           }
         }
@@ -106,6 +117,21 @@
       }
       .mainRight {
         padding: 0 10px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .content {
+    .VideoMain {
+      .row {
+        .mainLeft {
+          .skeleton {
+            width: 100%;
+            min-height: 176px;
+          }
+        }
       }
     }
   }

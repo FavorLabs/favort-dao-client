@@ -25,10 +25,10 @@ const EditNameModal: React.FC<Props> = (props) => {
     try {
       let [_, info] = await Promise.all([
         ChainApi.updateChannelName({
-          address: channelInfo.address,
+          address: channelInfo?.address,
           channelName,
         }),
-        ProxyApi.updateChanel(url, channelInfo.address, {
+        ProxyApi.updateChanel(url, channelInfo?.address, {
           name: channelName,
         }),
       ]);
@@ -38,6 +38,7 @@ const EditNameModal: React.FC<Props> = (props) => {
           channelInfo: info.data.data,
         },
       });
+      props.closeModal();
     } catch (e) {
       if (e instanceof Error) message.error(e.message);
     } finally {
@@ -64,7 +65,7 @@ const EditNameModal: React.FC<Props> = (props) => {
           <Divider style={{ margin: '16px 0' }} />
           <p className={styles.currentName}>
             <span className={styles.label}>Current Name:&emsp;</span>
-            <span className={styles.current}>{channelInfo.name}</span>
+            <span className={styles.current}>{channelInfo?.name}</span>
           </p>
           <Input
             placeholder="Please enter channel name"

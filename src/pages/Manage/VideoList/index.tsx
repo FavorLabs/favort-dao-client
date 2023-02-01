@@ -12,7 +12,6 @@ import {
 import { usePath, useUrl } from '@/utils/hooks';
 import Api from '@/services/Api';
 import ProxyApi from '@/services/ProxyApi';
-import VideoInfo, { video } from '@/config/temp';
 import { useSelector } from 'umi';
 import { Models } from '@/declare/modelType';
 import { VideoRes } from '@/declare/api';
@@ -29,6 +28,7 @@ const VideoList: React.FC<Props> = (props) => {
   const path = usePath();
   const url = useUrl();
   const { channelInfo } = useSelector((state: Models) => state.global);
+  const { refreshVideoList } = useSelector((state: Models) => state.manage);
 
   const [videoData, setVideoData] = useState<VideoRes[]>([]);
   const [videoDataLoading, setVideoDataLoading] = useState<boolean>(false);
@@ -38,31 +38,37 @@ const VideoList: React.FC<Props> = (props) => {
   );
   const [vidoesTotal, setVidoesTotal] = useState<number>(0);
   const [deleteVideoModal, setDeleteVideoModal] = useState<boolean>(false);
-  const [deleteVideoInfo, setDeleteVideoInfo] = useState<VideoRes | {}>({});
+  const [deleteVideoInfo, setDeleteVideoInfo] = useState<VideoRes | null>(null);
   const [deleteVideoLoading, setDeleteVideoLoading] = useState<boolean>(false);
 
   const getVideoList = async () => {
     setVideoDataLoading(true);
-    const { data } = await ProxyApi.getVideos(url, {
-      page: pageNum,
-      count: pageSize,
-      channelId: channelInfo._id,
-    });
-    setVideoDataLoading(false);
-    if (data.data) {
-      setVideoData(data.data.list);
-      setVidoesTotal(data.data.total);
+    try {
+      const { data } = await ProxyApi.getVideos(url, {
+        page: pageNum,
+        count: pageSize,
+        channelId: channelInfo?._id,
+      });
+      if (data.data) {
+        setVideoData(data.data.list);
+        setVidoesTotal(data.data.total);
+      }
+    } catch (e) {
+      if (e instanceof Error) message.error(e.message);
+    } finally {
+      setVideoDataLoading(false);
     }
   };
 
-  const deleteVideo = async (id: string) => {
+  const deleteVideo = async (id: string | undefined) => {
     console.log('id', id);
     try {
       setDeleteVideoLoading(true);
       await ProxyApi.deleteVideo(url, id);
       setDeleteVideoModal(false);
-    } catch (err: any) {
-      message.error(err.message);
+      updateVideoList(pageNum, pageSize);
+    } catch (e) {
+      if (e instanceof Error) message.error(e.message);
     } finally {
       setDeleteVideoLoading(false);
     }
@@ -80,12 +86,17 @@ const VideoList: React.FC<Props> = (props) => {
     updateVideoList(p.current, p.pageSize);
   };
 
-  const updateVideoList = async (page: number, count: number) => {
+  const updateVideoList = async (
+    page: number | undefined,
+    count: number | undefined,
+  ) => {
+    setVideoDataLoading(true);
     const { data } = await ProxyApi.getVideos(url, {
       page,
       count,
-      channelId: channelInfo._id,
+      channelId: channelInfo?._id,
     });
+    setVideoDataLoading(false);
     if (data.data) {
       setVideoData(data.data.list);
       setVidoesTotal(data.data.total);
@@ -93,8 +104,10 @@ const VideoList: React.FC<Props> = (props) => {
   };
 
   useEffect(() => {
-    getVideoList();
-  }, []);
+    if (channelInfo?._id) {
+      getVideoList();
+    }
+  }, [channelInfo?._id, refreshVideoList]);
 
   return (
     <>
@@ -115,17 +128,34 @@ const VideoList: React.FC<Props> = (props) => {
               pageSize: pageSize,
               total: vidoesTotal,
             }}
+            rowKey={(record) => record?._id}
             // @ts-ignore
             onChange={tableChange}
             locale={{ emptyText: 'No Data' }}
           >
-            <Column title="Video" dataIndex="title" key="title" />
-            <Column title="Views" dataIndex="views" key="views" />
-            <Column title="Category" dataIndex="category" key="category" />
+            <Column title="Video" dataIndex="title" key="title" width={550} />
+            <Column
+              title="Views"
+              dataIndex="views"
+              key="views"
+              width={80}
+              render={(value) => (
+                <>
+                  <span>0</span>
+                </>
+              )}
+            />
+            <Column
+              title="Category"
+              dataIndex="category"
+              width={200}
+              key="category"
+            />
             <Column
               title="Tags"
               dataIndex="tags"
               key="tags"
+              width={200}
               render={(tags: string[]) => (
                 <>
                   {tags.map((tag) => (
@@ -139,6 +169,7 @@ const VideoList: React.FC<Props> = (props) => {
             <Column
               title="Action"
               key="action"
+              width={100}
               render={(_: any, record: VideoRes) => (
                 <Space
                   size="middle"
@@ -177,7 +208,7 @@ const VideoList: React.FC<Props> = (props) => {
         className={styles.deleteVideoModal}
         open={deleteVideoModal}
         onOk={() => {
-          deleteVideo(deleteVideoInfo._id);
+          deleteVideo(deleteVideoInfo?._id);
         }}
         confirmLoading={deleteVideoLoading}
         onCancel={() => {
@@ -192,7 +223,7 @@ const VideoList: React.FC<Props> = (props) => {
           </p>
           <p className={styles.deleteVideoInfo}>
             <span className={styles.label}>Title:&nbsp;</span>
-            <span className={styles.videoTitle}>{deleteVideoInfo.title}</span>
+            <span className={styles.videoTitle}>{deleteVideoInfo?.title}</span>
           </p>
         </div>
       </Modal>

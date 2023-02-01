@@ -10,18 +10,19 @@ import { message } from 'antd';
 import Api from '@/services/Api';
 import { AxiosResponse } from 'axios';
 import { ApiURL, DefaultApi } from '@/config/constants';
+import * as Events from 'events';
 
 export interface State {
   api: string;
   debugApi: string;
-  ws: null | WebsocketProvider;
+  ws: null | (WebsocketProvider & Events);
   web3: null | Web3;
   nodeWeb3: null | Web3;
   address: string;
   proxyGroup: string;
   requestLoading: boolean;
   status: boolean;
-  channelInfo: CLRes;
+  channelInfo: CLRes | null;
 }
 
 export default {
@@ -36,7 +37,7 @@ export default {
     requestLoading: true,
     status: true,
     channelInfo:
-      JSON.parse(sessionStorage.getItem('channelInfo') as string) || {},
+      JSON.parse(sessionStorage.getItem('channelInfo') as string) || null,
   },
   reducers: {
     updateState(state, { payload }) {

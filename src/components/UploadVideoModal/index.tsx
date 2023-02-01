@@ -14,9 +14,9 @@ import {
   Spin,
 } from 'antd';
 const { TextArea } = Input;
-import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
+import type { RcFile, UploadProps } from 'antd/es/upload/interface';
 import ImgCrop from 'antd-img-crop';
-import { useSelector } from 'umi';
+import { useSelector, useDispatch } from 'umi';
 import Api from '@/services/Api';
 import ProxyApi from '@/services/ProxyApi';
 import { Models } from '@/declare/modelType';
@@ -24,6 +24,7 @@ import { StoreGroup, StorageOverlay } from '@/config/constants';
 import { stringToBinary, getProgress } from '@/utils/util';
 import { useUrl } from '@/utils/hooks';
 import imageCompression from 'browser-image-compression';
+import ImageCrop from '@/components/ImageCrop';
 import { VideoCreatePS } from '@/declare/api';
 
 export type Props = {
@@ -32,14 +33,25 @@ export type Props = {
   closeModal: () => void;
 };
 
+export type downloadWsResItem = {
+  Bitvector: {
+    len: number;
+    b: string;
+  };
+  Overlay: string;
+  RootCid: string;
+};
+
 const UploadVideoModal: React.FC<Props> = (props) => {
   const url = useUrl();
+  const dispatch = useDispatch();
   const [uploaded, setUploaded] = useState<boolean>(false);
   const [uploading, setUploading] = useState<boolean>(false);
   const [statusTip, setStatusTip] = useState<string>('');
   const [submitDisable, setSubmitDisable] = useState<boolean>(true);
   const [thumbnailLoading, setThumbnailLoading] = useState<boolean>(false);
   const [progressValue, setProgressValue] = useState<number>(0);
+  const [uploadVideoId, setUploadVideoId] = useState<string>('');
   const [formData, setFormData] = useState<VideoCreatePS>({
     channelId: '',
     title: '',
@@ -50,11 +62,11 @@ const UploadVideoModal: React.FC<Props> = (props) => {
     category: '',
     overlay: '',
   });
-  const [thumbnailFileList, setThumbnailFileList] = useState<UploadFile[]>([]);
 
   const { api, debugApi, ws, proxyGroup, channelInfo } = useSelector(
     (state: Models) => state.global,
   );
+  const { refreshVideoList } = useSelector((state: Models) => state.manage);
 
   const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
@@ -94,8 +106,7 @@ const UploadVideoModal: React.FC<Props> = (props) => {
             storageTimer = setTimeout(() => {
               reject('Failed to connect to the P2P network');
             }, 1000 * 20);
-            // @ts-ignore
-            ws.on(storageResult, async (res) => {
+            ws.on(storageResult, async (res: any) => {
               console.log('storageArr', res);
               connected = res.connected ? res.connected : [];
               if (connected.length && storageTimer) {
@@ -159,11 +170,11 @@ const UploadVideoModal: React.FC<Props> = (props) => {
           },
           (err, res) => {
             console.log('downloadResult', res);
-            if (err || res.error) {
-              reject(err || res.error.message);
+            if (err || res?.error) {
+              reject(err || res?.error?.message);
               return;
             }
-            downloadResult = res.result;
+            downloadResult = res?.result;
             ws.emit('download');
           },
         );
@@ -173,27 +184,26 @@ const UploadVideoModal: React.FC<Props> = (props) => {
         downloadTimer = setTimeout(() => {
           downloadFailed();
         }, 1000 * 20);
-        // @ts-ignore
-        ws.on(downloadResult, async (res) => {
+        ws.on(downloadResult, async (res: downloadWsResItem[]) => {
           console.log('download', res);
           let downloadData = res.find((item) => item.Overlay === overlay);
           if (!downloadData) return;
           setStatusTip('Uploading the file to the P2P storage node');
+          // @ts-ignore
           clearTimeout(downloadTimer);
           downloadTimer = setTimeout(() => {
             downloadFailed();
           }, 1000 * 10);
-          setProgressValue(
-            getProgress(
-              stringToBinary(
-                downloadData.Bitvector.b,
-                downloadData.Bitvector.len,
-              ),
-              len,
+          const p = getProgress(
+            stringToBinary(
+              downloadData.Bitvector.b,
+              downloadData.Bitvector.len,
             ),
+            len,
           );
-          console.log('progress', progressValue);
-          if (progressValue === 100) {
+          setProgressValue(p);
+          console.log('progress', p);
+          if (p === 100) {
             resolve({
               text: 'Upload successful',
               overlay,
@@ -263,22 +273,21 @@ const UploadVideoModal: React.FC<Props> = (props) => {
         uploadedList[hash] = overlay;
         sessionStorage.setItem('uploaded_list', JSON.stringify(uploadedList));
       }
-      // @ts-ignore
-      let video = await Api.uploadVideo(url, {
-        channelId: channelInfo._id,
+      let video = await ProxyApi.uploadVideo(url, {
+        channelId: channelInfo?._id,
         hash,
         overlay: uploadOverlay,
       });
-      // @ts-ignore
       setFormData({
         ...formData,
-        channelId: channelInfo._id,
+        channelId: channelInfo?._id,
         hash,
         overlay: uploadOverlay,
       });
+      setUploadVideoId(video.data.data._id);
       setUploaded(true);
-    } catch (e: any) {
-      message.error(e?.message || e);
+    } catch (e) {
+      if (e instanceof Error) message.error(e.message);
     } finally {
       setUploading(false);
     }
@@ -292,49 +301,9 @@ const UploadVideoModal: React.FC<Props> = (props) => {
     maxCount: 1,
   };
 
-  const thumbnailPreview = async (file: UploadFile) => {
-    let src = file.url as string;
-    if (!src) {
-      src = await new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file.originFileObj as RcFile);
-        reader.onload = () => resolve(reader.result as string);
-      });
-    }
-    const image = new Image();
-    image.src = src;
-    const imgWindow = window.open(src);
-    imgWindow?.document.write(image.outerHTML);
-  };
-
-  const thumbnailChange: UploadProps['onChange'] = ({
-    fileList: newFileList,
-  }) => {
-    setThumbnailFileList(newFileList);
-    if (newFileList[0].status === 'uploading') setThumbnailLoading(true);
-    else if (newFileList[0].status === 'done') setThumbnailLoading(false);
-  };
-
-  const convertThumbnail = async (file: RcFile) => {
-    const options = {
-      initialQuality: 0.45,
-      // alwaysKeepResolution: true,
-    };
-    try {
-      const compressedFile = await imageCompression(file, options);
-      // console.log('compressedFile instanceof Blob', compressedFile instanceof Blob); // true
-      // console.log(`compressedFile size ${compressedFile.size / 1024 / 1024} MB`); // smaller than maxSizeMB
-
-      let reader = new FileReader();
-      reader.readAsDataURL(compressedFile);
-      reader.onload = function () {
-        // @ts-ignore
-        setFormData({ ...formData, thumbnail: reader.result });
-        setSubmitDisable(false);
-      };
-    } catch (error) {
-      console.log(error);
-    }
+  const checkRequired = (value: string) => {
+    if (value) setSubmitDisable(false);
+    else setSubmitDisable(true);
   };
 
   const submit = async () => {
@@ -343,10 +312,22 @@ const UploadVideoModal: React.FC<Props> = (props) => {
       tempData = { ...formData, tags: formData.tags[0].split(',') };
     else tempData = { ...formData };
     try {
-      const { data } = await ProxyApi.uploadVideo(url, tempData);
+      const { data } = await ProxyApi.updateVideo(url, uploadVideoId, {
+        title: tempData.title,
+        description: tempData.description,
+        tags: tempData.tags,
+        thumbnail: tempData.thumbnail,
+        category: tempData.category,
+      });
       props.closeModal();
-    } catch (err: any) {
-      message.error(err.message);
+      dispatch({
+        type: 'manage/updateState',
+        payload: {
+          refreshVideoList: !refreshVideoList,
+        },
+      });
+    } catch (e) {
+      if (e instanceof Error) message.error(e.message);
     }
   };
 
@@ -424,6 +405,7 @@ const UploadVideoModal: React.FC<Props> = (props) => {
                     placeholder="Please enter video title"
                     onChange={(e) => {
                       setFormData({ ...formData, title: e.target.value });
+                      checkRequired(e.target.value);
                     }}
                   />
                 </div>
@@ -467,18 +449,13 @@ const UploadVideoModal: React.FC<Props> = (props) => {
                 <div className={`${styles.videoThumbnail} ${styles.item}`}>
                   <p className={styles.label}>Thumbnail</p>
                   <div className={styles.cropWrap}>
-                    <ImgCrop aspect={2} rotate={true} grid={true}>
-                      <Upload
-                        accept={'image/png, image/jpeg'}
-                        action={convertThumbnail}
-                        onChange={thumbnailChange}
-                        onPreview={thumbnailPreview}
-                        listType="picture-card"
-                        fileList={thumbnailFileList}
-                      >
-                        {thumbnailFileList.length === 0 && '+ Upload'}
-                      </Upload>
-                    </ImgCrop>
+                    <ImageCrop
+                      shape="rect"
+                      aspect={2}
+                      setImgBase64={(imgBase64) => {
+                        setFormData({ ...formData, thumbnail: imgBase64 });
+                      }}
+                    />
                     {thumbnailLoading ? (
                       <Spin size="large" indicator={antIcon} />
                     ) : (

@@ -9,9 +9,10 @@ export type Props = {
   url?: string;
   setImgBase64: (imgBase64: string) => void;
   shape?: 'rect' | 'round';
+  aspect?: number;
 };
 const Index: React.FC<Props> = (props) => {
-  const { url, setImgBase64, shape } = props;
+  const { url, setImgBase64, shape, aspect } = props;
   const defaultFileList: UploadFile[] = url
     ? [{ uid: '1', name: '', status: 'done', url: url }]
     : [];
@@ -46,7 +47,7 @@ const Index: React.FC<Props> = (props) => {
   };
   return (
     <>
-      <ImgCrop rotate shape={'round'}>
+      <ImgCrop rotate shape={shape} aspect={aspect} key={url}>
         <Upload
           beforeUpload={beforeUpload}
           listType="picture-card"

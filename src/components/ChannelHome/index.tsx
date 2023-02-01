@@ -1,22 +1,39 @@
 import * as React from 'react';
 import styles from './index.less';
 import { Row, Col, Divider } from 'antd';
-import Video, { video } from '@/config/temp';
 import VideoCard from '@/components/VideoCard';
-import { useHistory, history } from 'umi';
+import { useHistory, useSelector } from 'umi';
+import { useEffect, useState } from 'react';
+import ProxyApi from '@/services/ProxyApi';
+import { Models } from '@/declare/modelType';
+import { usePath, useUrl } from '@/utils/hooks';
+import { VideoRes, VideoListRes } from '@/declare/api';
 
 export type Props = {};
 
 const ChannelHome: React.FC<Props> = (props) => {
-  // const history = useHistory();
+  const path = usePath();
+  const url = useUrl();
+  const [videoList, setVideoList] = useState<VideoRes[]>([]);
 
-  const getChannelVideos = () => {
-    const arr: video[] = [];
-    for (let i = 0; i < 10; i++) {
-      arr.push(Video);
+  const { channelInfo } = useSelector((state: Models) => state.global);
+
+  const getVideoList = async () => {
+    const { data } = await ProxyApi.getVideos(url, {
+      page: 1,
+      count: 1000,
+      channelId: channelInfo?._id,
+    });
+    if (data.data.list) {
+      setVideoList(data.data.list);
     }
-    return arr;
   };
+
+  useEffect(() => {
+    if (channelInfo?._id) {
+      getVideoList();
+    }
+  }, [channelInfo]);
 
   return (
     <>
@@ -30,19 +47,31 @@ const ChannelHome: React.FC<Props> = (props) => {
               <Col className={styles.thumbnailCol}>
                 <div
                   className={styles.thumbnail}
-                  style={{ backgroundImage: `url(${Video.thumbnailUrl})` }}
+                  onClick={() => {
+                    path(`video/${videoList[0].id}`);
+                  }}
+                  style={{ backgroundImage: `url(${videoList[0]?.thumbnail})` }}
                 ></div>
               </Col>
               <Col>
                 <figcaption className={styles.details}>
-                  <p className={styles.title}>{Video.title}</p>
+                  <p className={styles.title}>{videoList[0]?.title}</p>
                   <p className={styles.viewsDate}>
-                    <span className={styles.views}>{Video.views} views</span>
+                    <span className={styles.views}>{0} views</span>
                     <span className={styles.separator}>&bull;</span>
-                    <span className={styles.date}>{Video.date.toString()}</span>
+                    <span className={styles.date}>
+                      {videoList[0]?.createdAt}
+                    </span>
                   </p>
-                  <p className={styles.description}>{Video.description}</p>
-                  <span className={styles.readMore} onClick={() => {}}>
+                  <p className={styles.description}>
+                    {videoList[0]?.description}
+                  </p>
+                  <span
+                    className={styles.readMore}
+                    onClick={() => {
+                      path(`video/${videoList[0].id}`);
+                    }}
+                  >
                     Read More
                   </span>
                 </figcaption>
@@ -60,7 +89,7 @@ const ChannelHome: React.FC<Props> = (props) => {
               gutter={[10, 20]}
               justify={{ xs: 'center', sm: 'center', md: 'start' }}
             >
-              {getChannelVideos().map((item, index) => {
+              {videoList.map((item, index) => {
                 return (
                   <Col
                     key={index}
@@ -69,9 +98,7 @@ const ChannelHome: React.FC<Props> = (props) => {
                     lg={{ span: 8 }}
                     xl={{ span: 6 }}
                     onClick={() => {
-                      history.push(
-                        `${history.location.pathname}/video/${item.id}`,
-                      );
+                      path(`video/${item.id}`);
                     }}
                   >
                     <VideoCard videoInfo={item} />

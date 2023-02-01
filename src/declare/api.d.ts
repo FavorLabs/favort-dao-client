@@ -28,7 +28,7 @@ export type CLUpdatePS = FilterOptional<CLCreatePS>;
 export type CLRes = Required<CLCreatePS<Required<VideoCreatePS>> | null> &
   MongoDBRes;
 
-export type VideoCreatePS<T = string> = {
+export type VideoCreatePS<T = string | undefined> = {
   channelId: T;
   hash: string;
   overlay: string;
@@ -39,7 +39,7 @@ export type VideoCreatePS<T = string> = {
   category?: string;
 };
 
-export type VideoUpdatePS = FilterOptional<CLUpdatePS>;
+export type VideoUpdatePS = FilterOptional<VideoCreatePS>;
 
 export type VideoRes = VideoCreatePS<Required<CLCreatePS>> & MongoDBRes;
 

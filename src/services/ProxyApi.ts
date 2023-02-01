@@ -32,7 +32,7 @@ export default {
   },
   updateChanel(
     url: string,
-    address: string,
+    address: string | undefined,
     data: CLUpdatePS,
   ): Promise<AxiosResponse<Data<CLRes>>> {
     return request({
@@ -63,7 +63,11 @@ export default {
   },
   uploadVideo(
     url: string,
-    data: VideoUpdatePS,
+    data: {
+      channelId: string | undefined;
+      hash: string;
+      overlay: string;
+    },
   ): Promise<AxiosResponse<Data<Required<VideoRes>>>> {
     return request({
       url: url + '/videos',
@@ -84,7 +88,7 @@ export default {
   },
   deleteVideo(
     url: string,
-    id: string,
+    id: string | undefined,
   ): Promise<AxiosResponse<Data<Required<VideoRes>>>> {
     return request({
       url: url + '/videos/' + id,

@@ -20,15 +20,15 @@ const EditMoreModal: React.FC<Props> = (props) => {
   const dispatch = useDispatch();
   const { channelInfo } = useSelector((state: Models) => state.global);
   const [editMoreLoading, setEditMoreLoading] = useState<boolean>(false);
-  const [channelDescription, setChannelDescription] = useState<string>(
-    channelInfo.introduction,
-  );
+  const [channelDescription, setChannelDescription] = useState<
+    string | undefined
+  >(channelInfo?.introduction);
   const imgRef = useRef<string>();
 
   const editChannelMore = async () => {
     setEditMoreLoading(true);
     try {
-      const info = await ProxyApi.updateChanel(url, channelInfo.address, {
+      const info = await ProxyApi.updateChanel(url, channelInfo?.address, {
         avatar: imgRef.current,
         introduction: channelDescription,
       });
@@ -38,6 +38,7 @@ const EditMoreModal: React.FC<Props> = (props) => {
           channelInfo: info.data.data,
         },
       });
+      props.closeModal();
     } catch (e) {
       if (e instanceof Error) message.info(e.message);
     } finally {
@@ -78,7 +79,7 @@ const EditMoreModal: React.FC<Props> = (props) => {
           <div className={`${styles.channelAvatar} ${styles.item}`}>
             <p className={styles.label}>Avatar:</p>
             <ImageCrop
-              url={channelInfo.avatar}
+              url={channelInfo?.avatar}
               shape={'round'}
               setImgBase64={(imgBase64) => {
                 imgRef.current = imgBase64;
