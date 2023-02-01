@@ -76,6 +76,16 @@ const ChannelDetail: React.FC<Props> = (props) => {
               FavorTube
             </div>
             <div className={styles.actions}>
+              <Button
+                className={styles.search}
+                type="primary"
+                loading={false}
+                onClick={() => {
+                  history.push('/home');
+                }}
+              >
+                Search
+              </Button>
               {address !== channelInfo?.address ? (
                 <Button
                   className={styles.subscribe}

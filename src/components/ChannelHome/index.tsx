@@ -48,6 +48,9 @@ const ChannelHome: React.FC<Props> = (props) => {
               <Col className={styles.thumbnailCol}>
                 <div
                   className={styles.thumbnail}
+                  onClick={() => {
+                    path(`video/${videoList[0].id}`);
+                  }}
                   style={{ backgroundImage: `url(${videoList[0]?.thumbnail})` }}
                 ></div>
               </Col>
@@ -64,7 +67,12 @@ const ChannelHome: React.FC<Props> = (props) => {
                   <p className={styles.description}>
                     {videoList[0]?.description}
                   </p>
-                  <span className={styles.readMore} onClick={() => {}}>
+                  <span
+                    className={styles.readMore}
+                    onClick={() => {
+                      path(`video/${videoList[0].id}`);
+                    }}
+                  >
                     Read More
                   </span>
                 </figcaption>
