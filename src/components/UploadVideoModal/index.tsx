@@ -274,20 +274,20 @@ const UploadVideoModal: React.FC<Props> = (props) => {
         sessionStorage.setItem('uploaded_list', JSON.stringify(uploadedList));
       }
       let video = await ProxyApi.uploadVideo(url, {
-        channelId: channelInfo._id,
+        channelId: channelInfo?._id,
         hash,
         overlay: uploadOverlay,
       });
       setFormData({
         ...formData,
-        channelId: channelInfo._id,
+        channelId: channelInfo?._id,
         hash,
         overlay: uploadOverlay,
       });
       setUploadVideoId(video.data.data._id);
       setUploaded(true);
-    } catch (e: any) {
-      message.error(e?.message || e);
+    } catch (e) {
+      if (e instanceof Error) message.error(e.message);
     } finally {
       setUploading(false);
     }
@@ -326,8 +326,8 @@ const UploadVideoModal: React.FC<Props> = (props) => {
           refreshVideoList: !refreshVideoList,
         },
       });
-    } catch (err: any) {
-      message.error(err.message);
+    } catch (e) {
+      if (e instanceof Error) message.error(e.message);
     }
   };
 

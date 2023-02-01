@@ -22,7 +22,7 @@ export interface State {
   proxyGroup: string;
   requestLoading: boolean;
   status: boolean;
-  channelInfo: CLRes | {};
+  channelInfo: CLRes | null;
 }
 
 export default {
@@ -37,7 +37,7 @@ export default {
     requestLoading: true,
     status: true,
     channelInfo:
-      JSON.parse(sessionStorage.getItem('channelInfo') as string) || {},
+      JSON.parse(sessionStorage.getItem('channelInfo') as string) || null,
   },
   reducers: {
     updateState(state, { payload }) {

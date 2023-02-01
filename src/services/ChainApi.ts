@@ -47,7 +47,7 @@ export default {
     });
   },
   updateChannelName(data: {
-    address: string;
+    address: string | undefined;
     channelName: string;
   }): Promise<Data> {
     return request({

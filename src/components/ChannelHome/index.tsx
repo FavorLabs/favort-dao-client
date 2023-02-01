@@ -1,7 +1,6 @@
 import * as React from 'react';
 import styles from './index.less';
 import { Row, Col, Divider } from 'antd';
-import Video, { video } from '@/config/temp';
 import VideoCard from '@/components/VideoCard';
 import { useHistory, useSelector } from 'umi';
 import { useEffect, useState } from 'react';
@@ -23,7 +22,7 @@ const ChannelHome: React.FC<Props> = (props) => {
     const { data } = await ProxyApi.getVideos(url, {
       page: 1,
       count: 1000,
-      channelId: channelInfo._id,
+      channelId: channelInfo?._id,
     });
     if (data.data.list) {
       setVideoList(data.data.list);
@@ -31,7 +30,7 @@ const ChannelHome: React.FC<Props> = (props) => {
   };
 
   useEffect(() => {
-    if (channelInfo._id) {
+    if (channelInfo?._id) {
       getVideoList();
     }
   }, [channelInfo]);

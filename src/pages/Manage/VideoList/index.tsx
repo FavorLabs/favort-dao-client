@@ -12,7 +12,6 @@ import {
 import { usePath, useUrl } from '@/utils/hooks';
 import Api from '@/services/Api';
 import ProxyApi from '@/services/ProxyApi';
-import VideoInfo, { video } from '@/config/temp';
 import { useSelector } from 'umi';
 import { Models } from '@/declare/modelType';
 import { VideoRes } from '@/declare/api';
@@ -39,32 +38,37 @@ const VideoList: React.FC<Props> = (props) => {
   );
   const [vidoesTotal, setVidoesTotal] = useState<number>(0);
   const [deleteVideoModal, setDeleteVideoModal] = useState<boolean>(false);
-  const [deleteVideoInfo, setDeleteVideoInfo] = useState<VideoRes | {}>({});
+  const [deleteVideoInfo, setDeleteVideoInfo] = useState<VideoRes | null>(null);
   const [deleteVideoLoading, setDeleteVideoLoading] = useState<boolean>(false);
 
   const getVideoList = async () => {
     setVideoDataLoading(true);
-    const { data } = await ProxyApi.getVideos(url, {
-      page: pageNum,
-      count: pageSize,
-      channelId: channelInfo._id,
-    });
-    setVideoDataLoading(false);
-    if (data.data) {
-      setVideoData(data.data.list);
-      setVidoesTotal(data.data.total);
+    try {
+      const { data } = await ProxyApi.getVideos(url, {
+        page: pageNum,
+        count: pageSize,
+        channelId: channelInfo?._id,
+      });
+      if (data.data) {
+        setVideoData(data.data.list);
+        setVidoesTotal(data.data.total);
+      }
+    } catch (e) {
+      if (e instanceof Error) message.error(e.message);
+    } finally {
+      setVideoDataLoading(false);
     }
   };
 
-  const deleteVideo = async (id: string) => {
+  const deleteVideo = async (id: string | undefined) => {
     console.log('id', id);
     try {
       setDeleteVideoLoading(true);
       await ProxyApi.deleteVideo(url, id);
       setDeleteVideoModal(false);
       updateVideoList(pageNum, pageSize);
-    } catch (err: any) {
-      message.error(err.message);
+    } catch (e) {
+      if (e instanceof Error) message.error(e.message);
     } finally {
       setDeleteVideoLoading(false);
     }
@@ -90,7 +94,7 @@ const VideoList: React.FC<Props> = (props) => {
     const { data } = await ProxyApi.getVideos(url, {
       page,
       count,
-      channelId: channelInfo._id,
+      channelId: channelInfo?._id,
     });
     setVideoDataLoading(false);
     if (data.data) {
@@ -204,7 +208,7 @@ const VideoList: React.FC<Props> = (props) => {
         className={styles.deleteVideoModal}
         open={deleteVideoModal}
         onOk={() => {
-          deleteVideo(deleteVideoInfo._id);
+          deleteVideo(deleteVideoInfo?._id);
         }}
         confirmLoading={deleteVideoLoading}
         onCancel={() => {
@@ -219,7 +223,7 @@ const VideoList: React.FC<Props> = (props) => {
           </p>
           <p className={styles.deleteVideoInfo}>
             <span className={styles.label}>Title:&nbsp;</span>
-            <span className={styles.videoTitle}>{deleteVideoInfo.title}</span>
+            <span className={styles.videoTitle}>{deleteVideoInfo?.title}</span>
           </p>
         </div>
       </Modal>

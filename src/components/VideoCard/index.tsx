@@ -1,6 +1,5 @@
 import * as React from 'react';
 import styles from './index.less';
-import Video, { video } from '@/config/temp';
 import { VideoRes } from '@/declare/api';
 
 export type Props = {

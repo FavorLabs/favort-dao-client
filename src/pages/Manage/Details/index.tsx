@@ -66,9 +66,9 @@ const Details: React.FC<Props> = (props) => {
         });
       }
       setSubmitDisable(false);
-    } catch (err: any) {
+    } catch (e) {
       setSubmitDisable(true);
-      message.error(err.message);
+      if (e instanceof Error) message.error(e.message);
     }
   };
 
@@ -98,8 +98,8 @@ const Details: React.FC<Props> = (props) => {
           refreshVideoList: !refreshVideoList,
         },
       });
-    } catch (err: any) {
-      message.error(err.message);
+    } catch (e) {
+      if (e instanceof Error) message.error(e.message);
     } finally {
       setSubmitLoading(false);
     }

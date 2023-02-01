@@ -36,8 +36,8 @@ const Video: React.FC<Props> = (props) => {
       if (data.data) {
         setVideoData(data.data);
       }
-    } catch (err: any) {
-      message.error(err.message);
+    } catch (e) {
+      if (e instanceof Error) message.error(e.message);
     }
   };
 
@@ -45,7 +45,7 @@ const Video: React.FC<Props> = (props) => {
     const { data } = await ProxyApi.getVideos(url, {
       page: 1,
       count: 12,
-      channelId: channelInfo._id,
+      channelId: channelInfo?._id,
     });
     if (data.data.list) {
       setVideoList(data.data.list);
