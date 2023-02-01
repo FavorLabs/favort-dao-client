@@ -4,13 +4,12 @@ import styles from './index.less';
 import { Button, Steps, Radio, Space, message } from 'antd';
 import { useState } from 'react';
 
-import { ProxyOverlay, ProxyGroup, DomainName } from '@/config/constants';
+import { ProxyGroup, DomainName } from '@/config/constants';
 import Api from '@/services/Api';
 import ChainApi from '@/services/ChainApi';
 import ProxyApi from '@/services/ProxyApi';
 import { useDispatch, useSelector, history } from 'umi';
 import { Models } from '@/declare/modelType';
-import { AxiosError } from 'axios';
 
 export type Props = {};
 const CreateChannel: React.FC<Props> = (props) => {
@@ -33,17 +32,12 @@ const CreateChannel: React.FC<Props> = (props) => {
     setCurrent(current + 1);
   };
   const [value, setValue] = useState(0);
-  const serviceList = [
-    {
-      group: ProxyGroup,
-    },
-  ];
   const buy = async () => {
     try {
       const { data } = await ChainApi.createService({
         address,
-        overlay: ProxyOverlay,
-        group: ProxyGroup,
+        overlay: ProxyGroup[value].overlay,
+        group: ProxyGroup[value].name,
       });
       await Api.observeProxyGroup(api, data.group, [data.overlay]);
       dispatch({
@@ -69,11 +63,14 @@ const CreateChannel: React.FC<Props> = (props) => {
         <article>
           {current === 0 && (
             <>
-              <Radio.Group value={value}>
+              <Radio.Group
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+              >
                 <Space direction="vertical">
-                  {serviceList.map((item, index) => (
+                  {ProxyGroup.map((item, index) => (
                     <Radio key={index} value={index}>
-                      {item.group}
+                      {item.name}
                     </Radio>
                   ))}
                 </Space>
