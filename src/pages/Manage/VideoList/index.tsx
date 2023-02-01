@@ -100,8 +100,10 @@ const VideoList: React.FC<Props> = (props) => {
   };
 
   useEffect(() => {
-    getVideoList();
-  }, [refreshVideoList]);
+    if (channelInfo?._id) {
+      getVideoList();
+    }
+  }, [channelInfo?._id, refreshVideoList]);
 
   return (
     <>
@@ -122,17 +124,34 @@ const VideoList: React.FC<Props> = (props) => {
               pageSize: pageSize,
               total: vidoesTotal,
             }}
+            rowKey={(record) => record?._id}
             // @ts-ignore
             onChange={tableChange}
             locale={{ emptyText: 'No Data' }}
           >
-            <Column title="Video" dataIndex="title" key="title" />
-            <Column title="Views" dataIndex="views" key="views" />
-            <Column title="Category" dataIndex="category" key="category" />
+            <Column title="Video" dataIndex="title" key="title" width={550} />
+            <Column
+              title="Views"
+              dataIndex="views"
+              key="views"
+              width={80}
+              render={(value) => (
+                <>
+                  <span>0</span>
+                </>
+              )}
+            />
+            <Column
+              title="Category"
+              dataIndex="category"
+              width={200}
+              key="category"
+            />
             <Column
               title="Tags"
               dataIndex="tags"
               key="tags"
+              width={200}
               render={(tags: string[]) => (
                 <>
                   {tags.map((tag) => (
@@ -146,6 +165,7 @@ const VideoList: React.FC<Props> = (props) => {
             <Column
               title="Action"
               key="action"
+              width={100}
               render={(_: any, record: VideoRes) => (
                 <Space
                   size="middle"

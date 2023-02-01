@@ -13,12 +13,12 @@ const VideoCard: React.FC<Props> = (props) => {
         <figure className={styles.videoCard}>
           <div
             className={styles.thumbnail}
-            style={{ backgroundImage: `url(${props.videoInfo.thumbnail})` }}
+            style={{ backgroundImage: `url(${props.videoInfo?.thumbnail})` }}
           ></div>
           <figcaption className={styles.details}>
             <p className={styles.title}>{props.videoInfo.title}</p>
             <p className={styles.viewsDate}>
-              <span className={styles.views}>{Video.views} views</span>
+              <span className={styles.views}>{0} views</span>
               <span className={styles.separator}>&bull;</span>
               <span className={styles.date}>{props.videoInfo.createdAt}</span>
             </p>

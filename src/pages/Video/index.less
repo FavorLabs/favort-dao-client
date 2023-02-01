@@ -9,9 +9,11 @@
     .logo {
       font-size: 24px;
       font-weight: bold;
+      cursor: pointer;
     }
   }
   .VideoMain {
+    margin-top: 10px;
     max-width: 1500px;
     .row {
       margin: 0 16px !important;
@@ -22,7 +24,7 @@
         .skeleton {
           width: 100%;
           min-height: 602px;
-          background-color: rgba(0, 0, 0, 0.06);
+          background-color: @skeletonColor;
         }
         .detail {
           .title {
@@ -100,7 +102,11 @@
             border-radius: 6px;
             background-color: #ebebeb;
             .viewsAndDate {
+              margin-bottom: 10px;
               font-weight: bold;
+              .date {
+                margin-left: 16px;
+              }
             }
           }
         }

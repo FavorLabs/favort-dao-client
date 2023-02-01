@@ -25,7 +25,8 @@ export type CLCreatePS<T = string> = {
 
 export type CLUpdatePS = FilterOptional<CLCreatePS>;
 
-export type CLRes = CLCreatePS<Required<VideoCreatePS> | null> & MongoDBRes;
+export type CLRes = Required<CLCreatePS<Required<VideoCreatePS>> | null> &
+  MongoDBRes;
 
 export type VideoCreatePS<T = string> = {
   channelId: T;

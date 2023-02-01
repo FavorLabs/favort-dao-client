@@ -8,7 +8,6 @@ import {
   ShareAltOutlined,
 } from '@ant-design/icons';
 import { useSelector } from 'umi';
-import VideoInfo, { video } from '@/config/temp';
 import VideoCard from '@/components/VideoCard';
 import { usePath, useUrl } from '@/utils/hooks';
 import ProxyApi from '@/services/ProxyApi';
@@ -56,14 +55,21 @@ const Video: React.FC<Props> = (props) => {
   useEffect(() => {
     getVideoById(props.match.params.id);
     getVideoList();
-  }, []);
+  }, [props.match.params.id]);
 
   return (
     <>
       <div className={`${styles.content} pageContent`}>
         <header className={'header'}>
           <div className={styles.topBar}>
-            <div className={styles.logo}>FavorTube</div>
+            <div
+              className={styles.logo}
+              onClick={() => {
+                path('');
+              }}
+            >
+              FavorTube
+            </div>
           </div>
         </header>
         <main className={styles.VideoMain}>
@@ -75,20 +81,28 @@ const Video: React.FC<Props> = (props) => {
             <Col xl={{ span: 18 }} className={styles.col}>
               <div className={styles.mainLeft}>
                 <figure>
-                  {/*<div className={styles.skeleton}></div>*/}
-                  <div className={styles.player}>
-                    <video
-                      controls
-                      autoPlay={false}
-                      playsInline
-                      style={{ width: '100%', height: '100%' }}
-                    >
-                      <source
-                        src={api + '/file/' + videoData?.hash}
-                        type={'video/mp4'}
-                      />
-                    </video>
-                  </div>
+                  {videoData?.hash ? (
+                    <div className={styles.player}>
+                      <video
+                        controls
+                        autoPlay={true}
+                        playsInline
+                        key={videoData?.hash}
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          maxHeight: '500px',
+                        }}
+                      >
+                        <source
+                          src={api + '/file/' + videoData?.hash}
+                          type={'video/mp4'}
+                        />
+                      </video>
+                    </div>
+                  ) : (
+                    <div className={styles.skeleton}></div>
+                  )}
                   <figcaption className={styles.detail}>
                     <p className={styles.title}>{videoData?.title}</p>
                     <div className={styles.userActions}>
@@ -99,9 +113,14 @@ const Video: React.FC<Props> = (props) => {
                           style={{
                             backgroundColor: '#F44336',
                             fontSize: '14px',
+                            cursor: 'pointer',
                           }}
+                          onClick={() => {
+                            path('');
+                          }}
+                          src={channelInfo?.avatar}
                         >
-                          U
+                          {channelInfo?.name?.toUpperCase().substr(0, 1)}
                         </Avatar>
                         <div className={styles.channelDetail}>
                           <p className={styles.name}>
@@ -109,7 +128,7 @@ const Video: React.FC<Props> = (props) => {
                               ? videoData?.channelId.name
                               : 'User'}
                           </p>
-                          <p className={styles.subscribers}>10 subscribers</p>
+                          <p className={styles.subscribers}>0 subscribers</p>
                         </div>
                         <Button
                           className={styles.subscribe}
@@ -125,13 +144,13 @@ const Video: React.FC<Props> = (props) => {
                             <LikeOutlined
                               className={`${styles.like} ${styles.actionBtn}`}
                             />
-                            {VideoInfo.like}
+                            {0}
                           </span>
                           <span>
                             <DislikeOutlined
                               className={`${styles.dislike} ${styles.actionBtn}`}
                             />
-                            {VideoInfo.dislike}
+                            {0}
                           </span>
                           <span>
                             <ShareAltOutlined
@@ -144,8 +163,10 @@ const Video: React.FC<Props> = (props) => {
                     </div>
                     <div className={styles.extra}>
                       <p className={styles.viewsAndDate}>
-                        <span className="views">{VideoInfo.views} views</span>
-                        <span className="date">{videoData?.updatedAt}</span>
+                        <span className={styles.views}>{0} views</span>
+                        <span className={styles.date}>
+                          {videoData?.updatedAt}
+                        </span>
                       </p>
                       <p className={styles.description}>
                         {videoData?.description}

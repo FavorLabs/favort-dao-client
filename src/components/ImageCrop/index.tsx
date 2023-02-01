@@ -47,7 +47,7 @@ const Index: React.FC<Props> = (props) => {
   };
   return (
     <>
-      <ImgCrop rotate shape={shape} aspect={aspect}>
+      <ImgCrop rotate shape={shape} aspect={aspect} key={url}>
         <Upload
           beforeUpload={beforeUpload}
           listType="picture-card"

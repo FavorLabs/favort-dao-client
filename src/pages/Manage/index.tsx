@@ -11,10 +11,11 @@ import {
 import { useState } from 'react';
 import { usePath } from '@/utils/hooks';
 import { isMobile } from '@/utils/util';
-import { history } from 'umi';
+import { useSelector, history } from 'umi';
 import EditNameModal from '@/components/EditNameModal';
 import EditMoreModal from '@/components/EditMoreModal';
 import UploadVideoModal from '@/components/UploadVideoModal';
+import { Models } from '@/declare/modelType';
 
 export type Props = {};
 
@@ -25,6 +26,8 @@ const Manage: React.FC<Props> = (props) => {
   const [channelNameModal, setChannelNameModal] = useState<boolean>(false);
   const [channelMoreModal, setChannelMoreModal] = useState<boolean>(false);
   const [uploadVideoModal, setUploadVideoModal] = useState<boolean>(false);
+
+  const { channelInfo } = useSelector((state: Models) => state.global);
 
   const NavItems = [
     {
@@ -53,7 +56,13 @@ const Manage: React.FC<Props> = (props) => {
         <header className={'header'}>
           <div className={styles.topBar}>
             <div className={styles.logo}>
-              <span>FavorTube</span>
+              <span
+                onClick={() => {
+                  path('');
+                }}
+              >
+                FavorTube
+              </span>
               <MenuOutlined
                 className={styles.switchMenu}
                 onClick={() => {
@@ -93,12 +102,22 @@ const Manage: React.FC<Props> = (props) => {
                 <Avatar
                   className={styles.avatar}
                   size={80}
-                  style={{ backgroundColor: '#F44336', fontSize: '24px' }}
+                  src={channelInfo?.avatar}
+                  style={{
+                    backgroundColor: '#F44336',
+                    fontSize: '24px',
+                    cursor: 'pointer',
+                  }}
+                  onClick={() => {
+                    path('');
+                  }}
                 >
-                  U
+                  {channelInfo?.name?.toUpperCase().substr(0, 1)}
                 </Avatar>
                 <span className={styles.channelName}>
-                  <span className={styles.name}>User</span>
+                  <span className={styles.name}>
+                    {channelInfo?.name ? channelInfo?.name : 'User'}
+                  </span>
                   <span
                     className={styles.editName}
                     onClick={() => {

@@ -184,24 +184,18 @@ const Details: React.FC<Props> = (props) => {
           <div className={`${styles.videoThumbnail} ${styles.item}`}>
             <p className={styles.label}>Thumbnail</p>
             <div className={styles.cropWrap}>
-              {formData.thumbnail ? (
-                <>
-                  <ImageCrop
-                    url={formData.thumbnail}
-                    shape="rect"
-                    aspect={2}
-                    setImgBase64={(imgBase64) => {
-                      setFormData({ ...formData, thumbnail: imgBase64 });
-                    }}
-                  />
-                  {thumbnailLoading ? (
-                    <Spin size="large" indicator={antIcon} />
-                  ) : (
-                    <></>
-                  )}
-                </>
-              ) : (
+              <ImageCrop
+                url={formData.thumbnail}
+                shape="rect"
+                aspect={2}
+                setImgBase64={(imgBase64) => {
+                  setFormData({ ...formData, thumbnail: imgBase64 });
+                }}
+              />
+              {thumbnailLoading ? (
                 <Spin size="large" indicator={antIcon} />
+              ) : (
+                <></>
               )}
             </div>
           </div>

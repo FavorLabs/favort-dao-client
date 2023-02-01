@@ -52,7 +52,6 @@ export default {
         let { debugApiPort, rpcWsPort } = apiPort.data;
         if (!debugApiPort || !rpcWsPort)
           throw new Error('DebugApi or Websocket is not enabled');
-
         let [protocol, hostname] = splitUrl(api);
         let debugApi = `${protocol}//${hostname}:${debugApiPort}`;
         let wsApi = `${
