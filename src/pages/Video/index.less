@@ -18,7 +18,7 @@
     .row {
       margin: 0 16px !important;
       .col {
-        //margin: 0 16px;
+        width: 100%;
       }
       .mainLeft {
         .skeleton {
@@ -49,6 +49,7 @@
               display: flex;
               justify-content: flex-start;
               align-items: center;
+              margin-right: 4px;
               .avatar {
                 flex-shrink: 0;
               }
@@ -130,6 +131,27 @@
           .skeleton {
             width: 100%;
             min-height: 176px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .content {
+    .VideoMain {
+      .row {
+        .mainLeft {
+          .detail {
+            .userActions {
+              .right {
+                flex-grow: 1;
+                .likeOrDislikeOrShare {
+                  justify-content: space-between;
+                }
+              }
+            }
           }
         }
       }

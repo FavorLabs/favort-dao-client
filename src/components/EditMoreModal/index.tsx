@@ -54,6 +54,7 @@ const EditMoreModal: React.FC<Props> = (props) => {
         maskClosable={false}
         className={styles.editMoreModal}
         open={props.open}
+        destroyOnClose={true}
         onOk={editChannelMore}
         confirmLoading={editMoreLoading}
         onCancel={() => {

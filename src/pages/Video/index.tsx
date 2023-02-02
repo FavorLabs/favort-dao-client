@@ -95,7 +95,13 @@ const Video: React.FC<Props> = (props) => {
                         }}
                       >
                         <source
-                          src={api + '/file/' + videoData?.hash}
+                          src={
+                            api +
+                            '/file/' +
+                            videoData?.hash +
+                            '?oracles=' +
+                            videoData?.overlay
+                          }
                           type={'video/mp4'}
                         />
                       </video>

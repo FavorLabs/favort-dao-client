@@ -152,33 +152,45 @@ const Manage: React.FC<Props> = (props) => {
               <article>{props.children}</article>
             </Layout>
           </Layout>
-          <EditNameModal
-            open={channelNameModal}
-            openModal={() => {
-              setChannelNameModal(true);
-            }}
-            closeModal={() => {
-              setChannelNameModal(false);
-            }}
-          />
-          <EditMoreModal
-            open={channelMoreModal}
-            openModal={() => {
-              setChannelMoreModal(true);
-            }}
-            closeModal={() => {
-              setChannelMoreModal(false);
-            }}
-          />
-          <UploadVideoModal
-            open={uploadVideoModal}
-            openModal={() => {
-              setUploadVideoModal(true);
-            }}
-            closeModal={() => {
-              setUploadVideoModal(false);
-            }}
-          />
+          {channelNameModal ? (
+            <EditNameModal
+              open={channelNameModal}
+              openModal={() => {
+                setChannelNameModal(true);
+              }}
+              closeModal={() => {
+                setChannelNameModal(false);
+              }}
+            />
+          ) : (
+            <></>
+          )}
+          {channelMoreModal ? (
+            <EditMoreModal
+              open={channelMoreModal}
+              openModal={() => {
+                setChannelMoreModal(true);
+              }}
+              closeModal={() => {
+                setChannelMoreModal(false);
+              }}
+            />
+          ) : (
+            <></>
+          )}
+          {uploadVideoModal ? (
+            <UploadVideoModal
+              open={uploadVideoModal}
+              openModal={() => {
+                setUploadVideoModal(true);
+              }}
+              closeModal={() => {
+                setUploadVideoModal(false);
+              }}
+            />
+          ) : (
+            <></>
+          )}
         </main>
       </div>
     </>

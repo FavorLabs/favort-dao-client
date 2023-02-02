@@ -15,14 +15,20 @@ import ProxyApi from '@/services/ProxyApi';
 import { useSelector } from 'umi';
 import { Models } from '@/declare/modelType';
 import { VideoRes } from '@/declare/api';
-import { TableCurrentDataSource } from 'antd/lib/table/interface';
+import {
+  FilterValue,
+  SorterResult,
+  TableCurrentDataSource,
+} from 'antd/lib/table/interface';
 
 export type Props = {};
 type OnChange = (
   pagination: TablePaginationConfig,
+  filters: Record<string, FilterValue | null>,
+  sorter: SorterResult<VideoRes> | SorterResult<VideoRes>[],
   extra: TableCurrentDataSource<VideoRes>,
 ) => void;
-const pageSizeOption = [10, 20, 50, 100];
+const pageSizeOption = [3, 20, 50, 100];
 
 const VideoList: React.FC<Props> = (props) => {
   const path = usePath();
@@ -61,7 +67,6 @@ const VideoList: React.FC<Props> = (props) => {
   };
 
   const deleteVideo = async (id: string | undefined) => {
-    console.log('id', id);
     try {
       setDeleteVideoLoading(true);
       await ProxyApi.deleteVideo(url, id);
@@ -74,9 +79,13 @@ const VideoList: React.FC<Props> = (props) => {
     }
   };
 
-  const tableChange: OnChange = (pagination, extra) => {
+  const tableChange: OnChange = (pagination, filters, sorter, extra) => {
     if (extra.action === 'paginate') {
       paginationChange(pagination);
+    } else if (extra.action === 'sort') {
+      // sorter
+    } else {
+      // filters
     }
   };
 
@@ -91,15 +100,20 @@ const VideoList: React.FC<Props> = (props) => {
     count: number | undefined,
   ) => {
     setVideoDataLoading(true);
-    const { data } = await ProxyApi.getVideos(url, {
-      page,
-      count,
-      channelId: channelInfo?._id,
-    });
-    setVideoDataLoading(false);
-    if (data.data) {
-      setVideoData(data.data.list);
-      setVidoesTotal(data.data.total);
+    try {
+      const { data } = await ProxyApi.getVideos(url, {
+        page,
+        count,
+        channelId: channelInfo?._id,
+      });
+      if (data.data) {
+        setVideoData(data.data.list);
+        setVidoesTotal(data.data.total);
+      }
+    } catch (e) {
+      if (e instanceof Error) message.error(e.message);
+    } finally {
+      setVideoDataLoading(false);
     }
   };
 
@@ -125,9 +139,9 @@ const VideoList: React.FC<Props> = (props) => {
               current: pageNum,
               pageSize: pageSize,
               total: vidoesTotal,
+              // onChange={paginationChange}
             }}
             rowKey={(record) => record?._id}
-            // @ts-ignore
             onChange={tableChange}
             locale={{ emptyText: 'No Data' }}
           >
