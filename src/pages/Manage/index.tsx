@@ -112,7 +112,9 @@ const Manage: React.FC<Props> = (props) => {
                     path('');
                   }}
                 >
-                  {channelInfo?.name?.toUpperCase().substr(0, 1)}
+                  {channelInfo?.name
+                    ? channelInfo?.name?.toUpperCase().substr(0, 1)
+                    : 'U'}
                 </Avatar>
                 <span className={styles.channelName}>
                   <span className={styles.name}>
@@ -150,33 +152,45 @@ const Manage: React.FC<Props> = (props) => {
               <article>{props.children}</article>
             </Layout>
           </Layout>
-          <EditNameModal
-            open={channelNameModal}
-            openModal={() => {
-              setChannelNameModal(true);
-            }}
-            closeModal={() => {
-              setChannelNameModal(false);
-            }}
-          />
-          <EditMoreModal
-            open={channelMoreModal}
-            openModal={() => {
-              setChannelMoreModal(true);
-            }}
-            closeModal={() => {
-              setChannelMoreModal(false);
-            }}
-          />
-          <UploadVideoModal
-            open={uploadVideoModal}
-            openModal={() => {
-              setUploadVideoModal(true);
-            }}
-            closeModal={() => {
-              setUploadVideoModal(false);
-            }}
-          />
+          {channelNameModal ? (
+            <EditNameModal
+              open={channelNameModal}
+              openModal={() => {
+                setChannelNameModal(true);
+              }}
+              closeModal={() => {
+                setChannelNameModal(false);
+              }}
+            />
+          ) : (
+            <></>
+          )}
+          {channelMoreModal ? (
+            <EditMoreModal
+              open={channelMoreModal}
+              openModal={() => {
+                setChannelMoreModal(true);
+              }}
+              closeModal={() => {
+                setChannelMoreModal(false);
+              }}
+            />
+          ) : (
+            <></>
+          )}
+          {uploadVideoModal ? (
+            <UploadVideoModal
+              open={uploadVideoModal}
+              openModal={() => {
+                setUploadVideoModal(true);
+              }}
+              closeModal={() => {
+                setUploadVideoModal(false);
+              }}
+            />
+          ) : (
+            <></>
+          )}
         </main>
       </div>
     </>

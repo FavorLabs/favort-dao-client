@@ -95,7 +95,13 @@ const Video: React.FC<Props> = (props) => {
                         }}
                       >
                         <source
-                          src={api + '/file/' + videoData?.hash}
+                          src={
+                            api +
+                            '/file/' +
+                            videoData?.hash +
+                            '?oracles=' +
+                            videoData?.overlay
+                          }
                           type={'video/mp4'}
                         />
                       </video>
@@ -120,7 +126,9 @@ const Video: React.FC<Props> = (props) => {
                           }}
                           src={channelInfo?.avatar}
                         >
-                          {channelInfo?.name?.toUpperCase().substr(0, 1)}
+                          {channelInfo?.name
+                            ? channelInfo?.name?.toUpperCase().substr(0, 1)
+                            : 'U'}
                         </Avatar>
                         <div className={styles.channelDetail}>
                           <p className={styles.name}>
@@ -177,7 +185,12 @@ const Video: React.FC<Props> = (props) => {
                 <div className={styles.comments}>Comments</div>
               </div>
             </Col>
-            <Col md={{ span: 20 }} lg={{ span: 16 }} xl={{ span: 6 }}>
+            <Col
+              md={{ span: 20 }}
+              lg={{ span: 16 }}
+              xl={{ span: 6 }}
+              className={styles.col}
+            >
               <aside className={styles.mainRight}>
                 {videoList.map((item, index) => {
                   return (

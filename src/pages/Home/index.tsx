@@ -52,7 +52,7 @@ const Home: React.FC<Props> = (props) => {
           proxyGroup: data.group,
         },
       });
-      history.push(`/${value}`);
+      history.push(`/${data.address}`);
     } else {
       message.info('Channel does not exist');
     }

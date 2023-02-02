@@ -35,7 +35,7 @@ export default {
     address: '',
     proxyGroup: '',
     requestLoading: true,
-    status: true,
+    status: false,
     channelInfo:
       JSON.parse(sessionStorage.getItem('channelInfo') as string) || null,
   },

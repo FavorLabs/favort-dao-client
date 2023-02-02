@@ -54,6 +54,7 @@ const EditNameModal: React.FC<Props> = (props) => {
         maskClosable={false}
         className={styles.editNameModal}
         open={props.open}
+        destroyOnClose={true}
         onOk={editChannelName}
         confirmLoading={editNameLoading}
         onCancel={() => {
