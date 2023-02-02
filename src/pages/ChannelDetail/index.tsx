@@ -5,7 +5,7 @@ import type { TabsProps } from 'antd';
 import bannerBg from '@/assets/img/material.jpg';
 import ChannelHome from '@/components/ChannelHome';
 import { useSelector, history } from 'umi';
-import { usePath, useUrl } from '@/utils/hooks';
+import { usePath, useUrl, useVerifyChannel } from '@/utils/hooks';
 import { useEffect, useState } from 'react';
 import Api from '@/services/Api';
 import ProxyApi from '@/services/ProxyApi';
@@ -21,6 +21,7 @@ type Props = {
 const ChannelDetail: React.FC<Props> = (props) => {
   const path = usePath();
   const url = useUrl();
+  const verifyChannel = useVerifyChannel();
 
   const { channelInfo, address } = useSelector((state: Models) => state.global);
 
@@ -86,16 +87,7 @@ const ChannelDetail: React.FC<Props> = (props) => {
               >
                 Search
               </Button>
-              {address.toLowerCase() !== channelInfo?.address?.toLowerCase() ? (
-                <Button
-                  className={styles.subscribe}
-                  type="primary"
-                  loading={false}
-                  onClick={() => {}}
-                >
-                  Subscribe
-                </Button>
-              ) : (
+              {verifyChannel ? (
                 <Button
                   className={styles.manage}
                   type="primary"
@@ -104,6 +96,15 @@ const ChannelDetail: React.FC<Props> = (props) => {
                   }}
                 >
                   Manage
+                </Button>
+              ) : (
+                <Button
+                  className={styles.subscribe}
+                  type="primary"
+                  loading={false}
+                  onClick={() => {}}
+                >
+                  Subscribe
                 </Button>
               )}
             </div>

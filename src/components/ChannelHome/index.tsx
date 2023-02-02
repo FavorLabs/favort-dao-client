@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styles from './index.less';
-import { Row, Col, Divider } from 'antd';
+import { Row, Col, Divider, message } from 'antd';
 import VideoCard from '@/components/VideoCard';
 import { useHistory, useSelector } from 'umi';
 import { useEffect, useState } from 'react';
@@ -19,13 +19,17 @@ const ChannelHome: React.FC<Props> = (props) => {
   const { channelInfo } = useSelector((state: Models) => state.global);
 
   const getVideoList = async () => {
-    const { data } = await ProxyApi.getVideos(url, {
-      page: 1,
-      count: 1000,
-      channelId: channelInfo?._id,
-    });
-    if (data.data.list) {
-      setVideoList(data.data.list);
+    try {
+      const { data } = await ProxyApi.getVideos(url, {
+        page: 1,
+        count: 1000,
+        channelId: channelInfo?._id,
+      });
+      if (data.data.list) {
+        setVideoList(data.data.list);
+      }
+    } catch (e) {
+      if (e instanceof Error) message.error(e.message);
     }
   };
 

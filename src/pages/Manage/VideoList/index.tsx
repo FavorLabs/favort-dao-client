@@ -28,7 +28,7 @@ type OnChange = (
   sorter: SorterResult<VideoRes> | SorterResult<VideoRes>[],
   extra: TableCurrentDataSource<VideoRes>,
 ) => void;
-const pageSizeOption = [3, 20, 50, 100];
+const pageSizeOption = [10, 20, 50, 100];
 
 const VideoList: React.FC<Props> = (props) => {
   const path = usePath();

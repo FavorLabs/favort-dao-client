@@ -14,3 +14,8 @@ export const useUrl = () => {
   const { api, proxyGroup } = useSelector((state: Models) => state.global);
   return api + '/group/http/' + proxyGroup + '/' + DomainName + '/api/v1';
 };
+
+export const useVerifyChannel = () => {
+  const { address, channelInfo } = useSelector((state: Models) => state.global);
+  return address?.toLowerCase() === channelInfo?.address?.toLowerCase();
+};

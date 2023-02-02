@@ -30,6 +30,7 @@ export default [
           {
             path: '/:address/manage',
             component: '@/pages/Manage',
+            wrappers: ['@/wrappers/auth.tsx'],
             routes: [
               {
                 path: '/:address/manage',
