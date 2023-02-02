@@ -5,7 +5,7 @@
       font-weight: bold;
       margin-bottom: 8px;
     }
-    .thumbnail {
+    .player {
       width: 424px;
       height: 238px;
       border-radius: 10px;
@@ -14,6 +14,9 @@
       background-position: center;
       background-size: cover;
       cursor: pointer;
+      > video {
+        border-radius: 10px;
+      }
     }
     .details {
       max-width: 400px;
@@ -57,10 +60,18 @@
     .topVideo {
       .thumbnailCol {
         width: 100%;
-        .thumbnail {
+        .player {
+          position: relative;
           width: 100%;
           padding-bottom: 56.2%;
           height: unset;
+          > video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+          }
         }
       }
     }

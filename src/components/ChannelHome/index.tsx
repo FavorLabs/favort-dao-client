@@ -16,7 +16,7 @@ const ChannelHome: React.FC<Props> = (props) => {
   const url = useUrl();
   const [videoList, setVideoList] = useState<VideoRes[]>([]);
 
-  const { channelInfo } = useSelector((state: Models) => state.global);
+  const { api, channelInfo } = useSelector((state: Models) => state.global);
 
   const getVideoList = async () => {
     try {
@@ -49,15 +49,39 @@ const ChannelHome: React.FC<Props> = (props) => {
                 justify={{ xs: 'center', md: 'center', lg: 'start' }}
               >
                 <Col className={styles.thumbnailCol}>
-                  <div
-                    className={styles.thumbnail}
-                    onClick={() => {
-                      path(`video/${videoList[0].id}`);
-                    }}
-                    style={{
-                      backgroundImage: `url(${videoList[0]?.thumbnail})`,
-                    }}
-                  ></div>
+                  {/*<div*/}
+                  {/*  className={styles.thumbnail}*/}
+                  {/*  onClick={() => {*/}
+                  {/*    path(`video/${videoList[0].id}`);*/}
+                  {/*  }}*/}
+                  {/*  style={{*/}
+                  {/*    backgroundImage: `url(${videoList[0]?.thumbnail})`,*/}
+                  {/*  }}*/}
+                  {/*></div>*/}
+                  <div className={styles.player}>
+                    <video
+                      controls
+                      autoPlay={false}
+                      playsInline
+                      key={videoList[0]?.hash}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        maxHeight: '500px',
+                      }}
+                    >
+                      <source
+                        src={
+                          api +
+                          '/file/' +
+                          videoList[0]?.hash +
+                          '?oracles=' +
+                          videoList[0]?.overlay
+                        }
+                        type={'video/mp4'}
+                      />
+                    </video>
+                  </div>
                 </Col>
                 <Col>
                   <figcaption className={styles.details}>
