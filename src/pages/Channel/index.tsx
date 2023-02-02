@@ -53,8 +53,10 @@ const Channel: React.FC<Props> = (props) => {
       // history.replace('/home');
     }
 
-    fetch();
-  }, [props.match.params.address]);
+    if (requestLoading) {
+      fetch();
+    }
+  }, [props.match.params.address, requestLoading]);
   return (
     <>
       {requestLoading || clInfoLoading ? (

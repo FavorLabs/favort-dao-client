@@ -85,12 +85,7 @@ const Layout: React.FC = (props) => {
     );
   }, [proxyGroup, ws]);
 
-  return (
-    <>
-      <SettingApi />
-      {props.children}
-    </>
-  );
+  return <>{status ? props.children : <SettingApi />}</>;
 };
 
 export default Layout;
