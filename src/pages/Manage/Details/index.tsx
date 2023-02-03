@@ -20,6 +20,7 @@ import {
 } from 'antd';
 const { TextArea } = Input;
 import { usePath, useUrl } from '@/utils/hooks';
+import TagsEdit from '@/components/TagsEdit';
 import ImageCrop from '@/components/ImageCrop';
 import { VideoUpdatePS } from '@/declare/api';
 import { Models } from '@/declare/modelType';
@@ -42,7 +43,7 @@ const Details: React.FC<Props> = (props) => {
   const [formData, setFormData] = useState<VideoUpdatePS>({
     title: '',
     description: '',
-    tags: [''],
+    tags: [],
     thumbnail: '',
     category: '',
   });
@@ -78,18 +79,14 @@ const Details: React.FC<Props> = (props) => {
   };
 
   const submit = async () => {
-    let tempData;
-    if (formData?.tags?.length)
-      tempData = { ...formData, tags: formData.tags[0].split(',') };
-    else tempData = { ...formData };
     setSubmitLoading(true);
     try {
       const { data } = await ProxyApi.updateVideo(url, props.match.params.id, {
-        title: tempData.title,
-        description: tempData.description,
-        tags: tempData.tags,
-        thumbnail: tempData.thumbnail,
-        category: tempData.category,
+        title: formData.title,
+        description: formData.description,
+        tags: formData.tags,
+        thumbnail: formData.thumbnail,
+        category: formData.category,
       });
       path('/manage');
       dispatch({
@@ -157,16 +154,16 @@ const Details: React.FC<Props> = (props) => {
           </div>
           <div className={`${styles.videoTags} ${styles.item}`}>
             <p className={styles.label}>Tags</p>
-            <Input
-              className={styles.value}
-              showCount
-              maxLength={100}
-              placeholder="Please enter video tag"
-              value={formData.tags?.join(',')}
-              onChange={(e) => {
-                setFormData({ ...formData, tags: [e.target.value] });
-              }}
-            />
+            {formData.tags?.length ? (
+              <TagsEdit
+                tagsData={formData.tags}
+                setTagsData={(tags) => {
+                  setFormData({ ...formData, tags });
+                }}
+              />
+            ) : (
+              <></>
+            )}
           </div>
           <div className={`${styles.videoCategory} ${styles.item}`}>
             <p className={styles.label}>Category</p>

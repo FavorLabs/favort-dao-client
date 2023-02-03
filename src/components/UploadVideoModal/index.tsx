@@ -25,6 +25,7 @@ import { stringToBinary, getProgress } from '@/utils/util';
 import { useUrl } from '@/utils/hooks';
 import imageCompression from 'browser-image-compression';
 import ImageCrop from '@/components/ImageCrop';
+import TagsEdit from '@/components/TagsEdit';
 import { VideoCreatePS } from '@/declare/api';
 
 export type Props = {
@@ -32,6 +33,8 @@ export type Props = {
   openModal: () => void;
   closeModal: () => void;
 };
+
+type UploadResolve = (value: { text: string; overlay: string }) => void;
 
 export type downloadWsResItem = {
   Bitvector: {
@@ -81,7 +84,7 @@ const UploadVideoModal: React.FC<Props> = (props) => {
     let downloadTimer: NodeJS.Timer | null = null;
     if (!ws) throw new Error('Websocket not connected');
 
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve: UploadResolve, reject) => {
       const downloadFailed = () => {
         bad[overlay] = bad[overlay] ? ++bad[overlay] : 1;
         ws.emit('choiceOverlay');
@@ -266,7 +269,6 @@ const UploadVideoModal: React.FC<Props> = (props) => {
       if (!uploadOverlay) {
         let fileInfo = await Api.getFileInfo(api, hash);
         let len: number = fileInfo.data.list[0].bitVector.len;
-        // @ts-ignore
         const { text, overlay } = await uploadToStorageNode(hash, len);
         message.success(text);
         uploadOverlay = overlay;
@@ -307,17 +309,13 @@ const UploadVideoModal: React.FC<Props> = (props) => {
   };
 
   const submit = async () => {
-    let tempData;
-    if (formData?.tags?.length)
-      tempData = { ...formData, tags: formData.tags[0].split(',') };
-    else tempData = { ...formData };
     try {
       const { data } = await ProxyApi.updateVideo(url, uploadVideoId, {
-        title: tempData.title,
-        description: tempData.description,
-        tags: tempData.tags,
-        thumbnail: tempData.thumbnail,
-        category: tempData.category,
+        title: formData.title,
+        description: formData.description,
+        tags: formData.tags,
+        thumbnail: formData.thumbnail,
+        category: formData.category,
       });
       props.closeModal();
       dispatch({
@@ -424,13 +422,9 @@ const UploadVideoModal: React.FC<Props> = (props) => {
                 </div>
                 <div className={`${styles.videoTags} ${styles.item}`}>
                   <p className={styles.label}>Tags</p>
-                  <Input
-                    className={styles.value}
-                    showCount
-                    maxLength={100}
-                    placeholder="Please enter video tag"
-                    onChange={(e) => {
-                      setFormData({ ...formData, tags: [e.target.value] });
+                  <TagsEdit
+                    setTagsData={(tags) => {
+                      setFormData({ ...formData, tags });
                     }}
                   />
                 </div>

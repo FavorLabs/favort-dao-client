@@ -2,10 +2,16 @@ import * as React from 'react';
 import styles from './index.less';
 import { Button, Avatar, Tabs } from 'antd';
 import type { TabsProps } from 'antd';
+import {
+  SearchOutlined,
+  AppstoreOutlined,
+  WifiOutlined,
+} from '@ant-design/icons';
 import bannerBg from '@/assets/img/material.jpg';
 import ChannelHome from '@/components/ChannelHome';
 import { useSelector, history } from 'umi';
 import { usePath, useUrl, useVerifyChannel } from '@/utils/hooks';
+import { isMobile } from '@/utils/util';
 import { useEffect, useState } from 'react';
 import Api from '@/services/Api';
 import ProxyApi from '@/services/ProxyApi';
@@ -22,6 +28,7 @@ const ChannelDetail: React.FC<Props> = (props) => {
   const path = usePath();
   const url = useUrl();
   const verifyChannel = useVerifyChannel();
+  const isMob = isMobile();
 
   const { channelInfo, address } = useSelector((state: Models) => state.global);
 
@@ -85,7 +92,8 @@ const ChannelDetail: React.FC<Props> = (props) => {
                   history.push('/home');
                 }}
               >
-                Search
+                <span className={styles.actionsText}>Search</span>
+                <SearchOutlined className={styles.actionsIcon} />
               </Button>
               {verifyChannel ? (
                 <Button
@@ -95,7 +103,8 @@ const ChannelDetail: React.FC<Props> = (props) => {
                     path('/manage/');
                   }}
                 >
-                  Manage
+                  <span className={styles.actionsText}>Manage</span>
+                  <AppstoreOutlined className={styles.actionsIcon} />
                 </Button>
               ) : (
                 <Button
@@ -104,7 +113,8 @@ const ChannelDetail: React.FC<Props> = (props) => {
                   loading={false}
                   onClick={() => {}}
                 >
-                  Subscribe
+                  <span className={styles.actionsText}>Subscribe</span>
+                  <WifiOutlined className={styles.actionsIcon} />
                 </Button>
               )}
             </div>

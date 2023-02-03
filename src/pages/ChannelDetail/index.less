@@ -12,11 +12,16 @@
       cursor: pointer;
     }
     .actions {
+      .search {
+        margin-right: 10px;
+      }
       .search,
       .subscribe,
       .manage {
         font-weight: bold;
-        margin-right: 10px;
+        .actionsIcon {
+          display: none;
+        }
       }
     }
   }
@@ -48,6 +53,26 @@
           .channelAddress,
           .subscribers {
             color: #777;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 350px) {
+  .content {
+    .topBar {
+      .actions {
+        .search,
+        .subscribe,
+        .manage {
+          .actionsText {
+            display: none;
+          }
+          .actionsIcon {
+            display: inline-block;
+            margin-left: 0;
           }
         }
       }
