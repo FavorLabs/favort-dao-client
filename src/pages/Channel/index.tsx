@@ -8,7 +8,7 @@ import ProxyApi from '@/services/ProxyApi';
 import { Models } from '@/declare/modelType';
 import { message } from 'antd';
 import Loading from '@/components/Loading';
-import { DomainName } from '@/config/constants';
+import { useUrl } from '@/utils/hooks';
 
 type Props = {
   match: {
@@ -20,12 +20,15 @@ type Props = {
 
 const Channel: React.FC<Props> = (props) => {
   const dispatch = useDispatch();
-  const [clInfoLoading, setClInfoLoading] = useState<boolean>(true);
-  const { api, requestLoading } = useSelector((state: Models) => state.global);
+  const url = useUrl();
+  const { address } = props.match.params;
+  const [loading, setLoading] = useState<boolean>(true);
+  const { api, requestLoading, proxyGroup } = useSelector(
+    (state: Models) => state.global,
+  );
 
   useEffect(() => {
     async function fetch() {
-      const { address } = props.match.params;
       if (Web3.utils.isAddress(address)) {
         const { data } = await ChainApi.getService({ address });
         if (data) {
@@ -36,31 +39,39 @@ const Channel: React.FC<Props> = (props) => {
               proxyGroup: data.group,
             },
           });
-          const url =
-            api + '/group/http/' + data.group + '/' + DomainName + '/api/v1';
-          const info = await ProxyApi.getChannelInfo(url, address);
-          await dispatch({
-            type: 'global/updateState',
-            payload: {
-              channelInfo: info.data.data || {},
-            },
-          });
-          setClInfoLoading(false);
           return;
         }
       }
       message.info('Channel does not exist');
-      // history.replace('/home');
+      history.replace('/home');
     }
+    fetch();
+  }, [props.match.params.address, requestLoading]);
 
-    if (requestLoading) {
+  useEffect(() => {
+    async function fetch() {
+      setLoading(true);
+      const info = await ProxyApi.getChannelInfo(url, address);
+      if (info) {
+        dispatch({
+          type: 'global/updateState',
+          payload: {
+            channelInfo: info.data.data,
+          },
+        });
+        setLoading(false);
+      }
+    }
+    if (!requestLoading) {
       fetch();
     }
-  }, [props.match.params.address, requestLoading]);
+  }, [proxyGroup, requestLoading, url]);
   return (
     <>
-      {requestLoading || clInfoLoading ? (
+      {requestLoading ? (
         <Loading text={'Connecting to a p2p network'} status={requestLoading} />
+      ) : loading ? (
+        <Loading text={'Loading data'} status={loading} />
       ) : (
         props.children
       )}
