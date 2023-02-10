@@ -1,10 +1,16 @@
-.key {
-  font-size: 18px;
-  font-weight: 500;
-}
-
-.value {
-  font-size: 16px;
+.content {
+  .preData {
+    .key {
+      font-size: 17px;
+      font-weight: bold;
+    }
+    .value {
+      font-size: 16px;
+    }
+    .refresh:hover {
+      animation: refresh 0.5s ease-in-out;
+    }
+  }
 }
 
 .sub {
@@ -26,5 +32,14 @@
     padding: 10px;
     border-radius: 10px;
     background-color: #fff;
+  }
+}
+
+@keyframes refresh {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }

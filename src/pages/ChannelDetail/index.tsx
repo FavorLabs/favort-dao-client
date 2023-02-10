@@ -9,6 +9,7 @@ import {
 } from '@ant-design/icons';
 import bannerBg from '@/assets/img/material.jpg';
 import ChannelHome from '@/components/ChannelHome';
+import SubModal from '@/components/SubModal';
 import { useSelector, history } from 'umi';
 import { usePath, useUrl, useVerifyChannel } from '@/utils/hooks';
 import { isMobile } from '@/utils/util';
@@ -29,6 +30,8 @@ const ChannelDetail: React.FC<Props> = (props) => {
   const url = useUrl();
   const verifyChannel = useVerifyChannel();
   const isMob = isMobile();
+
+  const [subModal, setSubModal] = useState<boolean>(true);
 
   const { channelInfo, address } = useSelector((state: Models) => state.global);
 
@@ -57,18 +60,6 @@ const ChannelDetail: React.FC<Props> = (props) => {
   const tabChange = (key: string) => {
     // console.log(key);
   };
-
-  useEffect(() => {
-    async function fetch() {
-      const data = await ProxyApi.getChannelInfo(
-        url,
-        props.match.params.address,
-      );
-      // console.log(data);
-    }
-
-    fetch();
-  }, []);
 
   return (
     <>
@@ -152,6 +143,16 @@ const ChannelDetail: React.FC<Props> = (props) => {
             <Tabs defaultActiveKey="1" items={tabItems} onChange={tabChange} />
           </div>
         </main>
+        {subModal ? (
+          <SubModal
+            open={subModal}
+            closeModal={() => {
+              setSubModal(false);
+            }}
+          />
+        ) : (
+          <></>
+        )}
       </div>
     </>
   );

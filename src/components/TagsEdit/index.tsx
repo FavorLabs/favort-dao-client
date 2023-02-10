@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import styles from './index.less';
 import { PlusOutlined } from '@ant-design/icons';
 import type { InputRef } from 'antd';
-import { Space, Input, Tag, Tooltip, theme } from 'antd';
+import { Space, Input, Tag, Tooltip } from 'antd';
 
 export type Props = {
   tagsData?: string[];
