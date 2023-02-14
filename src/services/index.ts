@@ -6,6 +6,11 @@ const request = axios.create({
   timeout: 5e3,
 });
 
+const token = localStorage.getItem('token');
+if (token) {
+  request.defaults.headers.common.Authorization = `Bearer ${token}`;
+}
+
 let requestIndex: number = 0;
 let responseIndex: number = 0;
 

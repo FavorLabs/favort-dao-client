@@ -35,7 +35,7 @@ const Manage: React.FC<Props> = (props) => {
       label: 'Videos',
       icon: <VideoCameraOutlined />,
       onClick: () => {
-        path('/manage');
+        path('/videos/manage');
         isMobile() ? setCollapsed(true) : '';
       },
     },
@@ -44,7 +44,7 @@ const Manage: React.FC<Props> = (props) => {
       label: 'Others',
       icon: <VideoCameraOutlined />,
       onClick: () => {
-        path('/manage/others');
+        path('/videos/manage/others');
         isMobile() ? setCollapsed(true) : '';
       },
     },
@@ -52,38 +52,56 @@ const Manage: React.FC<Props> = (props) => {
 
   return (
     <>
-      <div className={`${styles.content} pageContent`}>
-        <header className={'header'}>
-          <div className={styles.topBar}>
-            <div className={styles.logo}>
-              <span
-                onClick={() => {
-                  path('');
-                }}
-              >
-                FavorTube
-              </span>
-              <MenuOutlined
-                className={styles.switchMenu}
-                onClick={() => {
-                  setCollapsed(!collapsed);
-                }}
-              />
-            </div>
-            <Button
-              type="primary"
-              shape="circle"
-              className={styles.uploadVideo}
-              onClick={() => {
-                setUploadVideoModal(true);
-              }}
-            >
-              <UploadOutlined />
-            </Button>
-          </div>
-        </header>
+      <div className={`${styles.content}`}>
+        {/*<header className={'header'}>*/}
+        {/*  <div className={styles.topBar}>*/}
+        {/*    <div className={styles.logo}>*/}
+        {/*      <span*/}
+        {/*        onClick={() => {*/}
+        {/*          path('');*/}
+        {/*        }}*/}
+        {/*      >*/}
+        {/*        FavorTube*/}
+        {/*      </span>*/}
+        {/*      <MenuOutlined*/}
+        {/*        className={styles.switchMenu}*/}
+        {/*        onClick={() => {*/}
+        {/*          setCollapsed(!collapsed);*/}
+        {/*        }}*/}
+        {/*      />*/}
+        {/*    </div>*/}
+        {/*    <Button*/}
+        {/*      type="primary"*/}
+        {/*      shape="circle"*/}
+        {/*      className={styles.uploadVideo}*/}
+        {/*      onClick={() => {*/}
+        {/*        setUploadVideoModal(true);*/}
+        {/*      }}*/}
+        {/*    >*/}
+        {/*      <UploadOutlined />*/}
+        {/*    </Button>*/}
+        {/*  </div>*/}
+        {/*</header>*/}
+        <div className={styles.topBtn}>
+          <MenuOutlined
+            className={styles.switchMenu}
+            onClick={() => {
+              setCollapsed(!collapsed);
+            }}
+          />
+          <Button
+            type="primary"
+            shape="circle"
+            className={styles.uploadVideo}
+            onClick={() => {
+              setUploadVideoModal(true);
+            }}
+          >
+            <UploadOutlined />
+          </Button>
+        </div>
         <main className={styles.main}>
-          <Layout>
+          <Layout className={styles.layout}>
             <Sider
               trigger={null}
               collapsible

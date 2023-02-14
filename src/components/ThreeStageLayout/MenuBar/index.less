@@ -1,0 +1,33 @@
+.content {
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+  padding: 0 20px;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  .menuItem {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #888;
+    .icon {
+      svg {
+        width: 18px;
+        height: 18px;
+        fill: #888;
+      }
+    }
+  }
+  .active {
+    color: @mainColor;
+    .icon {
+      svg {
+        fill: @mainColor;
+      }
+    }
+  }
+}

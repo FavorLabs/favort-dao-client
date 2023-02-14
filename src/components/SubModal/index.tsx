@@ -24,9 +24,13 @@ const SubModal: React.FC<Props> = (props) => {
     useState<boolean>(false);
   const [subPrice, setSubPrice] = useState<number>(0);
 
-  const { channelInfo, nodeWeb3, address } = useSelector(
-    (state: Models) => state.global,
-  );
+  const {
+    channelInfo,
+    nodeWeb3,
+    address,
+    favorTubeContract,
+    tokenTubeContract,
+  } = useSelector((state: Models) => state.global);
 
   const loadIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
@@ -34,14 +38,16 @@ const SubModal: React.FC<Props> = (props) => {
     setPreDataLoading(true);
     const preDataTimer = setTimeout(() => {
       message.info('Chain query failure');
+      // props.closeModal();
     }, 1000 * 15);
     try {
       await getChainCoinBalance();
+      console.log('contract', favorTubeContract, tokenTubeContract);
       // @ts-ignore
-      const favorTubeContract = new nodeWeb3.eth.Contract(
-        favorTubeAbi,
-        chainInfo.favorTubeAddress,
-      );
+      // const favorTubeContract = new nodeWeb3.eth.Contract(
+      //   favorTubeAbi,
+      //   chainInfo.favorTubeAddress,
+      // );
     } catch (e) {
       //
     }
@@ -50,9 +56,11 @@ const SubModal: React.FC<Props> = (props) => {
   const getChainCoinBalance = async () => {
     try {
       setChainCoinBalLoading(true);
-      // @ts-ignore
-      const balance = await nodeWeb3.eth.getBalance(address);
-      setChainCoinBal(Number(nodeWeb3?.utils.fromWei(balance, 'ether')));
+      const balance = await nodeWeb3?.eth.getBalance(address);
+      console.log('balance', balance);
+      setChainCoinBal(
+        Number(nodeWeb3?.utils.fromWei(balance as string, 'ether')),
+      );
       setChainCoinBalLoading(false);
     } catch (e) {
       if (e instanceof Error) message.error(e.message);
@@ -63,7 +71,7 @@ const SubModal: React.FC<Props> = (props) => {
 
   useEffect(() => {
     if (nodeWeb3) {
-      // getPreData();
+      getPreData();
     }
   }, [nodeWeb3]);
 

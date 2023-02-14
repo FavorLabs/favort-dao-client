@@ -31,8 +31,6 @@ const ChannelDetail: React.FC<Props> = (props) => {
   const verifyChannel = useVerifyChannel();
   const isMob = isMobile();
 
-  const [subModal, setSubModal] = useState<boolean>(true);
-
   const { channelInfo, address } = useSelector((state: Models) => state.global);
 
   const tabItems: TabsProps['items'] = [
@@ -63,54 +61,54 @@ const ChannelDetail: React.FC<Props> = (props) => {
 
   return (
     <>
-      <div className={`${styles.content} pageContent`}>
-        <header className={'header'}>
-          <div className={styles.topBar}>
-            <div
-              className={styles.logo}
-              onClick={() => {
-                path('');
-              }}
-            >
-              FavorTube
-            </div>
-            <div className={styles.actions}>
-              <Button
-                className={styles.search}
-                type="primary"
-                loading={false}
-                onClick={() => {
-                  history.push('/home');
-                }}
-              >
-                <span className={styles.actionsText}>Search</span>
-                <SearchOutlined className={styles.actionsIcon} />
-              </Button>
-              {verifyChannel ? (
-                <Button
-                  className={styles.manage}
-                  type="primary"
-                  onClick={() => {
-                    path('/manage/');
-                  }}
-                >
-                  <span className={styles.actionsText}>Manage</span>
-                  <AppstoreOutlined className={styles.actionsIcon} />
-                </Button>
-              ) : (
-                <Button
-                  className={styles.subscribe}
-                  type="primary"
-                  loading={false}
-                  onClick={() => {}}
-                >
-                  <span className={styles.actionsText}>Subscribe</span>
-                  <WifiOutlined className={styles.actionsIcon} />
-                </Button>
-              )}
-            </div>
-          </div>
-        </header>
+      <div className={styles.content}>
+        {/*<header className={'header'}>*/}
+        {/*  <div className={styles.topBar}>*/}
+        {/*    <div*/}
+        {/*      className={styles.logo}*/}
+        {/*      onClick={() => {*/}
+        {/*        path('');*/}
+        {/*      }}*/}
+        {/*    >*/}
+        {/*      FavorTube*/}
+        {/*    </div>*/}
+        {/*    <div className={styles.actions}>*/}
+        {/*      <Button*/}
+        {/*        className={styles.search}*/}
+        {/*        type="primary"*/}
+        {/*        loading={false}*/}
+        {/*        onClick={() => {*/}
+        {/*          history.push('/home');*/}
+        {/*        }}*/}
+        {/*      >*/}
+        {/*        <span className={styles.actionsText}>Search</span>*/}
+        {/*        <SearchOutlined className={styles.actionsIcon} />*/}
+        {/*      </Button>*/}
+        {/*      {verifyChannel ? (*/}
+        {/*        <Button*/}
+        {/*          className={styles.manage}*/}
+        {/*          type="primary"*/}
+        {/*          onClick={() => {*/}
+        {/*            path('/manage/');*/}
+        {/*          }}*/}
+        {/*        >*/}
+        {/*          <span className={styles.actionsText}>Manage</span>*/}
+        {/*          <AppstoreOutlined className={styles.actionsIcon} />*/}
+        {/*        </Button>*/}
+        {/*      ) : (*/}
+        {/*        <Button*/}
+        {/*          className={styles.subscribe}*/}
+        {/*          type="primary"*/}
+        {/*          loading={false}*/}
+        {/*          onClick={() => {}}*/}
+        {/*        >*/}
+        {/*          <span className={styles.actionsText}>Subscribe</span>*/}
+        {/*          <WifiOutlined className={styles.actionsIcon} />*/}
+        {/*        </Button>*/}
+        {/*      )}*/}
+        {/*    </div>*/}
+        {/*  </div>*/}
+        {/*</header>*/}
         <div
           className={styles.banner}
           style={{
@@ -143,16 +141,6 @@ const ChannelDetail: React.FC<Props> = (props) => {
             <Tabs defaultActiveKey="1" items={tabItems} onChange={tabChange} />
           </div>
         </main>
-        {subModal ? (
-          <SubModal
-            open={subModal}
-            closeModal={() => {
-              setSubModal(false);
-            }}
-          />
-        ) : (
-          <></>
-        )}
       </div>
     </>
   );

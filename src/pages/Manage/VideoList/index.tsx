@@ -191,13 +191,13 @@ const VideoList: React.FC<Props> = (props) => {
                   <EditOutlined
                     className={styles.edit}
                     onClick={() => {
-                      path(`/manage/details/${record._id}`);
+                      path(`/videos/manage/details/${record._id}`);
                     }}
                   />
                   <PlayCircleOutlined
                     className={styles.play}
                     onClick={() => {
-                      path(`/video/${record._id}`);
+                      path(`/videos/video/${record._id}`);
                     }}
                   />
                   <DeleteOutlined

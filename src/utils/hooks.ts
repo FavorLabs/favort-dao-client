@@ -6,13 +6,14 @@ export const usePath = () => {
   const params = useParams<{ address: string }>();
   return (path: string = '') => {
     path = path.replace(/^\//, '');
-    history.push(`/${params.address}/${path}`);
+    history.push(`/dao/${params.address}/${path}`);
   };
 };
 
 export const useUrl = () => {
   const { api, proxyGroup } = useSelector((state: Models) => state.global);
-  return api + '/group/http/' + proxyGroup + '/' + DomainName + '/api/v1';
+  return 'http://192.168.100.54:3001' + '/api/v1';
+  // return api + '/group/http/' + proxyGroup + '/' + DomainName + '/api/v1';
 };
 
 export const useVerifyChannel = () => {

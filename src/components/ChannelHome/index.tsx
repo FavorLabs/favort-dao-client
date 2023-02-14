@@ -34,7 +34,7 @@ const ChannelHome: React.FC<Props> = (props) => {
   };
 
   useEffect(() => {
-    getVideoList();
+    // getVideoList();
   }, []);
 
   return (
@@ -99,7 +99,7 @@ const ChannelHome: React.FC<Props> = (props) => {
                     <span
                       className={styles.readMore}
                       onClick={() => {
-                        path(`video/${videoList[0].id}`);
+                        path(`/videos/video/${videoList[0].id}`);
                       }}
                     >
                       Read More
@@ -132,7 +132,7 @@ const ChannelHome: React.FC<Props> = (props) => {
                     xl={{ span: 6 }}
                     style={{ width: '100%' }}
                     onClick={() => {
-                      path(`video/${item.id}`);
+                      path(`/videos/video/${item.id}`);
                     }}
                   >
                     <VideoCard videoInfo={item} />

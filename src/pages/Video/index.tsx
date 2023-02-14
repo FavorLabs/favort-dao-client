@@ -59,19 +59,19 @@ const Video: React.FC<Props> = (props) => {
 
   return (
     <>
-      <div className={`${styles.content} pageContent`}>
-        <header className={'header'}>
-          <div className={styles.topBar}>
-            <div
-              className={styles.logo}
-              onClick={() => {
-                path('');
-              }}
-            >
-              FavorTube
-            </div>
-          </div>
-        </header>
+      <div className={styles.content}>
+        {/*<header className={'header'}>*/}
+        {/*  <div className={styles.topBar}>*/}
+        {/*    <div*/}
+        {/*      className={styles.logo}*/}
+        {/*      onClick={() => {*/}
+        {/*        path('');*/}
+        {/*      }}*/}
+        {/*    >*/}
+        {/*      FavorTube*/}
+        {/*    </div>*/}
+        {/*  </div>*/}
+        {/*</header>*/}
         <main className={styles.VideoMain}>
           <Row
             gutter={[30, 20]}
@@ -138,13 +138,13 @@ const Video: React.FC<Props> = (props) => {
                           </p>
                           <p className={styles.subscribers}>0 subscribers</p>
                         </div>
-                        <Button
-                          className={styles.subscribe}
-                          type="primary"
-                          shape="round"
-                        >
-                          Subscribe
-                        </Button>
+                        {/*<Button*/}
+                        {/*  className={styles.subscribe}*/}
+                        {/*  type="primary"*/}
+                        {/*  shape="round"*/}
+                        {/*>*/}
+                        {/*  Subscribe*/}
+                        {/*</Button>*/}
                       </div>
                       <div className={styles.right}>
                         <span className={styles.likeOrDislikeOrShare}>

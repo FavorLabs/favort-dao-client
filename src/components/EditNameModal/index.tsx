@@ -28,7 +28,7 @@ const EditNameModal: React.FC<Props> = (props) => {
           address: channelInfo?.address,
           channelName,
         }),
-        ProxyApi.updateChanel(url, channelInfo?.address, {
+        ProxyApi.updateChanel(url, {
           name: channelName,
         }),
       ]);
