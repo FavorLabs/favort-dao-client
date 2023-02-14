@@ -9,6 +9,7 @@ import {
 } from '@ant-design/icons';
 import bannerBg from '@/assets/img/material.jpg';
 import ChannelHome from '@/components/ChannelHome';
+import SubModal from '@/components/SubModal';
 import { useSelector, history } from 'umi';
 import { usePath, useUrl, useVerifyChannel } from '@/utils/hooks';
 import { isMobile } from '@/utils/util';
@@ -58,68 +59,56 @@ const ChannelDetail: React.FC<Props> = (props) => {
     // console.log(key);
   };
 
-  useEffect(() => {
-    async function fetch() {
-      const data = await ProxyApi.getChannelInfo(
-        url,
-        props.match.params.address,
-      );
-      // console.log(data);
-    }
-
-    fetch();
-  }, []);
-
   return (
     <>
-      <div className={`${styles.content} pageContent`}>
-        <header className={'header'}>
-          <div className={styles.topBar}>
-            <div
-              className={styles.logo}
-              onClick={() => {
-                path('');
-              }}
-            >
-              FavorTube
-            </div>
-            <div className={styles.actions}>
-              <Button
-                className={styles.search}
-                type="primary"
-                loading={false}
-                onClick={() => {
-                  history.push('/home');
-                }}
-              >
-                <span className={styles.actionsText}>Search</span>
-                <SearchOutlined className={styles.actionsIcon} />
-              </Button>
-              {verifyChannel ? (
-                <Button
-                  className={styles.manage}
-                  type="primary"
-                  onClick={() => {
-                    path('/manage/');
-                  }}
-                >
-                  <span className={styles.actionsText}>Manage</span>
-                  <AppstoreOutlined className={styles.actionsIcon} />
-                </Button>
-              ) : (
-                <Button
-                  className={styles.subscribe}
-                  type="primary"
-                  loading={false}
-                  onClick={() => {}}
-                >
-                  <span className={styles.actionsText}>Subscribe</span>
-                  <WifiOutlined className={styles.actionsIcon} />
-                </Button>
-              )}
-            </div>
-          </div>
-        </header>
+      <div className={styles.content}>
+        {/*<header className={'header'}>*/}
+        {/*  <div className={styles.topBar}>*/}
+        {/*    <div*/}
+        {/*      className={styles.logo}*/}
+        {/*      onClick={() => {*/}
+        {/*        path('');*/}
+        {/*      }}*/}
+        {/*    >*/}
+        {/*      FavorTube*/}
+        {/*    </div>*/}
+        {/*    <div className={styles.actions}>*/}
+        {/*      <Button*/}
+        {/*        className={styles.search}*/}
+        {/*        type="primary"*/}
+        {/*        loading={false}*/}
+        {/*        onClick={() => {*/}
+        {/*          history.push('/home');*/}
+        {/*        }}*/}
+        {/*      >*/}
+        {/*        <span className={styles.actionsText}>Search</span>*/}
+        {/*        <SearchOutlined className={styles.actionsIcon} />*/}
+        {/*      </Button>*/}
+        {/*      {verifyChannel ? (*/}
+        {/*        <Button*/}
+        {/*          className={styles.manage}*/}
+        {/*          type="primary"*/}
+        {/*          onClick={() => {*/}
+        {/*            path('/manage/');*/}
+        {/*          }}*/}
+        {/*        >*/}
+        {/*          <span className={styles.actionsText}>Manage</span>*/}
+        {/*          <AppstoreOutlined className={styles.actionsIcon} />*/}
+        {/*        </Button>*/}
+        {/*      ) : (*/}
+        {/*        <Button*/}
+        {/*          className={styles.subscribe}*/}
+        {/*          type="primary"*/}
+        {/*          loading={false}*/}
+        {/*          onClick={() => {}}*/}
+        {/*        >*/}
+        {/*          <span className={styles.actionsText}>Subscribe</span>*/}
+        {/*          <WifiOutlined className={styles.actionsIcon} />*/}
+        {/*        </Button>*/}
+        {/*      )}*/}
+        {/*    </div>*/}
+        {/*  </div>*/}
+        {/*</header>*/}
         <div
           className={styles.banner}
           style={{

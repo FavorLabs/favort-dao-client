@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="styles__StyledSVGIconPathComponent-sc-16fsqc8-0 kFxQTc svg-icon-path-icon fill" viewBox="0 0 32 32" width="20" height="20">
+  <defs data-reactroot=""></defs>
+  <g>
+    <path d="M6 14h16v-6h-16v6zM8 10h12v2h-12v-2zM6 20h8v2h-8v-2zM6 16h8v2h-8v-2zM6 24h8v2h-8v-2z"></path>
+    <path d="M26 14v-10h-24v26h28v-16h-4zM24 28h-20v-22h20v22zM28 28h-2v-12h2v12z"></path>
+    <path d="M16 26h6v-10h-6v10zM18 18h2v6h-2v-6z"></path>
+  </g>
+</svg>

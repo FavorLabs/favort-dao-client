@@ -11,6 +11,8 @@ import Api from '@/services/Api';
 import { AxiosResponse } from 'axios';
 import { ApiURL, DefaultApi } from '@/config/constants';
 import * as Events from 'events';
+import FavorlabsApi from '@/services/FavorlabsApi';
+import { setConfig } from '@/config/config';
 
 export interface State {
   api: string;
@@ -18,6 +20,8 @@ export interface State {
   ws: null | (WebsocketProvider & Events);
   web3: null | Web3;
   nodeWeb3: null | Web3;
+  favorTubeContract: null;
+  tokenTubeContract: null;
   address: string;
   proxyGroup: string;
   requestLoading: boolean;
@@ -31,7 +35,10 @@ export default {
     debugApi: '',
     ws: null,
     web3: null,
+    token: localStorage.getItem('token') || null,
     nodeWeb3: null,
+    favorTubeContract: null,
+    tokenTubeContract: null,
     address: '',
     proxyGroup: '',
     requestLoading: true,
@@ -63,6 +70,21 @@ export default {
           payload: { api, debugApi, ws, status: true },
         });
         sessionStorage.setItem(ApiURL, api);
+        let addresses: AxiosResponse<any> = yield call(
+          Api.getAddresses,
+          debugApi,
+        );
+        let config;
+        try {
+          const { data } = yield call(
+            FavorlabsApi.getConfig,
+            addresses.data.network_id,
+          );
+          config = data.data;
+        } catch (err) {
+          console.error('err', err);
+        }
+        setConfig(config);
       } catch (e) {
         console.log(e);
         if (e instanceof Error) message.info(e.message);

@@ -1,3 +1,4 @@
+import React from 'react';
 import { useVerifyChannel } from '@/utils/hooks';
 
 export default (props: React.PropsWithChildren<any>) => {

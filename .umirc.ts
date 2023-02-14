@@ -13,6 +13,9 @@ export default defineConfig({
   history: {
     type: 'hash',
   },
+  dynamicImport: {
+    loading: '@/components/Loading',
+  },
   fastRefresh: {},
   dva: {
     immer: true,

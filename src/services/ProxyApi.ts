@@ -12,6 +12,13 @@ import {
 } from '@/declare/api';
 
 export default {
+  signIn(url: string, data: any): Promise<AxiosResponse<any>> {
+    return request({
+      method: 'post',
+      url: url + '/user/login',
+      data,
+    });
+  },
   createChannel(
     url: string,
     data: CLCreatePS,
@@ -27,16 +34,16 @@ export default {
     address: string,
   ): Promise<AxiosResponse<Data<CLRes>>> {
     return request({
-      url: url + '/channel/' + address,
+      url: url + '/channel',
+      params: { address },
     });
   },
   updateChanel(
     url: string,
-    address: string | undefined,
     data: CLUpdatePS,
   ): Promise<AxiosResponse<Data<CLRes>>> {
     return request({
-      url: url + '/channel/' + address,
+      url: url + '/channel',
       method: 'put',
       data,
     });
@@ -82,7 +89,7 @@ export default {
   ): Promise<AxiosResponse<Data<Required<VideoRes>>>> {
     return request({
       url: url + '/videos/' + id,
-      method: 'put',
+      method: 'post',
       data,
     });
   },
@@ -100,7 +107,7 @@ export default {
     params: VideoListParams,
   ): Promise<AxiosResponse<Data<Required<VideoListRes>>>> {
     return request({
-      url: url + '/videos',
+      url: url + '/videos/public',
       params,
     });
   },

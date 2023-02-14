@@ -52,6 +52,7 @@ const UploadVideoModal: React.FC<Props> = (props) => {
   const [uploading, setUploading] = useState<boolean>(false);
   const [statusTip, setStatusTip] = useState<string>('');
   const [submitDisable, setSubmitDisable] = useState<boolean>(true);
+  const [submitLoading, setSubmitLoading] = useState<boolean>(false);
   const [thumbnailLoading, setThumbnailLoading] = useState<boolean>(false);
   const [progressValue, setProgressValue] = useState<number>(0);
   const [uploadVideoId, setUploadVideoId] = useState<string>('');
@@ -309,6 +310,7 @@ const UploadVideoModal: React.FC<Props> = (props) => {
   };
 
   const submit = async () => {
+    setSubmitLoading(true);
     try {
       const { data } = await ProxyApi.updateVideo(url, uploadVideoId, {
         title: formData.title,
@@ -326,6 +328,8 @@ const UploadVideoModal: React.FC<Props> = (props) => {
       });
     } catch (e) {
       if (e instanceof Error) message.error(e.message);
+    } finally {
+      setSubmitLoading(false);
     }
   };
 
@@ -463,6 +467,7 @@ const UploadVideoModal: React.FC<Props> = (props) => {
                     className={styles.submit}
                     type="primary"
                     disabled={submitDisable}
+                    loading={submitLoading}
                     onClick={submit}
                   >
                     Submit

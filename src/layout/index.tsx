@@ -8,13 +8,14 @@ import { connect } from '@/utils/connect';
 import { WalletType } from '@/declare/global';
 import { JsonRpcResponse } from 'web3-core-helpers';
 import SettingApi from '@/components/SettingApi';
+import Web3 from 'web3';
+import { config, favorTubeAbi, tokenAbi } from '@/config/config';
 
 const Layout: React.FC = (props) => {
   const dispatch = useDispatch();
 
-  const { api, proxyGroup, ws, status } = useSelector(
-    (state: Models) => state.global,
-  );
+  const { api, proxyGroup, ws, status, nodeWeb3, favorTubeContract } =
+    useSelector((state: Models) => state.global);
   const proxyResult = useRef<string | number | null>(null);
 
   useEffect(() => {
@@ -84,6 +85,35 @@ const Layout: React.FC = (props) => {
       },
     );
   }, [proxyGroup, ws]);
+
+  useEffect(() => {
+    if (api && !nodeWeb3) {
+      dispatch({
+        type: 'global/updateState',
+        payload: {
+          nodeWeb3: new Web3(api + '/chain'),
+        },
+      });
+    }
+
+    if (nodeWeb3 && !favorTubeContract) {
+      dispatch({
+        type: 'global/updateState',
+        payload: {
+          // @ts-ignore
+          favorTubeContract: new nodeWeb3.eth.Contract(
+            favorTubeAbi,
+            config.favorTubeAddress,
+          ),
+          // @ts-ignore
+          tokenTubeContract: new nodeWeb3.eth.Contract(
+            tokenAbi,
+            config.favorTokenAddress,
+          ),
+        },
+      });
+    }
+  }, [api, nodeWeb3]);
 
   return <>{status ? props.children : <SettingApi />}</>;
 };

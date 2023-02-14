@@ -113,7 +113,7 @@ const Details: React.FC<Props> = (props) => {
           <Button
             type="primary"
             onClick={() => {
-              path('/manage');
+              path('/videos/manage');
             }}
           >
             <ArrowLeftOutlined />

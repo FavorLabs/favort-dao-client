@@ -28,7 +28,7 @@ const EditMoreModal: React.FC<Props> = (props) => {
   const editChannelMore = async () => {
     setEditMoreLoading(true);
     try {
-      const info = await ProxyApi.updateChanel(url, channelInfo?.address, {
+      const info = await ProxyApi.updateChanel(url, {
         avatar: imgRef.current,
         introduction: channelDescription,
       });
