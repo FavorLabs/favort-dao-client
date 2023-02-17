@@ -1,1 +1,1 @@
-# favortube-client
+# favor-dao-client
