@@ -3,11 +3,13 @@ export const OKX = 'okx';
 export const WalletConnect = 'walletconnect';
 export const ConnectType = 'connectType';
 
+export const UniPass = 'uniPass';
+
 export const ApiURL = 'api';
 
 export const DefaultApi: string = 'http://localhost:1633';
 
-export const ProxyGroup = [
+export const ProxyGroupList = [
   {
     name: 'favortube',
     overlay: 'f9437fb202b3b68ac41b98f20cd611285b948a379fb6f8795a4e9b42841f0a3c',

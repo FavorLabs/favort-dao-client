@@ -6,7 +6,7 @@ import ImageCrop from '@/components/ImageCrop';
 import { useUrl } from '@/utils/hooks';
 import { useDispatch, useSelector } from 'umi';
 import { Models } from '@/declare/modelType';
-import ProxyApi from '@/services/ProxyApi';
+import ChannelApi from '@/services/tube/ChannelApi';
 
 const { TextArea } = Input;
 
@@ -18,7 +18,7 @@ export type Props = {
 const EditMoreModal: React.FC<Props> = (props) => {
   const url = useUrl();
   const dispatch = useDispatch();
-  const { channelInfo } = useSelector((state: Models) => state.global);
+  const { channelInfo } = useSelector((state: Models) => state.channel);
   const [editMoreLoading, setEditMoreLoading] = useState<boolean>(false);
   const [channelDescription, setChannelDescription] = useState<
     string | undefined
@@ -28,12 +28,12 @@ const EditMoreModal: React.FC<Props> = (props) => {
   const editChannelMore = async () => {
     setEditMoreLoading(true);
     try {
-      const info = await ProxyApi.updateChanel(url, {
+      const info = await ChannelApi.updateChanel(url, {
         avatar: imgRef.current,
         introduction: channelDescription,
       });
       dispatch({
-        type: 'global/updateState',
+        type: 'channel/updateState',
         payload: {
           channelInfo: info.data.data,
         },

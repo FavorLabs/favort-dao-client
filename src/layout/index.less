@@ -1,5 +1,23 @@
 @import '../global.less';
 
-.container {
-  background: #f9f9f9;
+.main {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.box {
+  width: 100%;
+  max-width: 600px;
+  height: 80vh;
+  border: 1px solid;
+  position: absolute;
+}
+
+@media screen and (max-width: 960px) {
+  .box {
+    border: none;
+    height: 100vh;
+  }
 }

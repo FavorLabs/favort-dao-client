@@ -1,5 +1,6 @@
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import Web3 from 'web3';
+import { UniPassProvider } from '@unipasswallet/ethereum-provider';
 import { MetaMask, OKX, WalletConnect } from '@/config/constants';
 import { WalletType } from '@/declare/global';
 
@@ -54,7 +55,20 @@ const connectWalletConnect = async (refresh: boolean) => {
   return { web3, address: accounts[0] };
 };
 
+const connectUnipass = async () => {
+  const upProvider = new UniPassProvider({
+    chainId: id,
+    returnEmail: false,
+  });
+  await upProvider.connect();
+  // @ts-ignore
+  const address = upProvider.account.address;
+  const web3 = new Web3(upProvider);
+  return { web3, address };
+};
+
 export const connect = (connectType: WalletType, refresh = false) => {
+  console.log();
   return connectType === MetaMask
     ? connectMetaMask(refresh)
     : connectType === OKX

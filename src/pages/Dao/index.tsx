@@ -16,10 +16,11 @@ import subscribeSvg from '@/assets/icon/subscribe.svg';
 import Web3 from 'web3';
 import ChainApi from '@/services/ChainApi';
 import Api from '@/services/Api';
-import ProxyApi from '@/services/ProxyApi';
+import ChannelApi from '@/services/tube/ChannelApi';
 import { useUrl, useVerifyChannel } from '@/utils/hooks';
 import { Models } from '@/declare/modelType';
 import Loading from '@/components/Loading';
+import SubModal from '@/components/SubModal';
 
 type Props = {
   match: {
@@ -48,10 +49,10 @@ const Dao: React.FC<Props> = (props) => {
   const verifyChannel = useVerifyChannel();
   const { address } = props.match.params;
 
-  const [loading, setLoading] = useState<boolean>(true);
-  const { api, requestLoading, proxyGroup } = useSelector(
-    (state: Models) => state.global,
-  );
+  const [subModal, setSubModal] = useState<boolean>(false);
+
+  const [loading, setLoading] = useState<boolean>(false);
+  const { api } = useSelector((state: Models) => state.global);
 
   const menuItems: MenuItem[] = [
     {
@@ -74,56 +75,12 @@ const Dao: React.FC<Props> = (props) => {
     },
   ];
 
-  useEffect(() => {
-    async function fetch() {
-      if (Web3.utils.isAddress(address)) {
-        const { data } = await ChainApi.getService({ address });
-        console.log('data', data);
-        if (data) {
-          await Api.observeProxyGroup(api, data.group, [data.overlay]);
-          dispatch({
-            type: 'global/updateState',
-            payload: {
-              proxyGroup: data.group,
-            },
-          });
-          return;
-        }
-      }
-      message.info('Channel does not exist');
-      // history.replace('/main/daoList');
-    }
-    fetch();
-  }, [props.match.params.address, requestLoading]);
-
-  useEffect(() => {
-    async function fetch() {
-      setLoading(true);
-      const info = await ProxyApi.getChannelInfo(url, address);
-      if (info) {
-        dispatch({
-          type: 'global/updateState',
-          payload: {
-            channelInfo: info.data.data,
-          },
-        });
-        setLoading(false);
-      }
-    }
-    if (!requestLoading) {
-      fetch();
-    }
-  }, [proxyGroup, requestLoading, url]);
+  useEffect(() => {}, [props.match.params.address]);
 
   return (
     <>
-      <div className={`${styles.content} mobile`}>
-        {requestLoading ? (
-          <Loading
-            text={'Connecting to a p2p network'}
-            status={requestLoading}
-          />
-        ) : loading ? (
+      <div className={styles.content}>
+        {loading ? (
           <Loading text={'Loading data'} status={loading} />
         ) : (
           <>
@@ -142,10 +99,13 @@ const Dao: React.FC<Props> = (props) => {
                     <span className={styles.daoName}>
                       {props.history.location.query.daoName}web3
                     </span>
-                    {verifyChannel ? (
-                      <></>
-                    ) : (
-                      <span className={styles.subscribe}>
+                    {!verifyChannel && (
+                      <span
+                        className={styles.subscribe}
+                        onClick={() => {
+                          setSubModal(true);
+                        }}
+                      >
                         <SvgIcon svg={subscribeSvg} />
                         &nbsp;subscribe
                       </span>

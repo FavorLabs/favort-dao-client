@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'umi';
 import { Models } from '@/declare/modelType';
 import ChainApi from '@/services/ChainApi';
-import ProxyApi from '@/services/ProxyApi';
+import ChannelApi from '@/services/tube/ChannelApi';
 import { useUrl } from '@/utils/hooks';
 
 export type Props = {
@@ -16,7 +16,7 @@ export type Props = {
 const EditNameModal: React.FC<Props> = (props) => {
   const url = useUrl();
   const dispatch = useDispatch();
-  const { channelInfo } = useSelector((state: Models) => state.global);
+  const { channelInfo } = useSelector((state: Models) => state.channel);
   const [channelName, setChannelName] = useState<string>('');
   const [editNameLoading, setEditNameLoading] = useState<boolean>(false);
 
@@ -28,12 +28,12 @@ const EditNameModal: React.FC<Props> = (props) => {
           address: channelInfo?.address,
           channelName,
         }),
-        ProxyApi.updateChanel(url, {
+        ChannelApi.updateChanel(url, {
           name: channelName,
         }),
       ]);
       dispatch({
-        type: 'global/updateState',
+        type: 'channel/updateState',
         payload: {
           channelInfo: info.data.data,
         },

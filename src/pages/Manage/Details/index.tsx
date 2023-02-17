@@ -22,9 +22,9 @@ const { TextArea } = Input;
 import { usePath, useUrl } from '@/utils/hooks';
 import TagsEdit from '@/components/TagsEdit';
 import ImageCrop from '@/components/ImageCrop';
-import { VideoUpdatePS } from '@/declare/api';
+import { UpdateVideo } from '@/declare/tubeApiType';
 import { Models } from '@/declare/modelType';
-import ProxyApi from '@/services/ProxyApi';
+import VideoApi from '@/services/tube/VideoApi';
 
 export type Props = {
   match: {
@@ -40,7 +40,7 @@ const Details: React.FC<Props> = (props) => {
   const [submitDisable, setSubmitDisable] = useState<boolean>(true);
   const [submitLoading, setSubmitLoading] = useState<boolean>(false);
   const [thumbnailLoading, setThumbnailLoading] = useState<boolean>(false);
-  const [formData, setFormData] = useState<VideoUpdatePS>({
+  const [formData, setFormData] = useState<UpdateVideo>({
     title: '',
     description: '',
     tags: [],
@@ -54,7 +54,7 @@ const Details: React.FC<Props> = (props) => {
 
   const getVideoDetailById = async (id: string) => {
     try {
-      const { data } = await ProxyApi.getVideo(url, id);
+      const { data } = await VideoApi.getVideo(url, id);
       if (data.data) {
         const videoData = data.data;
         setFormData({
@@ -81,7 +81,7 @@ const Details: React.FC<Props> = (props) => {
   const submit = async () => {
     setSubmitLoading(true);
     try {
-      const { data } = await ProxyApi.updateVideo(url, props.match.params.id, {
+      const { data } = await VideoApi.updateVideo(url, props.match.params.id, {
         title: formData.title,
         description: formData.description,
         tags: formData.tags,
