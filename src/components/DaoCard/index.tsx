@@ -8,18 +8,28 @@ export type Props = {
   avatar: any;
   daoName: string;
   address: string;
+  action: 'dao' | 'chat';
 };
 const Index: React.FC<Props> = (props) => {
-  const { size, avatar, daoName, address } = props;
+  const { size, avatar, daoName, address, action } = props;
   const history = useHistory();
 
-  const toDao = () =>
-    history.push({
-      pathname: `/dao/${address}`,
-      query: {
-        daoName,
-      },
-    });
+  const clickHandle = () => {
+    switch (action) {
+      case 'dao':
+        history.push({
+          pathname: `/dao/${address}`,
+          // @ts-ignore
+          query: { daoName },
+        });
+        break;
+      case 'chat':
+        window.open('https://github.com', '_blank');
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
     <>
@@ -30,11 +40,11 @@ const Index: React.FC<Props> = (props) => {
             alt=""
             src={avatar}
             className={styles.daoAvatar}
-            onClick={toDao}
+            onClick={clickHandle}
           >
             {daoName ? daoName.toUpperCase().substr(0, 1) : 'U'}
           </Avatar>
-          <p className={styles.daoName} onClick={toDao}>
+          <p className={styles.daoName} onClick={clickHandle}>
             {daoName}
           </p>
         </div>

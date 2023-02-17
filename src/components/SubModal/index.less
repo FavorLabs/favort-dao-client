@@ -3,12 +3,27 @@
     .key {
       font-size: 17px;
       font-weight: bold;
+      white-space: nowrap;
     }
     .value {
       font-size: 16px;
     }
-    .refresh:hover {
-      animation: refresh 0.5s ease-in-out;
+    .lastP {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      flex-wrap: wrap;
+      .balanceFaucet {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        .refresh:hover {
+          animation: refresh 0.5s ease-in-out;
+        }
+      }
+      .value {
+        color: @mainColor;
+      }
     }
   }
 }

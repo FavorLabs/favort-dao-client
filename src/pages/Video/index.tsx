@@ -13,6 +13,7 @@ import { usePath, useUrl } from '@/utils/hooks';
 import ProxyApi from '@/services/ProxyApi';
 import { VideoRes, VideoListRes } from '@/declare/api';
 import { Models } from '@/declare/modelType';
+import SubModal from '@/components/SubModal';
 
 export type Props = {
   match: {
@@ -27,6 +28,7 @@ const Video: React.FC<Props> = (props) => {
 
   const [videoData, setVideoData] = useState<VideoRes | null>(null);
   const [videoList, setVideoList] = useState<VideoRes[]>([]);
+  const [subModal, setSubModal] = useState<boolean>(false);
 
   const { api, channelInfo } = useSelector((state: Models) => state.global);
 
@@ -53,8 +55,8 @@ const Video: React.FC<Props> = (props) => {
   };
 
   useEffect(() => {
-    getVideoById(props.match.params.id);
-    getVideoList();
+    // getVideoById(props.match.params.id);
+    // getVideoList();
   }, [props.match.params.id]);
 
   return (
@@ -138,13 +140,16 @@ const Video: React.FC<Props> = (props) => {
                           </p>
                           <p className={styles.subscribers}>0 subscribers</p>
                         </div>
-                        {/*<Button*/}
-                        {/*  className={styles.subscribe}*/}
-                        {/*  type="primary"*/}
-                        {/*  shape="round"*/}
-                        {/*>*/}
-                        {/*  Subscribe*/}
-                        {/*</Button>*/}
+                        <Button
+                          className={styles.subscribe}
+                          type="primary"
+                          shape="round"
+                          onClick={() => {
+                            setSubModal(true);
+                          }}
+                        >
+                          Subscribe
+                        </Button>
                       </div>
                       <div className={styles.right}>
                         <span className={styles.likeOrDislikeOrShare}>
@@ -208,6 +213,16 @@ const Video: React.FC<Props> = (props) => {
             </Col>
           </Row>
         </main>
+        {subModal ? (
+          <SubModal
+            open={subModal}
+            closeModal={() => {
+              setSubModal(false);
+            }}
+          />
+        ) : (
+          <></>
+        )}
       </div>
     </>
   );

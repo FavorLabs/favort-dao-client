@@ -43,11 +43,7 @@ const SubModal: React.FC<Props> = (props) => {
     try {
       await getChainCoinBalance();
       console.log('contract', favorTubeContract, tokenTubeContract);
-      // @ts-ignore
-      // const favorTubeContract = new nodeWeb3.eth.Contract(
-      //   favorTubeAbi,
-      //   chainInfo.favorTubeAddress,
-      // );
+      // setSubPrice();
     } catch (e) {
       //
     }
@@ -82,6 +78,7 @@ const SubModal: React.FC<Props> = (props) => {
         open={open}
         centered
         destroyOnClose
+        maskClosable={false}
         width={700}
         okText="Pay"
         okButtonProps={{
@@ -102,17 +99,17 @@ const SubModal: React.FC<Props> = (props) => {
               <span className={styles.key}>Your Account:</span>&nbsp;
               <span className={styles.value}>{address}</span>
             </p>
-            <p>
-              <span style={{ marginRight: 20 }}>
+            <p className={styles.lastP}>
+              <span style={{ marginRight: 20, display: 'flex' }}>
                 <span className={styles.key}>Your {chainInfo.tokenName}:</span>
                 &nbsp;
                 {chainCoinBalLoading ? (
                   <Spin indicator={loadIcon} size="small" />
                 ) : (
-                  <>
+                  <span className={styles.balanceFaucet}>
                     <span
                       className={styles.value}
-                      style={{ marginRight: '4px' }}
+                      style={{ marginRight: '6px' }}
                     >
                       {chainCoinBal}
                     </span>
@@ -120,8 +117,10 @@ const SubModal: React.FC<Props> = (props) => {
                       <a
                         href={chainInfo?.faucet}
                         target="_blank"
-                        style={{ marginRight: '4px' }}
-                      />
+                        style={{ marginRight: '6px' }}
+                      >
+                        Faucet
+                      </a>
                     ) : (
                       <></>
                     )}
@@ -129,7 +128,7 @@ const SubModal: React.FC<Props> = (props) => {
                       className={styles.refresh}
                       onClick={getChainCoinBalance}
                     />
-                  </>
+                  </span>
                 )}
               </span>
               <span style={{ marginRight: 20 }}>

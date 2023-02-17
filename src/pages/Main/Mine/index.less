@@ -1,0 +1,165 @@
+.content {
+  .topBtn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    .creatGroup {
+      color: #3b99fd;
+      padding: 4px;
+      border: 1px solid rgba(187, 201, 255, 0.4);
+      background: rgba(187, 201, 255, 0.2);
+    }
+  }
+  .walletInfo {
+    margin-top: 50px;
+    .walletDetails {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      > * {
+        margin-bottom: 6px;
+      }
+      .balance,
+      .addressBtn {
+        font-size: 12px;
+      }
+      .balance {
+        color: #aaa;
+      }
+      .addressBtn {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 0 8px;
+        border-radius: 10px;
+        background: rgba(147, 210, 243, 0.64);
+        .address {
+          margin-right: 4px;
+        }
+        svg {
+          width: 12px;
+          height: 12px;
+          fill: #aaa;
+        }
+      }
+    }
+  }
+  .manageList {
+    margin-top: 20px;
+    padding: 0 4px;
+    .manageItem {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      margin-bottom: 16px;
+      padding: 10px 6px;
+      font-size: 10px;
+      box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.2);
+      .left,
+      .right {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+      }
+      .left {
+        min-width: 100px;
+        margin-right: 8vw;
+        .icon {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 24px;
+          height: 24px;
+          margin-right: 10px;
+          border-radius: 50%;
+          background: #1890ff;
+          svg {
+            width: 14px;
+            height: 14px;
+            fill: #fff;
+          }
+        }
+      }
+      .right {
+        > span {
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          color: #1890ff;
+          background: #eee;
+          margin-right: 10px;
+          padding: 1px 6px;
+          border-radius: 4px;
+          svg {
+            width: 10px;
+            height: 10px;
+            fill: #1890ff;
+          }
+          .text {
+            margin-left: 4px;
+          }
+        }
+      }
+    }
+  }
+}
+.tipsModal {
+  .desc {
+  }
+}
+.createAnimation {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 9999;
+  .animation {
+    width: 40px;
+    height: 40px;
+    color: @mainColor;
+    position: relative;
+    background: radial-gradient(10px, currentColor 94%, #0000);
+  }
+  .animation:before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: radial-gradient(9px at bottom right, #0000 94%, currentColor)
+        top left,
+      radial-gradient(9px at bottom left, #0000 94%, currentColor) top right,
+      radial-gradient(9px at top right, #0000 94%, currentColor) bottom left,
+      radial-gradient(9px at top left, #0000 94%, currentColor) bottom right;
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    animation: createAnim 1.5s infinite cubic-bezier(0.3, 1, 0, 1);
+  }
+  .tips {
+    color: #eee;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 40px;
+  }
+}
+@keyframes createAnim {
+  33% {
+    inset: -10px;
+    transform: rotate(0deg);
+  }
+  66% {
+    inset: -10px;
+    transform: rotate(90deg);
+  }
+  100% {
+    inset: 0;
+    transform: rotate(90deg);
+  }
+}
