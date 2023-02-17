@@ -60,7 +60,7 @@ export default [
               {
                 path: '/dao/:address/videos/manage',
                 component: '@/pages/Manage',
-                wrappers: ['@/wrappers/auth.tsx'],
+                // wrappers: ['@/wrappers/auth.tsx'],
                 routes: [
                   {
                     path: '/dao/:address/videos/manage',

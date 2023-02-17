@@ -14,6 +14,7 @@ export const getEndPoint = (): boolean | string => {
     return false;
   }
 };
+
 export const websocket = (host: string) => {
   let ws = new Web3.providers.WebsocketProvider(host, {
     reconnect: {
@@ -51,4 +52,12 @@ export const stringToBinary = (b: string, len: number) => {
     value = value.substr(0, len);
   }
   return value;
+};
+
+export const omitAddress = (
+  str: string,
+  start: number = 6,
+  end: number = 4,
+) => {
+  return str.substring(0, start) + '...' + str.substring(str.length - end);
 };

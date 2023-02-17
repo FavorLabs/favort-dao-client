@@ -62,82 +62,8 @@ const ChannelDetail: React.FC<Props> = (props) => {
   return (
     <>
       <div className={styles.content}>
-        {/*<header className={'header'}>*/}
-        {/*  <div className={styles.topBar}>*/}
-        {/*    <div*/}
-        {/*      className={styles.logo}*/}
-        {/*      onClick={() => {*/}
-        {/*        path('');*/}
-        {/*      }}*/}
-        {/*    >*/}
-        {/*      FavorTube*/}
-        {/*    </div>*/}
-        {/*    <div className={styles.actions}>*/}
-        {/*      <Button*/}
-        {/*        className={styles.search}*/}
-        {/*        type="primary"*/}
-        {/*        loading={false}*/}
-        {/*        onClick={() => {*/}
-        {/*          history.push('/home');*/}
-        {/*        }}*/}
-        {/*      >*/}
-        {/*        <span className={styles.actionsText}>Search</span>*/}
-        {/*        <SearchOutlined className={styles.actionsIcon} />*/}
-        {/*      </Button>*/}
-        {/*      {verifyChannel ? (*/}
-        {/*        <Button*/}
-        {/*          className={styles.manage}*/}
-        {/*          type="primary"*/}
-        {/*          onClick={() => {*/}
-        {/*            path('/manage/');*/}
-        {/*          }}*/}
-        {/*        >*/}
-        {/*          <span className={styles.actionsText}>Manage</span>*/}
-        {/*          <AppstoreOutlined className={styles.actionsIcon} />*/}
-        {/*        </Button>*/}
-        {/*      ) : (*/}
-        {/*        <Button*/}
-        {/*          className={styles.subscribe}*/}
-        {/*          type="primary"*/}
-        {/*          loading={false}*/}
-        {/*          onClick={() => {}}*/}
-        {/*        >*/}
-        {/*          <span className={styles.actionsText}>Subscribe</span>*/}
-        {/*          <WifiOutlined className={styles.actionsIcon} />*/}
-        {/*        </Button>*/}
-        {/*      )}*/}
-        {/*    </div>*/}
-        {/*  </div>*/}
-        {/*</header>*/}
-        <div
-          className={styles.banner}
-          style={{
-            backgroundImage: `url(${
-              channelInfo?.banner ? channelInfo?.banner : bannerBg
-            })`,
-          }}
-        ></div>
         <main className={styles.main}>
           <div className={styles.channelInfo}>
-            <div className={styles.channelOwnerInfo}>
-              <Avatar
-                className={styles.channelAvatar}
-                size={80}
-                src={channelInfo?.avatar}
-                style={{ backgroundColor: '#F44336', fontSize: '24px' }}
-              >
-                {channelInfo?.name
-                  ? channelInfo?.name?.toUpperCase().substr(0, 1)
-                  : 'U'}
-              </Avatar>
-              <div className={styles.channelDetail}>
-                <p className={styles.channelName}>
-                  {channelInfo?.name ? channelInfo?.name : 'User'}
-                </p>
-                <p className={styles.channelAddress}>{channelInfo?.address}</p>
-                <span className={styles.subscribers}>0 subscribers</span>
-              </div>
-            </div>
             <Tabs defaultActiveKey="1" items={tabItems} onChange={tabChange} />
           </div>
         </main>

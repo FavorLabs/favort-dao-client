@@ -65,6 +65,7 @@ const DaoList: React.FC<Props> = (props) => {
                 avatar={avatar_2}
                 daoName={item.daoName}
                 address={item.address}
+                action="dao"
                 size={36}
               />
             ))}
@@ -79,6 +80,7 @@ const DaoList: React.FC<Props> = (props) => {
                 avatar={avatar_2}
                 daoName={item.daoName}
                 address={item.address}
+                action="dao"
                 size={36}
               />
             ))}

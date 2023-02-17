@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>copy</title>
+    <g id="background-management-system-3" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Files" transform="translate(-172.000000, -369.000000)" fill="#000" fill-rule="nonzero">
+            <path d="M182,373 C183.104569,373 184,373.895431 184,375 L184,383 C184,384.104569 183.104569,385 182,385 L174,385 C172.895431,385 172,384.104569 172,383 L172,375 C172,373.895431 172.895431,373 174,373 L182,373 Z M182,375 L174,375 L174,383 L182,383 L182,375 Z M186,369 C187.104569,369 188,369.895431 188,371 L188,379 C188,380.104569 187.104569,381 186,381 L186,371 L176,371 C176,369.895431 176.895431,369 178,369 L186,369 Z" id="copy"></path>
+        </g>
+    </g>
+</svg>

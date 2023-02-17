@@ -20,7 +20,6 @@ import ProxyApi from '@/services/ProxyApi';
 import { useUrl, useVerifyChannel } from '@/utils/hooks';
 import { Models } from '@/declare/modelType';
 import Loading from '@/components/Loading';
-import SubModal from '@/components/SubModal';
 
 type Props = {
   match: {
@@ -48,8 +47,6 @@ const Dao: React.FC<Props> = (props) => {
   const url = useUrl();
   const verifyChannel = useVerifyChannel();
   const { address } = props.match.params;
-
-  const [subModal, setSubModal] = useState<boolean>(false);
 
   const [loading, setLoading] = useState<boolean>(true);
   const { api, requestLoading, proxyGroup } = useSelector(
@@ -148,12 +145,7 @@ const Dao: React.FC<Props> = (props) => {
                     {verifyChannel ? (
                       <></>
                     ) : (
-                      <span
-                        className={styles.subscribe}
-                        onClick={() => {
-                          setSubModal(true);
-                        }}
-                      >
+                      <span className={styles.subscribe}>
                         <SvgIcon svg={subscribeSvg} />
                         &nbsp;subscribe
                       </span>
@@ -171,16 +163,6 @@ const Dao: React.FC<Props> = (props) => {
             />
             <Children content={props.children} />
             <MenuBar items={menuItems} pathHook={true} />
-            {subModal ? (
-              <SubModal
-                open={subModal}
-                closeModal={() => {
-                  setSubModal(false);
-                }}
-              />
-            ) : (
-              <></>
-            )}
           </>
         )}
       </div>
