@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styles from './index.less';
-import { VideoRes } from '@/declare/api';
+import { VideoRes } from '@/declare/tubeApiType';
 
 export type Props = {
   videoInfo: VideoRes;

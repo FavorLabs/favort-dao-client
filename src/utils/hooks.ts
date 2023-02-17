@@ -1,6 +1,6 @@
 import { history, useParams, useSelector } from 'umi';
 import { Models } from '@/declare/modelType';
-import { DomainName } from '@/config/constants';
+import { DomainName, ProxyGroupList } from '@/config/constants';
 
 export const usePath = () => {
   const params = useParams<{ address: string }>();
@@ -11,12 +11,16 @@ export const usePath = () => {
 };
 
 export const useUrl = () => {
-  const { api, proxyGroup } = useSelector((state: Models) => state.global);
-  return 'http://192.168.100.54:3001' + '/api/v1';
+  let { api } = useSelector((state: Models) => state.global);
+  return 'http://192.168.100.26:3001' + '/api/v1';
+  // if(!proxyGroup){
+  //   proxyGroup = ProxyGroupList[0].name
+  // }
   // return api + '/group/http/' + proxyGroup + '/' + DomainName + '/api/v1';
 };
 
 export const useVerifyChannel = () => {
-  const { address, channelInfo } = useSelector((state: Models) => state.global);
+  const { address } = useSelector((state: Models) => state.web3);
+  const { channelInfo } = useSelector((state: Models) => state.channel);
   return address?.toLowerCase() === channelInfo?.address?.toLowerCase();
 };

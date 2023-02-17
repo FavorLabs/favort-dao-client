@@ -4,10 +4,10 @@ import { Row, Col, Divider, message } from 'antd';
 import VideoCard from '@/components/VideoCard';
 import { useHistory, useSelector } from 'umi';
 import { useEffect, useState } from 'react';
-import ProxyApi from '@/services/ProxyApi';
+import VideoApi from '@/services/tube/VideoApi';
 import { Models } from '@/declare/modelType';
 import { usePath, useUrl } from '@/utils/hooks';
-import { VideoRes, VideoListRes } from '@/declare/api';
+import { VideoRes } from '@/declare/tubeApiType';
 
 export type Props = {};
 
@@ -16,16 +16,17 @@ const ChannelHome: React.FC<Props> = (props) => {
   const url = useUrl();
   const [videoList, setVideoList] = useState<VideoRes[]>([]);
 
-  const { api, channelInfo } = useSelector((state: Models) => state.global);
+  const { api } = useSelector((state: Models) => state.global);
+  const { channelInfo } = useSelector((state: Models) => state.channel);
 
   const getVideoList = async () => {
     try {
-      const { data } = await ProxyApi.getVideos(url, {
+      const { data } = await VideoApi.getVideos(url, {
         page: 1,
         count: 1000,
-        channelId: channelInfo?._id,
+        channelId: channelInfo?._id as string,
       });
-      if (data.data.list) {
+      if (data.data.list.length > 0) {
         setVideoList(data.data.list);
       }
     } catch (e) {

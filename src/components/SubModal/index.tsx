@@ -7,7 +7,7 @@ import Uniswap from '@/components/Uniswap';
 import { useSelector } from 'umi';
 import Web3 from 'web3';
 import { Models } from '@/declare/modelType';
-import { configs, Config, favorTubeAbi, tokenAbi } from '@/config/config';
+import { config, Config, favorTubeAbi, tokenAbi } from '@/config/config';
 
 export type Props = {
   open: boolean;
@@ -17,20 +17,17 @@ const SubModal: React.FC<Props> = (props) => {
   const { open } = props;
 
   const [value, setValue] = useState<number>(1);
-  const [chainInfo, setChainInfo] = useState<Config>(configs[19]);
+  const [chainInfo, setChainInfo] = useState<Config>(config);
   const [preDataLoading, setPreDataLoading] = useState<boolean>(false);
   const [chainCoinBal, setChainCoinBal] = useState<number>(0);
   const [chainCoinBalLoading, setChainCoinBalLoading] =
     useState<boolean>(false);
   const [subPrice, setSubPrice] = useState<number>(0);
 
-  const {
-    channelInfo,
-    nodeWeb3,
-    address,
-    favorTubeContract,
-    tokenTubeContract,
-  } = useSelector((state: Models) => state.global);
+  const { nodeWeb3, address, tubeContract, tokenContract } = useSelector(
+    (state: Models) => state.web3,
+  );
+  const { channelInfo } = useSelector((state: Models) => state.channel);
 
   const loadIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
@@ -42,8 +39,12 @@ const SubModal: React.FC<Props> = (props) => {
     }, 1000 * 15);
     try {
       await getChainCoinBalance();
-      console.log('contract', favorTubeContract, tokenTubeContract);
-      // setSubPrice();
+      console.log('contract', tubeContract, tokenContract);
+      // @ts-ignore
+      // const favorTubeContract = new nodeWeb3.eth.Contract(
+      //   favorTubeAbi,
+      //   chainInfo.favorTubeAddress,
+      // );
     } catch (e) {
       //
     }
@@ -78,7 +79,6 @@ const SubModal: React.FC<Props> = (props) => {
         open={open}
         centered
         destroyOnClose
-        maskClosable={false}
         width={700}
         okText="Pay"
         okButtonProps={{
@@ -99,17 +99,17 @@ const SubModal: React.FC<Props> = (props) => {
               <span className={styles.key}>Your Account:</span>&nbsp;
               <span className={styles.value}>{address}</span>
             </p>
-            <p className={styles.lastP}>
-              <span style={{ marginRight: 20, display: 'flex' }}>
+            <p>
+              <span style={{ marginRight: 20 }}>
                 <span className={styles.key}>Your {chainInfo.tokenName}:</span>
                 &nbsp;
                 {chainCoinBalLoading ? (
                   <Spin indicator={loadIcon} size="small" />
                 ) : (
-                  <span className={styles.balanceFaucet}>
+                  <>
                     <span
                       className={styles.value}
-                      style={{ marginRight: '6px' }}
+                      style={{ marginRight: '4px' }}
                     >
                       {chainCoinBal}
                     </span>
@@ -117,10 +117,8 @@ const SubModal: React.FC<Props> = (props) => {
                       <a
                         href={chainInfo?.faucet}
                         target="_blank"
-                        style={{ marginRight: '6px' }}
-                      >
-                        Faucet
-                      </a>
+                        style={{ marginRight: '4px' }}
+                      />
                     ) : (
                       <></>
                     )}
@@ -128,7 +126,7 @@ const SubModal: React.FC<Props> = (props) => {
                       className={styles.refresh}
                       onClick={getChainCoinBalance}
                     />
-                  </span>
+                  </>
                 )}
               </span>
               <span style={{ marginRight: 20 }}>

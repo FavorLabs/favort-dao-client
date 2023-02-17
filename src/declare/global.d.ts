@@ -1,4 +1,4 @@
-import { MetaMask, OKX, WalletConnect } from '@/config/constants';
+import { MetaMask, OKX, UniPass, WalletConnect } from '@/config/constants';
 
 declare global {
   interface Window {
@@ -7,4 +7,8 @@ declare global {
   }
 }
 
-export type WalletType = typeof MetaMask | typeof OKX | typeof WalletConnect;
+export type WalletType =
+  | typeof MetaMask
+  | typeof OKX
+  | typeof WalletConnect
+  | typeof UniPass;

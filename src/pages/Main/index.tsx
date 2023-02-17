@@ -49,20 +49,18 @@ const Main: React.FC<Props> = (props) => {
 
   return (
     <>
-      <div className={`${styles.content} mobile`}>
+      <div className={styles.content}>
         <TopBar
           content={
-            <>
-              <span>&emsp;</span>
+            <div className={styles.header}>
               <span className={styles.title}>FavorDAO</span>
               <Avatar
-                size={24}
+                size={40}
                 alt=""
                 src={avatar_1}
                 className={styles.userAvatar}
-                style={{ backgroundColor: '#F44336' }}
               />
-            </>
+            </div>
           }
         />
         <Children content={props.children} />

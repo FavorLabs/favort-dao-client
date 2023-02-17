@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import styles from './index.less';
 import { Space, Table, Tag, Modal, Divider, message } from 'antd';
+
 const { Column } = Table;
 import { TablePaginationConfig } from 'antd/es/table';
 import {
@@ -11,10 +12,10 @@ import {
 } from '@ant-design/icons';
 import { usePath, useUrl } from '@/utils/hooks';
 import Api from '@/services/Api';
-import ProxyApi from '@/services/ProxyApi';
+import VideoApi from '@/services/tube/VideoApi';
 import { useSelector } from 'umi';
 import { Models } from '@/declare/modelType';
-import { VideoRes } from '@/declare/api';
+import { VideoRes } from '@/declare/tubeApiType';
 import {
   FilterValue,
   SorterResult,
@@ -33,7 +34,7 @@ const pageSizeOption = [10, 20, 50, 100];
 const VideoList: React.FC<Props> = (props) => {
   const path = usePath();
   const url = useUrl();
-  const { channelInfo } = useSelector((state: Models) => state.global);
+  const { channelInfo } = useSelector((state: Models) => state.channel);
   const { refreshVideoList } = useSelector((state: Models) => state.manage);
 
   const [videoData, setVideoData] = useState<VideoRes[]>([]);
@@ -50,10 +51,10 @@ const VideoList: React.FC<Props> = (props) => {
   const getVideoList = async () => {
     setVideoDataLoading(true);
     try {
-      const { data } = await ProxyApi.getVideos(url, {
+      const { data } = await VideoApi.getVideos(url, {
         page: pageNum,
         count: pageSize,
-        channelId: channelInfo?._id,
+        channelId: channelInfo?._id as string,
       });
       if (data.data) {
         setVideoData(data.data.list);
@@ -66,10 +67,10 @@ const VideoList: React.FC<Props> = (props) => {
     }
   };
 
-  const deleteVideo = async (id: string | undefined) => {
+  const deleteVideo = async (id: string) => {
     try {
       setDeleteVideoLoading(true);
-      await ProxyApi.deleteVideo(url, id);
+      await VideoApi.deleteVideo(url, id);
       setDeleteVideoModal(false);
       updateVideoList(pageNum, pageSize);
     } catch (e) {
@@ -101,10 +102,10 @@ const VideoList: React.FC<Props> = (props) => {
   ) => {
     setVideoDataLoading(true);
     try {
-      const { data } = await ProxyApi.getVideos(url, {
+      const { data } = await VideoApi.getVideos(url, {
         page,
         count,
-        channelId: channelInfo?._id,
+        channelId: channelInfo?._id as string,
       });
       if (data.data) {
         setVideoData(data.data.list);
@@ -220,7 +221,7 @@ const VideoList: React.FC<Props> = (props) => {
         className={styles.deleteVideoModal}
         open={deleteVideoModal}
         onOk={() => {
-          deleteVideo(deleteVideoInfo?._id);
+          deleteVideo(deleteVideoInfo?._id as string);
         }}
         confirmLoading={deleteVideoLoading}
         onCancel={() => {

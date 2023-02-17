@@ -13,12 +13,13 @@ import {
   Progress,
   Spin,
 } from 'antd';
+
 const { TextArea } = Input;
 import type { RcFile, UploadProps } from 'antd/es/upload/interface';
 import ImgCrop from 'antd-img-crop';
 import { useSelector, useDispatch } from 'umi';
 import Api from '@/services/Api';
-import ProxyApi from '@/services/ProxyApi';
+import VideoApi from '@/services/tube/VideoApi';
 import { Models } from '@/declare/modelType';
 import { StoreGroup, StorageOverlay } from '@/config/constants';
 import { stringToBinary, getProgress } from '@/utils/util';
@@ -26,7 +27,7 @@ import { useUrl } from '@/utils/hooks';
 import imageCompression from 'browser-image-compression';
 import ImageCrop from '@/components/ImageCrop';
 import TagsEdit from '@/components/TagsEdit';
-import { VideoCreatePS } from '@/declare/api';
+import { PartialVideo } from '@/declare/tubeApiType';
 
 export type Props = {
   open: boolean;
@@ -56,20 +57,18 @@ const UploadVideoModal: React.FC<Props> = (props) => {
   const [thumbnailLoading, setThumbnailLoading] = useState<boolean>(false);
   const [progressValue, setProgressValue] = useState<number>(0);
   const [uploadVideoId, setUploadVideoId] = useState<string>('');
-  const [formData, setFormData] = useState<VideoCreatePS>({
-    channelId: '',
+  const [formData, setFormData] = useState<PartialVideo>({
     title: '',
     description: '',
     tags: [''],
     thumbnail: '',
-    hash: '',
     category: '',
-    overlay: '',
   });
 
-  const { api, debugApi, ws, proxyGroup, channelInfo } = useSelector(
+  const { api, debugApi, ws, proxyGroup } = useSelector(
     (state: Models) => state.global,
   );
+  const { channelInfo } = useSelector((state: Models) => state.channel);
   const { refreshVideoList } = useSelector((state: Models) => state.manage);
 
   const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
@@ -276,7 +275,7 @@ const UploadVideoModal: React.FC<Props> = (props) => {
         uploadedList[hash] = overlay;
         sessionStorage.setItem('uploaded_list', JSON.stringify(uploadedList));
       }
-      let video = await ProxyApi.uploadVideo(url, {
+      let video = await VideoApi.uploadVideo(url, {
         channelId: channelInfo?._id,
         hash,
         overlay: uploadOverlay,
@@ -312,7 +311,7 @@ const UploadVideoModal: React.FC<Props> = (props) => {
   const submit = async () => {
     setSubmitLoading(true);
     try {
-      const { data } = await ProxyApi.updateVideo(url, uploadVideoId, {
+      const { data } = await VideoApi.updateVideo(url, uploadVideoId, {
         title: formData.title,
         description: formData.description,
         tags: formData.tags,

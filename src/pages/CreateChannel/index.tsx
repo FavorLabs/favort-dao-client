@@ -4,10 +4,10 @@ import styles from './index.less';
 import { Button, Steps, Radio, Space, message } from 'antd';
 import { useState } from 'react';
 
-import { ProxyGroup, DomainName } from '@/config/constants';
+import { ProxyGroupList, DomainName } from '@/config/constants';
 import Api from '@/services/Api';
 import ChainApi from '@/services/ChainApi';
-import ProxyApi from '@/services/ProxyApi';
+import ChannelApi from '@/services/tube/ChannelApi';
 import { useDispatch, useSelector, history } from 'umi';
 import { Models } from '@/declare/modelType';
 
@@ -15,7 +15,8 @@ export type Props = {};
 const CreateChannel: React.FC<Props> = (props) => {
   const dispatch = useDispatch();
 
-  const { api, address } = useSelector((state: Models) => state.global);
+  const { api } = useSelector((state: Models) => state.global);
+  const { address } = useSelector((state: Models) => state.web3);
   const [current, setCurrent] = useState(0);
   const steps = [
     {
@@ -36,8 +37,8 @@ const CreateChannel: React.FC<Props> = (props) => {
     try {
       const { data } = await ChainApi.createService({
         address,
-        overlay: ProxyGroup[value].overlay,
-        group: ProxyGroup[value].name,
+        overlay: ProxyGroupList[value].overlay,
+        group: ProxyGroupList[value].name,
       });
       await Api.observeProxyGroup(api, data.group, [data.overlay]);
       dispatch({
@@ -48,7 +49,7 @@ const CreateChannel: React.FC<Props> = (props) => {
       });
       const url =
         api + '/group/http/' + data.group + '/' + DomainName + '/api/v1';
-      await ProxyApi.createChannel(url, {
+      await ChannelApi.createChannel(url, {
         address,
       });
       history.replace(`/${address}`);
@@ -68,7 +69,7 @@ const CreateChannel: React.FC<Props> = (props) => {
                 onChange={(e) => setValue(e.target.value)}
               >
                 <Space direction="vertical">
-                  {ProxyGroup.map((item, index) => (
+                  {ProxyGroupList.map((item, index) => (
                     <Radio key={index} value={index}>
                       {item.name}
                     </Radio>
