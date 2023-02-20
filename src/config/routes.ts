@@ -37,10 +37,10 @@ export default [
         path: '/dao/:address',
         component: '@/pages/Dao',
         routes: [
-          {
-            path: '/dao/:address',
-            redirect: '/dao/:address/videos',
-          },
+          // {
+          //   path: '/dao/:address',
+          //   redirect: '/dao/:address/videos',
+          // },
           {
             path: '/dao/:address/newsletter',
             component: '@/pages/Dao/Newsletter',
@@ -49,33 +49,33 @@ export default [
             path: '/dao/:address/videos',
             component: '@/pages/Dao/Videos',
             routes: [
-              {
-                path: '/dao/:address/videos',
-                component: '@/pages/Dao/Videos/ChannelDetail',
-              },
-              {
-                path: '/dao/:address/videos/video/:id',
-                component: '@/pages/Video',
-              },
-              {
-                path: '/dao/:address/videos/manage',
-                component: '@/pages/Manage',
-                // wrappers: ['@/wrappers/auth.tsx'],
-                routes: [
-                  {
-                    path: '/dao/:address/videos/manage',
-                    component: '@/pages/Manage/VideoList',
-                  },
-                  {
-                    path: '/dao/:address/videos/manage/others',
-                    component: '@/pages/Manage/Others',
-                  },
-                  {
-                    path: '/dao/:address/videos/manage/details/:id',
-                    component: '@/pages/Manage/Details',
-                  },
-                ],
-              },
+              // {
+              //   path: '/dao/:address/videos',
+              //   component: '@/pages/Dao/Videos/ChannelDetail',
+              // },
+              // {
+              //   path: '/dao/:address/videos/video/:id',
+              //   component: '@/pages/Video',
+              // },
+              // {
+              //   path: '/dao/:address/videos/manage',
+              //   component: '@/pages/Manage',
+              //   // wrappers: ['@/wrappers/auth.tsx'],
+              //   routes: [
+              //     {
+              //       path: '/dao/:address/videos/manage',
+              //       component: '@/pages/Manage/VideoList',
+              //     },
+              //     {
+              //       path: '/dao/:address/videos/manage/others',
+              //       component: '@/pages/Manage/Others',
+              //     },
+              //     {
+              //       path: '/dao/:address/videos/manage/details/:id',
+              //       component: '@/pages/Manage/Details',
+              //     },
+              //   ],
+              // },
             ],
           },
           {
