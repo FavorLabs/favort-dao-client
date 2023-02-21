@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './index.less';
 import { Tabs, Swiper } from 'antd-mobile';
 import { SwiperRef } from 'antd-mobile/es/components/swiper';
@@ -7,8 +7,11 @@ import Dynamics from '@/pages/Dao/Dynamics';
 import Newsletter from '@/pages/Dao/Newsletter';
 import Videos from '@/pages/Dao/Videos';
 import Group from '@/pages/Dao/Group';
+import { history } from 'umi';
 
-export type Props = {};
+export type Props = {
+  activeTab: string | null;
+};
 const DaoTab: React.FC<Props> = (props) => {
   const swiperRef = useRef<SwiperRef>(null);
   const [activeIndex, setActiveIndex] = useState(1);

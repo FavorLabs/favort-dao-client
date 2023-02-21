@@ -30,7 +30,7 @@ const Newsletter: React.FC<Props> = (props) => {
 
   return (
     <>
-      <Skeleton loading={true} />
+      {/*<Skeleton loading={true} />*/}
       <NewsletterUpload />
       {newsletterList.map((item, index) => (
         <div key={index}>

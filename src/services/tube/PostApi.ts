@@ -15,7 +15,7 @@ export default {
     params: {
       page: number;
       page_size: number;
-      type: number;
+      type?: number;
     },
   ): Promise<AxiosResponse<any>> {
     return request({

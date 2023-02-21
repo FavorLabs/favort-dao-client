@@ -22,11 +22,6 @@ const Dynamics: React.FC<Props> = (props) => {
     }
   };
 
-  const tabHeight = useMemo(() => {
-    // const h =
-    // return h;
-  }, []);
-
   useEffect(() => {
     getList();
   }, []);
