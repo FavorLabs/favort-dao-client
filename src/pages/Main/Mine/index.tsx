@@ -1,20 +1,23 @@
 import * as React from 'react';
 import styles from './index.less';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { useHistory, useSelector } from 'umi';
 import { Avatar, Divider, message, Modal } from 'antd';
 import { Models } from '@/declare/modelType';
 import avatar_1 from '@/assets/img/avatar_1.png';
 import { omitAddress } from '@/utils/util';
-import CopyText from '@/components/copyText';
+import CopyText from '@/components/CopyText';
 import newsletterSvg from '@/assets/icon/newsletter.svg';
 import videoSvg from '@/assets/icon/video.svg';
 import daoSvg from '@/assets/icon/dao.svg';
 import configSvg from '@/assets/icon/config.svg';
 import addSvg from '@/assets/icon/add.svg';
-import SvgIcon from '@/components/svgIcon';
+import SvgIcon from '@/components/SvgIcon';
 import UploadVideoModal from '@/components/UploadVideoModal';
 import EditServiceInfoModal from '@/components/EditServiceInfoModal';
+import DaoApi from '@/services/tube/Dao';
+import { useUrl } from '@/utils/hooks';
+import { sleep } from '@/utils/util';
 
 export type Props = {};
 type ManageItem = {
@@ -31,6 +34,7 @@ type AnimConfig = {
 };
 const Mine: React.FC<Props> = (props) => {
   const history = useHistory();
+  const url = useUrl();
 
   const [haveGroupService, setHaveGroupService] = useState<boolean>(false);
   const [tipsModal, setTipsModal] = useState<boolean>(false);
@@ -42,7 +46,18 @@ const Mine: React.FC<Props> = (props) => {
   });
   const [uploadVideoModal, setUploadVideoModal] = useState<boolean>(false);
 
-  const { address } = useSelector((state: Models) => state.global);
+  const { address } = useSelector((state: Models) => state.web3);
+
+  useEffect(() => {
+    async function fetch() {
+      const { data } = await DaoApi.get(url);
+      if (data.data.list.length) {
+        setHaveGroupService(true);
+      }
+    }
+
+    fetch();
+  }, []);
 
   const manageItems: ManageItem[] = [
     {
@@ -72,28 +87,24 @@ const Mine: React.FC<Props> = (props) => {
     },
   ];
 
-  const createGroupService = async (name: string, desc: string | undefined) => {
+  const createGroupService = async (name: string, desc: string) => {
     console.log('name', name, desc);
     setCreateLoading(true);
     setAnimConfig({ open: true, text: 'The server is being created...' });
     try {
-      const data = await new Promise((res, rej) => {
-        setTimeout(() => {
-          res('true');
-        }, 5000);
-      });
-      if (data) {
+      const { data } = await DaoApi.create(url, { name, introduction: desc });
+      if (data.code === 0) {
+        await sleep(2000);
         closeGpModal();
         setAnimConfig({ open: true, text: 'Generating configurations...' });
-        setTimeout(() => {
-          setAnimConfig({ open: false, text: '' });
-          setHaveGroupService(true);
-        }, 3000);
+        await sleep(3000);
+        setAnimConfig({ open: false, text: '' });
+        setHaveGroupService(true);
       }
     } catch (e) {
-      setAnimConfig({ open: false, text: '' });
       if (e instanceof Error) message.error(e.message);
     } finally {
+      setAnimConfig({ open: false, text: '' });
       setCreateLoading(false);
     }
   };
@@ -200,9 +211,6 @@ const Mine: React.FC<Props> = (props) => {
         {createGpModal ? (
           <EditServiceInfoModal
             open={createGpModal}
-            openModal={() => {
-              setCreateGpModal(true);
-            }}
             closeModal={closeGpModal}
             onOk={createGroupService}
             loading={createLoading}

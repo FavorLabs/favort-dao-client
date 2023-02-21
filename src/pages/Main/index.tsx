@@ -2,7 +2,7 @@ import * as React from 'react';
 import styles from './index.less';
 import { ReactNode } from 'react';
 import { Avatar } from 'antd';
-import SvgIcon from '@/components/svgIcon';
+import SvgIcon from '@/components/SvgIcon';
 import TopBar from '@/components/ThreeStageLayout/TopBar';
 import Children from '@/components/ThreeStageLayout/Children';
 import MenuBar from '@/components/ThreeStageLayout/MenuBar';
@@ -55,7 +55,7 @@ const Main: React.FC<Props> = (props) => {
             <div className={styles.header}>
               <span className={styles.title}>FavorDAO</span>
               <Avatar
-                size={40}
+                size={32}
                 alt=""
                 src={avatar_1}
                 className={styles.userAvatar}

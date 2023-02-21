@@ -1,23 +1,24 @@
 .content {
-  padding: 0 4px;
   .search {
-    margin-bottom: 10px;
     input {
       background: #f7f7f7;
-      //border-radius: 20px!important;
     }
   }
-  .subDao,
-  .interestDao {
+
+  .dao {
     .title {
-      font-weight: bold;
+      margin: 10px 0;
+      font-size: 18px;
+      font-weight: 500;
     }
-    .subDaoList,
-    .interestDaoList {
-      display: flex;
-      justify-content: flex-start;
-      margin: 6px 0;
-      flex-wrap: wrap;
+
+    .list {
+      display: grid;
+      grid-template-columns: repeat(2, 50%);
+      gap: 10px;
+
+      .list_item {
+      }
     }
   }
 }

@@ -1,15 +1,21 @@
-import request from '../index';
-import { AxiosResponse } from 'axios';
+import request from '@/services';
 
 export default {
-  signIn(
-    url: string,
-    data: { timespan: number; address: string; signature: string },
-  ): Promise<AxiosResponse<{ token: string }>> {
+  signIn(data: {
+    timestamp: number;
+    wallet_addr: string;
+    signature: string;
+    type: string;
+  }) {
     return request({
       method: 'post',
-      url: url + '/user/login',
+      url: '/v1/auth/login',
       data,
+    });
+  },
+  getInfo() {
+    return request({
+      url: '/v1/user/info',
     });
   },
 };

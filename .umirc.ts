@@ -25,7 +25,5 @@ export default defineConfig({
   publicPath: './',
   routes,
   theme,
-  antd: {
-    mobile: false,
-  },
+  antd: false,
 });

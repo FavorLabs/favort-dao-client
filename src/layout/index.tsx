@@ -12,6 +12,8 @@ import { config, favorTubeAbi, tokenAbi } from '@/config/config';
 import Api from '@/services/Api';
 import Loading from '@/components/Loading';
 import styles from './index.less';
+import web3 from '@/models/web3';
+import UserApi from '@/services/tube/UserApi';
 
 const Layout: React.FC = (props) => {
   const dispatch = useDispatch();
@@ -92,6 +94,33 @@ const Layout: React.FC = (props) => {
     );
   };
 
+  const getLoginStatus = async () => {
+    const token = localStorage.getItem('token');
+    const connectType = localStorage.getItem(ConnectType);
+    if (!token || !connectType) return history.push('/');
+    try {
+      const info = await UserApi.getInfo();
+      const { address, web3 } = await connect(connectType as WalletType, true);
+      dispatch({
+        type: 'global/updateState',
+        payload: {
+          user: info.data.data,
+        },
+      });
+      dispatch({
+        type: 'web3/updateState',
+        payload: {
+          web3,
+          address,
+        },
+      });
+    } catch (e) {
+      localStorage.removeItem(ConnectType);
+      localStorage.removeItem('token');
+      history.push('/');
+    }
+  };
+
   useEffect(() => {
     dispatch({
       type: 'global/getStatus',
@@ -99,30 +128,12 @@ const Layout: React.FC = (props) => {
         api,
       },
     });
-    const connectType = localStorage.getItem(ConnectType);
-    if (connectType) {
-      connect(connectType as WalletType, true)
-        .then(({ web3, address }) => {
-          dispatch({
-            type: 'global/updateState',
-            payload: {
-              web3,
-              address,
-            },
-          });
-        })
-        .catch(() => {
-          localStorage.removeItem(ConnectType);
-          history.push('/');
-        });
-    } else {
-      history.push('/');
-    }
   }, []);
 
   useEffect(() => {
     if (status) {
       // getContract();
+      getLoginStatus();
       connectNode();
     }
   }, [status]);

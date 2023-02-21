@@ -1,7 +1,7 @@
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import Web3 from 'web3';
 import { UniPassProvider } from '@unipasswallet/ethereum-provider';
-import { MetaMask, OKX, WalletConnect } from '@/config/constants';
+import { MetaMask, OKX, UniPass, WalletConnect } from '@/config/constants';
 import { WalletType } from '@/declare/global';
 
 const id = 80001;
@@ -73,6 +73,8 @@ export const connect = (connectType: WalletType, refresh = false) => {
     ? connectMetaMask(refresh)
     : connectType === OKX
     ? connectOkx()
+    : connectType === UniPass
+    ? connectUnipass()
     : connectType === WalletConnect
     ? connectWalletConnect(refresh)
     : Promise.reject();

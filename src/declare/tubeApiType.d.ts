@@ -1,3 +1,5 @@
+import { AxiosResponse } from 'axios';
+
 export type MongoDBRes = {
   id: string;
   _id: string;
@@ -78,3 +80,40 @@ type PartialVideo = Partial<Omit<Video, keyof RequiredVideo>>;
 export type CreateVideo = RequiredVideo | PartialVideo;
 export type UpdateVideo = PartialVideo;
 export type VideoRes = Video & MongoDBRes;
+
+export type ResData<T> = Promise<
+  AxiosResponse<{
+    code: number;
+    data: T;
+    msg: string;
+    tracehost: string;
+  }>
+>;
+
+export type Dao = {
+  name: string;
+  introduction: string;
+  visibility: boolean;
+};
+
+export type DaoInfo = {
+  address: string;
+  avatar: string;
+  id: string;
+  introduction: string;
+  name: string;
+  visibility: number;
+};
+
+export type DaoListData<T> = {
+  list: T[];
+  pager: {
+    page: number;
+    page_size: number;
+    total_rows: number;
+  };
+};
+
+export type Status = {
+  status: boolean;
+};

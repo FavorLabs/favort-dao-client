@@ -1,4 +1,4 @@
-import request from './index';
+import request from 'axios';
 import { AxiosResponse } from 'axios';
 import { RcFile } from 'antd/es/upload/interface';
 
