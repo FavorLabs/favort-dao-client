@@ -7,8 +7,12 @@ import {
   ExclamationCircleFilled,
 } from '@ant-design/icons';
 
-export type Props = {};
+export type Props = {
+  cardData: any;
+};
 const NewsletterCard: React.FC<Props> = (props) => {
+  const { cardData } = props;
+  console.log('cardData', cardData);
   const style = { '--len': 3 } as React.CSSProperties;
   const [modalType, setModalType] = useState<
     'delete' | 'public' | 'private' | false
@@ -29,6 +33,13 @@ const NewsletterCard: React.FC<Props> = (props) => {
       </div>
     );
   };
+
+  const renderContent = (type: number) => {
+    return cardData.contents.find((item: any) => {
+      return item.type === type;
+    });
+  };
+
   return (
     <>
       <div className={styles.card}>
@@ -38,12 +49,13 @@ const NewsletterCard: React.FC<Props> = (props) => {
               <div className={styles.avatar}>
                 <img
                   src={
+                    cardData.user.avatar ||
                     'https://assets.paopao.info/public/avatar/default/norman.png'
                   }
                   alt={'avatar'}
                 />
               </div>
-              <span className={styles.name}>yxrskong</span>
+              <span className={styles.name}>{cardData.user.nickname}</span>
             </div>
             <div>
               <Tooltip
@@ -62,7 +74,7 @@ const NewsletterCard: React.FC<Props> = (props) => {
             </div>
           </header>
           <div className={styles.content}>
-            <p>123</p>
+            {/*<div>{renderContent(0)}</div>*/}
           </div>
           <div className={styles.media} style={style}>
             <div>

@@ -6,9 +6,14 @@ import {
   EyeOutlined,
   DeleteOutlined,
 } from '@ant-design/icons';
-import { Button, Input, Radio, ConfigProvider } from 'antd';
+import { Button, Input, Radio, ConfigProvider, Popover, message } from 'antd';
 
 const { TextArea } = Input;
+import PostApi from '@/services/tube/PostApi';
+import { useUrl } from '@/utils/hooks';
+import { CreatePost, Post } from '@/declare/tubeApiType';
+import { useSelector } from 'umi';
+import { Models } from '@/declare/modelType';
 
 export type Props = {};
 
@@ -17,9 +22,17 @@ type Img = {
   base64: string;
 };
 const NewsletterUpload: React.FC<Props> = (props) => {
+  const url = useUrl();
+
+  const [text, setText] = useState<string>('');
   const [eye, setEye] = useState(false);
   const [status, setStatus] = useState(0);
   const [imgList, setImgList] = useState<Img[]>([]);
+  const [visibility, setVisibility] = useState<number>(0);
+  const [tags, setTags] = useState<string[]>([]);
+
+  const { address } = useSelector((state: Models) => state.web3);
+
   const inputImg = async (e: React.FormEvent<HTMLInputElement>) => {
     // @ts-ignore
     const newFile = e.target.files[0];
@@ -47,6 +60,53 @@ const NewsletterUpload: React.FC<Props> = (props) => {
     list.splice(i, 1);
     setImgList(list);
   };
+
+  const postTextData = (): Post => {
+    return { content: text, type: 1, sort: 0 };
+  };
+
+  const postImgData = (): Post[] => {
+    return imgList.map((item, index) => {
+      return { content: item.file, type: 2, sort: index };
+    });
+  };
+
+  const postTagsData = (): string[] => {
+    return [];
+  };
+
+  const uploadNewsletter = async () => {
+    const postData: CreatePost = {
+      contents: [postTextData()].concat(postImgData()),
+      dao_id: '63f3500e4698dbe6448ac109',
+      tags,
+      type: 0,
+      users: ['0xE28E429D3616Bb77Bee108FF943030B3311b4Ec3'],
+      visibility,
+    };
+    try {
+      const { data } = await PostApi.createPost(url, postData);
+      if (data.data) {
+        message.success('Send successfully');
+      }
+    } catch (e) {
+      if (e instanceof Error) message.error(e.message);
+    }
+  };
+
+  const selectVisibilityDOM = () => (
+    <div className={styles.selectVisibility}>
+      <Radio.Group
+        defaultValue={0}
+        onChange={(e) => setVisibility(e.target.value)}
+      >
+        <Radio value={0}>Draft</Radio>
+        <Radio value={1}>Public</Radio>
+        <Radio value={2}>Private</Radio>
+      </Radio.Group>
+    </div>
+  );
+
   return (
     <div className={styles.card}>
       <header>
@@ -62,6 +122,7 @@ const NewsletterUpload: React.FC<Props> = (props) => {
             autoSize
             bordered={false}
             maxLength={100}
+            onChange={(e) => setText(e.target.value)}
           />
         </div>
       </header>
@@ -80,11 +141,23 @@ const NewsletterUpload: React.FC<Props> = (props) => {
             </label>
           </div>
           <div>
-            <EyeOutlined onClick={() => setEye(!eye)} />
+            <Popover
+              placement="bottom"
+              title={null}
+              content={selectVisibilityDOM}
+              trigger="click"
+            >
+              <EyeOutlined />
+            </Popover>
+            {/*<EyeOutlined onClick={() => setEye(!eye)} />*/}
           </div>
         </div>
         <div>
-          <Button className={styles.post} shape={'round'}>
+          <Button
+            className={styles.post}
+            shape={'round'}
+            onClick={uploadNewsletter}
+          >
             Post
           </Button>
         </div>
@@ -94,7 +167,7 @@ const NewsletterUpload: React.FC<Props> = (props) => {
           <div className={styles.img_item} key={index}>
             <div className={styles.info}>
               <img src={item.base64} alt={''} />
-              <span>{item.file.name}</span>
+              {/*<span>{item.file.name}</span>*/}
             </div>
             <DeleteOutlined
               className={styles.del}

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styles from './index.less';
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 import { useDispatch, useHistory, useSelector } from 'umi';
 import { Avatar, message, Divider, Modal } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
@@ -18,18 +18,21 @@ type Props = {
       id: string;
     };
   };
+  history: {
+    location: {
+      query: {
+        tab: string;
+      };
+    };
+  };
 };
-export type MenuItem = {
-  key: number;
-  title: string;
-  icon: ReactNode;
-  path: string;
-};
+
 const Dao: React.FC<Props> = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const url = useUrl();
   const verifyChannel = useVerifyChannel();
+  const topBarRef = useRef(null);
   const { id } = props.match.params;
 
   const [info, setInfo] = useState<DaoInfo>();
@@ -65,7 +68,7 @@ const Dao: React.FC<Props> = (props) => {
   return (
     <>
       <div className={styles.content}>
-        <div className={styles.topBar}>
+        <div className={styles.topBar} ref={topBarRef}>
           <div className={styles.action}>
             <span
               className={styles.goBack}
@@ -101,7 +104,7 @@ const Dao: React.FC<Props> = (props) => {
             </Divider>
           </div>
         </div>
-        <DaoTab />
+        <DaoTab activeTab={props.history.location?.query?.tab} />
         <Modal
           title="Bookmark"
           centered

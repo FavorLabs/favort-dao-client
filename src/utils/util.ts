@@ -1,4 +1,5 @@
 import Web3 from 'web3';
+import { CreatePost } from '@/declare/tubeApiType';
 
 export const splitUrl = (url: string): [string, string, string] => {
   let i = new URL(url);

@@ -25,8 +25,6 @@ type ManageItem = {
   title: string;
   icon: ReactNode;
   configPath: string;
-  allowCreate: boolean;
-  createFn?: () => void;
 };
 type AnimConfig = {
   open: boolean;
@@ -44,9 +42,9 @@ const Mine: React.FC<Props> = (props) => {
     open: false,
     text: '',
   });
-  const [uploadVideoModal, setUploadVideoModal] = useState<boolean>(false);
 
   const { address } = useSelector((state: Models) => state.web3);
+  const { user } = useSelector((state: Models) => state.global);
 
   useEffect(() => {
     async function fetch() {
@@ -65,25 +63,18 @@ const Mine: React.FC<Props> = (props) => {
       title: 'newsletter',
       icon: <SvgIcon svg={newsletterSvg} />,
       configPath: 'newsletter',
-      allowCreate: true,
-      createFn: () => {},
     },
     {
       key: 2,
       title: 'videos',
       icon: <SvgIcon svg={videoSvg} />,
       configPath: 'videos',
-      allowCreate: true,
-      createFn: () => {
-        setUploadVideoModal(true);
-      },
     },
     {
       key: 3,
       title: 'group',
       icon: <SvgIcon svg={daoSvg} />,
       configPath: 'group',
-      allowCreate: false,
     },
   ];
 
@@ -165,20 +156,12 @@ const Mine: React.FC<Props> = (props) => {
                     <span
                       className={styles.text}
                       onClick={() => {
-                        history.push(`/dao/${address}/${item.configPath}`);
+                        history.push(`/dao/${user?.id}?tab=${item.configPath}`);
                       }}
                     >
                       config
                     </span>
                   </span>
-                  {item.allowCreate && (
-                    <span className={styles.createBtn}>
-                      <SvgIcon svg={addSvg} />
-                      <span className={styles.text} onClick={item.createFn}>
-                        create {item.title}
-                      </span>
-                    </span>
-                  )}
                 </div>
               </div>
             ))}
@@ -217,17 +200,6 @@ const Mine: React.FC<Props> = (props) => {
           />
         ) : (
           <></>
-        )}
-        {uploadVideoModal && (
-          <UploadVideoModal
-            open={uploadVideoModal}
-            openModal={() => {
-              setUploadVideoModal(true);
-            }}
-            closeModal={() => {
-              setUploadVideoModal(false);
-            }}
-          />
         )}
         {animConfig.open && (
           <div className={styles.createAnimation}>
