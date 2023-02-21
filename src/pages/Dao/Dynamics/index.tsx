@@ -28,10 +28,10 @@ const Dynamics: React.FC<Props> = (props) => {
 
   return (
     <>
-      <NewsletterCard />
-      <VideoCard videoInfo={null} />
-      <NewsletterCard />
-      <NewsletterCard />
+      {/*<NewsletterCard />*/}
+      {/*<VideoCard videoInfo={null} />*/}
+      {/*<NewsletterCard />*/}
+      {/*<NewsletterCard />*/}
     </>
   );
 };

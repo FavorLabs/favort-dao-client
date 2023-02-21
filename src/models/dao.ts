@@ -1,17 +1,13 @@
 import ModelsType from '@/declare/modelType';
-import { CLRes } from '@/declare/tubeApiType';
+import { CLRes, DaoInfo } from '@/declare/tubeApiType';
 
 export interface State {
-  channelInfo: CLRes | null;
-  sub: boolean;
-  bookmark: boolean;
+  info: DaoInfo | null;
 }
 
 export default {
   state: {
-    channelInfo: null,
-    sub: false,
-    bookmark: false,
+    info: null,
   },
   reducers: {
     updateState(state, { payload }) {

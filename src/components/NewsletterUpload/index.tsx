@@ -10,10 +10,11 @@ import { Button, Input, Radio, ConfigProvider, Popover, message } from 'antd';
 
 const { TextArea } = Input;
 import PostApi from '@/services/tube/PostApi';
-import { useUrl } from '@/utils/hooks';
+import { useResourceUrl, useUrl } from '@/utils/hooks';
 import { CreatePost, Post } from '@/declare/tubeApiType';
 import { useSelector } from 'umi';
 import { Models } from '@/declare/modelType';
+import ImageApi from '@/services/tube/Image';
 
 export type Props = {};
 
@@ -23,6 +24,7 @@ type Img = {
 };
 const NewsletterUpload: React.FC<Props> = (props) => {
   const url = useUrl();
+  const resourceUrl = useResourceUrl();
 
   const [text, setText] = useState<string>('');
   const [eye, setEye] = useState(false);
@@ -61,34 +63,58 @@ const NewsletterUpload: React.FC<Props> = (props) => {
     setImgList(list);
   };
 
-  const postTextData = (): Post => {
-    return { content: text, type: 1, sort: 0 };
+  const init = () => {
+    setText('');
+    setImgList([]);
   };
 
-  const postImgData = (): Post[] => {
-    return imgList.map((item, index) => {
-      return { content: item.file, type: 2, sort: index };
-    });
+  const uploadImg = async () => {
+    let imgKeyArr = [];
+    for (let i = 0; i < imgList.length; i++) {
+      const item = imgList[i];
+      const formData = new FormData();
+      formData.append(item.file.name, item.file);
+      const { data } = await ImageApi.upload(resourceUrl, formData);
+      imgKeyArr.push(data.id);
+    }
+    return imgKeyArr;
   };
 
-  const postTagsData = (): string[] => {
-    return [];
-  };
+  // const postTextData = (): Post => {
+  //   return {content: text, type: 1, sort: 0};
+  // };
+  //
+  // const postImgData = (): Post[] => {
+  //   return imgList.map((item, index) => {
+  //     return {content: item.file, type: 2, sort: index};
+  //   });
+  // };
+  //
+  // const postTagsData = (): string[] => {
+  //   return [];
+  // };
 
   const uploadNewsletter = async () => {
-    const postData: CreatePost = {
-      contents: [postTextData()].concat(postImgData()),
-      dao_id: '63f3500e4698dbe6448ac109',
-      tags,
-      type: 0,
-      users: ['0xE28E429D3616Bb77Bee108FF943030B3311b4Ec3'],
-      visibility,
-    };
     try {
+      const imgIdArr = await uploadImg();
+      const contents: { content: any; type: number; sort: number }[] = [];
+      contents.push(
+        ...imgIdArr.map((item) => ({ content: item, type: 3, sort: 0 })),
+      );
+      contents.push({ content: text, type: 1, sort: 1 });
+      const postData: CreatePost = {
+        contents: contents,
+        dao_id: '63f3500e4698dbe6448ac109',
+        tags,
+        type: 0,
+        users: [],
+        visibility,
+      };
       const { data } = await PostApi.createPost(url, postData);
       if (data.data) {
         message.success('Send successfully');
       }
+      init();
     } catch (e) {
       if (e instanceof Error) message.error(e.message);
     }
@@ -118,7 +144,7 @@ const NewsletterUpload: React.FC<Props> = (props) => {
         </div>
         <div className={styles.text}>
           <TextArea
-            placeholder="说说你的伤心事"
+            placeholder="Please enter your content"
             autoSize
             bordered={false}
             maxLength={100}

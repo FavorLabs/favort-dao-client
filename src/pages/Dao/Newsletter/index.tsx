@@ -6,10 +6,14 @@ import { useEffect, useState } from 'react';
 import PostApi from '@/services/tube/PostApi';
 import { useUrl } from '@/utils/hooks';
 import Skeleton from '@/components/Skeleton';
+import { useSelector } from 'umi';
+import { Models } from '@/declare/modelType';
 
 export type Props = {};
 const Newsletter: React.FC<Props> = (props) => {
   const url = useUrl();
+  const { info } = useSelector((state: Models) => state.dao);
+  const { user } = useSelector((state: Models) => state.global);
 
   const [newsletterList, setNewsletterList] = useState([]);
 
@@ -31,12 +35,12 @@ const Newsletter: React.FC<Props> = (props) => {
   return (
     <>
       {/*<Skeleton loading={true} />*/}
-      <NewsletterUpload />
-      {newsletterList.map((item, index) => (
-        <div key={index}>
-          <NewsletterCard />
-        </div>
-      ))}
+      {user?.address === info?.address && <NewsletterUpload />}
+      {/*{newsletterList.map((item, index) => (*/}
+      {/*  <div key={index}>*/}
+      {/*    <NewsletterCard />*/}
+      {/*  </div>*/}
+      {/*))}*/}
     </>
   );
 };
