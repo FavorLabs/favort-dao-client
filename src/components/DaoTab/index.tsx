@@ -3,6 +3,7 @@ import { useRef, useState } from 'react';
 import styles from './index.less';
 import { Tabs, Swiper } from 'antd-mobile';
 import { SwiperRef } from 'antd-mobile/es/components/swiper';
+import Dynamics from '@/pages/Dao/Dynamics';
 import Newsletter from '@/pages/Dao/Newsletter';
 import Videos from '@/pages/Dao/Videos';
 import Group from '@/pages/Dao/Group';
@@ -13,6 +14,11 @@ const DaoTab: React.FC<Props> = (props) => {
   const [activeIndex, setActiveIndex] = useState(1);
 
   const tabItems = [
+    {
+      key: 'dynamics',
+      title: 'dynamics',
+      component: <Dynamics />,
+    },
     {
       key: 'newsletter',
       title: 'newsletter',

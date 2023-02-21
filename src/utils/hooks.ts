@@ -12,7 +12,8 @@ export const usePath = () => {
 
 export const useUrl = () => {
   let { api } = useSelector((state: Models) => state.global);
-  return 'http://192.168.100.26:3001' + '/api/v1';
+  // return 'http://192.168.100.26:3001' + '/api/v1';
+  return 'http://192.168.100.129:8008' + '/v1';
   // if(!proxyGroup){
   //   proxyGroup = ProxyGroupList[0].name
   // }

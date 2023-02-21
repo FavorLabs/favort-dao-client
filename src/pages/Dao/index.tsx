@@ -32,8 +32,6 @@ type Props = {
 export type MenuItem = {
   key: number;
   title: string;
-  icon: ReactNode;
-  path: string;
 };
 const Dao: React.FC<Props> = (props) => {
   const history = useHistory();
@@ -51,20 +49,18 @@ const Dao: React.FC<Props> = (props) => {
     {
       key: 1,
       title: 'Newsletter',
-      icon: <SvgIcon svg={newsletterSvg} />,
-      path: '/newsletter',
     },
     {
       key: 2,
-      title: 'Videos',
-      icon: <SvgIcon svg={videoSvg} />,
-      path: '/videos',
+      title: 'Newsletter',
     },
     {
       key: 3,
+      title: 'Videos',
+    },
+    {
+      key: 4,
       title: 'Group',
-      icon: <SvgIcon svg={daoSvg} />,
-      path: '/group',
     },
   ];
 

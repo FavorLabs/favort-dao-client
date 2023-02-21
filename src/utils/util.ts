@@ -1,4 +1,5 @@
 import Web3 from 'web3';
+import { CreatePost } from '@/declare/tubeApiType';
 
 export const splitUrl = (url: string): [string, string, string] => {
   let i = new URL(url);
@@ -61,3 +62,14 @@ export const omitAddress = (
 ) => {
   return str.substring(0, start) + '...' + str.substring(str.length - end);
 };
+
+// export const objToFormData = (obj: CreatePost, formData: FormData): FormData => {
+//   for (let key in obj) {
+//     if (key === 'contents') {
+//       obj[key].forEach((item) => {
+//         //
+//       })
+//     }
+//   }
+//   // return new FormData();
+// }

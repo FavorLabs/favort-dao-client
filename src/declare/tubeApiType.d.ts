@@ -78,3 +78,17 @@ type PartialVideo = Partial<Omit<Video, keyof RequiredVideo>>;
 export type CreateVideo = RequiredVideo | PartialVideo;
 export type UpdateVideo = PartialVideo;
 export type VideoRes = Video & MongoDBRes;
+
+export type Post = {
+  content: string | File;
+  type: number;
+  sort: number;
+};
+export type CreatePost = {
+  contents: Post[];
+  dao_id: string;
+  tags: string[];
+  type: number;
+  users: string[];
+  visibility: number;
+};
