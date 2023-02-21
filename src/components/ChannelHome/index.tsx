@@ -18,7 +18,7 @@ const ChannelHome: React.FC<Props> = (props) => {
   const [videoList, setVideoList] = useState<VideoRes[]>([]);
 
   const { api } = useSelector((state: Models) => state.global);
-  const { channelInfo } = useSelector((state: Models) => state.channel);
+  const { info } = useSelector((state: Models) => state.dao);
 
   const getVideoList = async () => {
     // try {

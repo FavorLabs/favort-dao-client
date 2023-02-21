@@ -2,7 +2,7 @@ import { Effect, ImmerReducer, Subscription } from 'umi';
 import { State as GlobalState } from '@/models/global';
 import { State as ManageState } from '@/models/manage';
 import { State as Web3State } from '@/models/web3';
-import { State as ChannelState } from '@/models/channel';
+import { State as DaoState } from '@/models/dao';
 
 export default interface ModelsType<T> {
   namespace?: string;
@@ -22,5 +22,5 @@ export interface Models {
   global: GlobalState;
   manage: ManageState;
   web3: Web3State;
-  channel: ChannelState;
+  dao: DaoState;
 }
