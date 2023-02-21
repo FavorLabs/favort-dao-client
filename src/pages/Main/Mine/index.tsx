@@ -18,6 +18,7 @@ import EditServiceInfoModal from '@/components/EditServiceInfoModal';
 import DaoApi from '@/services/tube/Dao';
 import { useUrl } from '@/utils/hooks';
 import { sleep } from '@/utils/util';
+import { DaoInfo } from '@/declare/tubeApiType';
 
 export type Props = {};
 type ManageItem = {
@@ -33,7 +34,7 @@ type AnimConfig = {
 const Mine: React.FC<Props> = (props) => {
   const history = useHistory();
   const url = useUrl();
-
+  const [daoInfo, setDaoInfo] = useState<DaoInfo>();
   const [haveGroupService, setHaveGroupService] = useState<boolean>(false);
   const [tipsModal, setTipsModal] = useState<boolean>(false);
   const [createGpModal, setCreateGpModal] = useState<boolean>(false);
@@ -44,13 +45,13 @@ const Mine: React.FC<Props> = (props) => {
   });
 
   const { address } = useSelector((state: Models) => state.web3);
-  const { user } = useSelector((state: Models) => state.global);
 
   useEffect(() => {
     async function fetch() {
       const { data } = await DaoApi.get(url);
       if (data.data.list.length) {
         setHaveGroupService(true);
+        setDaoInfo(data.data.list[0]);
       }
     }
 
@@ -156,7 +157,9 @@ const Mine: React.FC<Props> = (props) => {
                     <span
                       className={styles.text}
                       onClick={() => {
-                        history.push(`/dao/${user?.id}?tab=${item.configPath}`);
+                        history.push(
+                          `/dao/${daoInfo?.id}?tab=${item.configPath}`,
+                        );
                       }}
                     >
                       config

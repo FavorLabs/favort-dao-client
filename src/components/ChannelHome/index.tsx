@@ -17,14 +17,14 @@ const ChannelHome: React.FC<Props> = (props) => {
   const [videoList, setVideoList] = useState<VideoRes[]>([]);
 
   const { api } = useSelector((state: Models) => state.global);
-  const { channelInfo } = useSelector((state: Models) => state.channel);
+  const { info } = useSelector((state: Models) => state.dao);
 
   const getVideoList = async () => {
     try {
       const { data } = await VideoApi.getVideos(url, {
         page: 1,
         count: 1000,
-        channelId: channelInfo?._id as string,
+        channelId: info?.id as string,
       });
       if (data.data.list.length > 0) {
         setVideoList(data.data.list);

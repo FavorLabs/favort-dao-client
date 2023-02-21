@@ -12,9 +12,9 @@ export const usePath = () => {
 
 export const useUrl = () => {
   let { api } = useSelector((state: Models) => state.global);
-  return 'http://192.168.100.129:8008/v1';
+  // return 'http://192.168.100.129:8008/v1';
   // return 'http://192.168.100.49:8008/v1';
-  // return 'http://192.168.100.77:8008/v1';
+  return 'http://192.168.100.77:8008/v1';
   // if(!proxyGroup){
   //   proxyGroup = ProxyGroupList[0].name
   // }
@@ -23,7 +23,7 @@ export const useUrl = () => {
 
 export const useResourceUrl = () => {
   let { api } = useSelector((state: Models) => state.global);
-  return 'http://192.168.100.250:3000/paopao/avatars/';
+  return 'http://192.168.100.250:3000/paopao/avatars';
   // if(!proxyGroup){
   //   proxyGroup = ProxyGroupList[0].name
   // }
@@ -32,6 +32,6 @@ export const useResourceUrl = () => {
 
 export const useVerifyChannel = () => {
   const { address } = useSelector((state: Models) => state.web3);
-  const { channelInfo } = useSelector((state: Models) => state.channel);
-  return address?.toLowerCase() === channelInfo?.address?.toLowerCase();
+  const { user } = useSelector((state: Models) => state.global);
+  return address?.toLowerCase() === user?.address?.toLowerCase();
 };

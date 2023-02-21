@@ -11,6 +11,7 @@ import { useUrl, useVerifyChannel } from '@/utils/hooks';
 import DaoTab from '@/components/DaoTab';
 import DaoApi from '@/services/tube/Dao';
 import { DaoInfo } from '@/declare/tubeApiType';
+import { Models } from '@/declare/modelType';
 
 type Props = {
   match: {
@@ -35,7 +36,8 @@ const Dao: React.FC<Props> = (props) => {
   const topBarRef = useRef(null);
   const { id } = props.match.params;
 
-  const [info, setInfo] = useState<DaoInfo>();
+  const { info } = useSelector((state: Models) => state.dao);
+
   const [isBookmark, setIsBookmark] = useState(false);
 
   const [bookmarkModal, setBookmarkModal] = useState<boolean>(false);
@@ -44,7 +46,12 @@ const Dao: React.FC<Props> = (props) => {
 
   const getDaoInfo = async () => {
     const { data } = await DaoApi.getById(url, id);
-    setInfo(data.data);
+    dispatch({
+      type: 'dao/updateState',
+      payload: {
+        info: data.data,
+      },
+    });
   };
   const checkBookmark = async () => {
     const { data } = await DaoApi.checkBookmark(url, id);
