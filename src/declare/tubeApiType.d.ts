@@ -1,3 +1,5 @@
+import { AxiosResponse } from 'axios';
+
 export type MongoDBRes = {
   id: string;
   _id: string;
@@ -84,6 +86,7 @@ export type Post = {
   type: number;
   sort: number;
 };
+
 export type CreatePost = {
   contents: Post[];
   dao_id: string;
@@ -91,4 +94,41 @@ export type CreatePost = {
   type: number;
   users: string[];
   visibility: number;
+};
+
+export type ResData<T> = Promise<
+  AxiosResponse<{
+    code: number;
+    data: T;
+    msg: string;
+    tracehost: string;
+  }>
+>;
+
+export type Dao = {
+  name: string;
+  introduction: string;
+  visibility: boolean;
+};
+
+export type DaoInfo = {
+  address: string;
+  avatar: string;
+  id: string;
+  introduction: string;
+  name: string;
+  visibility: number;
+};
+
+export type DaoListData<T> = {
+  list: T[];
+  pager: {
+    page: number;
+    page_size: number;
+    total_rows: number;
+  };
+};
+
+export type Status = {
+  status: boolean;
 };

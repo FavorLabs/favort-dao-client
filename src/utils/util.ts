@@ -63,13 +63,8 @@ export const omitAddress = (
   return str.substring(0, start) + '...' + str.substring(str.length - end);
 };
 
-// export const objToFormData = (obj: CreatePost, formData: FormData): FormData => {
-//   for (let key in obj) {
-//     if (key === 'contents') {
-//       obj[key].forEach((item) => {
-//         //
-//       })
-//     }
-//   }
-//   // return new FormData();
-// }
+export const sleep = async (time: number) => {
+  await new Promise((s) => {
+    setTimeout(s, time);
+  });
+};

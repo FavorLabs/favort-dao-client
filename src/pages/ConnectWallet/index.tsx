@@ -38,6 +38,7 @@ const ConnectWallet: React.FC = (props) => {
         setWeb3(web3);
       })
       .catch((reason) => {
+        console.log(reason);
         message.warning(reason?.message);
       });
   };
@@ -80,8 +81,8 @@ const ConnectWallet: React.FC = (props) => {
   const signIn = async () => {
     if (loading) return;
     setLoading(true);
-    const timespan = Date.now();
-    const msg = `${address} login FavorTube at ${timespan}`;
+    const timestamp = Date.now();
+    const msg = `${address} login FavorTube at ${timestamp}`;
     // @ts-ignore
     const signature = await web3?.eth.personal
       ?.sign(msg, address)
@@ -90,25 +91,38 @@ const ConnectWallet: React.FC = (props) => {
         message.info(err.message);
       });
 
+    console.log(msg, signature, timestamp, address);
+
     if (!signature) return;
 
-    UserApi.signIn(url, { timespan, signature, address })
-      .then(({ data }) => {
-        dispatch({
-          type: 'web3/updateState',
-          payload: {
-            web3,
-            address,
-          },
-        });
-        localStorage.setItem('token', data.token);
-        localStorage.setItem(ConnectType, cType);
-        history.replace('/main');
-      })
-      .catch((err) => {
-        setLoading(false);
-        message.info(err.message);
+    try {
+      const { data } = await UserApi.signIn({
+        timestamp,
+        signature,
+        wallet_addr: address,
+        type: cType,
       });
+      localStorage.setItem('token', data.data.token);
+      const info = await UserApi.getInfo();
+      dispatch({
+        type: 'web3/updateState',
+        payload: {
+          web3,
+          address,
+        },
+      });
+      dispatch({
+        type: 'global/updateState',
+        payload: {
+          user: info.data.data,
+        },
+      });
+      localStorage.setItem(ConnectType, cType);
+      history.replace('/main');
+    } catch (e) {
+      setLoading(false);
+      if (e instanceof Error) message.info(e.message);
+    }
   };
 
   return (

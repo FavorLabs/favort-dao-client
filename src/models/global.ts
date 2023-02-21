@@ -1,7 +1,6 @@
 import ModelsType, { Models } from '@/declare/modelType';
 
 import { WebsocketProvider } from 'web3-core';
-import Web3 from 'web3';
 
 import { getEndPoint, splitUrl, websocket } from '@/utils/util';
 
@@ -22,6 +21,12 @@ export interface State {
   ws: null | (WebsocketProvider & Events);
   requestLoading: boolean;
   status: boolean;
+  user: {
+    address: string;
+    avatar: string;
+    id: string;
+    nickname: string;
+  } | null;
 }
 
 export default {
@@ -31,6 +36,7 @@ export default {
     ws: null,
     requestLoading: true,
     status: false,
+    user: null,
   },
   reducers: {
     updateState(state, { payload }) {

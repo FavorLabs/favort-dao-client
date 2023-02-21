@@ -1,55 +1,28 @@
 import * as React from 'react';
 import styles from './index.less';
-import { Avatar, Divider, Input, message, Modal } from 'antd';
-import { Ref, useMemo, useRef, useState } from 'react';
-import ImageCrop from '@/components/ImageCrop';
+import { Divider, Input, Modal } from 'antd';
+import { useMemo, useState } from 'react';
 import { useUrl } from '@/utils/hooks';
-import { useDispatch, useSelector } from 'umi';
-import { Models } from '@/declare/modelType';
-import ProxyApi from '@/services/ProxyApi';
+import { useDispatch } from 'umi';
+import { Dao } from '@/declare/tubeApiType';
 
 const { TextArea } = Input;
 
 export type Props = {
   open: boolean;
-  openModal: () => void;
   closeModal: () => void;
-  onOk: (name: string, desc: string | undefined) => void;
+  onOk: (name: string, desc: string) => void;
   loading: boolean;
+  dao?: Omit<Dao, 'visibility'>;
 };
 const EditServiceInfoModal: React.FC<Props> = (props) => {
-  const url = useUrl();
-  const dispatch = useDispatch();
-  const { channelInfo } = useSelector((state: Models) => state.global);
-  const [editInfoLoading, setEditInfoLoading] = useState<boolean>(false);
-  const [serviceName, setServiceName] = useState<string>('');
-  const [serviceDescription, setServiceDescription] = useState<
-    string | undefined
-  >(channelInfo?.introduction);
-  const imgRef = useRef<string>();
+  const { dao } = props;
+  const [serviceName, setServiceName] = useState(dao?.name || '');
+  const [serviceDescription, setServiceDescription] = useState(
+    dao?.introduction || '',
+  );
 
-  // const editChannelMore = async () => {
-  //   setEditInfoLoading(true);
-  //   try {
-  //     const info = await ProxyApi.updateChanel(url, {
-  //       avatar: imgRef.current,
-  //       introduction: serviceDescription,
-  //     });
-  //     dispatch({
-  //       type: 'global/updateState',
-  //       payload: {
-  //         channelInfo: info.data.data,
-  //       },
-  //     });
-  //     props.closeModal();
-  //   } catch (e) {
-  //     if (e instanceof Error) message.info(e.message);
-  //   } finally {
-  //     setEditInfoLoading(false);
-  //   }
-  // };
-
-  const oKHandle = () => {
+  const OKHandle = () => {
     props.onOk(serviceName, serviceDescription);
   };
 
@@ -67,7 +40,7 @@ const EditServiceInfoModal: React.FC<Props> = (props) => {
         open={props.open}
         destroyOnClose={true}
         okText="Create"
-        onOk={oKHandle}
+        onOk={OKHandle}
         okButtonProps={{ disabled: createDisable, loading: props.loading }}
         onCancel={() => {
           props.closeModal();
@@ -89,7 +62,8 @@ const EditServiceInfoModal: React.FC<Props> = (props) => {
             <p className={styles.label}>Description:</p>
             <TextArea
               allowClear
-              showCount
+              showCount={false}
+              maxLength={100}
               autoSize={{ minRows: 2, maxRows: 6 }}
               placeholder="Please enter your description"
               value={serviceDescription}

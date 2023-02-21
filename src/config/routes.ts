@@ -34,7 +34,7 @@ export default [
         ],
       },
       {
-        path: '/dao/:address',
+        path: '/dao/:id',
         component: '@/pages/Dao',
         routes: [
           // {
@@ -42,11 +42,11 @@ export default [
           //   redirect: '/dao/:address/videos',
           // },
           {
-            path: '/dao/:address/newsletter',
+            path: '/dao/:id/newsletter',
             component: '@/pages/Dao/Newsletter',
           },
           {
-            path: '/dao/:address/videos',
+            path: '/dao/:id/videos',
             component: '@/pages/Dao/Videos',
             routes: [
               // {
@@ -79,14 +79,10 @@ export default [
             ],
           },
           {
-            path: '/dao/:address/group',
+            path: '/dao/:id/group',
             component: '@/pages/Dao/Group',
           },
         ],
-      },
-      {
-        path: '/create',
-        component: '@/pages/CreateChannel',
       },
     ],
   },

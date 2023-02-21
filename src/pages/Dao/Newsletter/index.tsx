@@ -5,6 +5,7 @@ import NewsletterUpload from '@/components/NewsletterUpload';
 import { useEffect, useState } from 'react';
 import PostApi from '@/services/tube/PostApi';
 import { useUrl } from '@/utils/hooks';
+import Skeleton from '@/components/Skeleton';
 
 export type Props = {};
 const Newsletter: React.FC<Props> = (props) => {
@@ -29,6 +30,7 @@ const Newsletter: React.FC<Props> = (props) => {
 
   return (
     <>
+      <Skeleton loading={true} />
       <NewsletterUpload />
       {newsletterList.map((item, index) => (
         <div key={index}>

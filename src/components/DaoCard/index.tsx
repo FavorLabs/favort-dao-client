@@ -1,53 +1,22 @@
 import * as React from 'react';
 import styles from './index.less';
-import { useHistory } from 'umi';
 import { Avatar } from 'antd';
 
 export type Props = {
-  size?: number;
   avatar: any;
-  daoName: string;
-  address: string;
-  action: 'dao' | 'chat';
+  name?: string;
+  clickHandle: () => void;
 };
 const Index: React.FC<Props> = (props) => {
-  const { size, avatar, daoName, address, action } = props;
-  const history = useHistory();
-
-  const clickHandle = () => {
-    switch (action) {
-      case 'dao':
-        history.push({
-          pathname: `/dao/${address}`,
-          // @ts-ignore
-          query: { daoName },
-        });
-        break;
-      case 'chat':
-        window.open('https://github.com', '_blank');
-        break;
-      default:
-        break;
-    }
-  };
+  const { avatar, name = 'U', clickHandle } = props;
 
   return (
     <>
-      <div className={styles.cardItem}>
-        <div className={styles.cardItemInner}>
-          <Avatar
-            size={size || 30}
-            alt=""
-            src={avatar}
-            className={styles.daoAvatar}
-            onClick={clickHandle}
-          >
-            {daoName ? daoName.toUpperCase().substr(0, 1) : 'U'}
-          </Avatar>
-          <p className={styles.daoName} onClick={clickHandle}>
-            {daoName}
-          </p>
-        </div>
+      <div className={styles.card} onClick={clickHandle}>
+        <Avatar size={40} alt="" src={avatar} className={styles.avatar}>
+          {name[0].toUpperCase()}
+        </Avatar>
+        <p className={styles.name}>{name}</p>
       </div>
     </>
   );
