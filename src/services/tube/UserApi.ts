@@ -1,21 +1,24 @@
 import request from '@/services';
 
 export default {
-  signIn(data: {
-    timestamp: number;
-    wallet_addr: string;
-    signature: string;
-    type: string;
-  }) {
+  signIn(
+    url: string,
+    data: {
+      timestamp: number;
+      wallet_addr: string;
+      signature: string;
+      type: string;
+    },
+  ) {
     return request({
       method: 'post',
-      url: '/v1/auth/login',
+      url: url + '/auth/login',
       data,
     });
   },
-  getInfo() {
+  getInfo(url: string) {
     return request({
-      url: '/v1/user/info',
+      url: url + '/user/info',
     });
   },
 };
