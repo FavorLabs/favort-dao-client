@@ -14,9 +14,11 @@ import Loading from '@/components/Loading';
 import styles from './index.less';
 import web3 from '@/models/web3';
 import UserApi from '@/services/tube/UserApi';
+import { useUrl } from '@/utils/hooks';
 
 const Layout: React.FC = (props) => {
   const dispatch = useDispatch();
+  const url = useUrl();
 
   const { api, ws, status, requestLoading } = useSelector(
     (state: Models) => state.global,
@@ -99,7 +101,7 @@ const Layout: React.FC = (props) => {
     const connectType = localStorage.getItem(ConnectType);
     if (!token || !connectType) return history.push('/');
     try {
-      const info = await UserApi.getInfo();
+      const info = await UserApi.getInfo(url);
       const { address, web3 } = await connect(connectType as WalletType, true);
       dispatch({
         type: 'global/updateState',
