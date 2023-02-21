@@ -8,6 +8,7 @@ import VideoApi from '@/services/tube/VideoApi';
 import { Models } from '@/declare/modelType';
 import { usePath, useUrl } from '@/utils/hooks';
 import { VideoRes } from '@/declare/tubeApiType';
+import postApi from '@/services/tube/PostApi';
 
 export type Props = {};
 
@@ -20,22 +21,33 @@ const ChannelHome: React.FC<Props> = (props) => {
   const { channelInfo } = useSelector((state: Models) => state.channel);
 
   const getVideoList = async () => {
-    try {
-      const { data } = await VideoApi.getVideos(url, {
-        page: 1,
-        count: 1000,
-        channelId: channelInfo?._id as string,
-      });
-      if (data.data.list.length > 0) {
-        setVideoList(data.data.list);
-      }
-    } catch (e) {
-      if (e instanceof Error) message.error(e.message);
+    // try {
+    //   const { data } = await VideoApi.getVideos(url, {
+    //     page: 1,
+    //     count: 1000,
+    //     channelId: channelInfo?._id as string,
+    //   });
+    //   if (data.data.list.length > 0) {
+    //     setVideoList(data.data.list);
+    //   }
+    // } catch (e) {
+    //   if (e instanceof Error) message.error(e.message);
+    // }
+  };
+
+  const getList = async () => {
+    const { data } = await postApi.getPostListByAddress(
+      url,
+      '0xE28E429D3616Bb77Bee108FF943030B3311b4Ec3',
+    );
+    if (data.data) {
+      setVideoList(data.data.list);
     }
   };
 
   useEffect(() => {
     // getVideoList();
+    getList();
   }, []);
 
   return (

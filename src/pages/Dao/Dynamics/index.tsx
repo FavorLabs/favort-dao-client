@@ -2,7 +2,6 @@ import * as React from 'react';
 import styles from './index.less';
 import { useEffect, useMemo, useState } from 'react';
 import NewsletterCard from '@/components/NewsletterCard';
-import VideoCard from '@/components/VideoCard';
 import postApi from '@/services/tube/PostApi';
 import { useUrl } from '@/utils/hooks';
 
@@ -21,6 +20,7 @@ const Dynamics: React.FC<Props> = (props) => {
       setDynamicsList(data.data.list);
     }
   };
+  console.log('dynamicsList', dynamicsList);
 
   useEffect(() => {
     getList();
@@ -28,10 +28,13 @@ const Dynamics: React.FC<Props> = (props) => {
 
   return (
     <>
-      <NewsletterCard />
-      <VideoCard videoInfo={null} />
-      <NewsletterCard />
-      <NewsletterCard />
+      <>
+        {dynamicsList.map((item, index) => (
+          <div key={index}>
+            <NewsletterCard cardData={item} />
+          </div>
+        ))}
+      </>
     </>
   );
 };

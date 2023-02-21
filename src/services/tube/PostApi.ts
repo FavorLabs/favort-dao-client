@@ -31,4 +31,10 @@ export default {
       url: url + `/posts?address=${address}`,
     });
   },
+  deletePost(url: string, id: string): Promise<AxiosResponse<any>> {
+    return request({
+      method: 'delete',
+      url: url + `/post?id=${id}`,
+    });
+  },
 };
