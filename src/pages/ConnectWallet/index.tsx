@@ -91,16 +91,21 @@ const ConnectWallet: React.FC = (props) => {
         message.info(err.message);
       });
 
-    console.log(msg, signature, timestamp, address);
-
     if (!signature) return;
+
+    const typeData: Record<string, string> = {
+      [WalletConnect]: 'wallet_connect',
+      [MetaMask]: 'meta_mask',
+      [OKX]: 'okx',
+      [UniPass]: 'unipass',
+    };
 
     try {
       const { data } = await UserApi.signIn(url, {
         timestamp,
         signature,
         wallet_addr: address,
-        type: cType,
+        type: typeData[cType],
       });
       localStorage.setItem('token', data.data.token);
       const info = await UserApi.getInfo(url);
