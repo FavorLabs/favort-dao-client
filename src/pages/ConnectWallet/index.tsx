@@ -96,14 +96,14 @@ const ConnectWallet: React.FC = (props) => {
     if (!signature) return;
 
     try {
-      const { data } = await UserApi.signIn({
+      const { data } = await UserApi.signIn(url, {
         timestamp,
         signature,
         wallet_addr: address,
         type: cType,
       });
       localStorage.setItem('token', data.data.token);
-      const info = await UserApi.getInfo();
+      const info = await UserApi.getInfo(url);
       dispatch({
         type: 'web3/updateState',
         payload: {

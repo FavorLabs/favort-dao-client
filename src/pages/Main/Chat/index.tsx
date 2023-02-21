@@ -15,7 +15,7 @@ const Chat: React.FC<Props> = (props) => {
 
   const getList = async () => {
     const { data } = await DaoApi.getBookmarkList(url);
-    setChatList(data.data.list);
+    if (data.data.list) setChatList(data.data.list);
   };
 
   useEffect(() => {

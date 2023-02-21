@@ -106,7 +106,7 @@ export type DaoInfo = {
 };
 
 export type DaoListData<T> = {
-  list: T[];
+  list: T[] | null;
   pager: {
     page: number;
     page_size: number;

@@ -19,8 +19,7 @@ const DaoList: React.FC<Props> = (props) => {
 
   const getBookmarkList = async () => {
     const { data } = await DaoApi.getBookmarkList(url);
-    console.log(data);
-    setBookmarkList(data.data.list);
+    if (data.data.list) setBookmarkList(data.data.list);
   };
 
   useEffect(() => {
