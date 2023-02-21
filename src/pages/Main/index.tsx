@@ -11,6 +11,9 @@ import latestSvg from '@/assets/icon/latest.svg';
 import daoSvg from '@/assets/icon/dao.svg';
 import chatSvg from '@/assets/icon/chat.svg';
 import mineSvg from '@/assets/icon/mine.svg';
+import { useSelector } from 'umi';
+import { Models } from '@/declare/modelType';
+import { useResourceUrl } from '@/utils/hooks';
 
 export type Props = {};
 export type MenuItem = {
@@ -20,6 +23,8 @@ export type MenuItem = {
   path: string;
 };
 const Main: React.FC<Props> = (props) => {
+  const resourceUrl = useResourceUrl();
+  const { user } = useSelector((state: Models) => state.global);
   const menuItems: MenuItem[] = [
     {
       key: 1,
@@ -57,7 +62,7 @@ const Main: React.FC<Props> = (props) => {
               <Avatar
                 size={32}
                 alt=""
-                src={avatar_1}
+                src={user?.avatar && resourceUrl + user?.avatar}
                 className={styles.userAvatar}
               />
             </div>
