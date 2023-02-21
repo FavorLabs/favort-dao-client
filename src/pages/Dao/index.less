@@ -1,5 +1,6 @@
 .content {
   padding: 10px;
+
   .topBar {
     .action {
       position: relative;
@@ -8,12 +9,14 @@
       align-items: center;
       height: 30px;
       margin-bottom: 10px;
+
       .goBack,
       .bookmark {
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
       }
+
       .goBack {
         left: 0;
         font-size: 18px;
@@ -21,12 +24,14 @@
         color: @mainColor;
         line-height: 18px;
       }
+
       .daoName {
         max-width: 100px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
       }
+
       .bookmark {
         right: 0;
         display: flex;
@@ -40,14 +45,16 @@
         border: 1px solid #ccc;
       }
     }
+
     .daoDesc {
       display: flex;
       justify-content: flex-start;
-      align-items: center;
+      //align-items: center;
       flex-direction: column;
       padding: 5px 10px;
       border-radius: 6px;
       box-shadow: 1px 1px 6px 0 rgba(0, 0, 0, 0.15);
+
       .desc {
         font-size: 10px;
         overflow: hidden;
@@ -56,6 +63,7 @@
         -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
       }
+
       .avatar {
         margin: 0;
       }

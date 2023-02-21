@@ -3,7 +3,7 @@ export const OKX = 'okx';
 export const WalletConnect = 'walletconnect';
 export const ConnectType = 'connectType';
 
-export const UniPass = 'uniPass';
+export const UniPass = 'unipass';
 
 export const ApiURL = 'api';
 

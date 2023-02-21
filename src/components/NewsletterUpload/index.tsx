@@ -17,6 +17,8 @@ type Img = {
   base64: string;
 };
 const NewsletterUpload: React.FC<Props> = (props) => {
+  const [eye, setEye] = useState(false);
+  const [status, setStatus] = useState(0);
   const [imgList, setImgList] = useState<Img[]>([]);
   const inputImg = async (e: React.FormEvent<HTMLInputElement>) => {
     // @ts-ignore
@@ -78,7 +80,7 @@ const NewsletterUpload: React.FC<Props> = (props) => {
             </label>
           </div>
           <div>
-            <EyeOutlined />
+            <EyeOutlined onClick={() => setEye(!eye)} />
           </div>
         </div>
         <div>
@@ -104,7 +106,7 @@ const NewsletterUpload: React.FC<Props> = (props) => {
         ))}
       </div>
 
-      {false && (
+      {eye && (
         <div className={styles.visible}>
           <ConfigProvider
             theme={{
@@ -113,7 +115,10 @@ const NewsletterUpload: React.FC<Props> = (props) => {
               },
             }}
           >
-            <Radio.Group defaultValue={0}>
+            <Radio.Group
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+            >
               <Radio value={0}>Public</Radio>
               <Radio value={1}>Private</Radio>
             </Radio.Group>

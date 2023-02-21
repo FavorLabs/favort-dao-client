@@ -61,3 +61,9 @@ export const omitAddress = (
 ) => {
   return str.substring(0, start) + '...' + str.substring(str.length - end);
 };
+
+export const sleep = async (time: number) => {
+  await new Promise((s) => {
+    setTimeout(s, time);
+  });
+};
