@@ -62,7 +62,7 @@ const Main: React.FC<Props> = (props) => {
               <Avatar
                 size={32}
                 alt=""
-                src={user?.avatar && resourceUrl + user?.avatar}
+                src={user?.avatar && resourceUrl + '/' + user?.avatar}
                 className={styles.userAvatar}
               />
             </div>

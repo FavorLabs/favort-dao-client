@@ -19,6 +19,7 @@ import DaoApi from '@/services/tube/Dao';
 import { useUrl } from '@/utils/hooks';
 import { sleep } from '@/utils/util';
 import { DaoInfo } from '@/declare/tubeApiType';
+import ReviteApi from '@/services/Revite';
 
 export type Props = {};
 type ManageItem = {
@@ -43,8 +44,9 @@ const Mine: React.FC<Props> = (props) => {
     open: false,
     text: '',
   });
+  const [balance, setBalance] = useState('0');
 
-  const { address } = useSelector((state: Models) => state.web3);
+  const { address, web3 } = useSelector((state: Models) => state.web3);
 
   useEffect(() => {
     async function fetch() {
@@ -78,13 +80,18 @@ const Mine: React.FC<Props> = (props) => {
       configPath: 'group',
     },
   ];
-
+  const getBalance = async () => {
+    if (!web3) return;
+    const b = await web3.eth.getBalance(address);
+    if (b) setBalance(web3.utils.fromWei(b, 'ether'));
+  };
   const createGroupService = async (name: string, desc: string) => {
     console.log('name', name, desc);
     setCreateLoading(true);
     setAnimConfig({ open: true, text: 'The server is being created...' });
     try {
       const { data } = await DaoApi.create(url, { name, introduction: desc });
+      await ReviteApi.create(name);
       if (data.code === 0) {
         await sleep(2000);
         closeGpModal();
@@ -109,6 +116,12 @@ const Mine: React.FC<Props> = (props) => {
   const closeGpModal = () => {
     setCreateGpModal(false);
   };
+
+  useEffect(() => {
+    if (web3) {
+      getBalance();
+    }
+  }, [web3]);
 
   return (
     <>
@@ -136,7 +149,7 @@ const Mine: React.FC<Props> = (props) => {
               style={{ backgroundColor: '#F44336' }}
             />
             <div className={styles.name}>Account</div>
-            <div className={styles.balance}>$2.5</div>
+            <div className={styles.balance}>{balance}</div>
             <div className={styles.addressBtn}>
               <span className={styles.address}>{omitAddress(address)}</span>
               <CopyText text={address} />
