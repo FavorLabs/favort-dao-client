@@ -66,8 +66,8 @@ export type Video<> = {
   title: string;
   description: string;
   tags: string[];
-  thumbnail: string;
-  category: string;
+  thumbnail: string | Blob;
+  visibility: number;
   status: 'draft' | 'private' | 'public' | 'member' | 'secret';
   views: number;
   dislikes: number;
@@ -82,7 +82,7 @@ export type UpdateVideo = PartialVideo;
 export type VideoRes = Video & MongoDBRes;
 
 export type Post = {
-  content: string | File;
+  content: string;
   type: number;
   sort: number;
 };
@@ -94,6 +94,23 @@ export type CreatePost = {
   type: number;
   users: string[];
   visibility: number;
+};
+
+export type PostInfoRes = {
+  address: string;
+  collection_count: number;
+  contents: Post[];
+  tags: [];
+  type: number;
+  upvote_count: number;
+  view_count: number;
+  visibility: number;
+  id: string;
+  user: {
+    address: string;
+    avatar: string;
+    nickname: string;
+  };
 };
 
 export type ResData<T> = Promise<

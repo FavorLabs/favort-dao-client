@@ -14,8 +14,9 @@ const Newsletter: React.FC<Props> = (props) => {
   const url = useUrl();
   const { info } = useSelector((state: Models) => state.dao);
   const { user } = useSelector((state: Models) => state.global);
+  const { refreshVideoList } = useSelector((state: Models) => state.manage);
 
-  const [newsletterList, setNewsletterList] = useState([]);
+  const [newsletterList, setNewsletterList] = useState<any[]>([]);
 
   const getNewsletterList = async () => {
     const { data } = await PostApi.getPostListByType(url, {
@@ -30,17 +31,20 @@ const Newsletter: React.FC<Props> = (props) => {
 
   useEffect(() => {
     getNewsletterList();
-  }, []);
+  }, [refreshVideoList]);
 
   return (
     <>
       {/*<Skeleton loading={true} />*/}
       {user?.address === info?.address && <NewsletterUpload />}
-      {/*{newsletterList.map((item, index) => (*/}
-      {/*  <div key={index}>*/}
-      {/*    <NewsletterCard />*/}
-      {/*  </div>*/}
-      {/*))}*/}
+      {newsletterList.map(
+        (item, index) =>
+          item.type === 0 && (
+            <div key={index}>
+              <NewsletterCard cardData={item} />
+            </div>
+          ),
+      )}
     </>
   );
 };

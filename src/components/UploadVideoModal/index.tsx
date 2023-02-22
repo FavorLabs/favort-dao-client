@@ -12,6 +12,7 @@ import {
   Select,
   Progress,
   Spin,
+  Radio,
 } from 'antd';
 
 const { TextArea } = Input;
@@ -23,11 +24,14 @@ import VideoApi from '@/services/tube/VideoApi';
 import { Models } from '@/declare/modelType';
 import { StoreGroup, StorageOverlay } from '@/config/constants';
 import { stringToBinary, getProgress } from '@/utils/util';
-import { useUrl } from '@/utils/hooks';
+import { useResourceUrl, useUrl } from '@/utils/hooks';
 import imageCompression from 'browser-image-compression';
 import ImageCrop from '@/components/ImageCrop';
 import TagsEdit from '@/components/TagsEdit';
-import { PartialVideo } from '@/declare/tubeApiType';
+import { CreatePost, PartialVideo } from '@/declare/tubeApiType';
+import postApi from '@/services/tube/PostApi';
+import PostApi from '@/services/tube/PostApi';
+import ImageApi from '@/services/tube/Image';
 
 export type Props = {
   open: boolean;
@@ -48,6 +52,7 @@ export type downloadWsResItem = {
 
 const UploadVideoModal: React.FC<Props> = (props) => {
   const url = useUrl();
+  const resourceUrl = useResourceUrl();
   const dispatch = useDispatch();
   const [uploaded, setUploaded] = useState<boolean>(false);
   const [uploading, setUploading] = useState<boolean>(false);
@@ -56,19 +61,19 @@ const UploadVideoModal: React.FC<Props> = (props) => {
   const [submitLoading, setSubmitLoading] = useState<boolean>(false);
   const [thumbnailLoading, setThumbnailLoading] = useState<boolean>(false);
   const [progressValue, setProgressValue] = useState<number>(0);
-  const [uploadVideoId, setUploadVideoId] = useState<string>('');
-  const [formData, setFormData] = useState<PartialVideo>({
+  const [formData, setFormData] = useState<any>({
     title: '',
     description: '',
     tags: [''],
     thumbnail: '',
-    category: '',
+    visibility: 0,
+    video: '',
   });
 
-  const { api, debugApi, ws, proxyGroup } = useSelector(
+  const { api, debugApi, ws, user } = useSelector(
     (state: Models) => state.global,
   );
-  const { channelInfo } = useSelector((state: Models) => state.channel);
+  // const { channelInfo } = useSelector((state: Models) => state.channel);
   const { refreshVideoList } = useSelector((state: Models) => state.manage);
 
   const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
@@ -140,6 +145,7 @@ const UploadVideoModal: React.FC<Props> = (props) => {
         let res = null;
         try {
           res = await Api.sendMessage(api, debugApi, overlay, hash, StoreGroup);
+          console.log('sendMessage', res.data);
         } catch (e) {
           downloadFailed();
           return;
@@ -275,18 +281,7 @@ const UploadVideoModal: React.FC<Props> = (props) => {
         uploadedList[hash] = overlay;
         sessionStorage.setItem('uploaded_list', JSON.stringify(uploadedList));
       }
-      let video = await VideoApi.uploadVideo(url, {
-        channelId: channelInfo?._id,
-        hash,
-        overlay: uploadOverlay,
-      });
-      setFormData({
-        ...formData,
-        channelId: channelInfo?._id,
-        hash,
-        overlay: uploadOverlay,
-      });
-      setUploadVideoId(video.data.data._id);
+      setFormData({ ...formData, video: `${hash}?oracles=${uploadOverlay}` });
       setUploaded(true);
     } catch (e) {
       if (e instanceof Error) message.error(e.message);
@@ -308,23 +303,41 @@ const UploadVideoModal: React.FC<Props> = (props) => {
     else setSubmitDisable(true);
   };
 
+  const uploadThumbnail = async (file: File) => {
+    let fmData = new FormData();
+    fmData.append('thumbnail', file);
+    const { data } = await ImageApi.upload(resourceUrl, fmData);
+    console.log('uploadThumbnail', data);
+    setFormData({ ...formData, thumbnail: data.id });
+  };
+
   const submit = async () => {
     setSubmitLoading(true);
     try {
-      const { data } = await VideoApi.updateVideo(url, uploadVideoId, {
-        title: formData.title,
-        description: formData.description,
+      const contents: { content: any; type: number; sort: number }[] = [];
+      contents.push({ content: formData.title, type: 1, sort: 0 });
+      contents.push({ content: formData.description, type: 2, sort: 0 });
+      contents.push({ content: formData.thumbnail, type: 3, sort: 0 });
+      contents.push({ content: formData.video, type: 4, sort: 0 });
+      const postData: CreatePost = {
+        contents: contents,
+        dao_id: '63f3500e4698dbe6448ac109',
         tags: formData.tags,
-        thumbnail: formData.thumbnail,
-        category: formData.category,
-      });
-      props.closeModal();
-      dispatch({
-        type: 'manage/updateState',
-        payload: {
-          refreshVideoList: !refreshVideoList,
-        },
-      });
+        type: 1,
+        users: [],
+        visibility: formData.visibility,
+      };
+      const { data } = await PostApi.createPost(url, postData);
+      if (data.data) {
+        message.success('Submit successfully');
+        props.closeModal();
+        dispatch({
+          type: 'manage/updateState',
+          payload: {
+            refreshVideoList: !refreshVideoList,
+          },
+        });
+      }
     } catch (e) {
       if (e instanceof Error) message.error(e.message);
     } finally {
@@ -431,17 +444,18 @@ const UploadVideoModal: React.FC<Props> = (props) => {
                     }}
                   />
                 </div>
-                <div className={`${styles.videoCategory} ${styles.item}`}>
-                  <p className={styles.label}>Category</p>
-                  <Input
-                    className={styles.value}
-                    showCount
-                    maxLength={100}
-                    placeholder="Please enter video category"
-                    onChange={(e) => {
-                      setFormData({ ...formData, category: e.target.value });
-                    }}
-                  />
+                <div className={`${styles.videoVisibility} ${styles.item}`}>
+                  <p className={styles.label}>Visibility</p>
+                  <Radio.Group
+                    defaultValue={null}
+                    onChange={(e) =>
+                      setFormData({ ...formData, visibility: e.target.value })
+                    }
+                  >
+                    {/*<Radio value={0}>Draft</Radio>*/}
+                    <Radio value={1}>Public</Radio>
+                    <Radio value={2}>Private</Radio>
+                  </Radio.Group>
                 </div>
                 <div className={`${styles.videoThumbnail} ${styles.item}`}>
                   <p className={styles.label}>Thumbnail</p>
@@ -452,6 +466,7 @@ const UploadVideoModal: React.FC<Props> = (props) => {
                       setImgBase64={(imgBase64) => {
                         setFormData({ ...formData, thumbnail: imgBase64 });
                       }}
+                      action={uploadThumbnail}
                     />
                     {thumbnailLoading ? (
                       <Spin size="large" indicator={antIcon} />

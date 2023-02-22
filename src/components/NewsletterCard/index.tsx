@@ -7,7 +7,7 @@ import {
   ExclamationCircleFilled,
 } from '@ant-design/icons';
 import postApi from '@/services/tube/PostApi';
-import { useUrl } from '@/utils/hooks';
+import { useResourceUrl, useUrl } from '@/utils/hooks';
 
 export type Props = {
   cardData: any;
@@ -15,7 +15,7 @@ export type Props = {
 const NewsletterCard: React.FC<Props> = (props) => {
   const { cardData } = props;
   const url = useUrl();
-  console.log('cardData', cardData);
+  const resourceUrl = useResourceUrl();
   const style = { '--len': 3 } as React.CSSProperties;
   const [modalType, setModalType] = useState<
     'delete' | 'public' | 'private' | false
@@ -66,8 +66,9 @@ const NewsletterCard: React.FC<Props> = (props) => {
               <div className={styles.avatar}>
                 <img
                   src={
-                    cardData?.user?.avatar ||
-                    'https://assets.paopao.info/public/avatar/default/norman.png'
+                    cardData?.user?.avatar
+                      ? resourceUrl + cardData?.user?.avatar
+                      : 'https://assets.paopao.info/public/avatar/default/norman.png'
                   }
                   alt={'avatar'}
                 />

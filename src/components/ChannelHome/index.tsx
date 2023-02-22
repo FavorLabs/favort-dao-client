@@ -6,34 +6,29 @@ import { useHistory, useSelector } from 'umi';
 import { useEffect, useState } from 'react';
 import VideoApi from '@/services/tube/VideoApi';
 import { Models } from '@/declare/modelType';
-import { usePath, useUrl } from '@/utils/hooks';
-import { VideoRes } from '@/declare/tubeApiType';
+import { usePath, useResourceUrl, useUrl } from '@/utils/hooks';
+import { PostInfoRes, VideoRes } from '@/declare/tubeApiType';
 import postApi from '@/services/tube/PostApi';
 
 export type Props = {};
 
 const ChannelHome: React.FC<Props> = (props) => {
-  const path = usePath();
+  // const path = usePath();
+  const history = useHistory();
   const url = useUrl();
-  const [videoList, setVideoList] = useState<VideoRes[]>([]);
+  const contentType = {
+    title: 1,
+    description: 2,
+    video: 4,
+  };
+  // const resourceUrl = useResourceUrl();
+  const [topVTitle, setTopVTitle] = useState('');
+  const [topVDescription, setTopVDescription] = useState('');
+  const [topVSrc, setTopVSrc] = useState('');
+  const [videoList, setVideoList] = useState<PostInfoRes[]>([]);
 
   const { api } = useSelector((state: Models) => state.global);
-  const { info } = useSelector((state: Models) => state.dao);
-
-  const getVideoList = async () => {
-    // try {
-    //   const { data } = await VideoApi.getVideos(url, {
-    //     page: 1,
-    //     count: 1000,
-    //     channelId: channelInfo?._id as string,
-    //   });
-    //   if (data.data.list.length > 0) {
-    //     setVideoList(data.data.list);
-    //   }
-    // } catch (e) {
-    //   if (e instanceof Error) message.error(e.message);
-    // }
-  };
+  const { refreshVideoList } = useSelector((state: Models) => state.manage);
 
   const getList = async () => {
     const { data } = await postApi.getPostListByAddress(
@@ -41,14 +36,44 @@ const ChannelHome: React.FC<Props> = (props) => {
       '0xE28E429D3616Bb77Bee108FF943030B3311b4Ec3',
     );
     if (data.data) {
-      setVideoList(data.data.list);
+      const arr = data.data.list;
+      if (arr.length) {
+        const temp = arr.filter((item: any) => {
+          if (item.type === 1) return item;
+        });
+        console.log('temp', temp);
+        setVideoList(temp);
+      }
     }
   };
 
+  const getInfo = () => {
+    videoList[0]?.contents.forEach((item) => {
+      switch (item.type) {
+        case contentType.title:
+          setTopVTitle(item.content);
+          break;
+        case contentType.description:
+          setTopVDescription(item.content);
+          break;
+        case contentType.video:
+          setTopVSrc(item.content);
+          break;
+        default:
+          break;
+      }
+    });
+  };
+
   useEffect(() => {
-    // getVideoList();
     getList();
-  }, []);
+  }, [refreshVideoList]);
+
+  useEffect(() => {
+    if (videoList.length) {
+      getInfo();
+    }
+  }, [videoList]);
 
   return (
     <>
@@ -76,7 +101,7 @@ const ChannelHome: React.FC<Props> = (props) => {
                       controls
                       autoPlay={false}
                       playsInline
-                      key={videoList[0]?.hash}
+                      key={topVSrc}
                       style={{
                         width: '100%',
                         height: '100%',
@@ -84,13 +109,7 @@ const ChannelHome: React.FC<Props> = (props) => {
                       }}
                     >
                       <source
-                        src={
-                          api +
-                          '/file/' +
-                          videoList[0]?.hash +
-                          '?oracles=' +
-                          videoList[0]?.overlay
-                        }
+                        src={api + '/file/' + topVSrc}
                         type={'video/mp4'}
                       />
                     </video>
@@ -98,21 +117,19 @@ const ChannelHome: React.FC<Props> = (props) => {
                 </Col>
                 <Col>
                   <figcaption className={styles.details}>
-                    <p className={styles.title}>{videoList[0]?.title}</p>
+                    <p className={styles.title}>{topVTitle}</p>
                     <p className={styles.viewsDate}>
                       <span className={styles.views}>{0} views</span>
                       <span className={styles.separator}>&bull;</span>
                       <span className={styles.date}>
-                        {videoList[0]?.createdAt}
+                        {/*{videoList[0]?.createdAt}*/}
                       </span>
                     </p>
-                    <p className={styles.description}>
-                      {videoList[0]?.description}
-                    </p>
+                    <p className={styles.description}>{topVDescription}</p>
                     <span
                       className={styles.readMore}
                       onClick={() => {
-                        path(`/videos/video/${videoList[0].id}`);
+                        history.push(`/video/${videoList[0].id}`);
                       }}
                     >
                       Read More
@@ -145,7 +162,7 @@ const ChannelHome: React.FC<Props> = (props) => {
                     xl={{ span: 6 }}
                     style={{ width: '100%' }}
                     onClick={() => {
-                      path(`/videos/video/${item.id}`);
+                      history.push(`/video/${item.id}`);
                     }}
                   >
                     <VideoCard videoInfo={item} />

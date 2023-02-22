@@ -4,6 +4,8 @@ import NewsletterCard from '@/components/NewsletterCard';
 import { useEffect, useState } from 'react';
 import postApi from '@/services/tube/PostApi';
 import { useUrl } from '@/utils/hooks';
+import { PostInfoRes } from '@/declare/tubeApiType';
+import VideoCard from '@/components/VideoCard';
 
 export type Props = {};
 const Latest: React.FC<Props> = (props) => {
@@ -21,6 +23,20 @@ const Latest: React.FC<Props> = (props) => {
     }
   };
 
+  const getCard = (item: PostInfoRes) => {
+    if (item.type === 0) {
+      return <NewsletterCard cardData={item} />;
+    } else if (item.type === 1) {
+      return (
+        <div className={styles.videoCard}>
+          <VideoCard videoInfo={item} openThumb={false} />
+        </div>
+      );
+    } else {
+      return <></>;
+    }
+  };
+
   useEffect(() => {
     getList();
   }, []);
@@ -28,9 +44,7 @@ const Latest: React.FC<Props> = (props) => {
   return (
     <>
       {dataList.map((item, index) => (
-        <div key={index}>
-          <NewsletterCard cardData={item} />
-        </div>
+        <div key={index}>{getCard(item)}</div>
       ))}
     </>
   );
