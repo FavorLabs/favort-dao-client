@@ -9,7 +9,7 @@ import { Data } from '@/declare/tubeApiType';
 import { message } from 'antd';
 import Api from '@/services/Api';
 import { AxiosResponse } from 'axios';
-import { ApiURL, DefaultApi } from '@/config/constants';
+import { ApiURL, DefaultApi, NodeConfig } from '@/config/constants';
 import * as Events from 'events';
 import FavorlabsApi from '@/services/FavorlabsApi';
 import { Config, setConfig } from '@/config/config';
@@ -57,19 +57,11 @@ export default {
           protocol === 'http:' ? 'ws' : 'wss'
         }://${hostname}:${rpcWsPort}`;
         let ws = websocket(wsApi);
-        let addresses: AxiosResponse<Addresses> = yield call(
-          Api.getAddresses,
-          debugApi,
-        );
-        const config: AxiosResponse<Data<Config>> = yield call(
-          FavorlabsApi.getConfig,
-          addresses.data.network_id,
-        );
-        setConfig(config.data.data);
         yield put({
           type: 'updateState',
           payload: { api, debugApi, ws, status: true },
         });
+        // sessionStorage.setItem(NodeConfig, JSON.stringify(config));
         sessionStorage.setItem(ApiURL, api);
       } catch (e) {
         console.log(e);

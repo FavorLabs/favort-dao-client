@@ -12,6 +12,7 @@ import DaoTab from '@/components/DaoTab';
 import DaoApi from '@/services/tube/Dao';
 import { DaoInfo } from '@/declare/tubeApiType';
 import { Models } from '@/declare/modelType';
+import ReviteApi from '@/services/Revite';
 
 type Props = {
   match: {
@@ -37,6 +38,7 @@ const Dao: React.FC<Props> = (props) => {
   const { id } = props.match.params;
 
   const { info } = useSelector((state: Models) => state.dao);
+  const { web3 } = useSelector((state: Models) => state.web3);
 
   const [isBookmark, setIsBookmark] = useState(false);
 
@@ -65,6 +67,13 @@ const Dao: React.FC<Props> = (props) => {
     setLoading(false);
     setBookmarkModal(false);
     message.success('Success');
+    if (!info) return;
+    if (data.data.status) {
+      await ReviteApi.join(info.name);
+    } else {
+      const hash = web3?.utils.keccak256(`server_${info.name}`) as string;
+      await ReviteApi.leave(hash.slice(2));
+    }
   };
 
   useEffect(() => {

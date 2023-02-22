@@ -1,29 +1,31 @@
 // @flow
 import { Models } from '@/declare/modelType';
 import * as React from 'react';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch, history } from 'umi';
-import { ConnectType } from '@/config/constants';
+import { ConnectType, NodeConfig } from '@/config/constants';
 import { connect } from '@/utils/connect';
 import { WalletType } from '@/declare/global';
 import SettingApi from '@/components/SettingApi';
 import Web3 from 'web3';
-import { config, favorTubeAbi, tokenAbi } from '@/config/config';
+import { config, favorTubeAbi, setConfig, tokenAbi } from '@/config/config';
 import Api from '@/services/Api';
 import Loading from '@/components/Loading';
 import styles from './index.less';
 import web3 from '@/models/web3';
 import UserApi from '@/services/tube/UserApi';
 import { useUrl } from '@/utils/hooks';
+import FavorlabsApi from '@/services/FavorlabsApi';
 
 const Layout: React.FC = (props) => {
   const dispatch = useDispatch();
   const url = useUrl();
 
-  const { api, ws, status, requestLoading } = useSelector(
+  const { api, debugApi, ws, status, requestLoading } = useSelector(
     (state: Models) => state.global,
   );
   const proxyResult = useRef<string | number | null>(null);
+  const [configLoading, setConfigLoading] = useState(true);
 
   const getContract = async () => {
     const nodeWeb3 = new Web3(api + '/chain');
@@ -51,6 +53,21 @@ const Layout: React.FC = (props) => {
         },
       },
     });
+  };
+
+  const getConfig = async () => {
+    let nodeConfig = sessionStorage.getItem(NodeConfig);
+    if (nodeConfig) {
+      let config = JSON.parse(nodeConfig);
+      setConfig(config);
+      setConfigLoading(false);
+      return;
+    }
+    const data = await Api.getAddresses(debugApi);
+    const config = await FavorlabsApi.getConfig(data.data.network_id);
+    setConfig(config.data.data);
+    sessionStorage.setItem(NodeConfig, JSON.stringify(config.data.data));
+    setConfigLoading(false);
   };
 
   const connectNode = async () => {
@@ -135,6 +152,7 @@ const Layout: React.FC = (props) => {
   useEffect(() => {
     if (status) {
       // getContract();
+      getConfig();
       getLoginStatus();
       connectNode();
     }
@@ -143,12 +161,16 @@ const Layout: React.FC = (props) => {
   return (
     <div className={styles.main}>
       {status ? (
-        // requestLoading ?
-        //   <Loading
-        //     text={'Connecting to a p2p network'}
-        //     status={requestLoading}
-        //   /> :
-        <div className={styles.box}>{props.children}</div>
+        configLoading ? (
+          <Loading text={'Loading Config !!!'} status={configLoading} />
+        ) : (
+          // requestLoading ?
+          //   <Loading
+          //     text={'Connecting to a p2p network'}
+          //     status={requestLoading}
+          //   /> :
+          <div className={styles.box}>{props.children}</div>
+        )
       ) : (
         <SettingApi />
       )}
