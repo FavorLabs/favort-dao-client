@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 
 const ReviteService = axios.create({
-  baseURL: 'http://192.168.100.49:8000',
+  baseURL: 'http://192.168.100.250:8000',
 });
 
 ReviteService.interceptors.request.use((config) => {
