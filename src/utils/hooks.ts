@@ -32,7 +32,7 @@ export const useResourceUrl = () => {
 };
 
 export const useVerifyChannel = () => {
-  const { address } = useSelector((state: Models) => state.web3);
+  const { info } = useSelector((state: Models) => state.dao);
   const { user } = useSelector((state: Models) => state.global);
-  return address?.toLowerCase() === user?.address?.toLowerCase();
+  return info?.address.toLowerCase() === user?.address?.toLowerCase();
 };

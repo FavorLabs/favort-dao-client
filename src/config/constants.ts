@@ -1,3 +1,4 @@
+export const ReviteURL = 'http://192.168.100.250:9003';
 export const MetaMask = 'metamask';
 export const OKX = 'okx';
 export const WalletConnect = 'walletconnect';
@@ -5,6 +6,7 @@ export const ConnectType = 'connectType';
 
 export const UniPass = 'unipass';
 
+export const NodeConfig = 'nodeConfig';
 export const ApiURL = 'api';
 
 export const DefaultApi: string = 'http://localhost:1633';

@@ -45,4 +45,10 @@ export default {
       data: { dao_id: id },
     });
   },
+  queryDao(url: string, text: string): ResData<DaoListData<DaoInfo>> {
+    return request({
+      url: url + '/daos',
+      params: { query: text },
+    });
+  },
 };
