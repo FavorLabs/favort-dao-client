@@ -30,10 +30,11 @@ const NewsletterUpload: React.FC<Props> = (props) => {
   const [eye, setEye] = useState(false);
   const [status, setStatus] = useState(0);
   const [imgList, setImgList] = useState<Img[]>([]);
-  const [visibility, setVisibility] = useState<number>(0);
+  const [visibility, setVisibility] = useState<number>(1);
   const [tags, setTags] = useState<string[]>([]);
 
   const { address } = useSelector((state: Models) => state.web3);
+  const { info } = useSelector((state: Models) => state.dao);
 
   const inputImg = async (e: React.FormEvent<HTMLInputElement>) => {
     // @ts-ignore
@@ -104,7 +105,7 @@ const NewsletterUpload: React.FC<Props> = (props) => {
       contents.push({ content: text, type: 1, sort: 1 });
       const postData: CreatePost = {
         contents: contents,
-        dao_id: '63f3500e4698dbe6448ac109',
+        dao_id: info?.id as string,
         tags,
         type: 0,
         users: [],
@@ -123,7 +124,7 @@ const NewsletterUpload: React.FC<Props> = (props) => {
   const selectVisibilityDOM = () => (
     <div className={styles.selectVisibility}>
       <Radio.Group
-        defaultValue={1}
+        value={visibility}
         onChange={(e) => setVisibility(e.target.value)}
       >
         {/*<Radio value={0}>Draft</Radio>*/}

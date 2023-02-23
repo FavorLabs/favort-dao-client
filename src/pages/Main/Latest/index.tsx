@@ -4,7 +4,7 @@ import NewsletterCard from '@/components/NewsletterCard';
 import { useEffect, useState } from 'react';
 import postApi from '@/services/tube/PostApi';
 import { useUrl } from '@/utils/hooks';
-import { PostInfoRes } from '@/declare/tubeApiType';
+import { PostInfo } from '@/declare/tubeApiType';
 import VideoCard from '@/components/VideoCard';
 import { useHistory } from 'umi';
 
@@ -25,7 +25,7 @@ const Latest: React.FC<Props> = (props) => {
     }
   };
 
-  const getCard = (item: PostInfoRes) => {
+  const getCard = (item: PostInfo) => {
     if (item.type === 0) {
       return <NewsletterCard cardData={item} />;
     } else if (item.type === 1) {

@@ -161,16 +161,15 @@ const Layout: React.FC = (props) => {
   return (
     <div className={styles.main}>
       {status ? (
-        configLoading ? (
-          <Loading text={'Loading Config !!!'} status={configLoading} />
-        ) : (
-          // requestLoading ?
-          //   <Loading
-          //     text={'Connecting to a p2p network'}
-          //     status={requestLoading}
-          //   /> :
-          <div className={styles.box}>{props.children}</div>
-        )
+        // configLoading ?
+        //   <Loading text={'Loading Config !!!'} status={configLoading}/>
+        //   :
+        // requestLoading ?
+        //   <Loading
+        //     text={'Connecting to a p2p network'}
+        //     status={requestLoading}
+        //   /> :
+        <div className={styles.box}>{props.children}</div>
       ) : (
         <SettingApi />
       )}

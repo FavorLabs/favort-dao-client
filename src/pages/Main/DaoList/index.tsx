@@ -2,13 +2,12 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { history } from 'umi';
 import styles from './index.less';
-import { Input, AutoComplete } from 'antd';
-import { SearchOutlined } from '@ant-design/icons';
-import avatar_2 from '@/assets/img/avatar_2.jpg';
+import { AutoComplete } from 'antd';
 import DaoCard from '@/components/DaoCard';
 import DaoApi from '@/services/tube/Dao';
 import { useUrl } from '@/utils/hooks';
 import { DaoInfo } from '@/declare/tubeApiType';
+import { useDebounceFn } from 'ahooks';
 
 export type Props = {};
 
@@ -35,7 +34,7 @@ const DaoList: React.FC<Props> = (props) => {
     });
   };
 
-  const onChange = async (value: string) => {
+  const { run } = useDebounceFn(async (value: string) => {
     if (!value) return setOptions([]);
     const { data } = await DaoApi.queryDao(url, value);
     const res = data.data.list?.map((item) => {
@@ -45,7 +44,7 @@ const DaoList: React.FC<Props> = (props) => {
       };
     });
     setOptions(res || []);
-  };
+  });
   const onSelect = async (value: string) => {
     history.push(`/dao/${value}`);
   };
@@ -54,20 +53,11 @@ const DaoList: React.FC<Props> = (props) => {
     <>
       <div className={styles.content}>
         <div className={styles.search}>
-          {/*<Input*/}
-          {/*  className={styles.input}*/}
-          {/*  placeholder="community name"*/}
-          {/*  onChange={(e) => setValue(e.target.value)}*/}
-          {/*  prefix={<SearchOutlined />}*/}
-          {/*  allowClear*/}
-          {/*  value={value}*/}
-          {/*  addonAfter={<span>Search</span>}*/}
-          {/*/>*/}
           <AutoComplete
             options={options}
             style={{ width: '100%' }}
             onSelect={onSelect}
-            onChange={onChange}
+            onChange={run}
             placeholder="input here"
           />
         </div>

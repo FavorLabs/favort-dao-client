@@ -19,11 +19,15 @@ const Newsletter: React.FC<Props> = (props) => {
   const [newsletterList, setNewsletterList] = useState<any[]>([]);
 
   const getNewsletterList = async () => {
-    const { data } = await PostApi.getPostListByType(url, {
-      page: 1,
-      page_size: 100,
-      type: 0,
-    });
+    const { data } = await PostApi.getPostListByAddress(
+      url,
+      info?.address as string,
+      {
+        page: 1,
+        page_size: 100,
+        type: 0,
+      },
+    );
     if (data.data) {
       setNewsletterList(data.data.list);
     }

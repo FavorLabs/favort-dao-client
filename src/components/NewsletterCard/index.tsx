@@ -8,6 +8,7 @@ import {
 } from '@ant-design/icons';
 import postApi from '@/services/tube/PostApi';
 import { useResourceUrl, useUrl } from '@/utils/hooks';
+import { history } from 'umi';
 
 export type Props = {
   cardData: any;
@@ -59,16 +60,18 @@ const NewsletterCard: React.FC<Props> = (props) => {
 
   return (
     <>
-      <div className={styles.card}>
+      <div
+        className={styles.card}
+        onClick={() => history.push(`/dao/${cardData.daoId}`)}
+      >
         <>
           <header>
             <div className={styles.info}>
               <div className={styles.avatar}>
                 <img
                   src={
-                    cardData?.user?.avatar
-                      ? resourceUrl + cardData?.user?.avatar
-                      : 'https://assets.paopao.info/public/avatar/default/norman.png'
+                    cardData?.user?.avatar &&
+                    resourceUrl + '/' + cardData?.user?.avatar
                   }
                   alt={'avatar'}
                 />
