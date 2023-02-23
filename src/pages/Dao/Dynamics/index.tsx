@@ -6,12 +6,13 @@ import VideoCard from '@/components/VideoCard';
 import postApi from '@/services/tube/PostApi';
 import { useUrl } from '@/utils/hooks';
 import { PostInfoRes } from '@/declare/tubeApiType';
-import { useSelector } from 'umi';
+import { useSelector, useHistory } from 'umi';
 import { Models } from '@/declare/modelType';
 
 export type Props = {};
 const Dynamics: React.FC<Props> = (props) => {
   const url = useUrl();
+  const history = useHistory();
 
   const [dynamicsList, setDynamicsList] = useState<PostInfoRes[]>([]);
   const { refreshVideoList } = useSelector((state: Models) => state.manage);
@@ -29,8 +30,13 @@ const Dynamics: React.FC<Props> = (props) => {
       return <NewsletterCard cardData={item} />;
     } else if (item.type === 1) {
       return (
-        <div className={styles.videoCard}>
-          <VideoCard videoInfo={item} openThumb={false} />
+        <div
+          className={styles.videoCard}
+          onClick={() => {
+            history.push(`/video/${item.id}`);
+          }}
+        >
+          <VideoCard videoInfo={item} />
         </div>
       );
     } else {

@@ -6,10 +6,12 @@ import postApi from '@/services/tube/PostApi';
 import { useUrl } from '@/utils/hooks';
 import { PostInfoRes } from '@/declare/tubeApiType';
 import VideoCard from '@/components/VideoCard';
+import { useHistory } from 'umi';
 
 export type Props = {};
 const Latest: React.FC<Props> = (props) => {
   const url = useUrl();
+  const history = useHistory();
 
   const [dataList, setDataList] = useState([]);
 
@@ -28,8 +30,13 @@ const Latest: React.FC<Props> = (props) => {
       return <NewsletterCard cardData={item} />;
     } else if (item.type === 1) {
       return (
-        <div className={styles.videoCard}>
-          <VideoCard videoInfo={item} openThumb={false} />
+        <div
+          className={styles.videoCard}
+          onClick={() => {
+            history.push(`/video/${item.id}`);
+          }}
+        >
+          <VideoCard videoInfo={item} />
         </div>
       );
     } else {

@@ -123,10 +123,10 @@ const NewsletterUpload: React.FC<Props> = (props) => {
   const selectVisibilityDOM = () => (
     <div className={styles.selectVisibility}>
       <Radio.Group
-        defaultValue={0}
+        defaultValue={1}
         onChange={(e) => setVisibility(e.target.value)}
       >
-        <Radio value={0}>Draft</Radio>
+        {/*<Radio value={0}>Draft</Radio>*/}
         <Radio value={1}>Public</Radio>
         <Radio value={2}>Private</Radio>
       </Radio.Group>

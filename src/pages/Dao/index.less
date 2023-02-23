@@ -1,11 +1,11 @@
 .content {
-  display: flex;
   padding: 10px;
-  justify-content: flex-start;
-  flex-wrap: wrap;
+  flex-grow: 1;
+  overflow-y: scroll;
+
   .topBar {
-    width: 100%;
-    flex-shrink: 0;
+    //width: 100%;
+    //flex-shrink: 0;
     .action {
       position: relative;
       display: flex;
@@ -74,7 +74,5 @@
     }
   }
   .daoTab {
-    width: 100%;
-    flex-grow: 1;
   }
 }
