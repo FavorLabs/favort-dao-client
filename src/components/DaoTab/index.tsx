@@ -14,7 +14,7 @@ export type Props = {
 };
 const DaoTab: React.FC<Props> = (props) => {
   const swiperRef = useRef<SwiperRef>(null);
-  const [activeIndex, setActiveIndex] = useState(1);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const tabItems = [
     {

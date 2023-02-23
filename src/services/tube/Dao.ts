@@ -20,7 +20,7 @@ export default {
       params: { dao_id: id },
     });
   },
-  create(url: string, data: Omit<Dao, 'visibility'>) {
+  create(url: string, data: Omit<Dao, 'visibility'>): ResData<DaoInfo> {
     return request({
       url: url + '/dao',
       method: 'post',

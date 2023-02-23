@@ -1,24 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import styles from './index.less';
-import { ConfigProvider, Modal, Tooltip, Skeleton } from 'antd';
+import { ConfigProvider, Modal, Tooltip, Skeleton, message } from 'antd';
 import {
   HeartOutlined,
   EllipsisOutlined,
   ExclamationCircleFilled,
 } from '@ant-design/icons';
+import postApi from '@/services/tube/PostApi';
+import { useResourceUrl, useUrl } from '@/utils/hooks';
 
 export type Props = {
   cardData: any;
 };
 const NewsletterCard: React.FC<Props> = (props) => {
   const { cardData } = props;
-  console.log('cardData', cardData);
+  const url = useUrl();
+  const resourceUrl = useResourceUrl();
   const style = { '--len': 3 } as React.CSSProperties;
   const [modalType, setModalType] = useState<
     'delete' | 'public' | 'private' | false
   >(false);
   const confirm = () => {
-    setModalType(false);
+    if (modalType === 'delete') deletePost(cardData.id);
+    else setModalType(false);
   };
 
   const Operation = () => {
@@ -35,9 +39,22 @@ const NewsletterCard: React.FC<Props> = (props) => {
   };
 
   const renderContent = (type: number) => {
-    return cardData.contents.find((item: any) => {
+    return cardData?.contents?.filter((item: any) => {
       return item.type === type;
     });
+  };
+
+  const deletePost = async (id: string) => {
+    try {
+      const { data } = await postApi.deletePost(url, id);
+      if (data.data) {
+        message.success('Delete successfully');
+      }
+    } catch (e) {
+      if (e instanceof Error) message.error(e.message);
+    } finally {
+      setModalType(false);
+    }
   };
 
   return (
@@ -49,13 +66,14 @@ const NewsletterCard: React.FC<Props> = (props) => {
               <div className={styles.avatar}>
                 <img
                   src={
-                    cardData.user.avatar ||
-                    'https://assets.paopao.info/public/avatar/default/norman.png'
+                    cardData?.user?.avatar
+                      ? resourceUrl + cardData?.user?.avatar
+                      : 'https://assets.paopao.info/public/avatar/default/norman.png'
                   }
                   alt={'avatar'}
                 />
               </div>
-              <span className={styles.name}>{cardData.user.nickname}</span>
+              <span className={styles.name}>{cardData?.user?.nickname}</span>
             </div>
             <div>
               <Tooltip
@@ -74,49 +92,31 @@ const NewsletterCard: React.FC<Props> = (props) => {
             </div>
           </header>
           <div className={styles.content}>
-            {/*<div>{renderContent(0)}</div>*/}
+            <div>
+              {renderContent(1)?.map((item: any) => (
+                <p>{item.content}</p>
+              ))}
+            </div>
+          </div>
+          <div className={styles.content}>
+            <div>
+              {renderContent(2)?.map((item: any) => (
+                <p>{item.content}</p>
+              ))}
+            </div>
           </div>
           <div className={styles.media} style={style}>
-            <div>
-              <img
-                src={
-                  'http://192.168.100.250:9010/paopao/public/image/d0/64/1d/ea/8750-4fcf-a766-ba29dcd5eec6.jpeg?x-oss-process=image/resize,m_fill,w_300,h_300,limit_0/auto-orient,1/format,png'
-                }
-                alt={'img'}
-              />
-            </div>
-            <div>
-              <img
-                src={
-                  'http://192.168.100.250:9010/paopao/public/image/d0/64/1d/ea/8750-4fcf-a766-ba29dcd5eec6.jpeg?x-oss-process=image/resize,m_fill,w_300,h_300,limit_0/auto-orient,1/format,png'
-                }
-                alt={'img'}
-              />
-            </div>
-            <div>
-              <img
-                src={
-                  'http://192.168.100.250:9010/paopao/public/image/d0/64/1d/ea/8750-4fcf-a766-ba29dcd5eec6.jpeg?x-oss-process=image/resize,m_fill,w_300,h_300,limit_0/auto-orient,1/format,png'
-                }
-                alt={'img'}
-              />
-            </div>
-            <div>
-              <img
-                src={
-                  'http://192.168.100.250:9010/paopao/public/image/d0/64/1d/ea/8750-4fcf-a766-ba29dcd5eec6.jpeg?x-oss-process=image/resize,m_fill,w_300,h_300,limit_0/auto-orient,1/format,png'
-                }
-                alt={'img'}
-              />
-            </div>
+            {renderContent(3)?.map((item: any) => (
+              <div>
+                <img src={item.content} alt={'img'} />
+              </div>
+            ))}
           </div>
-          <div className={styles.time}>
-            <span>发布于 4 小时前</span>
-          </div>
+          <div className={styles.time}></div>
           <div className={styles.action}>
             <div className={styles.space}>
               <HeartOutlined className={styles.icon} />
-              <span className={styles.count}>1</span>
+              <span className={styles.count}>{cardData?.upvote_count}</span>
             </div>
           </div>
           <ConfigProvider

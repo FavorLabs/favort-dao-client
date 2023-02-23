@@ -10,9 +10,10 @@ export type Props = {
   setImgBase64: (imgBase64: string) => void;
   shape?: 'rect' | 'round';
   aspect?: number;
+  action?: (item: any) => any;
 };
 const Index: React.FC<Props> = (props) => {
-  const { url, setImgBase64, shape, aspect } = props;
+  const { url, setImgBase64, shape, aspect, action } = props;
   const defaultFileList: UploadFile[] = url
     ? [{ uid: '1', name: '', status: 'done', url: url }]
     : [];
@@ -54,6 +55,7 @@ const Index: React.FC<Props> = (props) => {
           onPreview={onPreview}
           onRemove={onRemove}
           maxCount={1}
+          action={action || ''}
           defaultFileList={defaultFileList}
         >
           {!upload && 'Upload'}

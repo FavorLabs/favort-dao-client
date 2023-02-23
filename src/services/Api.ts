@@ -69,17 +69,18 @@ export default {
       },
     });
   },
-  sendMessage(
+  async sendMessage(
     api: string,
+    debugApi: string,
     overlay: string,
     hash: string,
     storeGroup: string,
-    source: string,
   ): Promise<AxiosResponse<{ data: string }>> {
+    const data = await request.get(debugApi + '/addresses');
     return request.post(
       api + `/group/send/${storeGroup}/` + overlay,
       {
-        source: source,
+        source: data.data.overlay,
         hash,
       },
       { timeout: 30 * 1000 },

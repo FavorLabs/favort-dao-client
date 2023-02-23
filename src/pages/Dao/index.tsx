@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styles from './index.less';
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { useDispatch, useHistory, useSelector } from 'umi';
 import { Avatar, message, Divider, Modal } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
@@ -34,7 +34,6 @@ const Dao: React.FC<Props> = (props) => {
   const dispatch = useDispatch();
   const url = useUrl();
   const verifyChannel = useVerifyChannel();
-  const topBarRef = useRef(null);
   const { id } = props.match.params;
 
   const { info } = useSelector((state: Models) => state.dao);
@@ -84,7 +83,7 @@ const Dao: React.FC<Props> = (props) => {
   return (
     <>
       <div className={styles.content}>
-        <div className={styles.topBar} ref={topBarRef}>
+        <div className={styles.topBar}>
           <div className={styles.action}>
             <span
               className={styles.goBack}
@@ -113,14 +112,16 @@ const Dao: React.FC<Props> = (props) => {
               <Avatar
                 size={24}
                 alt=""
-                src={info?.avatar}
+                src={info?.avatar || avatar_1}
                 className={styles.userAvatar}
                 style={{ backgroundColor: '#F44336' }}
               />
             </Divider>
           </div>
         </div>
-        <DaoTab activeTab={props.history.location?.query?.tab} />
+        <div className={styles.daoTab}>
+          <DaoTab activeTab={props.history.location?.query?.tab} />
+        </div>
         <Modal
           title="Bookmark"
           centered

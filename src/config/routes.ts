@@ -84,6 +84,10 @@ export default [
           // },
         ],
       },
+      {
+        path: '/video/:vid',
+        component: '@/pages/Video',
+      },
     ],
   },
 ];

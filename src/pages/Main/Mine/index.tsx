@@ -99,6 +99,7 @@ const Mine: React.FC<Props> = (props) => {
         await sleep(3000);
         setAnimConfig({ open: false, text: '' });
         setHaveGroupService(true);
+        setDaoInfo(data.data);
       }
     } catch (e) {
       if (e instanceof Error) message.error(e.message);

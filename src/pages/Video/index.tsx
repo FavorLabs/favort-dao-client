@@ -6,34 +6,47 @@ import {
   LikeOutlined,
   DislikeOutlined,
   ShareAltOutlined,
+  ArrowLeftOutlined,
 } from '@ant-design/icons';
-import { useSelector } from 'umi';
+import { useSelector, useHistory } from 'umi';
 import VideoCard from '@/components/VideoCard';
 import { usePath, useUrl } from '@/utils/hooks';
-import VideoApi from '@/services/tube/VideoApi';
-import { VideoRes } from '@/declare/tubeApiType';
+import { PostInfoRes } from '@/declare/tubeApiType';
 import { Models } from '@/declare/modelType';
+import postApi from '@/services/tube/PostApi';
 
 export type Props = {
   match: {
     params: {
-      id: string;
+      vid: string;
     };
   };
 };
 const Video: React.FC<Props> = (props) => {
   const path = usePath();
   const url = useUrl();
+  const history = useHistory();
 
-  const [videoData, setVideoData] = useState<VideoRes | null>(null);
-  const [videoList, setVideoList] = useState<VideoRes[]>([]);
+  const [videoData, setVideoData] = useState<PostInfoRes | null>(null);
+  const [videoList, setVideoList] = useState<PostInfoRes[]>([]);
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [thumbnail, setThumbnail] = useState('');
+  const [vSrc, setVSrc] = useState('');
 
   const { api } = useSelector((state: Models) => state.global);
-  const { channelInfo } = useSelector((state: Models) => state.channel);
+  // const { channelInfo } = useSelector((state: Models) => state.channel);
+
+  const contentType = {
+    title: 1,
+    description: 2,
+    thumbnail: 3,
+    video: 4,
+  };
 
   const getVideoById = async (id: string) => {
     try {
-      const { data } = await VideoApi.getVideo(url, id);
+      const { data } = await postApi.getPostById(url, id);
       if (data.data) {
         setVideoData(data.data);
       }
@@ -43,36 +56,72 @@ const Video: React.FC<Props> = (props) => {
   };
 
   const getVideoList = async () => {
-    const { data } = await VideoApi.getVideos(url, {
+    const { data } = await postApi.getPostListByType(url, {
       page: 1,
-      count: 12,
-      channelId: channelInfo?._id,
+      page_size: 12,
+      type: 1,
     });
     if (data.data.list) {
       setVideoList(data.data.list);
     }
   };
+  console.log('videoData', videoData);
+
+  const getInfo = () => {
+    videoData?.contents?.forEach((item) => {
+      switch (item.type) {
+        case contentType.title:
+          setTitle(item.content);
+          break;
+        case contentType.description:
+          setDescription(item.content);
+          break;
+        case contentType.thumbnail:
+          setThumbnail(item.content);
+          break;
+        case contentType.video:
+          setVSrc(item.content);
+          break;
+        default:
+          break;
+      }
+    });
+  };
 
   useEffect(() => {
-    getVideoById(props.match.params.id);
+    getVideoById(props.match.params.vid);
     getVideoList();
-  }, [props.match.params.id]);
+  }, [props.match.params.vid]);
+
+  useEffect(() => {
+    if (videoData) {
+      getInfo();
+    }
+  }, [videoData]);
 
   return (
     <>
       <div className={styles.content}>
-        {/*<header className={'header'}>*/}
-        {/*  <div className={styles.topBar}>*/}
-        {/*    <div*/}
-        {/*      className={styles.logo}*/}
-        {/*      onClick={() => {*/}
-        {/*        path('');*/}
-        {/*      }}*/}
-        {/*    >*/}
-        {/*      FavorTube*/}
-        {/*    </div>*/}
-        {/*  </div>*/}
-        {/*</header>*/}
+        <header className={'header'}>
+          <div className={styles.topBar}>
+            <span
+              className={styles.goBack}
+              onClick={() => {
+                history.goBack();
+              }}
+            >
+              <ArrowLeftOutlined />
+            </span>
+            <div
+              className={styles.logo}
+              onClick={() => {
+                // path('');
+              }}
+            >
+              FavorDao
+            </div>
+          </div>
+        </header>
         <main className={styles.VideoMain}>
           <Row
             gutter={[30, 20]}
@@ -81,28 +130,23 @@ const Video: React.FC<Props> = (props) => {
           >
             <Col xl={{ span: 18 }} className={styles.col}>
               <div className={styles.mainLeft}>
-                <figure>
-                  {videoData?.hash ? (
+                <figure style={{ margin: 0 }}>
+                  {vSrc ? (
                     <div className={styles.player}>
                       <video
                         controls
                         autoPlay={true}
                         playsInline
-                        key={videoData?.hash}
+                        key={vSrc}
                         style={{
                           width: '100%',
                           height: '100%',
                           maxHeight: '500px',
+                          borderRadius: '4px',
                         }}
                       >
                         <source
-                          src={
-                            api +
-                            '/file/' +
-                            videoData?.hash +
-                            '?oracles=' +
-                            videoData?.overlay
-                          }
+                          src={api + '/file/' + vSrc}
                           type={'video/mp4'}
                         />
                       </video>
@@ -111,7 +155,7 @@ const Video: React.FC<Props> = (props) => {
                     <div className={styles.skeleton}></div>
                   )}
                   <figcaption className={styles.detail}>
-                    <p className={styles.title}>{videoData?.title}</p>
+                    <p className={styles.title}>{title}</p>
                     <div className={styles.userActions}>
                       <div className={styles.left}>
                         <Avatar
@@ -125,16 +169,18 @@ const Video: React.FC<Props> = (props) => {
                           onClick={() => {
                             path('');
                           }}
-                          src={channelInfo?.avatar}
+                          src={videoData?.user?.avatar}
                         >
-                          {channelInfo?.name
-                            ? channelInfo?.name?.toUpperCase().substr(0, 1)
+                          {videoData?.user?.nickname
+                            ? videoData?.user?.nickname
+                                ?.toUpperCase()
+                                .substr(0, 1)
                             : 'U'}
                         </Avatar>
                         <div className={styles.channelDetail}>
                           <p className={styles.name}>
-                            {videoData?.channelId.name
-                              ? videoData?.channelId.name
+                            {videoData?.user?.nickname
+                              ? videoData?.user?.nickname
                               : 'User'}
                           </p>
                           <p className={styles.subscribers}>0 subscribers</p>
@@ -174,12 +220,10 @@ const Video: React.FC<Props> = (props) => {
                       <p className={styles.viewsAndDate}>
                         <span className={styles.views}>{0} views</span>
                         <span className={styles.date}>
-                          {videoData?.updatedAt}
+                          {/*{videoData?.updatedAt}*/}
                         </span>
                       </p>
-                      <p className={styles.description}>
-                        {videoData?.description}
-                      </p>
+                      <p className={styles.description}>{description}</p>
                     </div>
                   </figcaption>
                 </figure>
@@ -195,14 +239,16 @@ const Video: React.FC<Props> = (props) => {
               <aside className={styles.mainRight}>
                 {videoList.map((item, index) => {
                   return (
-                    <div
-                      key={index}
-                      onClick={() => {
-                        path(`/video/${item.id}`);
-                      }}
-                    >
-                      <VideoCard videoInfo={item} />
-                    </div>
+                    item.type === 1 && (
+                      <div
+                        key={index}
+                        onClick={() => {
+                          path(`/video/${item.id}`);
+                        }}
+                      >
+                        <VideoCard videoInfo={item} />
+                      </div>
+                    )
                   );
                 })}
               </aside>
