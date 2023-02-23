@@ -28,13 +28,11 @@ const ChannelHome: React.FC<Props> = (props) => {
   const [videoList, setVideoList] = useState<PostInfoRes[]>([]);
 
   const { api } = useSelector((state: Models) => state.global);
+  const { info } = useSelector((state: Models) => state.dao);
   const { refreshVideoList } = useSelector((state: Models) => state.manage);
 
   const getList = async () => {
-    const { data } = await postApi.getPostListByAddress(
-      url,
-      '0xE28E429D3616Bb77Bee108FF943030B3311b4Ec3',
-    );
+    const { data } = await postApi.getPostListByAddress(url, info?.address);
     if (data.data) {
       const arr = data.data.list;
       if (arr.length) {

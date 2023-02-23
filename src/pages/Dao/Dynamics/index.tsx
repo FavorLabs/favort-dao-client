@@ -15,12 +15,10 @@ const Dynamics: React.FC<Props> = (props) => {
 
   const [dynamicsList, setDynamicsList] = useState<PostInfoRes[]>([]);
   const { refreshVideoList } = useSelector((state: Models) => state.manage);
+  const { info } = useSelector((state: Models) => state.dao);
 
   const getList = async () => {
-    const { data } = await postApi.getPostListByAddress(
-      url,
-      '0xE28E429D3616Bb77Bee108FF943030B3311b4Ec3',
-    );
+    const { data } = await postApi.getPostListByAddress(url, info?.address);
     if (data.data) {
       setDynamicsList(data.data.list);
     }

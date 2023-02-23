@@ -98,6 +98,13 @@ const NewsletterCard: React.FC<Props> = (props) => {
               ))}
             </div>
           </div>
+          <div className={styles.content}>
+            <div>
+              {renderContent(2)?.map((item: any) => (
+                <p>{item.content}</p>
+              ))}
+            </div>
+          </div>
           <div className={styles.media} style={style}>
             {renderContent(3)?.map((item: any) => (
               <div>
