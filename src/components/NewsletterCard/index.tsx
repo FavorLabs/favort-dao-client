@@ -67,8 +67,8 @@ const NewsletterCard: React.FC<Props> = (props) => {
                 <img
                   src={
                     cardData?.user?.avatar
-                      ? resourceUrl + cardData?.user?.avatar
-                      : 'https://assets.paopao.info/public/avatar/default/norman.png'
+                      ? `${resourceUrl}/${cardData?.user?.avatar}`
+                      : ''
                   }
                   alt={'avatar'}
                 />
@@ -94,20 +94,20 @@ const NewsletterCard: React.FC<Props> = (props) => {
           <div className={styles.content}>
             <div>
               {renderContent(1)?.map((item: any) => (
-                <p>{item.content}</p>
+                <p key={item.id}>{item.content}</p>
               ))}
             </div>
           </div>
           <div className={styles.content}>
             <div>
               {renderContent(2)?.map((item: any) => (
-                <p>{item.content}</p>
+                <p key={item.id}>{item.content}</p>
               ))}
             </div>
           </div>
           <div className={styles.media} style={style}>
             {renderContent(3)?.map((item: any) => (
-              <div>
+              <div key={item.id}>
                 <img src={item.content} alt={'img'} />
               </div>
             ))}

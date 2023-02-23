@@ -23,7 +23,7 @@ type Props = {
   history: {
     location: {
       query: {
-        tab: string;
+        tabIndex: number;
       };
     };
   };
@@ -120,7 +120,7 @@ const Dao: React.FC<Props> = (props) => {
           </div>
         </div>
         <div className={styles.daoTab}>
-          <DaoTab activeTab={props.history.location?.query?.tab} />
+          <DaoTab activeTab={props.history.location?.query?.tabIndex} />
         </div>
         <Modal
           title="Bookmark"

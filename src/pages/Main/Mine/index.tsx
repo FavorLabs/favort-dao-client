@@ -26,7 +26,7 @@ type ManageItem = {
   key: number;
   title: string;
   icon: ReactNode;
-  configPath: string;
+  tabIndex: number;
 };
 type AnimConfig = {
   open: boolean;
@@ -65,19 +65,19 @@ const Mine: React.FC<Props> = (props) => {
       key: 1,
       title: 'newsletter',
       icon: <SvgIcon svg={newsletterSvg} />,
-      configPath: 'newsletter',
+      tabIndex: 1,
     },
     {
       key: 2,
       title: 'videos',
       icon: <SvgIcon svg={videoSvg} />,
-      configPath: 'videos',
+      tabIndex: 2,
     },
     {
       key: 3,
       title: 'group',
       icon: <SvgIcon svg={daoSvg} />,
-      configPath: 'group',
+      tabIndex: 3,
     },
   ];
   const getBalance = async () => {
@@ -172,7 +172,7 @@ const Mine: React.FC<Props> = (props) => {
                       className={styles.text}
                       onClick={() => {
                         history.push(
-                          `/dao/${daoInfo?.id}?tab=${item.configPath}`,
+                          `/dao/${daoInfo?.id}?tabIndex=${item.tabIndex}`,
                         );
                       }}
                     >
