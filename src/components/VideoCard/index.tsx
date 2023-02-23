@@ -1,13 +1,13 @@
 import * as React from 'react';
 import styles from './index.less';
-import { PostInfoRes, VideoRes } from '@/declare/tubeApiType';
+import { PostInfo, VideoRes } from '@/declare/tubeApiType';
 import { useEffect, useState } from 'react';
 import { useResourceUrl } from '@/utils/hooks';
 import { useSelector } from 'umi';
 import { Models } from '@/declare/modelType';
 
 export type Props = {
-  videoInfo: PostInfoRes;
+  videoInfo: PostInfo;
   openThumb?: boolean;
 };
 const VideoCard: React.FC<Props> = (props) => {

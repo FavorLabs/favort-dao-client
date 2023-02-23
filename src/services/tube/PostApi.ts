@@ -1,9 +1,15 @@
 import type { AxiosResponse } from 'axios';
 import request from '@/services';
-import { CreatePost } from '@/declare/tubeApiType';
+import {
+  CreatePost,
+  ListData,
+  PostInfo,
+  ResData,
+  Status,
+} from '@/declare/tubeApiType';
 
 export default {
-  createPost(url: string, data: CreatePost): Promise<AxiosResponse<any>> {
+  createPost(url: string, data: CreatePost): ResData<PostInfo> {
     return request({
       method: 'post',
       url: url + '/post',
@@ -17,7 +23,7 @@ export default {
       page_size: number;
       type?: number;
     },
-  ): Promise<AxiosResponse<any>> {
+  ): ResData<ListData<PostInfo>> {
     return request({
       url: url + '/posts',
       params,
@@ -26,12 +32,18 @@ export default {
   getPostListByAddress(
     url: string,
     address: string,
-  ): Promise<AxiosResponse<any>> {
+    params: {
+      page: number;
+      page_size: number;
+      type?: number;
+    },
+  ): ResData<ListData<PostInfo>> {
     return request({
-      url: url + `/posts?address=${address}`,
+      url: url + `/user/posts?address=${address}`,
+      params,
     });
   },
-  getPostById(url: string, id: string): Promise<AxiosResponse<any>> {
+  getPostById(url: string, id: string): ResData<PostInfo> {
     return request({
       url: url + '/post',
       params: {
@@ -39,7 +51,7 @@ export default {
       },
     });
   },
-  deletePost(url: string, id: string): Promise<AxiosResponse<any>> {
+  deletePost(url: string, id: string): ResData<Status> {
     return request({
       method: 'delete',
       url: url + `/post?id=${id}`,
