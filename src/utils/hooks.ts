@@ -6,7 +6,6 @@ export const usePath = () => {
   const params = useParams<{ id: string }>();
   return (path: string = '') => {
     path = path.replace(/^\//, '');
-    console.log('id', params.id);
     history.push(`/dao/${params.id}/${path}`);
   };
 };

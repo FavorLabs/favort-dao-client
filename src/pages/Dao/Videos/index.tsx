@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styles from './index.less';
-import ChannelHome from '@/components/ChannelHome';
+import DaoVideoList from '@/components/DaoVideoList';
 import UploadVideoModal from '@/components/UploadVideoModal';
 import { useState } from 'react';
 import { Button } from 'antd';
@@ -28,7 +28,7 @@ const Videos: React.FC<Props> = (props) => {
                 </Button>
               </div>
             )}
-            <ChannelHome />
+            <DaoVideoList />
           </div>
         </main>
         {uploadVideoModal && (

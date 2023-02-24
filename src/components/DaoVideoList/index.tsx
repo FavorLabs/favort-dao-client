@@ -11,7 +11,7 @@ import postApi from '@/services/tube/PostApi';
 
 export type Props = {};
 
-const ChannelHome: React.FC<Props> = (props) => {
+const DaoVideoList: React.FC<Props> = (props) => {
   // const path = usePath();
   const history = useHistory();
   const url = useUrl();
@@ -182,4 +182,4 @@ const ChannelHome: React.FC<Props> = (props) => {
   );
 };
 
-export default ChannelHome;
+export default DaoVideoList;

@@ -5,7 +5,6 @@ import { WebsocketProvider } from 'web3-core';
 import { getEndPoint, splitUrl, websocket } from '@/utils/util';
 
 import { ApiPort } from '@/declare/nodeApiType';
-import { Data } from '@/declare/tubeApiType';
 import { message } from 'antd';
 import Api from '@/services/Api';
 import { AxiosResponse } from 'axios';

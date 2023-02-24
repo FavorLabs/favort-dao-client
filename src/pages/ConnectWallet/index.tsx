@@ -19,7 +19,7 @@ import { WalletType } from '@/declare/global';
 import UserApi from '@/services/tube/UserApi';
 import { useUrl } from '@/utils/hooks';
 import Web3 from 'web3';
-import { isMobile } from '@/config/config';
+import { isMobile } from '@/utils/util';
 import ReviteApi from '@/services/Revite';
 
 const ConnectWallet: React.FC = (props) => {
@@ -58,12 +58,12 @@ const ConnectWallet: React.FC = (props) => {
     {
       icon: metamask_png,
       name: MetaMask,
-      show: !isMobile,
+      show: !isMobile(),
     },
     {
       icon: okx_png,
       name: OKX,
-      show: !isMobile,
+      show: !isMobile(),
     },
   ];
 
