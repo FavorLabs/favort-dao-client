@@ -47,7 +47,7 @@ const DaoTab: React.FC<Props> = (props) => {
         activeKey={tabItems[activeIndex].key}
         onChange={(key) => {
           const index = tabItems.findIndex((item) => item.key === key);
-          history.push(`/dao/${params.id}?${tabItems[index].title}`);
+          history.push(`/dao/${params.id}?tabIndex=${index}`);
           setActiveIndex(index);
           swiperRef.current?.swipeTo(index);
         }}
@@ -64,10 +64,12 @@ const DaoTab: React.FC<Props> = (props) => {
         onIndexChange={(index) => {
           setActiveIndex(index);
         }}
+        className={styles.tabContent}
       >
-        {tabItems.map((item) => (
-          <Swiper.Item key={item.key} className={styles.tabContent}>
-            {item.component}
+        {tabItems.map((item, index) => (
+          <Swiper.Item key={item.key} className={styles.tabItem}>
+            {/*{item.component}*/}
+            {activeIndex == index ? item.component : <></>}
           </Swiper.Item>
         ))}
       </Swiper>

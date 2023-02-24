@@ -15,4 +15,13 @@ request.interceptors.request.use((config) => {
   return config;
 });
 
+request.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    return Promise.reject(
+      error.response?.data?.msg ? Error(error.response?.data.msg) : error,
+    );
+  },
+);
+
 export default request;

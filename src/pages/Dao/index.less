@@ -1,11 +1,11 @@
 .content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   padding: 10px;
   flex-grow: 1;
-  overflow-y: scroll;
-
+  box-sizing: border-box;
   .topBar {
-    //width: 100%;
-    //flex-shrink: 0;
     .action {
       position: relative;
       display: flex;
@@ -74,5 +74,7 @@
     }
   }
   .daoTab {
+    flex-grow: 1;
+    overflow-y: hidden;
   }
 }

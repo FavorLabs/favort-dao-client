@@ -105,7 +105,7 @@ const NewsletterUpload: React.FC<Props> = (props) => {
       contents.push({ content: text, type: 1, sort: 1 });
       const postData: CreatePost = {
         contents: contents,
-        dao_id: info?.address,
+        dao_id: info?.id as string,
         tags,
         type: 0,
         users: [],
@@ -124,7 +124,7 @@ const NewsletterUpload: React.FC<Props> = (props) => {
   const selectVisibilityDOM = () => (
     <div className={styles.selectVisibility}>
       <Radio.Group
-        defaultValue={1}
+        value={visibility}
         onChange={(e) => setVisibility(e.target.value)}
       >
         {/*<Radio value={0}>Draft</Radio>*/}

@@ -11,7 +11,7 @@ import {
 import { useSelector, useHistory } from 'umi';
 import VideoCard from '@/components/VideoCard';
 import { usePath, useUrl } from '@/utils/hooks';
-import { PostInfoRes } from '@/declare/tubeApiType';
+import { PostInfo } from '@/declare/tubeApiType';
 import { Models } from '@/declare/modelType';
 import postApi from '@/services/tube/PostApi';
 
@@ -27,8 +27,8 @@ const Video: React.FC<Props> = (props) => {
   const url = useUrl();
   const history = useHistory();
 
-  const [videoData, setVideoData] = useState<PostInfoRes | null>(null);
-  const [videoList, setVideoList] = useState<PostInfoRes[]>([]);
+  const [videoData, setVideoData] = useState<PostInfo | null>(null);
+  const [videoList, setVideoList] = useState<PostInfo[]>([]);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [thumbnail, setThumbnail] = useState('');

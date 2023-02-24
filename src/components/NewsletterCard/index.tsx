@@ -8,6 +8,7 @@ import {
 } from '@ant-design/icons';
 import postApi from '@/services/tube/PostApi';
 import { useResourceUrl, useUrl } from '@/utils/hooks';
+import { history } from 'umi';
 
 export type Props = {
   cardData: any;
@@ -59,7 +60,10 @@ const NewsletterCard: React.FC<Props> = (props) => {
 
   return (
     <>
-      <div className={styles.card}>
+      <div
+        className={styles.card}
+        onClick={() => history.push(`/dao/${cardData.daoId}`)}
+      >
         <>
           <header>
             <div className={styles.info}>

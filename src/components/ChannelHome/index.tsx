@@ -4,10 +4,9 @@ import { Row, Col, Divider, message } from 'antd';
 import VideoCard from '@/components/VideoCard';
 import { useHistory, useSelector } from 'umi';
 import { useEffect, useState } from 'react';
-import VideoApi from '@/services/tube/VideoApi';
 import { Models } from '@/declare/modelType';
 import { usePath, useResourceUrl, useUrl } from '@/utils/hooks';
-import { PostInfoRes, VideoRes } from '@/declare/tubeApiType';
+import { PostInfo } from '@/declare/tubeApiType';
 import postApi from '@/services/tube/PostApi';
 
 export type Props = {};
@@ -25,14 +24,22 @@ const ChannelHome: React.FC<Props> = (props) => {
   const [topVTitle, setTopVTitle] = useState('');
   const [topVDescription, setTopVDescription] = useState('');
   const [topVSrc, setTopVSrc] = useState('');
-  const [videoList, setVideoList] = useState<PostInfoRes[]>([]);
+  const [videoList, setVideoList] = useState<PostInfo[]>([]);
 
   const { api } = useSelector((state: Models) => state.global);
   const { info } = useSelector((state: Models) => state.dao);
   const { refreshVideoList } = useSelector((state: Models) => state.manage);
 
   const getList = async () => {
-    const { data } = await postApi.getPostListByAddress(url, info?.address);
+    const { data } = await postApi.getPostListByAddress(
+      url,
+      info?.address as string,
+      {
+        page: 1,
+        page_size: 10,
+        type: 1,
+      },
+    );
     if (data.data) {
       const arr = data.data.list;
       if (arr.length) {

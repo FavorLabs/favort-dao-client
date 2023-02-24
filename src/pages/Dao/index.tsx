@@ -78,6 +78,14 @@ const Dao: React.FC<Props> = (props) => {
   useEffect(() => {
     getDaoInfo();
     checkBookmark();
+    return () => {
+      dispatch({
+        type: 'dao/updateState',
+        payload: {
+          info: null,
+        },
+      });
+    };
   }, [id]);
 
   return (
@@ -120,7 +128,9 @@ const Dao: React.FC<Props> = (props) => {
           </div>
         </div>
         <div className={styles.daoTab}>
-          <DaoTab activeTab={props.history.location?.query?.tabIndex} />
+          {info && (
+            <DaoTab activeTab={props.history.location?.query?.tabIndex} />
+          )}
         </div>
         <Modal
           title="Bookmark"

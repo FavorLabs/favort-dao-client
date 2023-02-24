@@ -1,12 +1,6 @@
 import type { AxiosResponse } from 'axios';
 import request from '@/services';
-import {
-  Dao,
-  DaoInfo,
-  DaoListData,
-  ResData,
-  Status,
-} from '@/declare/tubeApiType';
+import { Dao, DaoInfo, ListData, ResData, Status } from '@/declare/tubeApiType';
 
 export default {
   get(url: string) {
@@ -14,7 +8,7 @@ export default {
       url: url + '/dao/my',
     });
   },
-  getById(url: string, id: string) {
+  getById(url: string, id: string): ResData<DaoInfo> {
     return request({
       url: url + '/dao',
       params: { dao_id: id },
@@ -27,7 +21,7 @@ export default {
       data,
     });
   },
-  getBookmarkList(url: string): ResData<DaoListData<DaoInfo>> {
+  getBookmarkList(url: string): ResData<ListData<DaoInfo>> {
     return request({
       url: url + '/daos',
     });
@@ -45,7 +39,7 @@ export default {
       data: { dao_id: id },
     });
   },
-  queryDao(url: string, text: string): ResData<DaoListData<DaoInfo>> {
+  queryDao(url: string, text: string): ResData<ListData<DaoInfo>> {
     return request({
       url: url + '/daos',
       params: { query: text },
