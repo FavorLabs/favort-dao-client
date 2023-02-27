@@ -19,7 +19,6 @@ import DaoApi from '@/services/tube/Dao';
 import { useUrl } from '@/utils/hooks';
 import { sleep } from '@/utils/util';
 import { DaoInfo } from '@/declare/tubeApiType';
-import ReviteApi from '@/services/Revite';
 
 export type Props = {};
 type ManageItem = {
@@ -91,7 +90,6 @@ const Mine: React.FC<Props> = (props) => {
     setAnimConfig({ open: true, text: 'The server is being created...' });
     try {
       const { data } = await DaoApi.create(url, { name, introduction: desc });
-      await ReviteApi.create(name);
       if (data.code === 0) {
         await sleep(2000);
         closeGpModal();

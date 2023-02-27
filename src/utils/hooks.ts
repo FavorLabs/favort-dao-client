@@ -13,6 +13,7 @@ export const usePath = () => {
 export const useUrl = () => {
   // let { api } = useSelector((state: Models) => state.global);
   return 'http://192.168.100.250:8010/v1';
+  // return 'http://192.168.100.49:8010/v1';
   // return api + '/group/http/' + proxyGroup + '/' + DomainName + '/api/v1';
 };
 

@@ -20,7 +20,6 @@ import UserApi from '@/services/tube/UserApi';
 import { useUrl } from '@/utils/hooks';
 import Web3 from 'web3';
 import { isMobile } from '@/utils/util';
-import ReviteApi from '@/services/Revite';
 
 const ConnectWallet: React.FC = (props) => {
   const dispatch = useDispatch();
@@ -110,7 +109,6 @@ const ConnectWallet: React.FC = (props) => {
       });
       localStorage.setItem('token', data.data.token);
       const info = await UserApi.getInfo(url);
-      await ReviteApi.hello();
       dispatch({
         type: 'web3/updateState',
         payload: {
