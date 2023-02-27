@@ -22,6 +22,9 @@ export const ProxyGroupList = [
   },
 ];
 export const DomainName = 'favortube.com';
-export const StoreGroup = 'favortube-storage';
+// export const StoreGroup = 'favortube-storage';
+// export const StorageOverlay =
+//   'bf7014a07a188ca35f4e61d2003ab45f7d5933c09f1cd560b26f420c43eca640';
+export const StoreGroup = 'favorDao-storage';
 export const StorageOverlay =
   'bf7014a07a188ca35f4e61d2003ab45f7d5933c09f1cd560b26f420c43eca640';

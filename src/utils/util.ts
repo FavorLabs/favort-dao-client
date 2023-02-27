@@ -36,6 +36,10 @@ export const isMobile = () => {
   );
 };
 
+export const isFavor = () => {
+  return navigator.userAgent.match(/favor/i);
+};
+
 export const getProgress = (b: string, len: number) => {
   const oneLen = b.match(/1/g)?.length || 0;
   return (oneLen / len) * 100;

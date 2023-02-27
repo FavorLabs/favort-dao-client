@@ -19,8 +19,7 @@ import { WalletType } from '@/declare/global';
 import UserApi from '@/services/tube/UserApi';
 import { useUrl } from '@/utils/hooks';
 import Web3 from 'web3';
-import { isMobile } from '@/config/config';
-import ReviteApi from '@/services/Revite';
+import { isMobile } from '@/utils/util';
 
 const ConnectWallet: React.FC = (props) => {
   const dispatch = useDispatch();
@@ -58,12 +57,12 @@ const ConnectWallet: React.FC = (props) => {
     {
       icon: metamask_png,
       name: MetaMask,
-      show: !isMobile,
+      show: !isMobile(),
     },
     {
       icon: okx_png,
       name: OKX,
-      show: !isMobile,
+      show: !isMobile(),
     },
   ];
 
@@ -110,7 +109,6 @@ const ConnectWallet: React.FC = (props) => {
       });
       localStorage.setItem('token', data.data.token);
       const info = await UserApi.getInfo(url);
-      await ReviteApi.hello();
       dispatch({
         type: 'web3/updateState',
         payload: {

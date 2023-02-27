@@ -5,7 +5,7 @@ import routes from './src/config/routes';
 import theme from './src/config/theme';
 
 export default defineConfig({
-  title: 'FavorTube',
+  title: 'FavorDao',
   links: [{ rel: 'icon', href: './logo.ico' }],
   nodeModulesTransform: {
     type: 'none',

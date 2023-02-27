@@ -8,11 +8,13 @@ import DaoApi from '@/services/tube/Dao';
 import { useUrl } from '@/utils/hooks';
 import { DaoInfo } from '@/declare/tubeApiType';
 import { useDebounceFn } from 'ahooks';
+import { useResourceUrl } from '@/utils/hooks';
 
 export type Props = {};
 
 const DaoList: React.FC<Props> = (props) => {
   const url = useUrl();
+  const resourceUrl = useResourceUrl();
   const [value, setValue] = useState('');
   const [bookmarkList, setBookmarkList] = useState<DaoInfo[]>([]);
   const [options, setOptions] = useState<{ value: string; label: string }[]>(

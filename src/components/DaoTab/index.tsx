@@ -7,14 +7,16 @@ import Dynamics from '@/pages/Dao/Dynamics';
 import Newsletter from '@/pages/Dao/Newsletter';
 import Videos from '@/pages/Dao/Videos';
 import Group from '@/pages/Dao/Group';
-import { history } from 'umi';
+import { history, useParams } from 'umi';
 
 export type Props = {
-  activeTab: string | null;
+  activeTab: number | null;
 };
 const DaoTab: React.FC<Props> = (props) => {
+  const params = useParams<{ id: string }>();
+  const { activeTab } = props;
   const swiperRef = useRef<SwiperRef>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(activeTab || 0);
 
   const tabItems = [
     {
@@ -45,12 +47,13 @@ const DaoTab: React.FC<Props> = (props) => {
         activeKey={tabItems[activeIndex].key}
         onChange={(key) => {
           const index = tabItems.findIndex((item) => item.key === key);
+          history.push(`/dao/${params.id}?tabIndex=${index}`);
           setActiveIndex(index);
           swiperRef.current?.swipeTo(index);
         }}
       >
         {tabItems.map((item) => (
-          <Tabs.Tab title={item.title} key={item.key} />
+          <Tabs.Tab destroyOnClose={true} title={item.title} key={item.key} />
         ))}
       </Tabs>
       <Swiper
@@ -61,10 +64,12 @@ const DaoTab: React.FC<Props> = (props) => {
         onIndexChange={(index) => {
           setActiveIndex(index);
         }}
+        className={styles.tabContent}
       >
-        {tabItems.map((item) => (
-          <Swiper.Item key={item.key} className={styles.tabContent}>
-            {item.component}
+        {tabItems.map((item, index) => (
+          <Swiper.Item key={item.key} className={styles.tabItem}>
+            {/*{item.component}*/}
+            {activeIndex == index ? item.component : <></>}
           </Swiper.Item>
         ))}
       </Swiper>

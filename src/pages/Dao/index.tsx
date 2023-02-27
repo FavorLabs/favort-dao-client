@@ -12,7 +12,6 @@ import DaoTab from '@/components/DaoTab';
 import DaoApi from '@/services/tube/Dao';
 import { DaoInfo } from '@/declare/tubeApiType';
 import { Models } from '@/declare/modelType';
-import ReviteApi from '@/services/Revite';
 
 type Props = {
   match: {
@@ -23,7 +22,7 @@ type Props = {
   history: {
     location: {
       query: {
-        tab: string;
+        tabIndex: number;
       };
     };
   };
@@ -66,13 +65,6 @@ const Dao: React.FC<Props> = (props) => {
     setLoading(false);
     setBookmarkModal(false);
     message.success('Success');
-    if (!info) return;
-    if (data.data.status) {
-      await ReviteApi.join(info.name);
-    } else {
-      const hash = web3?.utils.keccak256(`server_${info.name}`) as string;
-      await ReviteApi.leave(hash.slice(2));
-    }
   };
 
   useEffect(() => {
@@ -128,7 +120,9 @@ const Dao: React.FC<Props> = (props) => {
           </div>
         </div>
         <div className={styles.daoTab}>
-          {info && <DaoTab activeTab={props.history.location?.query?.tab} />}
+          {info && (
+            <DaoTab activeTab={props.history.location?.query?.tabIndex} />
+          )}
         </div>
         <Modal
           title="Bookmark"
