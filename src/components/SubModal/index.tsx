@@ -7,7 +7,7 @@ import Uniswap from '@/components/Uniswap';
 import { useSelector } from 'umi';
 import Web3 from 'web3';
 import { Models } from '@/declare/modelType';
-import { config, Config, favorTubeAbi, tokenAbi } from '@/config/config';
+import { Config, favorTubeAbi, tokenAbi } from '@/config/config';
 
 export type Props = {
   open: boolean;
@@ -17,17 +17,17 @@ const SubModal: React.FC<Props> = (props) => {
   const { open } = props;
 
   const [value, setValue] = useState<number>(1);
-  const [chainInfo, setChainInfo] = useState<Config>(config);
+  const [chainInfo, setChainInfo] = useState<Config | null>(null);
   const [preDataLoading, setPreDataLoading] = useState<boolean>(false);
   const [chainCoinBal, setChainCoinBal] = useState<number>(0);
   const [chainCoinBalLoading, setChainCoinBalLoading] =
     useState<boolean>(false);
   const [subPrice, setSubPrice] = useState<number>(0);
 
-  const { nodeWeb3, address, tubeContract, tokenContract } = useSelector(
-    (state: Models) => state.web3,
-  );
-  const { channelInfo } = useSelector((state: Models) => state.channel);
+  const { nodeWeb3, address, tubeContract, tokenContract, tokenInfo } =
+    useSelector((state: Models) => state.web3);
+  const { config } = useSelector((state: Models) => state.global);
+  const { info } = useSelector((state: Models) => state.dao);
 
   const loadIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
@@ -72,10 +72,16 @@ const SubModal: React.FC<Props> = (props) => {
     }
   }, [nodeWeb3]);
 
+  useEffect(() => {
+    if (config) {
+      setChainInfo(config);
+    }
+  }, [config]);
+
   return (
     <>
       <Modal
-        title={'Subscribe ' + channelInfo?.name}
+        title={'Subscribe ' + info?.name}
         open={open}
         centered
         destroyOnClose
@@ -93,7 +99,7 @@ const SubModal: React.FC<Props> = (props) => {
           <div className={styles.preData}>
             <p>
               <span className={styles.key}>Channel Account:</span>&nbsp;
-              <span className={styles.value}>{channelInfo?.address}</span>
+              <span className={styles.value}>{info?.address}</span>
             </p>
             <p>
               <span className={styles.key}>Your Account:</span>&nbsp;
@@ -101,7 +107,7 @@ const SubModal: React.FC<Props> = (props) => {
             </p>
             <p>
               <span style={{ marginRight: 20 }}>
-                <span className={styles.key}>Your {chainInfo.tokenName}:</span>
+                <span className={styles.key}>Your {tokenInfo.name}:</span>
                 &nbsp;
                 {chainCoinBalLoading ? (
                   <Spin indicator={loadIcon} size="small" />

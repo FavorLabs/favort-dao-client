@@ -76,7 +76,7 @@ const NewsletterUpload: React.FC<Props> = (props) => {
       const formData = new FormData();
       formData.append(item.file.name, item.file);
       const { data } = await ImageApi.upload(resourceUrl, formData);
-      imgKeyArr.push(data.id);
+      imgKeyArr.push(data.data.token);
     }
     return imgKeyArr;
   };

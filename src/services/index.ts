@@ -18,6 +18,7 @@ request.interceptors.request.use((config) => {
 request.interceptors.response.use(
   (response) => response,
   (error) => {
+    console.log(error);
     return Promise.reject(
       error.response?.data?.msg ? Error(error.response?.data.msg) : error,
     );

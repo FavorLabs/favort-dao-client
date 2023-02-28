@@ -88,7 +88,7 @@ const Dao: React.FC<Props> = (props) => {
             <span
               className={styles.goBack}
               onClick={() => {
-                history.push('/main/daoList');
+                history.push('/daoList');
               }}
             >
               <ArrowLeftOutlined />

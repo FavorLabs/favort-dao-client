@@ -28,7 +28,6 @@ import imageCompression from 'browser-image-compression';
 import ImageCrop from '@/components/ImageCrop';
 import TagsEdit from '@/components/TagsEdit';
 import { CreatePost } from '@/declare/tubeApiType';
-import postApi from '@/services/tube/PostApi';
 import PostApi from '@/services/tube/PostApi';
 import ImageApi from '@/services/tube/Image';
 
@@ -72,7 +71,6 @@ const UploadVideoModal: React.FC<Props> = (props) => {
   const { api, debugApi, ws, user } = useSelector(
     (state: Models) => state.global,
   );
-  // const { channelInfo } = useSelector((state: Models) => state.channel);
   const { refreshVideoList } = useSelector((state: Models) => state.manage);
 
   const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
@@ -307,7 +305,7 @@ const UploadVideoModal: React.FC<Props> = (props) => {
     fmData.append('thumbnail', file);
     const { data } = await ImageApi.upload(resourceUrl, fmData);
     console.log('uploadThumbnail', data);
-    setFormData({ ...formData, thumbnail: data.id });
+    setFormData({ ...formData, thumbnail: data.data.token });
   };
 
   const submit = async () => {

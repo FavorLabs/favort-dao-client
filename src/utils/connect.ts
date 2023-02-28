@@ -5,9 +5,9 @@ import { MetaMask, OKX, UniPass, WalletConnect } from '@/config/constants';
 import { WalletType } from '@/declare/global';
 import { isFavorApp } from '@/utils/util';
 import FlutterMethod, { flutterAsyncFn } from '@/utils/flutter';
-import { config } from '@/config/config';
+import { Config } from '@/config/config';
 
-const connectMetaMask = async (refresh: boolean) => {
+const connectMetaMask = async (refresh: boolean, config: Config) => {
   const provider = window.ethereum;
   if (!provider) throw new Error('No metamask installed');
   const status = await provider._metamask.isUnlocked();
@@ -22,7 +22,7 @@ const connectMetaMask = async (refresh: boolean) => {
   return { web3, address: accounts[0] };
 };
 
-const connectOkx = async () => {
+const connectOkx = async (config: Config) => {
   const provider = window.okexchain;
   if (!provider) throw new Error('No OKX installed');
   const accounts: string[] = await provider.enable();
@@ -33,7 +33,7 @@ const connectOkx = async () => {
   return { web3, address: accounts[0] };
 };
 
-const connectWalletConnect = async (refresh: boolean) => {
+const connectWalletConnect = async (refresh: boolean, config: Config) => {
   const provider = new WalletConnectProvider({
     rpc: {
       [config.chainId]: config.chainEndpoint,
@@ -59,7 +59,7 @@ const connectWalletConnect = async (refresh: boolean) => {
   return { web3, address: accounts[0] };
 };
 
-const connectUnipass = async () => {
+const connectUnipass = async (config: Config) => {
   const upProvider = new UniPassProvider({
     chainId: config.chainId,
     returnEmail: false,
@@ -73,7 +73,7 @@ const connectUnipass = async () => {
 
 const connectUniPassFlutter = async () => {
   const info: any = await FlutterMethod.getUniPassInfo();
-  const temp = {
+  return {
     web3: {
       eth: {
         personal: {
@@ -83,19 +83,22 @@ const connectUniPassFlutter = async () => {
     },
     address: info.address,
   };
-  return temp;
 };
 
-export const connect = (connectType: WalletType, refresh = false) => {
+export const connect = (
+  connectType: WalletType,
+  refresh = false,
+  config: Config,
+) => {
   return connectType === MetaMask
-    ? connectMetaMask(refresh)
+    ? connectMetaMask(refresh, config)
     : connectType === OKX
-    ? connectOkx()
+    ? connectOkx(config)
     : connectType === UniPass
     ? isFavorApp()
       ? connectUniPassFlutter()
-      : connectUnipass()
+      : connectUnipass(config)
     : connectType === WalletConnect
-    ? connectWalletConnect(refresh)
+    ? connectWalletConnect(refresh, config)
     : Promise.reject();
 };

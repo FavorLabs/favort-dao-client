@@ -11,7 +11,7 @@ import { AxiosResponse } from 'axios';
 import { ApiURL, DefaultApi, NodeConfig } from '@/config/constants';
 import * as Events from 'events';
 import FavorlabsApi from '@/services/FavorlabsApi';
-import { Config, setConfig } from '@/config/config';
+import { Config } from '@/config/config';
 import { Addresses } from '@/declare/nodeApiType';
 
 export interface State {
@@ -26,6 +26,7 @@ export interface State {
     id: string;
     nickname: string;
   } | null;
+  config: Config | null;
 }
 
 export default {
@@ -36,6 +37,7 @@ export default {
     requestLoading: true,
     status: false,
     user: null,
+    config: null,
   },
   reducers: {
     updateState(state, { payload }) {

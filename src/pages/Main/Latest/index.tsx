@@ -13,7 +13,7 @@ const Latest: React.FC<Props> = (props) => {
   const url = useUrl();
   const history = useHistory();
 
-  const [dataList, setDataList] = useState([]);
+  const [dataList, setDataList] = useState<PostInfo[]>([]);
 
   const getList = async () => {
     const { data } = await postApi.getPostListByType(url, {
