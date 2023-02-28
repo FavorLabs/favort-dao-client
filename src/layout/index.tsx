@@ -3,12 +3,17 @@ import { Models } from '@/declare/modelType';
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch, history } from 'umi';
-import { ConnectType, NodeConfig } from '@/config/constants';
+import {
+  ConnectType,
+  NodeConfig,
+  ProxyGroup,
+  ProxyOverlay,
+} from '@/config/constants';
 import { connect } from '@/utils/connect';
 import { WalletType } from '@/declare/global';
 import SettingApi from '@/components/SettingApi';
 import Web3 from 'web3';
-import { config, favorTubeAbi, setConfig, tokenAbi } from '@/config/config';
+import { Config, favorTubeAbi, tokenAbi } from '@/config/config';
 import Api from '@/services/Api';
 import Loading from '@/components/Loading';
 import styles from './index.less';
@@ -21,13 +26,14 @@ const Layout: React.FC = (props) => {
   const dispatch = useDispatch();
   const url = useUrl();
 
-  const { api, debugApi, ws, status, requestLoading } = useSelector(
+  const { api, debugApi, ws, status, requestLoading, config } = useSelector(
     (state: Models) => state.global,
   );
   const proxyResult = useRef<string | number | null>(null);
   const [configLoading, setConfigLoading] = useState(true);
 
   const getContract = async () => {
+    if (!config) return;
     const nodeWeb3 = new Web3(api + '/chain');
     const tubeContract = new nodeWeb3.eth.Contract(
       favorTubeAbi,
@@ -59,22 +65,35 @@ const Layout: React.FC = (props) => {
     let nodeConfig = sessionStorage.getItem(NodeConfig);
     if (nodeConfig) {
       let config = JSON.parse(nodeConfig);
-      setConfig(config);
+      dispatch({
+        type: 'global/updateState',
+        payload: {
+          config,
+        },
+      });
+      // setConfig(config);
       setConfigLoading(false);
       return;
     }
     const data = await Api.getAddresses(debugApi);
     const config = await FavorlabsApi.getConfig(data.data.network_id);
-    setConfig(config.data.data);
+    dispatch({
+      type: 'global/updateState',
+      payload: {
+        config: config.data.data,
+      },
+    });
     sessionStorage.setItem(NodeConfig, JSON.stringify(config.data.data));
     setConfigLoading(false);
   };
 
   const connectNode = async () => {
     if (!config || !ws) return;
-    Api.observeProxyGroup(api, config.proxyGroup, config.proxyNodes).catch(
-      console.error,
-    );
+    await Api.observeProxyGroup(
+      api,
+      config.proxyGroup,
+      config.proxyNodes,
+    ).catch(console.error);
     if (proxyResult.current) {
       ws.send(
         {
@@ -116,10 +135,14 @@ const Layout: React.FC = (props) => {
   const getLoginStatus = async () => {
     const token = localStorage.getItem('token');
     const connectType = localStorage.getItem(ConnectType);
-    if (!token || !connectType) return history.push('/');
+    if (!token || !connectType) return history.push('/login');
     try {
       const info = await UserApi.getInfo(url);
-      const { address, web3 } = await connect(connectType as WalletType, true);
+      const { address, web3 } = await connect(
+        connectType as WalletType,
+        true,
+        config as Config,
+      );
       dispatch({
         type: 'global/updateState',
         payload: {
@@ -136,7 +159,7 @@ const Layout: React.FC = (props) => {
     } catch (e) {
       localStorage.removeItem(ConnectType);
       localStorage.removeItem('token');
-      history.push('/');
+      history.push('/login');
     }
   };
 
@@ -153,23 +176,32 @@ const Layout: React.FC = (props) => {
     if (status) {
       // getContract();
       getConfig();
-      getLoginStatus();
-      connectNode();
     }
   }, [status]);
+
+  useEffect(() => {
+    connectNode();
+  }, [config]);
+
+  useEffect(() => {
+    if (!requestLoading) {
+      getLoginStatus();
+    }
+  }, [requestLoading]);
 
   return (
     <div className={styles.main}>
       {status ? (
-        // configLoading ?
-        //   <Loading text={'Loading Config !!!'} status={configLoading}/>
-        //   :
-        // requestLoading ?
-        //   <Loading
-        //     text={'Connecting to a p2p network'}
-        //     status={requestLoading}
-        //   /> :
-        <div className={styles.box}>{props.children}</div>
+        configLoading ? (
+          <Loading text={'Loading Config !!!'} status={configLoading} />
+        ) : requestLoading ? (
+          <Loading
+            text={'Connecting to a p2p network'}
+            status={requestLoading}
+          />
+        ) : (
+          <div className={styles.box}>{props.children}</div>
+        )
       ) : (
         <SettingApi />
       )}

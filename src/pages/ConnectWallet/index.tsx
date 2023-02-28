@@ -14,12 +14,15 @@ import {
 } from '@/config/constants';
 import { connect } from '@/utils/connect';
 import { message, Button } from 'antd';
-import { useDispatch, history } from 'umi';
+import { useDispatch, history, useSelector } from 'umi';
 import { WalletType } from '@/declare/global';
 import UserApi from '@/services/tube/UserApi';
 import { useUrl } from '@/utils/hooks';
 import Web3 from 'web3';
 import { isMobile } from '@/utils/util';
+import { Models } from '@/declare/modelType';
+import { Config } from '@/config/config';
+import web3 from '@/models/web3';
 
 const ConnectWallet: React.FC = (props) => {
   const dispatch = useDispatch();
@@ -29,13 +32,15 @@ const ConnectWallet: React.FC = (props) => {
   const [cType, setCType] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const { config } = useSelector((state: Models) => state.global);
+
   const connectWallet = (connectType: WalletType) => {
     init();
-    connect(connectType)
+    connect(connectType, false, config as Config)
       .then(({ web3, address }) => {
         setCType(connectType);
         setAddress(address.toLowerCase());
-        setWeb3(web3);
+        setWeb3(web3 as Web3);
       })
       .catch((reason) => {
         console.log(reason);
@@ -70,6 +75,7 @@ const ConnectWallet: React.FC = (props) => {
     setCType('');
     setAddress('');
     setWeb3(null);
+    setLoading(false);
   };
 
   const reset = () => {
@@ -81,11 +87,11 @@ const ConnectWallet: React.FC = (props) => {
   const signIn = async () => {
     if (loading) return;
     setLoading(true);
-    const timestamp = Date.now();
+    const timestamp = Date.parse(new Date().toUTCString());
     const msg = `${address} login FavorTube at ${timestamp}`;
     // @ts-ignore
     const signature = await web3?.eth.personal
-      ?.sign(msg, address)
+      .sign(msg, address)
       .catch((err) => {
         setLoading(false);
         message.info(err.message);

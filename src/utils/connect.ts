@@ -3,9 +3,11 @@ import Web3 from 'web3';
 import { UniPassProvider } from '@unipasswallet/ethereum-provider';
 import { MetaMask, OKX, UniPass, WalletConnect } from '@/config/constants';
 import { WalletType } from '@/declare/global';
+import { isFavorApp } from '@/utils/util';
+import FlutterMethod, { flutterAsyncFn } from '@/utils/flutter';
+import { Config } from '@/config/config';
 
-const id = 80001;
-const connectMetaMask = async (refresh: boolean) => {
+const connectMetaMask = async (refresh: boolean, config: Config) => {
   const provider = window.ethereum;
   if (!provider) throw new Error('No metamask installed');
   const status = await provider._metamask.isUnlocked();
@@ -15,24 +17,26 @@ const connectMetaMask = async (refresh: boolean) => {
   });
   const web3 = new Web3(provider);
   const chainId = await web3.eth.getChainId();
-  if (chainId !== id) throw new Error('The network connected is not correct');
+  if (chainId !== config.chainId)
+    throw new Error('The network connected is not correct');
   return { web3, address: accounts[0] };
 };
 
-const connectOkx = async () => {
+const connectOkx = async (config: Config) => {
   const provider = window.okexchain;
   if (!provider) throw new Error('No OKX installed');
   const accounts: string[] = await provider.enable();
   const web3 = new Web3(provider);
   const chainId = Number(provider.chainId);
-  if (chainId !== id) throw new Error('The network connected is not correct');
+  if (chainId !== config.chainId)
+    throw new Error('The network connected is not correct');
   return { web3, address: accounts[0] };
 };
 
-const connectWalletConnect = async (refresh: boolean) => {
+const connectWalletConnect = async (refresh: boolean, config: Config) => {
   const provider = new WalletConnectProvider({
     rpc: {
-      [80001]: 'https://polygon-testnet.public.blastapi.io',
+      [config.chainId]: config.chainEndpoint,
     },
   });
   await provider.enable();
@@ -46,7 +50,7 @@ const connectWalletConnect = async (refresh: boolean) => {
     throw new Error('Connection interruption');
   }
   const { chainId, accounts } = provider;
-  if (chainId !== id) {
+  if (chainId !== config.chainId) {
     await provider.disconnect();
     throw new Error('The network connected is not correct');
   }
@@ -55,9 +59,9 @@ const connectWalletConnect = async (refresh: boolean) => {
   return { web3, address: accounts[0] };
 };
 
-const connectUnipass = async () => {
+const connectUnipass = async (config: Config) => {
   const upProvider = new UniPassProvider({
-    chainId: id,
+    chainId: config.chainId,
     returnEmail: false,
   });
   await upProvider.connect();
@@ -67,15 +71,34 @@ const connectUnipass = async () => {
   return { web3, address };
 };
 
-export const connect = (connectType: WalletType, refresh = false) => {
-  console.log();
+const connectUniPassFlutter = async () => {
+  const info: any = await FlutterMethod.getUniPassInfo();
+  return {
+    web3: {
+      eth: {
+        personal: {
+          sign: FlutterMethod.uniPassSignTransaction,
+        },
+      },
+    },
+    address: info.address,
+  };
+};
+
+export const connect = (
+  connectType: WalletType,
+  refresh = false,
+  config: Config,
+) => {
   return connectType === MetaMask
-    ? connectMetaMask(refresh)
+    ? connectMetaMask(refresh, config)
     : connectType === OKX
-    ? connectOkx()
+    ? connectOkx(config)
     : connectType === UniPass
-    ? connectUnipass()
+    ? isFavorApp()
+      ? connectUniPassFlutter()
+      : connectUnipass(config)
     : connectType === WalletConnect
-    ? connectWalletConnect(refresh)
+    ? connectWalletConnect(refresh, config)
     : Promise.reject();
 };

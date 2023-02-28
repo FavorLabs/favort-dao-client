@@ -65,7 +65,6 @@ const Video: React.FC<Props> = (props) => {
       setVideoList(data.data.list);
     }
   };
-  console.log('videoData', videoData);
 
   const getInfo = () => {
     videoData?.contents?.forEach((item) => {

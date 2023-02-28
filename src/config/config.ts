@@ -1149,14 +1149,15 @@ export type Config = {
   favorTubeAddress: string;
   videoLimitSize: number;
   proxyGroup: string;
-  domainName: string;
+  DaoDomainName: string;
+  AutumnDomainName: string;
   storeGroup: string;
   proxyNodes: string[];
   storeNodes: string[];
 };
 
-export let config: Config;
+// export let config: Config;
 
-export const setConfig = (apiConfig: Config) => {
-  config = apiConfig;
-};
+// export const setConfig = (apiConfig: Config) => {
+//   config = apiConfig;
+// };

@@ -4,6 +4,7 @@ declare global {
   interface Window {
     ethereum: any;
     okexchain: any;
+    flutter_inappwebview: any;
   }
 }
 

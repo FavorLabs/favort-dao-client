@@ -30,25 +30,25 @@ const Main: React.FC<Props> = (props) => {
       key: 1,
       title: 'Latest',
       icon: <SvgIcon svg={latestSvg} />,
-      path: '/main/latest',
+      path: '/latest',
     },
     {
       key: 2,
       title: 'DAO',
       icon: <SvgIcon svg={daoSvg} />,
-      path: '/main/daoList',
+      path: '/daoList',
     },
     {
       key: 3,
       title: 'Chat',
       icon: <SvgIcon svg={chatSvg} />,
-      path: '/main/chat',
+      path: '/chat',
     },
     {
       key: 4,
       title: 'Mine',
       icon: <SvgIcon svg={mineSvg} />,
-      path: '/main/mine',
+      path: '/mine',
     },
   ];
 

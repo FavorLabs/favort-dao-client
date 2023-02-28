@@ -46,7 +46,6 @@ const DaoVideoList: React.FC<Props> = (props) => {
         const temp = arr.filter((item: any) => {
           if (item.type === 1) return item;
         });
-        console.log('temp', temp);
         setVideoList(temp);
       }
     }

@@ -85,7 +85,6 @@ const Mine: React.FC<Props> = (props) => {
     if (b) setBalance(web3.utils.fromWei(b, 'ether'));
   };
   const createGroupService = async (name: string, desc: string) => {
-    console.log('name', name, desc);
     setCreateLoading(true);
     setAnimConfig({ open: true, text: 'The server is being created...' });
     try {
