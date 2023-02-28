@@ -47,7 +47,6 @@ const Latest: React.FC<Props> = (props) => {
   useEffect(() => {
     getList();
   }, []);
-  console.log('dataList', dataList);
   return (
     <>
       {dataList.map((item, index) => (

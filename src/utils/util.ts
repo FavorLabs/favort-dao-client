@@ -1,5 +1,7 @@
 import Web3 from 'web3';
-import { CreatePost } from '@/declare/tubeApiType';
+import { CreatePost, DaoInfo } from '@/declare/tubeApiType';
+import WebUtils from 'web3-utils';
+import { ReviteURL } from '@/config/constants';
 
 export const splitUrl = (url: string): [string, string, string] => {
   let i = new URL(url);
@@ -36,7 +38,7 @@ export const isMobile = () => {
   );
 };
 
-export const isFavor = () => {
+export const isFavorApp = () => {
   return navigator.userAgent.match(/favor/i);
 };
 
@@ -71,4 +73,10 @@ export const sleep = async (time: number) => {
   await new Promise((s) => {
     setTimeout(s, time);
   });
+};
+
+export const toChat = (item: DaoInfo) => {
+  const hash = WebUtils.keccak256(`server_${item.name}`);
+  const token = localStorage.getItem('token');
+  window.open(`${ReviteURL}/server/${hash.slice(2)}?token=${token}`);
 };

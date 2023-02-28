@@ -1,6 +1,11 @@
 import { history, useParams, useSelector } from 'umi';
 import { Models } from '@/declare/modelType';
-import { DomainName, ProxyGroupList } from '@/config/constants';
+import {
+  AutumnDomainName,
+  DaoDomainName,
+  ProxyGroup,
+} from '@/config/constants';
+import { config } from '@/config/config';
 
 export const usePath = () => {
   const params = useParams<{ id: string }>();
@@ -13,14 +18,14 @@ export const usePath = () => {
 export const useUrl = () => {
   // let { api } = useSelector((state: Models) => state.global);
   return 'http://192.168.100.250:8010/v1';
-  // return 'http://192.168.100.49:8010/v1';
-  // return api + '/group/http/' + proxyGroup + '/' + DomainName + '/api/v1';
+  // return api + '/group/http/' + ProxyGroup + '/' + DaoDomainName + '/api/v1';
+  // return api + '/group/http/' + config.proxyGroup + '/' + config.domainName + '/api/v1';
 };
 
 export const useResourceUrl = () => {
-  // let { api } = useSelector((state: Models) => state.global);
-  return 'http://192.168.100.250:3000/paopao/avatars';
-  // return api + '/group/http/' + proxyGroup + '/' + DomainName + '/api/v1';
+  let { api } = useSelector((state: Models) => state.global);
+  return api + '/group/http/' + ProxyGroup + '/' + AutumnDomainName + '/api/v1';
+  // return api + '/group/http/' + config.proxyGroup + '/' + config.domainName + '/api/v1';
 };
 
 export const useVerifyChannel = () => {

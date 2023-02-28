@@ -8,6 +8,7 @@ import { useUrl } from '@/utils/hooks';
 import { DaoInfo } from '@/declare/tubeApiType';
 import WebUtils from 'web3-utils';
 import { ReviteURL } from '@/config/constants';
+import { toChat } from '@/utils/util';
 
 export type Props = {};
 
@@ -23,11 +24,6 @@ const Chat: React.FC<Props> = (props) => {
   useEffect(() => {
     getList();
   }, []);
-  const clickHandle = (item: DaoInfo) => {
-    const hash = WebUtils.keccak256(`server_${item.name}`);
-    const token = localStorage.getItem('token');
-    window.open(`${ReviteURL}/server/${hash.slice(2)}?token=${token}`);
-  };
 
   return (
     <div className={styles.content}>
@@ -38,7 +34,7 @@ const Chat: React.FC<Props> = (props) => {
               key={1}
               name={item.name}
               avatar={item.avatar}
-              clickHandle={() => clickHandle(item)}
+              clickHandle={() => toChat(item)}
             />
           </div>
         ))}

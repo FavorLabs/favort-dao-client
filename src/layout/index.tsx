@@ -3,7 +3,12 @@ import { Models } from '@/declare/modelType';
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch, history } from 'umi';
-import { ConnectType, NodeConfig } from '@/config/constants';
+import {
+  ConnectType,
+  NodeConfig,
+  ProxyGroup,
+  ProxyOverlay,
+} from '@/config/constants';
 import { connect } from '@/utils/connect';
 import { WalletType } from '@/declare/global';
 import SettingApi from '@/components/SettingApi';
@@ -16,6 +21,8 @@ import web3 from '@/models/web3';
 import UserApi from '@/services/tube/UserApi';
 import { useUrl } from '@/utils/hooks';
 import FavorlabsApi from '@/services/FavorlabsApi';
+import VConsole from 'vconsole';
+new VConsole();
 
 const Layout: React.FC = (props) => {
   const dispatch = useDispatch();
@@ -72,9 +79,10 @@ const Layout: React.FC = (props) => {
 
   const connectNode = async () => {
     if (!config || !ws) return;
-    Api.observeProxyGroup(api, config.proxyGroup, config.proxyNodes).catch(
-      console.error,
-    );
+    // Api.observeProxyGroup(api, config.proxyGroup, config.proxyNodes).catch(
+    //   console.error,
+    // );
+    Api.observeProxyGroup(api, ProxyGroup, [ProxyOverlay]).catch(console.error);
     if (proxyResult.current) {
       ws.send(
         {
