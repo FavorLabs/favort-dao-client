@@ -1,4 +1,4 @@
-export const ReviteURL = 'http://192.168.100.250:9003';
+export const ReviteURL = 'https://revite.favorlabs.io';
 export const MetaMask = 'metamask';
 export const OKX = 'okx';
 export const WalletConnect = 'walletconnect';

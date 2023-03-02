@@ -80,9 +80,9 @@ const Mine: React.FC<Props> = (props) => {
     },
   ];
   const getBalance = async () => {
-    if (!web3) return;
-    const b = await web3.eth.getBalance(address);
-    if (b) setBalance(web3.utils.fromWei(b, 'ether'));
+    // if (!web3) return;
+    // const b = await web3.eth.getBalance(address);
+    // if (b) setBalance(web3.utils.fromWei(b, 'ether'));
   };
   const createGroupService = async (name: string, desc: string) => {
     setCreateLoading(true);

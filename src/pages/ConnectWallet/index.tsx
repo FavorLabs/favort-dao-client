@@ -19,7 +19,7 @@ import { WalletType } from '@/declare/global';
 import UserApi from '@/services/tube/UserApi';
 import { useUrl } from '@/utils/hooks';
 import Web3 from 'web3';
-import { isMobile } from '@/utils/util';
+import { isFavorApp, isMobile } from '@/utils/util';
 import { Models } from '@/declare/modelType';
 import { Config } from '@/config/config';
 import web3 from '@/models/web3';
@@ -103,7 +103,7 @@ const ConnectWallet: React.FC = (props) => {
       [WalletConnect]: 'wallet_connect',
       [MetaMask]: 'meta_mask',
       [OKX]: 'okx',
-      [UniPass]: 'unipass',
+      [UniPass]: isFavorApp() ? 'unipass_std' : 'unipass_eth',
     };
 
     try {
@@ -129,7 +129,7 @@ const ConnectWallet: React.FC = (props) => {
         },
       });
       localStorage.setItem(ConnectType, cType);
-      history.replace('/main');
+      history.replace('/');
     } catch (e) {
       setLoading(false);
       if (e instanceof Error) message.info(e.message);

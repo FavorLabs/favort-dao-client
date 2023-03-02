@@ -17,7 +17,6 @@ export const usePath = () => {
 
 export const useUrl = () => {
   let { api, config } = useSelector((state: Models) => state.global);
-  // return 'http://192.168.100.250:8010/v1';
   if (!config) return '';
   return (
     api +
