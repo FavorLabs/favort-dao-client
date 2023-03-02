@@ -9,12 +9,15 @@ import { DaoInfo } from '@/declare/tubeApiType';
 import WebUtils from 'web3-utils';
 import { ReviteURL } from '@/config/constants';
 import { toChat } from '@/utils/util';
+import { useSelector } from 'umi';
+import { Models } from '@/declare/modelType';
 
 export type Props = {};
 
 const Chat: React.FC<Props> = (props) => {
   const url = useUrl();
   const [chatList, setChatList] = useState<DaoInfo[]>([]);
+  const { api } = useSelector((state: Models) => state.global);
 
   const getList = async () => {
     const { data } = await DaoApi.getBookmarkList(url);
@@ -34,7 +37,7 @@ const Chat: React.FC<Props> = (props) => {
               key={1}
               name={item.name}
               avatar={item.avatar}
-              clickHandle={() => toChat(item)}
+              clickHandle={() => toChat(item.name, api)}
             />
           </div>
         ))}

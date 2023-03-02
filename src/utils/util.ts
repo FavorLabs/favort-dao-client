@@ -75,8 +75,8 @@ export const sleep = async (time: number) => {
   });
 };
 
-export const toChat = (item: DaoInfo) => {
-  const hash = WebUtils.keccak256(`server_${item.name}`);
+export const toChat = (name: string | undefined, api: string) => {
+  const hash = WebUtils.keccak256(`server_${name}`);
   const token = localStorage.getItem('token');
-  window.open(`${ReviteURL}/server/${hash.slice(2)}?token=${token}`);
+  window.open(`${ReviteURL}/server/${hash.slice(2)}?token=${token}&api=${api}`);
 };
