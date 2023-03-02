@@ -26,14 +26,24 @@ export default [
           {
             path: '/latest',
             component: '@/pages/Main/Latest',
+            routes: [
+              {
+                path: '/',
+                redirect: '/latest/follow',
+              },
+              {
+                path: '/latest/follow',
+                component: '@/pages/Main/Latest/Follow',
+              },
+              {
+                path: '/latest/recommend',
+                component: '@/pages/Main/Latest/Recommend',
+              },
+            ],
           },
           {
             path: '/daoList',
             component: '@/pages/Main/DaoList',
-          },
-          {
-            path: '/chat',
-            component: '@/pages/Main/Chat',
           },
           {
             path: '/mine',
