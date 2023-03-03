@@ -7,11 +7,15 @@ const FavorlabsService = axios.create({
 });
 
 export default {
-  getConfig(networkId: number): Promise<AxiosResponse<{ data: Config }>> {
+  getConfig(
+    networkId: number,
+    name?: string,
+  ): Promise<AxiosResponse<{ data: Config }>> {
     return FavorlabsService({
-      url: '/config',
+      url: '/appConfig',
       params: {
         networkId,
+        name,
       },
     });
   },

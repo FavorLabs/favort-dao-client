@@ -2,6 +2,8 @@ import Web3 from 'web3';
 import { CreatePost, DaoInfo } from '@/declare/tubeApiType';
 import WebUtils from 'web3-utils';
 import { ReviteURL } from '@/config/constants';
+import { setTheme, ThemeType } from '@/utils/setTheme';
+import { defaultTheme } from '@/config/themeConfig';
 
 export const splitUrl = (url: string): [string, string, string] => {
   let i = new URL(url);
@@ -17,6 +19,8 @@ export const getEndPoint = (): boolean | string => {
     return false;
   }
 };
+
+export const appName = new URLSearchParams(location.search).get('name');
 
 export const websocket = (host: string) => {
   let ws = new Web3.providers.WebsocketProvider(host, {
@@ -75,8 +79,31 @@ export const sleep = async (time: number) => {
   });
 };
 
-export const toChat = (name: string | undefined, api: string) => {
+export const toChat = (
+  name: string | undefined,
+  api: string,
+  proxyGroup: string | undefined,
+) => {
   const hash = WebUtils.keccak256(`server_${name}`);
   const token = localStorage.getItem('token');
-  window.open(`${ReviteURL}/server/${hash.slice(2)}?token=${token}&api=${api}`);
+  window.open(
+    `${ReviteURL}/server/${hash.slice(
+      2,
+    )}?token=${token}&api=${api}&proxyGroup=${proxyGroup}`,
+  );
+};
+
+export const switchTheme = () => {
+  let theme = localStorage.getItem('theme');
+  if (theme) {
+    switch (theme) {
+      case 'light':
+        setTheme('dark');
+        break;
+      case 'dark':
+        setTheme('light');
+    }
+  } else {
+    setTheme(defaultTheme as ThemeType);
+  }
 };

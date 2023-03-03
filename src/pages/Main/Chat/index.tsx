@@ -17,7 +17,7 @@ export type Props = {};
 const Chat: React.FC<Props> = (props) => {
   const url = useUrl();
   const [chatList, setChatList] = useState<DaoInfo[]>([]);
-  const { api } = useSelector((state: Models) => state.global);
+  const { api, config } = useSelector((state: Models) => state.global);
 
   const getList = async () => {
     const { data } = await DaoApi.getBookmarkList(url);
@@ -37,7 +37,7 @@ const Chat: React.FC<Props> = (props) => {
               key={1}
               name={item.name}
               avatar={item.avatar}
-              clickHandle={() => toChat(item.name, api)}
+              clickHandle={() => toChat(item.name, api, config?.proxyGroup)}
             />
           </div>
         ))}

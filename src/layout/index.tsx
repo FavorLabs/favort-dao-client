@@ -21,6 +21,9 @@ import web3 from '@/models/web3';
 import UserApi from '@/services/tube/UserApi';
 import { useUrl } from '@/utils/hooks';
 import FavorlabsApi from '@/services/FavorlabsApi';
+import { appName } from '@/utils/util';
+import { setTheme, ThemeType } from '@/utils/setTheme';
+import { defaultTheme } from '@/config/themeConfig';
 
 const Layout: React.FC = (props) => {
   const dispatch = useDispatch();
@@ -76,7 +79,10 @@ const Layout: React.FC = (props) => {
       return;
     }
     const data = await Api.getAddresses(debugApi);
-    const config = await FavorlabsApi.getConfig(data.data.network_id);
+    const config = await FavorlabsApi.getConfig(
+      data.data.network_id,
+      appName ?? undefined,
+    );
     dispatch({
       type: 'global/updateState',
       payload: {
@@ -164,6 +170,9 @@ const Layout: React.FC = (props) => {
   };
 
   useEffect(() => {
+    setTimeout(() => {
+      setTheme(defaultTheme as ThemeType);
+    }, 1000);
     dispatch({
       type: 'global/getStatus',
       payload: {

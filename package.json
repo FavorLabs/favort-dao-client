@@ -32,6 +32,7 @@
     "axios": "^1.2.2",
     "browser-image-compression": "^2.0.0",
     "classnames": "^2.3.2",
+    "css-vars-ponyfill": "^2.4.7",
     "moment": "^2.29.4",
     "nprogress": "^0.2.0",
     "patch-package": "^6.5.1",

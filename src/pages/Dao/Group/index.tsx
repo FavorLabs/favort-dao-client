@@ -10,13 +10,13 @@ import { DaoInfo } from '@/declare/tubeApiType';
 
 export type Props = {};
 const Group: React.FC<Props> = (props) => {
-  const { api } = useSelector((state: Models) => state.global);
+  const { api, config } = useSelector((state: Models) => state.global);
   const { info } = useSelector((state: Models) => state.dao);
   return (
     <div style={{ marginTop: 20, textAlign: 'center' }}>
       <Button
         onClick={() => {
-          toChat(info?.name, api);
+          toChat(info?.name, api, config?.proxyGroup);
         }}
       >
         Go to chat
