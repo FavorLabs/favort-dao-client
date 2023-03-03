@@ -49,9 +49,10 @@ const Latest: React.FC<Props> = (props) => {
   }, []);
   return (
     <>
-      {dataList.map((item, index) => (
-        <div key={index}>{getCard(item)}</div>
-      ))}
+      {/*{dataList.map((item, index) => (*/}
+      {/*  <div key={index}>{getCard(item)}</div>*/}
+      {/*))}*/}
+      {props.children}
     </>
   );
 };

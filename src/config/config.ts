@@ -1150,7 +1150,6 @@ export type Config = {
   videoLimitSize: number;
   proxyGroup: string;
   DaoDomainName: string;
-  AutumnDomainName: string;
   storeGroup: string;
   proxyNodes: string[];
   storeNodes: string[];

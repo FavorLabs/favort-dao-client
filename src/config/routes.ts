@@ -28,7 +28,7 @@ export default [
             component: '@/pages/Main/Latest',
             routes: [
               {
-                path: '/',
+                path: '/latest',
                 redirect: '/latest/follow',
               },
               {
@@ -44,6 +44,10 @@ export default [
           {
             path: '/daoList',
             component: '@/pages/Main/DaoList',
+          },
+          {
+            path: '/chat',
+            component: '@/pages/Main/Chat',
           },
           {
             path: '/mine',

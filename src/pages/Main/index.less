@@ -1,21 +1,32 @@
 .content {
   height: 100%;
-
   .header {
+    position: relative;
     height: 100%;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-
-    .title {
-      font-size: 14px;
+    .latestNav {
+      position: absolute;
+      left: 0;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      .navItem {
+        color: var(--latest-follow-nav-normal-color);
+        margin-right: 10px;
+      }
     }
-
-    .userAvatar {
+    .action {
       position: absolute;
       right: 10px;
-      background-color: #f44336;
+      .searchBtn {
+        margin-right: 10px;
+      }
+      .userAvatar {
+        background-color: #f44336;
+      }
     }
   }
 }

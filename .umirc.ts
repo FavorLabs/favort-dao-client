@@ -26,4 +26,23 @@ export default defineConfig({
   routes,
   theme,
   antd: false,
+  locale: {
+    default: 'en-US',
+    antd: false,
+    title: true,
+    baseNavigator: false,
+    baseSeparator: '-',
+  },
+  webpack5: {},
+  chainWebpack: (config, { webpack, env }) => {
+    config.module
+      .rule('fonts')
+      .test(/\.(eot|woff|woff2|ttf)(\?.*)?$/)
+      .use('file-loader')
+      .options({
+        name: '[name].[contenthash].[ext]',
+        outputPath: 'static/fonts',
+      })
+      .loader(require.resolve('@umijs/deps/compiled/file-loader'));
+  },
 });
