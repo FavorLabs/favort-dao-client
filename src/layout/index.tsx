@@ -21,7 +21,7 @@ import web3 from '@/models/web3';
 import UserApi from '@/services/tube/UserApi';
 import { useUrl } from '@/utils/hooks';
 import FavorlabsApi from '@/services/FavorlabsApi';
-import { appName } from '@/utils/util';
+import { appName, flexible } from '@/utils/util';
 import { setTheme, ThemeType } from '@/utils/setTheme';
 import { defaultTheme } from '@/config/themeConfig';
 
@@ -170,6 +170,7 @@ const Layout: React.FC = (props) => {
   };
 
   useEffect(() => {
+    flexible(window, document);
     setTimeout(() => {
       setTheme(defaultTheme as ThemeType);
     }, 1000);
