@@ -1,10 +1,6 @@
 import { history, useParams, useSelector } from 'umi';
 import { Models } from '@/declare/modelType';
-import {
-  AutumnDomainName,
-  DaoDomainName,
-  ProxyGroup,
-} from '@/config/constants';
+import { AutumnDomainName, DaoDomainName } from '@/config/constants';
 // import { config } from '@/config/config';
 
 export const usePath = () => {
@@ -18,14 +14,7 @@ export const usePath = () => {
 export const useUrl = () => {
   let { api, config } = useSelector((state: Models) => state.global);
   if (!config) return '';
-  return (
-    api +
-    '/group/http/' +
-    config.proxyGroup +
-    '/' +
-    config.DaoDomainName +
-    '/v1'
-  );
+  return api + '/group/http/' + config.proxyGroup + '/' + DaoDomainName + '/v1';
 };
 
 export const useResourceUrl = () => {
@@ -36,7 +25,7 @@ export const useResourceUrl = () => {
     '/group/http/' +
     config.proxyGroup +
     '/' +
-    config.AutumnDomainName +
+    AutumnDomainName +
     '/paopao19/avatars'
   );
 };
