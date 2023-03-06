@@ -6,10 +6,11 @@
 }
 
 body {
-  background: #f9f9f9;
   margin: 0;
   padding: 0;
-  font-family: 'Ping-Fang' !important;
+  color: var(--global-color) !important;
+  font-family: var(--font-family) !important;
+  background: var(--global-background);
 }
 
 main {
@@ -79,6 +80,17 @@ a {
 
   .divider {
     margin: 16px 0;
+  }
+}
+
+.themeBtnActive {
+  color: rgba(255, 255, 255, 1);
+  background-color: rgba(255, 166, 0, 1);
+}
+
+.haveCommunity {
+  svg {
+    fill: rgba(255, 166, 0, 1) !important;
   }
 }
 

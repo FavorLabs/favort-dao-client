@@ -33,7 +33,7 @@ export const setTheme = (themeKey: ThemeType) => {
   // }
 
   cssVars({
-    onlyLegacy: false,
+    onlyLegacy: true,
     variables: THEME[KEY],
     onError() {
       cssVars({

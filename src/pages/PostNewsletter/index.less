@@ -1,0 +1,31 @@
+.content {
+  .navBar {
+    padding: 20px;
+    border: 0.5px solid rgba(229, 229, 229, 1);
+    svg {
+      width: 16px;
+    }
+  }
+  .postOptions {
+    padding: 0 20px;
+    .option {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 20px 0;
+      border-bottom: 0.5px solid rgba(229, 229, 229, 1);
+      .key {
+        flex-wrap: nowrap;
+        margin-right: 20px;
+        color: rgba(33, 33, 0, 1);
+        font-weight: 700;
+      }
+      .value {
+        flex-grow: 1;
+        input::placeholder {
+          color: rgba(99, 99, 99, 1);
+        }
+      }
+    }
+  }
+}

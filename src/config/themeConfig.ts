@@ -16,6 +16,9 @@ const baseCss = {
   color_12: 'rgba(240, 240, 240, 1)',
   color_13: 'rgba(245, 245, 245, 1)',
   color_14: 'rgba(255, 255, 255, 1)',
+  color_15: 'rgba(255, 166, 0, 1)',
+  color_16: 'rgba(15, 15, 15, 1)',
+  color_17: 'rgba(255, 166, 0, 0.1)',
   fontFamily_1: 'Ping-Fang',
 };
 
@@ -23,15 +26,27 @@ export const THEME = {
   light: {
     // global variable
     '--font-family': baseCss.fontFamily_1,
+    '--global-background': baseCss.color_14,
+    '--global-color': baseCss.color_3,
     // main
+    '--main-menuBar-tabBar-svg-normal': baseCss.color_7,
+    '--main-menuBar-tabBar-svg-active': baseCss.color_15,
+    '--main-menuBar-tabBar-text-normal': baseCss.color_5,
+    '--main-menuBar-tabBar-text-active': baseCss.color_3,
 
     // main latest
     '--latest-follow-nav-normal-color': baseCss.color_6,
   },
   dark: {
     // global variable
-    '--font-family': baseCss.color_1,
+    '--font-family': baseCss.fontFamily_1,
+    '--global-background': baseCss.color_16,
+    '--global-color': baseCss.color_10,
     // main
+    '--main-menuBar-tabBar-svg-normal': baseCss.color_7,
+    '--main-menuBar-tabBar-svg-active': baseCss.color_15,
+    '--main-menuBar-tabBar-text-normal': baseCss.color_7,
+    '--main-menuBar-tabBar-text-active': baseCss.color_10,
 
     // main latest
     '--latest-follow-nav-normal-color': baseCss.color_10,

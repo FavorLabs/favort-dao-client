@@ -4,7 +4,7 @@ import { Divider, Input, Modal } from 'antd';
 import { useMemo, useState } from 'react';
 import { useUrl } from '@/utils/hooks';
 import { useDispatch } from 'umi';
-import { Dao } from '@/declare/tubeApiType';
+import { DaoParams } from '@/declare/tubeApiType';
 
 const { TextArea } = Input;
 
@@ -13,7 +13,7 @@ export type Props = {
   closeModal: () => void;
   onOk: (name: string, desc: string) => void;
   loading: boolean;
-  dao?: Omit<Dao, 'visibility'>;
+  dao?: DaoParams;
 };
 const EditServiceInfoModal: React.FC<Props> = (props) => {
   const { dao } = props;

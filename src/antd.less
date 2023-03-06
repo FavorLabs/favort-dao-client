@@ -54,4 +54,39 @@
 
 .adm-tab-bar-wrap {
   height: 100% !important;
+  .adm-tab-bar-item {
+    .adm-tab-bar-item-title {
+      color: var(--main-menuBar-tabBar-text-normal);
+    }
+  }
+  .adm-tab-bar-item-active {
+    .latest,
+    .dao,
+    .addCommunity,
+    .chat,
+    .mine {
+      svg {
+        fill: var(--main-menuBar-tabBar-svg-active);
+      }
+    }
+    .dao {
+      svg {
+        fill: none;
+        path {
+          stroke: var(--main-menuBar-tabBar-svg-active);
+        }
+      }
+    }
+    .mine {
+      svg {
+        fill: none;
+        g {
+          stroke: var(--main-menuBar-tabBar-svg-active);
+        }
+      }
+    }
+    .adm-tab-bar-item-title {
+      color: var(--main-menuBar-tabBar-text-active);
+    }
+  }
 }
