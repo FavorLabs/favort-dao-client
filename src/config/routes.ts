@@ -12,6 +12,18 @@ export default [
         component: '@/pages/Dao',
       },
       {
+        path: '/createCommunity',
+        component: '@/pages/CreateCommunity',
+      },
+      {
+        path: '/postNewsletter',
+        component: '@/pages/PostNewsletter',
+      },
+      {
+        path: '/postVideo',
+        component: '@/pages/PostVideo',
+      },
+      {
         path: '/video/:vid',
         component: '@/pages/Video',
       },

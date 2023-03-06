@@ -41,15 +41,12 @@ export type ResData<T> = Promise<
   }>
 >;
 
-export type Dao = {
-  name: string;
-  introduction: string;
-  visibility: boolean;
-};
+export type DaoParams = Omit<DaoInfo, 'address' | 'visibility' | 'id'>;
 
 export type DaoInfo = {
   address: string;
   avatar: string;
+  banner: string;
   id: string;
   introduction: string;
   name: string;
@@ -68,3 +65,9 @@ export type ListData<T> = {
 export type Status = {
   status: boolean;
 };
+
+export type UploadImage = 'avatars' | 'images';
+
+export type UploadVideo = 'videos';
+
+export type BucketsPath = UploadImage | UploadVideo;

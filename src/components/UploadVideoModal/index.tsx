@@ -50,7 +50,7 @@ export type downloadWsResItem = {
 
 const UploadVideoModal: React.FC<Props> = (props) => {
   const url = useUrl();
-  const resourceUrl = useResourceUrl();
+  const resourceUrl = useResourceUrl('images');
   const dispatch = useDispatch();
   const [uploaded, setUploaded] = useState<boolean>(false);
   const [uploading, setUploading] = useState<boolean>(false);
@@ -305,7 +305,7 @@ const UploadVideoModal: React.FC<Props> = (props) => {
     fmData.append('thumbnail', file);
     const { data } = await ImageApi.upload(resourceUrl, fmData);
     console.log('uploadThumbnail', data);
-    setFormData({ ...formData, thumbnail: data.data.token });
+    setFormData({ ...formData, thumbnail: data.id });
   };
 
   const submit = async () => {
@@ -460,9 +460,7 @@ const UploadVideoModal: React.FC<Props> = (props) => {
                     <ImageCrop
                       shape="rect"
                       aspect={2}
-                      setImgBase64={(imgBase64) => {
-                        setFormData({ ...formData, thumbnail: imgBase64 });
-                      }}
+                      removeImage={() => {}}
                       action={uploadThumbnail}
                     />
                     {thumbnailLoading ? (

@@ -18,6 +18,9 @@ const baseCss = {
   color_14: 'rgba(255, 255, 255, 1)',
   color_border1: 'rgba(229,229,229,1)',
   color_background1: 'rgba(20,20,20,1)',
+  color_15: 'rgba(255, 166, 0, 1)',
+  color_16: 'rgba(15, 15, 15, 1)',
+  color_17: 'rgba(255, 166, 0, 0.1)',
   fontFamily_1: 'Ping-Fang',
 };
 
@@ -25,6 +28,8 @@ export const THEME = {
   light: {
     // global variable
     '--font-family': baseCss.fontFamily_1,
+    '--global-background': baseCss.color_14,
+    '--global-color': baseCss.color_3,
     // main
     '--main-graphicMessage-userInfo-text-name-color': baseCss.color_3,
     '--main-graphicMessage-userInfo-text-releaseTime-color': baseCss.color_6,
@@ -40,13 +45,19 @@ export const THEME = {
     '--main-communityCard-bottom-textLeft-color': baseCss.color_14,
     '--main-communityCard-bottom-textRight-border': baseCss.color_12,
     '--main-communityCard-bottom-textRight-color': baseCss.color_12,
+    '--main-menuBar-tabBar-svg-normal': baseCss.color_7,
+    '--main-menuBar-tabBar-svg-active': baseCss.color_15,
+    '--main-menuBar-tabBar-text-normal': baseCss.color_5,
+    '--main-menuBar-tabBar-text-active': baseCss.color_3,
 
-    // main latest follow
+    // main latest
     '--latest-follow-nav-normal-color': baseCss.color_6,
   },
   dark: {
     // global variable
-    '--font-family': baseCss.color_1,
+    '--font-family': baseCss.fontFamily_1,
+    '--global-background': baseCss.color_16,
+    '--global-color': baseCss.color_10,
     // main
     '--main-graphicMessage-userInfo-text-name-color': baseCss.color_11,
     '--main-graphicMessage-userInfo-text-releaseTime-color': baseCss.color_6,
@@ -62,10 +73,12 @@ export const THEME = {
     '--main-communityCard-bottom-textLeft-color': baseCss.color_14,
     '--main-communityCard-bottom-textRight-border': baseCss.color_12,
     '--main-communityCard-bottom-textRight-color': baseCss.color_12,
+    '--main-menuBar-tabBar-svg-normal': baseCss.color_7,
+    '--main-menuBar-tabBar-svg-active': baseCss.color_15,
+    '--main-menuBar-tabBar-text-normal': baseCss.color_7,
+    '--main-menuBar-tabBar-text-active': baseCss.color_10,
 
-    // main latest follow
+    // main latest
     '--latest-follow-nav-normal-color': baseCss.color_10,
-
-    // main recommend
   },
 };

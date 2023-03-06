@@ -1,8 +1,7 @@
 import { defineConfig } from 'umi';
-
 import routes from './src/config/routes';
-
 import theme from './src/config/theme';
+const TerserPlugin = require('terser-webpack-plugin');
 
 export default defineConfig({
   title: 'FavorDao',
@@ -44,5 +43,21 @@ export default defineConfig({
         outputPath: 'static/fonts',
       })
       .loader(require.resolve('@umijs/deps/compiled/file-loader'));
+
+    // config.plugin('TerserPlugin').use(TerserPlugin, [
+    //   {
+    //     parallel: true,
+    //     terserOptions: {
+    //       ecma: undefined,
+    //       warnings: false,
+    //       parse: {},
+    //       compress: {
+    //         drop_console: true,
+    //         drop_debugger: false,
+    //         pure_funcs: ['console.warn'],
+    //       },
+    //     },
+    //   },
+    // ]);
   },
 });

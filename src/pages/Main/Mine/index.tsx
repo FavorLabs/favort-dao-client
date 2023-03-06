@@ -1,118 +1,151 @@
 import * as React from 'react';
 import styles from './index.less';
 import { ReactNode, useEffect, useState } from 'react';
-import { useHistory, useSelector } from 'umi';
-import { Avatar, Divider, message, Modal } from 'antd';
+import {
+  useHistory,
+  useSelector,
+  getLocale,
+  setLocale,
+  getAllLocales,
+  useIntl,
+} from 'umi';
+import { Avatar } from 'antd';
 import { Models } from '@/declare/modelType';
 import avatar_1 from '@/assets/img/avatar_1.png';
 import { omitAddress } from '@/utils/util';
 import CopyText from '@/components/CopyText';
-import newsletterSvg from '@/assets/icon/newsletter.svg';
-import videoSvg from '@/assets/icon/video.svg';
-import daoSvg from '@/assets/icon/dao.svg';
-import configSvg from '@/assets/icon/config.svg';
-import addSvg from '@/assets/icon/add.svg';
-import SvgIcon from '@/components/SvgIcon';
-import UploadVideoModal from '@/components/UploadVideoModal';
-import EditServiceInfoModal from '@/components/EditServiceInfoModal';
-import DaoApi from '@/services/tube/Dao';
 import { useUrl } from '@/utils/hooks';
-import { sleep } from '@/utils/util';
+import { sleep, switchTheme } from '@/utils/util';
 import { DaoInfo } from '@/declare/tubeApiType';
+import { Popover } from 'antd-mobile';
+import { ThemeType } from '@/utils/setTheme';
+import { defaultTheme } from '@/config/themeConfig';
 
 export type Props = {};
-type ManageItem = {
-  key: number;
-  title: string;
-  icon: ReactNode;
-  tabIndex: number;
-};
-type AnimConfig = {
-  open: boolean;
-  text: string;
+type SettingItem = {
+  name: string;
+  content: ReactNode;
 };
 const Mine: React.FC<Props> = (props) => {
   const history = useHistory();
   const url = useUrl();
-  const [daoInfo, setDaoInfo] = useState<DaoInfo>();
-  const [haveGroupService, setHaveGroupService] = useState<boolean>(false);
-  const [tipsModal, setTipsModal] = useState<boolean>(false);
-  const [createGpModal, setCreateGpModal] = useState<boolean>(false);
-  const [createLoading, setCreateLoading] = useState<boolean>(false);
-  const [animConfig, setAnimConfig] = useState<AnimConfig>({
-    open: false,
-    text: '',
-  });
-  const [balance, setBalance] = useState('0');
+  const intl = useIntl();
+
+  const theme = localStorage.getItem('theme');
+
+  const [balance, setBalance] = useState('4.9');
+  const [langMenuVisibility, setLangMenuVisibility] = useState<boolean>(false);
+  const [themeType, setThemeType] = useState<ThemeType>(
+    (theme as ThemeType) || (defaultTheme as ThemeType),
+  );
 
   const { address, web3 } = useSelector((state: Models) => state.web3);
 
-  useEffect(() => {
-    async function fetch() {
-      const { data } = await DaoApi.get(url);
-      if (data.data.list.length) {
-        setHaveGroupService(true);
-        setDaoInfo(data.data.list[0]);
-      }
+  const localeLang = getLocale();
+  const isLight = themeType === 'light';
+  const isDark = themeType === 'dark';
+
+  const switchLang = (lang: string) => {
+    setLocale(lang, false);
+    setLangMenuVisibility(false);
+  };
+
+  const getLanguageName = (lang: string) => {
+    switch (lang) {
+      case 'en-US':
+        return intl.formatMessage({ id: 'main.mine.setting.language-english' });
+      case 'zh-CN':
+        return intl.formatMessage({ id: 'main.mine.setting.language-chinese' });
+      default:
+        return intl.formatMessage({ id: 'main.mine.setting.language-english' });
     }
+  };
 
-    fetch();
-  }, []);
-
-  const manageItems: ManageItem[] = [
+  const settingItems: SettingItem[] = [
     {
-      key: 1,
-      title: 'newsletter',
-      icon: <SvgIcon svg={newsletterSvg} />,
-      tabIndex: 1,
+      name: intl.formatMessage({ id: 'main.mine.setting.language' }),
+      content: (
+        <div className={styles.langAction}>
+          <Popover
+            content={
+              <div className={styles.languageList}>
+                {getAllLocales().map((item) => (
+                  <span
+                    key={item}
+                    onClick={() => {
+                      switchLang(item);
+                    }}
+                  >
+                    {getLanguageName(item)}
+                  </span>
+                ))}
+              </div>
+            }
+            trigger="click"
+            visible={langMenuVisibility}
+            placement="bottom"
+          >
+            <span
+              onClick={(e) => {
+                e.stopPropagation();
+                setLangMenuVisibility(true);
+              }}
+            >
+              {intl.formatMessage({ id: 'main.mine.setting.language-value' })}
+            </span>
+          </Popover>
+        </div>
+      ),
     },
     {
-      key: 2,
-      title: 'videos',
-      icon: <SvgIcon svg={videoSvg} />,
-      tabIndex: 2,
+      name: intl.formatMessage({ id: 'main.mine.setting.theme' }),
+      content: (
+        <div className={styles.themeAction}>
+          <div
+            className={styles.switchBtn}
+            onClick={() => {
+              switchTheme();
+              if (isLight) {
+                setThemeType('dark');
+              } else {
+                setThemeType('light');
+              }
+            }}
+          >
+            <div
+              className={`${styles.option} ${isLight && 'themeBtnActive'}`}
+              onClick={(e) => {
+                isLight && e.stopPropagation();
+              }}
+            >
+              {intl.formatMessage({ id: 'main.mine.setting.theme-light' })}
+            </div>
+            <div
+              className={`${styles.option} ${isDark && 'themeBtnActive'}`}
+              onClick={(e) => {
+                isDark && e.stopPropagation();
+              }}
+            >
+              {intl.formatMessage({ id: 'main.mine.setting.theme-dark' })}
+            </div>
+          </div>
+        </div>
+      ),
     },
     {
-      key: 3,
-      title: 'group',
-      icon: <SvgIcon svg={daoSvg} />,
-      tabIndex: 3,
+      name: intl.formatMessage({ id: 'main.mine.setting.about' }),
+      content: <div className={styles.aboutAction}>version 1.0</div>,
+    },
+    {
+      name: intl.formatMessage({ id: 'main.mine.setting.logout' }),
+      content: <div className={styles.logoutAction} />,
     },
   ];
+
   const getBalance = async () => {
     // if (!web3) return;
     // const b = await web3.eth.getBalance(address);
     // if (b) setBalance(web3.utils.fromWei(b, 'ether'));
-  };
-  const createGroupService = async (name: string, desc: string) => {
-    setCreateLoading(true);
-    setAnimConfig({ open: true, text: 'The server is being created...' });
-    try {
-      const { data } = await DaoApi.create(url, { name, introduction: desc });
-      if (data.code === 0) {
-        await sleep(2000);
-        closeGpModal();
-        setAnimConfig({ open: true, text: 'Generating configurations...' });
-        await sleep(3000);
-        setAnimConfig({ open: false, text: '' });
-        setHaveGroupService(true);
-        setDaoInfo(data.data);
-      }
-    } catch (e) {
-      if (e instanceof Error) message.error(e.message);
-    } finally {
-      setAnimConfig({ open: false, text: '' });
-      setCreateLoading(false);
-    }
-  };
-
-  const tipsModalConfirm = () => {
-    setTipsModal(false);
-    setCreateGpModal(true);
-  };
-
-  const closeGpModal = () => {
-    setCreateGpModal(false);
   };
 
   useEffect(() => {
@@ -123,104 +156,36 @@ const Mine: React.FC<Props> = (props) => {
 
   return (
     <>
-      <div className={styles.content}>
-        {!haveGroupService && (
-          <div className={styles.topBtn}>
-            <span>&nbsp;</span>
-            <span
-              className={styles.creatGroup}
-              onClick={() => {
-                setTipsModal(true);
-              }}
-            >
-              Create my group
-            </span>
-          </div>
-        )}
+      <div
+        className={styles.content}
+        onClick={() => {
+          setLangMenuVisibility(false);
+        }}
+      >
         <div className={styles.walletInfo}>
           <div className={styles.walletDetails}>
             <Avatar
-              size={24}
+              size={50}
               alt=""
               src={avatar_1}
               className={styles.avatar}
               style={{ backgroundColor: '#F44336' }}
             />
-            <div className={styles.name}>Account</div>
-            <div className={styles.balance}>{balance}</div>
             <div className={styles.addressBtn}>
               <span className={styles.address}>{omitAddress(address)}</span>
               <CopyText text={address} />
             </div>
+            <div className={styles.balance}>{balance}$</div>
           </div>
         </div>
-        <div className={styles.manageList}>
-          {haveGroupService &&
-            manageItems.map((item) => (
-              <div className={styles.manageItem} key={item.key}>
-                <div className={styles.left}>
-                  <div className={styles.icon}>{item.icon}</div>
-                  <div className={styles.title}>{item.title}</div>
-                </div>
-                <div className={styles.right}>
-                  <span className={styles.configBtn}>
-                    <SvgIcon svg={configSvg} />
-                    <span
-                      className={styles.text}
-                      onClick={() => {
-                        history.push(
-                          `/dao/${daoInfo?.id}?tabIndex=${item.tabIndex}`,
-                        );
-                      }}
-                    >
-                      config
-                    </span>
-                  </span>
-                </div>
-              </div>
-            ))}
+        <div className={styles.setting}>
+          {settingItems.map((item) => (
+            <div className={styles.settingItem} key={item.name}>
+              <div className={styles.name}>{item.name}</div>
+              <div className={styles.action}>{item.content}</div>
+            </div>
+          ))}
         </div>
-        <Modal
-          title={null}
-          open={tipsModal}
-          centered
-          closable={false}
-          destroyOnClose
-          maskClosable={false}
-          width={400}
-          okText="Ok"
-          onOk={tipsModalConfirm}
-          onCancel={() => {
-            setTipsModal(false);
-          }}
-          className={styles.tipsModal}
-        >
-          <div className={'modalContent'}>
-            <p className={'title'}>Create decentralised services</p>
-            <Divider className={'divider'} />
-            <p className={styles.desc}>
-              Does a decentralised service that records your data, videos and
-              fan information separately on a decentralised server that is
-              entirely under your control need to be created?
-            </p>
-          </div>
-        </Modal>
-        {createGpModal ? (
-          <EditServiceInfoModal
-            open={createGpModal}
-            closeModal={closeGpModal}
-            onOk={createGroupService}
-            loading={createLoading}
-          />
-        ) : (
-          <></>
-        )}
-        {animConfig.open && (
-          <div className={styles.createAnimation}>
-            <div className={styles.animation} />
-            <p className={styles.tips}>{animConfig.text}</p>
-          </div>
-        )}
       </div>
     </>
   );

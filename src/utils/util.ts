@@ -4,6 +4,7 @@ import WebUtils from 'web3-utils';
 import { ReviteURL } from '@/config/constants';
 import { setTheme, ThemeType } from '@/utils/setTheme';
 import { defaultTheme } from '@/config/themeConfig';
+import { debounce } from 'lodash';
 
 export const splitUrl = (url: string): [string, string, string] => {
   let i = new URL(url);
@@ -106,4 +107,75 @@ export const switchTheme = () => {
   } else {
     setTheme(defaultTheme as ThemeType);
   }
+};
+
+export const flexible = (window: Window, document: Document) => {
+  var docEl = document.documentElement;
+  // var dpr = window.devicePixelRatio || 1;
+  // const pcDefaultFontSize = 16;
+  // const mobileDefaultFontSize = 16;
+  // const pcDesignSize = 1920;
+  // const mobileDesignSize = 375;
+  const pcDefaultFontSize = 14;
+  const mobileDefaultFontSize = 16;
+  const pcDesignSize = 1440;
+  const mobileDesignSize = 375;
+
+  let targetWidth: number;
+
+  function getTargetWidth() {
+    if (!isMobile() || docEl.clientWidth > 1024) {
+      targetWidth =
+        docEl.clientWidth > docEl.clientHeight
+          ? docEl.clientWidth
+          : docEl.clientHeight;
+    } else {
+      targetWidth =
+        docEl.clientWidth <= docEl.clientHeight
+          ? docEl.clientWidth
+          : docEl.clientHeight;
+    }
+  }
+
+  // adjust body font size
+  function setBodyFontSize() {
+    if (document.body) {
+      // document.body.style.fontSize = 12 * dpr + "px";
+      // document.body.setAttribute('data-dpr', dpr + '');
+    } else {
+      document.addEventListener('DOMContentLoaded', setBodyFontSize);
+    }
+  }
+  setBodyFontSize();
+
+  // set 1rem = viewWidth / 10
+  function setRemUnit() {
+    getTargetWidth();
+    if (!isMobile()) {
+      docEl.style.fontSize = `16px`;
+      // docEl.style.fontSize = `${(pcDefaultFontSize / pcDesignSize) * targetWidth}px`;
+    } else {
+      // docEl.style.fontSize = `14px`;
+      docEl.style.fontSize = `${
+        (mobileDefaultFontSize / mobileDesignSize) * targetWidth
+      }px`;
+    }
+  }
+  setRemUnit();
+
+  // reset rem unit on page resize
+  window.addEventListener('resize', debounce(setRemUnit, 500));
+  window.addEventListener('pageshow', function (e) {
+    if (e.persisted) {
+      setRemUnit();
+    }
+  });
+
+  // detect 0.5px supports
+  // if (dpr >= 2) {
+  //   var fakeBody = document.createElement("body");
+  //   var testElement = document.createElement("div");
+  //   testElement.style.borderconsole.log("pc device");
+  //   docEl.removeChild(fakeBody);
+  // }
 };

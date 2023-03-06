@@ -89,8 +89,8 @@ const ConnectWallet: React.FC = (props) => {
     setLoading(true);
     const timestamp = Date.parse(new Date().toUTCString());
     const msg = `${address} login FavorDAO at ${timestamp}`;
-    // @ts-ignore
     const signature = await web3?.eth.personal
+      // @ts-ignore
       .sign(msg, address)
       .catch((err) => {
         setLoading(false);
