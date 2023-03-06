@@ -1,12 +1,14 @@
 import * as React from 'react';
 import styles from './index.less';
-import { Avatar, Image } from 'antd';
-import lookOver from '@/assets/img/look_over.png';
-import commentOn from '@/assets/img/comment_on.png';
-import support from '@/assets/img/support.png';
+import { Image } from 'antd';
+import CommunityInfo from '@/components/CommunityInfo';
+import CommentArea from '@/components/CommentArea';
 
 export type Props = {
   userImg?: string;
+  watchNum?: number;
+  commentOnNum?: number;
+  likeNum?: number;
 };
 
 const GraphicMessage: React.FC<Props> = (props) => {
@@ -28,18 +30,13 @@ const GraphicMessage: React.FC<Props> = (props) => {
   return (
     <div className={styles.container}>
       <div className={styles.inContent}>
-        <div className={styles.userInfo}>
-          <Avatar src={userImg} className={styles.userImg}></Avatar>
-          <div className={styles.userText}>
-            <p className={styles.userName}>FavorDao</p>
-            <p className={styles.releaseTime}>today 08:23</p>
-          </div>
-        </div>
+        <CommunityInfo userImg={userImg} />
 
         <div className={styles.textInfo}>
-          为了更好地支持新的 APP 测试， 我们决定在本周日关闭 Metis 和 OKC
-          测试网络并结束空投活动。
-          所有空投奖励预计将于3月15日发放完毕。感谢您的热情和支持！
+          In order to better support the new APP test, we decided to close Metis
+          and OKC on this Sunday Test the network and end the airdrop activity.
+          All airdrop awards are expected to be distributed on March 15. Thank
+          you for your enthusiasm and support!
         </div>
 
         <div className={styles.mediumInfo}>
@@ -48,20 +45,7 @@ const GraphicMessage: React.FC<Props> = (props) => {
           ))}
         </div>
 
-        <div className={styles.operate}>
-          <div className={styles.operateDiv}>
-            <img src={lookOver} className={styles.operateIcon} />
-            <span className={styles.operateText}>123</span>
-          </div>
-          <div className={styles.operateDiv}>
-            <img src={commentOn} className={styles.operateIcon} />
-            <span className={styles.operateText}>123</span>
-          </div>
-          <div className={styles.operateDiv}>
-            <img src={support} className={styles.operateIcon} />
-            <span className={styles.operateText}>123</span>
-          </div>
-        </div>
+        <CommentArea watchNum={980} commentOnNum={456} likeNum={201} />
       </div>
     </div>
   );

@@ -16,11 +16,11 @@ const baseCss = {
   color_12: 'rgba(240, 240, 240, 1)',
   color_13: 'rgba(245, 245, 245, 1)',
   color_14: 'rgba(255, 255, 255, 1)',
-  color_border1: 'rgba(229,229,229,1)',
-  color_background1: 'rgba(20,20,20,1)',
   color_15: 'rgba(255, 166, 0, 1)',
   color_16: 'rgba(15, 15, 15, 1)',
   color_17: 'rgba(255, 166, 0, 0.1)',
+  color_18: 'rgba(229,229,229,1)',
+  color_19: 'rgba(20,20,20,1)',
   fontFamily_1: 'Ping-Fang',
 };
 
@@ -35,16 +35,19 @@ export const THEME = {
     '--main-graphicMessage-userInfo-text-releaseTime-color': baseCss.color_6,
     '--main-graphicMessage-textInfo-text-name-color': baseCss.color_3,
     '--main-graphicMessage-operate-text-color': baseCss.color_6,
+
     '--main-myAttention-content-background': baseCss.color_14,
     '--main-myAttention-topNav-navLeft-text-color': baseCss.color_3,
     '--main-myAttention-topNav-navRight-text-color': baseCss.color_8,
     '--main-myAttention-bottomNav-myCreated-text-color': baseCss.color_3,
-    '--main-myAttention-bottomNav-verticalLine-border': baseCss.color_border1,
+    '--main-myAttention-bottomNav-verticalLine-border': baseCss.color_18,
     '--main-myAttention-bottomNav-myJoin-userArr-text-color': baseCss.color_3,
+
     '--main-communityCard-bottom-background': 'rgba(255,255,255,.1)',
     '--main-communityCard-bottom-textLeft-color': baseCss.color_14,
     '--main-communityCard-bottom-textRight-border': baseCss.color_12,
     '--main-communityCard-bottom-textRight-color': baseCss.color_12,
+
     '--main-menuBar-tabBar-svg-normal': baseCss.color_7,
     '--main-menuBar-tabBar-svg-active': baseCss.color_15,
     '--main-menuBar-tabBar-text-normal': baseCss.color_5,
@@ -63,16 +66,19 @@ export const THEME = {
     '--main-graphicMessage-userInfo-text-releaseTime-color': baseCss.color_6,
     '--main-graphicMessage-textInfo-text-name-color': baseCss.color_10,
     '--main-graphicMessage-operate-text-color': baseCss.color_8,
-    '--main-myAttention-content-background': baseCss.color_background1,
+
+    '--main-myAttention-content-background': baseCss.color_19,
     '--main-myAttention-topNav-navLeft-text-color': baseCss.color_10,
     '--main-myAttention-topNav-navRight-text-color': baseCss.color_8,
     '--main-myAttention-bottomNav-myCreated-text-color': baseCss.color_10,
-    '--main-myAttention-bottomNav-verticalLine-border': baseCss.color_border1,
+    '--main-myAttention-bottomNav-verticalLine-border': baseCss.color_18,
     '--main-myAttention-bottomNav-myJoin-userArr-text-color': baseCss.color_10,
+
     '--main-communityCard-bottom-background': 'rgba(255,255,255,.1)',
     '--main-communityCard-bottom-textLeft-color': baseCss.color_14,
     '--main-communityCard-bottom-textRight-border': baseCss.color_12,
     '--main-communityCard-bottom-textRight-color': baseCss.color_12,
+
     '--main-menuBar-tabBar-svg-normal': baseCss.color_7,
     '--main-menuBar-tabBar-svg-active': baseCss.color_15,
     '--main-menuBar-tabBar-text-normal': baseCss.color_7,

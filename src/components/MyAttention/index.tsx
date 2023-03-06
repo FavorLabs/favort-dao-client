@@ -32,11 +32,11 @@ const MyAttention: React.FC<Props> = (props) => {
       <div className={styles.content}>
         <div className={styles.topNav}>
           <div className={styles.navLeft}>
-            <span className={styles.text}>我的创建</span>
-            <span className={styles.text}>我的加入</span>
+            <span className={styles.text}>my creation</span>
+            <span className={styles.text}>my joined</span>
           </div>
           <div className={styles.navRight}>
-            <span className={styles.text}>查看全部</span>
+            <span className={styles.text}>query whole</span>
             <img src={arrowRight} className={styles.icon} />
           </div>
         </div>
@@ -52,7 +52,7 @@ const MyAttention: React.FC<Props> = (props) => {
               return (
                 <div key={index} className={styles.userArr}>
                   <img src={item.imgUrl} className={styles.icon}></img>
-                  <span className={styles.text}>{item.name}</span>
+                  <span className={styles.texts}>{item.name}</span>
                 </div>
               );
             })}
