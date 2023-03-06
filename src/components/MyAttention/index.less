@@ -1,0 +1,115 @@
+.page {
+  width: 335px;
+
+  .content {
+    box-sizing: border-box;
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 10px;
+    background: var(--main-myAttention-content-background);
+    box-shadow: 0px 2px 15px 5px rgba(0, 0, 0, 0.05);
+
+    .topNav {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      .navLeft {
+        display: flex;
+        align-items: center;
+
+        .text {
+          margin-right: 20px;
+          font-size: 16px;
+          font-weight: 500;
+          color: var(--main-myAttention-topNav-navLeft-text-color);
+        }
+
+        .text:last-child {
+          margin-right: 0;
+        }
+      }
+
+      .navRight {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+
+        .text {
+          margin-right: 2px;
+          font-size: 12px;
+          font-weight: 500;
+          color: var(--main-myAttention-topNav-navRight-text-color);
+        }
+
+        .icon {
+          width: 8px;
+          height: 12px;
+        }
+      }
+    }
+
+    .bottomNav {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+
+      .myCreated {
+        display: flex;
+        flex-direction: column;
+        margin-right: 17px;
+
+        .icon {
+          width: 50px;
+          height: 50px;
+          cursor: pointer;
+        }
+
+        .text {
+          font-size: 12px;
+          font-weight: 500;
+          color: var(--main-myAttention-bottomNav-myCreated-text-color);
+        }
+      }
+
+      .verticalLine {
+        width: 0px;
+        height: 40px;
+        border: 1px solid var(--main-myAttention-bottomNav-verticalLine-border);
+      }
+
+      .myJoin {
+        display: flex;
+        margin-left: 11px;
+        //overflow: hidden；
+        overflow-x: auto;
+        white-space: nowrap;
+
+        .userArr {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+
+          .icon {
+            width: 50px;
+            height: 50px;
+          }
+
+          .icon:active {
+            width: 46px;
+            height: 46px;
+            border: 2px solid rgba(255, 166, 0, 1);
+            border-radius: 50%;
+          }
+
+          .text {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--main-myAttention-bottomNav-myJoin-userArr-text-color);
+          }
+        }
+      }
+    }
+  }
+}
