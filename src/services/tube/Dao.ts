@@ -1,6 +1,12 @@
 import type { AxiosResponse } from 'axios';
 import request from '@/services';
-import { Dao, DaoInfo, ListData, ResData, Status } from '@/declare/tubeApiType';
+import {
+  DaoInfo,
+  DaoParams,
+  ListData,
+  ResData,
+  Status,
+} from '@/declare/tubeApiType';
 
 export default {
   get(url: string) {
@@ -14,7 +20,7 @@ export default {
       params: { dao_id: id },
     });
   },
-  create(url: string, data: Omit<Dao, 'visibility'>): ResData<DaoInfo> {
+  create(url: string, data: DaoParams): ResData<DaoInfo> {
     return request({
       url: url + '/dao_server',
       method: 'post',

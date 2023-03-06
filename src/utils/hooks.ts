@@ -1,6 +1,7 @@
 import { history, useParams, useSelector } from 'umi';
 import { Models } from '@/declare/modelType';
 import { AutumnDomainName, DaoDomainName } from '@/config/constants';
+import { BucketsPath } from '@/declare/tubeApiType';
 // import { config } from '@/config/config';
 
 export const usePath = () => {
@@ -17,7 +18,7 @@ export const useUrl = () => {
   return api + '/group/http/' + config.proxyGroup + '/' + DaoDomainName + '/v1';
 };
 
-export const useResourceUrl = () => {
+export const useResourceUrl = (type: BucketsPath) => {
   let { api, config } = useSelector((state: Models) => state.global);
   if (!config) return '';
   return (
@@ -26,7 +27,8 @@ export const useResourceUrl = () => {
     config.proxyGroup +
     '/' +
     AutumnDomainName +
-    '/paopao19/avatars'
+    '/paopao19/' +
+    type
   );
 };
 

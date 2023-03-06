@@ -15,27 +15,32 @@ import mineSvg from '@/assets/icon/mine.svg';
 import {
   useSelector,
   useHistory,
+  useDispatch,
   NavLink,
   useIntl,
   getLocale,
   setLocale,
 } from 'umi';
 import { Models } from '@/declare/modelType';
-import { useResourceUrl } from '@/utils/hooks';
-import { Tabs, TabBarItemProps } from 'antd-mobile';
+import { useUrl, useResourceUrl } from '@/utils/hooks';
+import { Tabs, TabBarItemProps, Popup } from 'antd-mobile';
 import { SearchOutline } from 'antd-mobile-icons';
 import { switchTheme } from '@/utils/util';
+import DaoApi from '@/services/tube/Dao';
 
 export type Props = {};
 export type MenuItem = TabBarItemProps & {
   key: string;
 };
 const Main: React.FC<Props> = (props) => {
-  const resourceUrl = useResourceUrl();
+  const url = useUrl();
+  const resourceUrl = useResourceUrl('avatars');
   const history = useHistory();
   const intl = useIntl();
+  const dispatch = useDispatch();
   const pathname = history.location.pathname;
   const { user } = useSelector((state: Models) => state.global);
+  const { userInfo } = useSelector((state: Models) => state.dao);
   const menuItems: MenuItem[] = [
     {
       key: '/latest',
@@ -59,7 +64,11 @@ const Main: React.FC<Props> = (props) => {
       key: '/addBtn',
       title: '',
       icon: (
-        <div className={`${styles.addCommunity} addCommunity`}>
+        <div
+          className={`${styles.addCommunity} addCommunity ${
+            userInfo && 'haveCommunity'
+          }`}
+        >
           <SvgIcon svg={addCommunitySvg} />
         </div>
       ),
@@ -87,6 +96,24 @@ const Main: React.FC<Props> = (props) => {
   const [latestNavVisibility, setLatestNavVisibility] =
     useState<boolean>(false);
   const [topBarVisibility, setTopBarVisibility] = useState<boolean>(true);
+  const [postPopupVisibility, setPostPopupVisibility] =
+    useState<boolean>(false);
+
+  const getUserCommunityInfo = async () => {
+    const { data } = await DaoApi.get(url);
+    if (data.data.list.length) {
+      dispatch({
+        type: 'dao/updateState',
+        payload: {
+          userInfo: data.data.list[0],
+        },
+      });
+    }
+  };
+
+  useEffect(() => {
+    getUserCommunityInfo();
+  }, []);
 
   useEffect(() => {
     setLatestNavVisibility(pathname.includes('/latest'));
@@ -160,14 +187,45 @@ const Main: React.FC<Props> = (props) => {
           activeKey={activeKey}
           onChange={(key: string) => {
             if (key === '/addBtn') {
-              //
+              if (userInfo) setPostPopupVisibility(true);
             } else {
-              console.log('key', key);
               setActiveKey(key);
               history.push(key);
             }
           }}
         />
+        <Popup
+          visible={postPopupVisibility}
+          onMaskClick={() => {
+            setPostPopupVisibility(false);
+          }}
+          bodyStyle={{
+            padding: '20px',
+            boxSizing: 'border-box',
+            borderTopLeftRadius: '4px',
+            borderTopRightRadius: '4px',
+          }}
+          className={styles.postPopup}
+        >
+          <div
+            className={styles.postItem}
+            onClick={() => {
+              setPostPopupVisibility(false);
+              history.push('/postNewsletter');
+            }}
+          >
+            Post newsletter
+          </div>
+          <div
+            className={styles.postItem}
+            onClick={() => {
+              setPostPopupVisibility(false);
+              history.push('/postVideo');
+            }}
+          >
+            Post video
+          </div>
+        </Popup>
       </div>
     </>
   );

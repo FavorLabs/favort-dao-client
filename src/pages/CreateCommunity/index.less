@@ -1,0 +1,79 @@
+.content {
+  .navBar {
+    padding: 20px;
+    border: 0.5px solid rgba(229, 229, 229, 1);
+    svg {
+      width: 16px;
+    }
+  }
+  .createOptions {
+    padding: 0 20px;
+    .option {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 20px 0;
+      border-bottom: 0.5px solid rgba(229, 229, 229, 1);
+      .key {
+        flex-wrap: nowrap;
+        margin-right: 20px;
+        color: rgba(33, 33, 0, 1);
+        font-weight: 700;
+      }
+      .value {
+        flex-grow: 1;
+        input::placeholder {
+          color: rgba(99, 99, 99, 1);
+        }
+        .avatarUpload {
+          //
+        }
+      }
+    }
+  }
+  .createBtn {
+    position: absolute;
+    bottom: 34px;
+    left: 0;
+    right: 0;
+    margin: 0 20px;
+    padding: 10px 0;
+    text-align: center;
+    background: rgba(255, 166, 0, 1);
+  }
+  .createBtn.disabled {
+    background: rgba(240, 240, 240, 1);
+  }
+  .createOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: rgba(0, 0, 0, 0.5);
+    .circleBox {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .circle {
+        --size: 122px;
+        --fill-color: rgba(255, 166, 0, 1);
+        --track-color: #fff;
+        --track-width: 10px;
+        .percent {
+          color: rgba(255, 166, 0, 1);
+          font-size: 20px;
+          font-weight: 700;
+        }
+      }
+    }
+    .tips {
+      color: rgba(255, 255, 255, 1);
+      margin-top: 20px;
+    }
+  }
+}
