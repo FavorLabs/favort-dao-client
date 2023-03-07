@@ -53,6 +53,16 @@ export const THEME = {
     '--main-menuBar-tabBar-text-normal': baseCss.color_5,
     '--main-menuBar-tabBar-text-active': baseCss.color_3,
 
+    '--main-communityIntro-communityCard-background': baseCss.color_14,
+    '--main-communityIntro-communityCard-foot-left-top-img-border':
+      baseCss.color_15,
+    '--main-communityIntro-communityCard-foot-left-top-title-color':
+      baseCss.color_3,
+    '--main-communityIntro-communityCard-foot-left-text-color': baseCss.color_6,
+    '--main-communityIntro-communityCard-foot-right-backgroundColor':
+      baseCss.color_15,
+    '--main-communityIntro-communityCard-foot-right-color': baseCss.color_14,
+
     // main latest
     '--latest-follow-nav-normal-color': baseCss.color_6,
   },

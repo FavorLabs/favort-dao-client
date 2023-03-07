@@ -11,10 +11,21 @@ import { useDebounceFn } from 'ahooks';
 import { useResourceUrl } from '@/utils/hooks';
 import CreateCommunity from '@/pages/CreateCommunity';
 import { Models } from '@/declare/modelType';
+import MyAttention from '@/components/MyAttention';
+import CommunityCard from '@/components/CommunityCard';
+import JumpIconButton from '@/components/JumpIconButton';
+import addImg from '@/assets/img/add-img.png';
+import newsInBriefImg from '@/assets/img/newsInBrief-img.png';
+import videoImg from '@/assets/img/video-img.png';
+import groupChatImg from '@/assets/img/groupChat-img.png';
 
 export type Props = {};
 
 const DaoList: React.FC<Props> = (props) => {
+  const userImg =
+    'https://img.js.design/assets/img/63fee9f013c9305ce9416782.png#fcb7b62b61d952467d3445d6bb64ce9a';
+  const bgImg =
+    'https://img.js.design/assets/img/63fda924b045c20466fc7a43.jpeg#d9b517fc27cf3e514de98ce387eadd7d';
   const url = useUrl();
   // const resourceUrl = useResourceUrl();
   const [value, setValue] = useState('');
@@ -57,43 +68,45 @@ const DaoList: React.FC<Props> = (props) => {
   return (
     <>
       <div className={styles.content}>
-        <div className={styles.search}>
-          <AutoComplete
-            options={options}
-            style={{ width: '100%' }}
-            onSelect={onSelect}
-            onChange={run}
-            placeholder="input here"
-          />
-        </div>
+        {/*<div className={styles.search}>*/}
+        {/*  <AutoComplete*/}
+        {/*    options={options}*/}
+        {/*    style={{ width: '100%' }}*/}
+        {/*    onSelect={onSelect}*/}
+        {/*    onChange={run}*/}
+        {/*    placeholder="input here"*/}
+        {/*  />*/}
+        {/*</div>*/}
 
         {userInfo ? (
           <>
-            <p>my create</p>
-            <div className={styles.dao}>
-              <div className={styles.title}>DAOs you may be interested in</div>
-              <div className={styles.list}>
-                {bookmarkList.map((item, index) => (
-                  <div className={styles.list_item} key={index}>
-                    <DaoCard
-                      key={1}
-                      name={item.name}
-                      avatar={item.avatar}
-                      clickHandle={() => clickHandle(item.id)}
-                    />
-                  </div>
-                ))}
-              </div>
+            <MyAttention userImg={userImg} />
+            <CommunityCard bgImg={bgImg} />
+            <div className={styles.jumpBlock}>
+              <JumpIconButton imgUrl={newsInBriefImg} title={'简讯'} />
+              <JumpIconButton imgUrl={videoImg} title={'视频'} />
+              <JumpIconButton imgUrl={groupChatImg} title={'群组'} />
             </div>
+            <div className={styles.underLine}></div>
           </>
         ) : (
-          <div
-            className={styles.createCommunity}
-            onClick={() => {
-              history.push('/createCommunity');
-            }}
-          >
-            create community
+          <div className={styles.createPage}>
+            <div className={styles.createCommunityCard}>
+              <div className={styles.createCommunity}>
+                <div className={styles.block}>
+                  <p className={styles.title}>create community</p>
+                  <div
+                    className={styles.button}
+                    onClick={() => {
+                      history.push('/createCommunity');
+                    }}
+                  >
+                    <img src={addImg} className={styles.addImg} alt="" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className={styles.noCreateBackGround}></div>
           </div>
         )}
       </div>

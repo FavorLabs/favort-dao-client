@@ -1,50 +1,50 @@
 import * as React from 'react';
 import styles from './index.less';
-import lookOver from '@/assets/img/look_over.png';
-import commentOn from '@/assets/img/comment_on.png';
-import support from '@/assets/img/support.png';
+import moreImg from '@/assets/img/more-img.png';
+import CommentArea from '@/components/CommentArea';
 
 export type Props = {
-  title?: String;
-  community?: String;
-  time?: String;
-  content?: String;
-  watchNum?: Number;
-  commentNum?: Number;
-  starNum?: Number;
+  title?: string;
+  community?: string;
+  time?: string;
+  content?: string;
+  videoUrl?: string;
+  videoTime?: string;
 };
 const LongVideo: React.FC<Props> = (props) => {
-  const videoImg =
-    'https://img.js.design/assets/img/63feebab9d2376d02eccbaf7.jpg#7b6f740e4ff20b3a5645a0e598ea9bca';
+  const { title, community, time, content, videoTime, videoUrl } = props;
+  const moreClick = () => {
+    console.log('点击了更多按钮');
+  };
+
   return (
     <div className={styles.videoCard}>
       <div className={styles.main}>
         <div className={styles.left}>
-          <img src={videoImg} alt="" />
-          <div className={styles.duration}>16:05</div>
+          <img className={styles.img} src={videoUrl} alt="" />
+          <div className={styles.duration}>{videoTime}</div>
         </div>
         <div className={styles.right}>
-          <h4>{props.title}</h4>
-          <span>{props.community}</span>
-          <span className={styles.time}>{props.time}</span>
-          <p>{props.content}</p>
+          <div className={styles.top}>
+            <div className={styles.nav}>
+              <p className={styles.title}>{title}</p>
+              <img
+                className={styles.moreImg}
+                src={moreImg}
+                alt=""
+                onClick={moreClick}
+              />
+            </div>
+            <p className={styles.content}>{content}</p>
+          </div>
+          <div className={styles.bottom}>
+            <p className={styles.name}>{community}</p>
+            <p className={styles.time}>{time}</p>
+          </div>
         </div>
       </div>
 
-      <div className={styles.foot}>
-        <div className={styles.div}>
-          <img src={lookOver} className={styles.icon} />
-          <span className={styles.text}>{props.watchNum}</span>
-        </div>
-        <div className={styles.div}>
-          <img src={commentOn} className={styles.icon} />
-          <span className={styles.text}>{props.commentNum}</span>
-        </div>
-        <div className={styles.div}>
-          <img src={support} className={styles.icon} />
-          <span className={styles.text}>{props.starNum}</span>
-        </div>
-      </div>
+      <CommentArea watchNum={980} commentOnNum={456} likeNum={201} />
     </div>
   );
 };

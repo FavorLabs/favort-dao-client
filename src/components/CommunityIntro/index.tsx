@@ -1,32 +1,47 @@
 import * as React from 'react';
 import styles from './index.less';
-import defaultImgSrc from '@/assets/img/community.png';
-import defaultHeadImg from '@/assets/img/headImg.png';
 
 export type Props = {
-  title?: String;
-  text?: String;
-  operate?: String;
+  title?: string;
+  text?: string;
+  operate?: string;
   handleClick: () => void;
+  communityImg?: string;
+  communityBackgroundImg?: string;
 };
 
 const CommunityIntro: React.FC<Props> = (props) => {
+  const {
+    title,
+    text,
+    operate,
+    handleClick,
+    communityBackgroundImg,
+    communityImg,
+  } = props;
   return (
     <div className={styles.communityCard}>
-      <div className={styles.head}>
-        <img src={defaultImgSrc} alt="" />
-      </div>
+      <div
+        className={styles.head}
+        style={{
+          backgroundImage: `url(${communityBackgroundImg})`,
+          backgroundSize: `100%`,
+          backgroundPosition: `center center`,
+        }}
+      ></div>
 
       <div className={styles.foot}>
         <div className={styles.left}>
-          <img src={defaultHeadImg} alt="" />
-          <p className={styles.title}>{props.title}</p>
-          <p className={styles.text}>{props.text}</p>
+          <div className={styles.top}>
+            <img className={styles.img} src={communityImg} alt="" />
+            <p className={styles.title}>{title}</p>
+          </div>
+          <p className={styles.text}>{text}</p>
         </div>
 
-        <div className={styles.right}>
-          <button onClick={props.handleClick}>{props.operate}</button>
-        </div>
+        <button className={styles.right} onClick={handleClick}>
+          {operate}
+        </button>
       </div>
     </div>
   );
