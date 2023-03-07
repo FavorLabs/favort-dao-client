@@ -1,0 +1,94 @@
+.line {
+  height: 1px;
+  background-color: rgba(229, 229, 229, 1);
+  transform: scaleY(0.5);
+  transform-origin: 50% 100%;
+}
+
+.videoCard {
+  border-bottom: 1px solid rgba(229, 229, 229, 1);
+  .main {
+    display: flex;
+    width: 100%;
+
+    .left {
+      width: 100%;
+      position: relative;
+      img {
+        width: 160px;
+        height: 100px;
+      }
+      .duration {
+        position: absolute;
+        right: 11px;
+        bottom: 6px;
+        font-size: 10px;
+        color: rgba(227, 227, 227, 1);
+        text-align: center;
+        width: 27px;
+        height: 14px;
+        padding: 1px 5px;
+        border-radius: 8px;
+        background: rgba(51, 51, 51, 0.8);
+      }
+    }
+
+    .right {
+      width: 100%;
+      position: relative;
+      h4 {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 500;
+        color: rgba(33, 33, 0, 1);
+      }
+
+      span {
+        font-size: 12px;
+        font-weight: 500;
+        color: rgba(99, 99, 99, 1);
+        letter-spacing: 1px;
+      }
+      .time {
+        margin-left: 6px;
+      }
+
+      p {
+        width: 147px;
+        height: 30px;
+        font-size: 12px;
+        font-weight: 500;
+        color: rgba(33, 33, 33, 1);
+        position: absolute;
+        bottom: 0;
+        letter-spacing: 1px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+
+  .foot {
+    margin: 15px 0;
+    display: flex;
+    justify-content: space-around;
+
+    .div {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+
+      .icon {
+        width: 18px;
+        height: 16px;
+      }
+
+      .text {
+        margin-left: 2px;
+        font-size: 12px;
+        font-weight: 500;
+        color: rgba(99, 99, 99, 1);
+      }
+    }
+  }
+}
