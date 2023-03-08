@@ -71,7 +71,7 @@ const Index: React.FC<Props> = (props) => {
           onPreview={onPreview}
           onRemove={onRemove}
           maxCount={multiple ? undefined : 1}
-          action={action || ''}
+          action={action || undefined}
           defaultFileList={defaultFileList}
         >
           {multiple ? (

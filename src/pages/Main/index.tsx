@@ -52,7 +52,7 @@ const Main: React.FC<Props> = (props) => {
       ),
     },
     {
-      key: '/daoList',
+      key: `/dao/${userInfo?.id}`,
       title: 'DAO',
       icon: (
         <div className={`${styles.dao} dao`}>
@@ -98,22 +98,6 @@ const Main: React.FC<Props> = (props) => {
   const [topBarVisibility, setTopBarVisibility] = useState<boolean>(true);
   const [postPopupVisibility, setPostPopupVisibility] =
     useState<boolean>(false);
-
-  const getUserCommunityInfo = async () => {
-    const { data } = await DaoApi.get(url);
-    if (data.data.list.length) {
-      dispatch({
-        type: 'dao/updateState',
-        payload: {
-          userInfo: data.data.list[0],
-        },
-      });
-    }
-  };
-
-  useEffect(() => {
-    getUserCommunityInfo();
-  }, []);
 
   useEffect(() => {
     setLatestNavVisibility(pathname.includes('/latest'));

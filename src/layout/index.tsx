@@ -24,6 +24,7 @@ import FavorlabsApi from '@/services/FavorlabsApi';
 import { appName, flexible } from '@/utils/util';
 import { setTheme, ThemeType } from '@/utils/setTheme';
 import { defaultTheme } from '@/config/themeConfig';
+import DaoApi from '@/services/tube/Dao';
 
 const Layout: React.FC = (props) => {
   const dispatch = useDispatch();
@@ -138,6 +139,18 @@ const Layout: React.FC = (props) => {
     );
   };
 
+  const getUserCommunityInfo = async () => {
+    const { data } = await DaoApi.get(url);
+    if (data.data.list.length) {
+      dispatch({
+        type: 'dao/updateState',
+        payload: {
+          userInfo: data.data.list[0],
+        },
+      });
+    }
+  };
+
   const getLoginStatus = async () => {
     const token = localStorage.getItem('token');
     const connectType = localStorage.getItem(ConnectType);
@@ -162,6 +175,7 @@ const Layout: React.FC = (props) => {
           address,
         },
       });
+      getUserCommunityInfo();
     } catch (e) {
       localStorage.removeItem(ConnectType);
       localStorage.removeItem('token');
@@ -204,12 +218,12 @@ const Layout: React.FC = (props) => {
       {status ? (
         configLoading ? (
           <Loading text={'Loading Config !!!'} status={configLoading} />
+        ) : requestLoading ? (
+          <Loading
+            text={'Connecting to a p2p network'}
+            status={requestLoading}
+          />
         ) : (
-          // ) : requestLoading ? (
-          //   <Loading
-          //     text={'Connecting to a p2p network'}
-          //     status={requestLoading}
-          //   />
           <div className={styles.box}>{props.children}</div>
         )
       ) : (

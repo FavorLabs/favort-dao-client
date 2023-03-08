@@ -8,10 +8,6 @@ export default [
         component: '@/pages/ConnectWallet',
       },
       {
-        path: '/dao/:id',
-        component: '@/pages/Dao',
-      },
-      {
         path: '/createCommunity',
         component: '@/pages/CreateCommunity',
       },
@@ -22,6 +18,14 @@ export default [
       {
         path: '/postVideo',
         component: '@/pages/PostVideo',
+      },
+      {
+        path: 'groupList',
+        component: '@/pages/GroupList',
+      },
+      {
+        path: 'focusList',
+        component: '@/pages/FocusList',
       },
       {
         path: '/video/:vid',
@@ -54,8 +58,8 @@ export default [
             ],
           },
           {
-            path: '/daoList',
-            component: '@/pages/Main/DaoList',
+            path: '/dao/:daoId',
+            component: '@/pages/Main/Dao',
           },
           {
             path: '/chat',

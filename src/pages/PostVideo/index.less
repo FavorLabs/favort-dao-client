@@ -22,10 +22,95 @@
       }
       .value {
         flex-grow: 1;
-        input::placeholder {
+        input::placeholder,
+        textarea::placeholder {
           color: rgba(99, 99, 99, 1);
+        }
+        .videoUpload {
+          display: inline-block;
+          min-width: 105px;
+          height: 80px;
+          border-radius: 2px;
+          background: rgba(240, 240, 240, 1);
+          .uploadContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100%;
+            .selectContainer {
+              color: #1890ff;
+              .uploadSelectBtn {
+                color: #1890ff;
+              }
+            }
+          }
         }
       }
     }
+  }
+  .postBtn {
+    position: absolute;
+    bottom: 34px;
+    left: 0;
+    right: 0;
+    margin: 0 20px;
+    padding: 10px 0;
+    text-align: center;
+    background: rgba(255, 166, 0, 1);
+    .loading {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 3px solid #ccc;
+      border-radius: 50%;
+      border-bottom-color: transparent;
+      animation: loading 1s linear infinite;
+      vertical-align: middle;
+    }
+  }
+  .postBtn.disabled {
+    background: rgba(240, 240, 240, 1);
+  }
+  .uploadVideoOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: rgba(0, 0, 0, 0.5);
+    .circleBox {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .circle {
+        --size: 122px;
+        --fill-color: rgba(255, 166, 0, 1);
+        --track-color: #fff;
+        --track-width: 10px;
+        .percent {
+          color: rgba(255, 166, 0, 1);
+          font-size: 20px;
+          font-weight: 700;
+        }
+      }
+    }
+    .tips {
+      color: rgba(255, 255, 255, 1);
+      margin-top: 20px;
+    }
+  }
+}
+
+@keyframes loading {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }

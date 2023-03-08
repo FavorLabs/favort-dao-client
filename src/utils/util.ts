@@ -74,6 +74,19 @@ export const omitAddress = (
   return str.substring(0, start) + '...' + str.substring(str.length - end);
 };
 
+export const getSize = (size: number, level: number = 0): string => {
+  let levelList: string[] = ['B', 'KB', 'M', 'G', 'T'];
+  let n: number = 0;
+  while (size >= Math.pow(1024, n + 1)) {
+    n++;
+  }
+  return (
+    parseFloat((size / Math.pow(1024, n)).toFixed(2)) +
+    ' ' +
+    levelList[level + n]
+  );
+};
+
 export const sleep = async (time: number) => {
   await new Promise((s) => {
     setTimeout(s, time);
@@ -110,7 +123,8 @@ export const switchTheme = () => {
 };
 
 export const flexible = (window: Window, document: Document) => {
-  var docEl = document.documentElement;
+  let docEl = document.documentElement;
+  let bodyEl = document.body;
   // var dpr = window.devicePixelRatio || 1;
   // const pcDefaultFontSize = 16;
   // const mobileDefaultFontSize = 16;
@@ -153,10 +167,14 @@ export const flexible = (window: Window, document: Document) => {
     getTargetWidth();
     if (!isMobile()) {
       docEl.style.fontSize = `16px`;
+      bodyEl.style.fontSize = '16px';
       // docEl.style.fontSize = `${(pcDefaultFontSize / pcDesignSize) * targetWidth}px`;
     } else {
       // docEl.style.fontSize = `14px`;
       docEl.style.fontSize = `${
+        (mobileDefaultFontSize / mobileDesignSize) * targetWidth
+      }px`;
+      bodyEl.style.fontSize = `${
         (mobileDefaultFontSize / mobileDesignSize) * targetWidth
       }px`;
     }
