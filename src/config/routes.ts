@@ -20,11 +20,11 @@ export default [
         component: '@/pages/PostVideo',
       },
       {
-        path: 'groupList',
+        path: '/groupList',
         component: '@/pages/GroupList',
       },
       {
-        path: 'focusList',
+        path: '/focusList',
         component: '@/pages/FocusList',
       },
       {
