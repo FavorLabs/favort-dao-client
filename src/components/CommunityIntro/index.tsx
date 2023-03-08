@@ -5,7 +5,7 @@ export type Props = {
   title?: string;
   text?: string;
   operate?: string;
-  handleClick: () => void;
+  handleClick?: () => void;
   communityImg?: string;
   communityBackgroundImg?: string;
 };

@@ -32,6 +32,14 @@ export default [
         component: '@/pages/Video',
       },
       {
+        path: '/messageList/:daoId',
+        component: '@/pages/MessageList',
+      },
+      {
+        path: '/videoList/:daoId',
+        component: '@/pages/VideoList',
+      },
+      {
         path: '/',
         component: '@/pages/Main',
         routes: [
