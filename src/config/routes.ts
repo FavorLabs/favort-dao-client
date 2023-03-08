@@ -20,16 +20,24 @@ export default [
         component: '@/pages/PostVideo',
       },
       {
-        path: 'groupList',
+        path: '/groupList',
         component: '@/pages/GroupList',
       },
       {
-        path: 'focusList',
+        path: '/focusList',
         component: '@/pages/FocusList',
       },
       {
         path: '/video/:vid',
         component: '@/pages/Video',
+      },
+      {
+        path: '/messageList/:daoId',
+        component: '@/pages/MessageList',
+      },
+      {
+        path: '/videoList/:daoId',
+        component: '@/pages/VideoList',
       },
       {
         path: '/',

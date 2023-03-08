@@ -1,50 +1,67 @@
 import * as React from 'react';
 import styles from './index.less';
-import lookOver from '@/assets/img/look_over.png';
-import commentOn from '@/assets/img/comment_on.png';
-import support from '@/assets/img/support.png';
+import moreImg from '@/assets/img/more-img.png';
+import CommentArea from '@/components/CommentArea';
+import { PostInfo } from '@/declare/tubeApiType';
+import { useResourceUrl } from '@/utils/hooks';
+import { judgmentType } from '@/utils/util';
 
 export type Props = {
-  title?: String;
-  community?: String;
-  time?: String;
-  content?: String;
-  watchNum?: Number;
-  commentNum?: Number;
-  starNum?: Number;
+  // title?: string;
+  // community?: string;
+  // time?: string;
+  // content?: string;
+  // videoUrl?: string;
+  // videoTime?: string;
+  post: PostInfo;
 };
 const LongVideo: React.FC<Props> = (props) => {
-  const videoImg =
-    'https://img.js.design/assets/img/63feebab9d2376d02eccbaf7.jpg#7b6f740e4ff20b3a5645a0e598ea9bca';
+  const { user, contents, view_count, upvote_count } = props.post;
+  const videosResUrl = useResourceUrl('images');
+  const info = judgmentType(contents);
+  const community = 'FavorDao';
+  const time = '08:00';
+  const videoTime = '16:05';
+  const moreClick = () => {
+    console.log('Click more buttons');
+  };
+
   return (
     <div className={styles.videoCard}>
       <div className={styles.main}>
         <div className={styles.left}>
-          <img src={videoImg} alt="" />
-          <div className={styles.duration}>16:05</div>
+          <img
+            className={styles.img}
+            src={`${videosResUrl}/${info[2][0].content}`}
+            alt=""
+          />
+          <div className={styles.duration}>{videoTime}</div>
         </div>
         <div className={styles.right}>
-          <h4>{props.title}</h4>
-          <span>{props.community}</span>
-          <span className={styles.time}>{props.time}</span>
-          <p>{props.content}</p>
+          <div className={styles.top}>
+            <div className={styles.nav}>
+              <p className={styles.title}>{info[0][0].content}</p>
+              <img
+                className={styles.moreImg}
+                src={moreImg}
+                alt=""
+                onClick={moreClick}
+              />
+            </div>
+            <p className={styles.content}>{info[1][0].content}</p>
+          </div>
+          <div className={styles.bottom}>
+            <p className={styles.name}>{community}</p>
+            <p className={styles.time}>{time}</p>
+          </div>
         </div>
       </div>
 
-      <div className={styles.foot}>
-        <div className={styles.div}>
-          <img src={lookOver} className={styles.icon} />
-          <span className={styles.text}>{props.watchNum}</span>
-        </div>
-        <div className={styles.div}>
-          <img src={commentOn} className={styles.icon} />
-          <span className={styles.text}>{props.commentNum}</span>
-        </div>
-        <div className={styles.div}>
-          <img src={support} className={styles.icon} />
-          <span className={styles.text}>{props.starNum}</span>
-        </div>
-      </div>
+      <CommentArea
+        watchNum={view_count}
+        commentOnNum={456}
+        likeNum={upvote_count}
+      />
     </div>
   );
 };

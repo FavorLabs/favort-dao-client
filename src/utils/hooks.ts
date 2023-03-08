@@ -16,6 +16,7 @@ export const useUrl = () => {
   let { api, config } = useSelector((state: Models) => state.global);
   if (!config) return '';
   return api + '/group/http/' + config.proxyGroup + '/' + DaoDomainName + '/v1';
+  // return 'http://192.168.100.111:8010/v1';
 };
 
 export const useResourceUrl = (type: BucketsPath) => {

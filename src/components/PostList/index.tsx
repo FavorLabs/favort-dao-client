@@ -38,10 +38,12 @@ const Index: React.FC<Props> = (props) => {
       {list.map((item) => (
         <div key={item.id}>
           {item.type === 0 ? (
-            <CommunityIntro post={item} />
-          ) : item.type === 1 ? (
+            // <CommunityIntro post={item} />
             <GraphicMessage post={item} />
-          ) : item.type === 2 ? (
+          ) : item.type === 1 ? (
+            <LongVideo post={item} />
+          ) : // <GraphicMessage post={item} />
+          item.type === 2 ? (
             <LongVideo post={item} />
           ) : (
             <></>
