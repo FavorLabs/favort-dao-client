@@ -19,8 +19,8 @@ const baseCss = {
   color_15: 'rgba(255, 166, 0, 1)',
   color_16: 'rgba(15, 15, 15, 1)',
   color_17: 'rgba(255, 166, 0, 0.1)',
-  color_18: 'rgba(229,229,229,1)',
-  color_19: 'rgba(20,20,20,1)',
+  color_18: 'rgba(229, 229, 229, 1)',
+  color_19: 'rgba(20, 20, 20, 1)',
   fontFamily_1: 'Ping-Fang',
 };
 

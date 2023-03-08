@@ -1,13 +1,16 @@
 import * as React from 'react';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useMemo, useState } from 'react';
 import styles from './index.less';
-import { useHistory } from 'umi';
-import { Input, NavBar } from 'antd-mobile';
+import { useHistory, useSelector } from 'umi';
+import { Input, NavBar, TextArea } from 'antd-mobile';
 import { CloseOutline } from 'antd-mobile-icons';
 import ImageCrop from '@/components/ImageCrop';
 import ImageApi from '@/services/tube/Image';
 import { message } from 'antd';
-import { useResourceUrl } from '@/utils/hooks';
+import { useResourceUrl, useUrl } from '@/utils/hooks';
+import { CreatePost, Post } from '@/declare/tubeApiType';
+import { Models } from '@/declare/modelType';
+import PostApi from '@/services/tube/PostApi';
 
 export type Props = {};
 type OptionsItem = {
@@ -16,43 +19,81 @@ type OptionsItem = {
 };
 const PostNewsletter: React.FC<Props> = (props) => {
   const history = useHistory();
+  const url = useUrl();
   const imagesResUrl = useResourceUrl('images');
 
-  const [title, setTitle] = useState<string>('');
+  // const [title, setTitle] = useState<string>('');
   const [mainText, setMainText] = useState<string>('');
   const [imageList, setImageList] = useState<string[]>([]);
+  const [postLoading, setPostLoading] = useState<boolean>(false);
+
+  const { userInfo } = useSelector((state: Models) => state.dao);
 
   const uploadImage = async (file: File) => {
-    // try {
-    //   let fmData = new FormData();
-    //   fmData.append('newsletterImage', file);
-    //   const { data } = await ImageApi.upload(imagesResUrl, fmData);
-    //   // setCommunityAvatar(data.id);
-    // } catch (e) {
-    //   if (e instanceof Error) message.error(e.message);
-    // }
+    try {
+      let fmData = new FormData();
+      fmData.append('newsletterImage', file);
+      const { data } = await ImageApi.upload(imagesResUrl, fmData);
+      setImageList([...imageList, data.id]);
+    } catch (e) {
+      if (e instanceof Error) message.error(e.message);
+    }
   };
 
+  const postHandle = async () => {
+    if (postLoading) return;
+    if (postDisable) return message.info('Please complete the required fields');
+    setPostLoading(true);
+    try {
+      const contents: Post[] = [];
+      contents.push({ content: mainText, type: 2, sort: 0 });
+      imageList.forEach((item, index) => {
+        contents.push({ content: item, type: 3, sort: index });
+      });
+      const postData: CreatePost = {
+        contents: contents,
+        dao_id: userInfo?.id as string,
+        tags: [],
+        type: 0,
+        users: [],
+        visibility: 1,
+      };
+      const { data } = await PostApi.createPost(url, postData);
+      if (data.data) {
+        message.success('Post successfully');
+        history.goBack();
+      }
+    } catch (e) {
+      if (e instanceof Error) message.error(e.message);
+      setPostLoading(false);
+    }
+  };
+
+  const postDisable = useMemo(() => {
+    return !mainText;
+  }, [mainText]);
+
   const optionsItems: OptionsItem[] = [
-    {
-      name: 'Title',
-      content: (
-        <Input
-          onChange={(val) => {
-            setTitle(val);
-          }}
-          placeholder="Please enter title"
-        />
-      ),
-    },
+    // {
+    //   name: 'Title',
+    //   content: (
+    //     <Input
+    //       onChange={(val) => {
+    //         setTitle(val);
+    //       }}
+    //       placeholder="Please enter title"
+    //     />
+    //   ),
+    // },
     {
       name: 'Main text',
       content: (
-        <Input
+        <TextArea
+          placeholder="Please enter main text"
+          autoSize={{ minRows: 1, maxRows: 4 }}
           onChange={(val) => {
             setMainText(val);
           }}
-          placeholder="Please enter main text"
         />
       ),
     },
@@ -92,6 +133,13 @@ const PostNewsletter: React.FC<Props> = (props) => {
             <div className={styles.value}>{item.content}</div>
           </div>
         ))}
+      </div>
+      <div
+        className={`${styles.postBtn} ${postDisable && styles.disabled}`}
+        onClick={postHandle}
+      >
+        {postLoading && <span className={styles.loading} />}
+        &nbsp;Post
       </div>
     </div>
   );

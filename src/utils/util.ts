@@ -74,6 +74,19 @@ export const omitAddress = (
   return str.substring(0, start) + '...' + str.substring(str.length - end);
 };
 
+export const getSize = (size: number, level: number = 0): string => {
+  let levelList: string[] = ['B', 'KB', 'M', 'G', 'T'];
+  let n: number = 0;
+  while (size >= Math.pow(1024, n + 1)) {
+    n++;
+  }
+  return (
+    parseFloat((size / Math.pow(1024, n)).toFixed(2)) +
+    ' ' +
+    levelList[level + n]
+  );
+};
+
 export const sleep = async (time: number) => {
   await new Promise((s) => {
     setTimeout(s, time);
