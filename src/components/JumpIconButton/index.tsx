@@ -1,9 +1,10 @@
 import * as React from 'react';
 import styles from './index.less';
 import { toChat } from '@/utils/util';
-import { useSelector } from 'umi';
+import { useParams, useSelector } from 'umi';
 import { Models } from '@/declare/modelType';
 import { history } from '@@/core/history';
+import { usePath } from '@/utils/hooks';
 
 export type Props = {
   imgUrl?: string;
@@ -15,6 +16,8 @@ export type Props = {
 const JumpIconButton: React.FC<Props> = (props) => {
   const { api, config } = useSelector((state: Models) => state.global);
   const { userInfo } = useSelector((state: Models) => state.dao);
+  // const params = useParams();
+  // console.log('params',params)
   const { imgUrl, title, address } = props;
 
   const jumpPage = (title?: string) => {

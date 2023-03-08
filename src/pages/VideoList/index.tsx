@@ -5,6 +5,7 @@ import { NavBar } from 'antd-mobile';
 import { useHistory, useSelector } from 'umi';
 import { useState } from 'react';
 import { Models } from '@/declare/modelType';
+import PostList from '@/components/PostList';
 
 type Props = {
   match: {
@@ -49,36 +50,8 @@ const VideoList: React.FC<Props> = (props) => {
             <source src={api + '/file/' + vSrc} type={'video/mp4'} />
           </video>
         </div>
-        <LongVideo
-          title={'video title'}
-          community={'FavorDao'}
-          time={'08:00'}
-          content={
-            'video introduction: hello, my name is tom, what is your name? '
-          }
-          videoTime={'16:05'}
-          videoUrl={videoUrl}
-        />
-        <LongVideo
-          title={'video title'}
-          community={'FavorDao'}
-          time={'08:00'}
-          content={
-            'video introduction: hello, my name is tom, what is your name? '
-          }
-          videoTime={'16:05'}
-          videoUrl={videoUrl}
-        />
-        <LongVideo
-          title={'video title'}
-          community={'FavorDao'}
-          time={'08:00'}
-          content={
-            'video introduction: hello, my name is tom, what is your name? '
-          }
-          videoTime={'16:05'}
-          videoUrl={videoUrl}
-        />
+
+        <PostList type={1} />
       </div>
     </div>
   );

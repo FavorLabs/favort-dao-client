@@ -57,4 +57,10 @@ export default {
       url: url + `/post?id=${id}`,
     });
   },
+  getRecommend(url: string): ResData<any> {
+    return request({
+      method: 'get',
+      url,
+    });
+  },
 };

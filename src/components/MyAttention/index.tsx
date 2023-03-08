@@ -2,6 +2,7 @@ import * as React from 'react';
 import styles from './index.less';
 import { Avatar, Image } from 'antd';
 import arrowRight from '@/assets/img/arrow_right.png';
+import { useState } from 'react';
 
 export type Props = {
   userImg?: string;
@@ -9,6 +10,7 @@ export type Props = {
 
 const MyAttention: React.FC<Props> = (props) => {
   const { userImg } = props;
+  const [isSel, setIsSel] = useState(-1);
   const userArr = [
     {
       imgUrl:
@@ -50,8 +52,25 @@ const MyAttention: React.FC<Props> = (props) => {
           <div className={styles.myJoin}>
             {userArr.map((item, index) => {
               return (
-                <div key={index} className={styles.userArr}>
-                  <img src={item.imgUrl} className={styles.icon}></img>
+                <div
+                  key={index}
+                  // className={styles.userArr && isSel ? 'active' : ''}
+                  className={`${styles.userArr}`}
+                  onClick={() => {
+                    setIsSel(index);
+                  }}
+                >
+                  <img
+                    src={item.imgUrl}
+                    className={`${isSel === index ? 'imgActive' : 'icon'}`}
+                    style={{
+                      width: isSel === index ? '46px' : '50px',
+                      height: isSel === index ? '46px' : '50px',
+                      border:
+                        isSel === index ? '2px solid rgba(255, 166, 0, 1)' : '',
+                      borderRadius: isSel === index ? '50%' : '',
+                    }}
+                  ></img>
                   <span className={styles.texts}>{item.name}</span>
                 </div>
               );

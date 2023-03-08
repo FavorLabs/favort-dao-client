@@ -16,7 +16,7 @@ export type Props = {
 const NewsletterCard: React.FC<Props> = (props) => {
   const { cardData } = props;
   const url = useUrl();
-  const resourceUrl = useResourceUrl();
+  const resourceUrl = useResourceUrl('avatars');
   const style = { '--len': 3 } as React.CSSProperties;
   const [modalType, setModalType] = useState<
     'delete' | 'public' | 'private' | false

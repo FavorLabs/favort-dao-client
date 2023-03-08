@@ -5,6 +5,7 @@ import { ReviteURL } from '@/config/constants';
 import { setTheme, ThemeType } from '@/utils/setTheme';
 import { defaultTheme } from '@/config/themeConfig';
 import { debounce } from 'lodash';
+import { useState } from 'react';
 
 export const splitUrl = (url: string): [string, string, string] => {
   let i = new URL(url);
@@ -120,6 +121,22 @@ export const switchTheme = () => {
   } else {
     setTheme(defaultTheme as ThemeType);
   }
+};
+
+export const judgmentType = (info: any) => {
+  const obj = info.map((item: any) => {
+    return item.type;
+  });
+  const valueArr = [1, 2, 3, 4, 5];
+  const newArr: any = [];
+  valueArr.forEach((i) => {
+    newArr.push(
+      info.filter((key: any) => {
+        return key.type === i;
+      }),
+    );
+  });
+  return newArr;
 };
 
 export const flexible = (window: Window, document: Document) => {
