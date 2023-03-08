@@ -6,6 +6,12 @@ export type Post = {
   sort: number;
 };
 
+export type Page = {
+  page: number;
+  page_size: number;
+  type?: number;
+};
+
 export type CreatePost = {
   contents: Post[];
   dao_id: string;
