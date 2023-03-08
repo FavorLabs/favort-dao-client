@@ -1,0 +1,60 @@
+.focusList {
+  .navBar {
+    padding: 20px;
+    border: 0.5px solid rgba(229, 229, 229, 1);
+    svg {
+      width: 16px;
+    }
+  }
+  .focusItemList {
+    padding: 0 20px;
+    .focusItem {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 0.5px solid rgba(229, 229, 229, 1);
+      .detail {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-grow: 1;
+        margin-left: 10px;
+        .text {
+          .name {
+            color: rgba(33, 33, 33, 1);
+          }
+          .desc {
+            width: 100px;
+            color: rgba(181, 181, 181, 1);
+            font-size: 12px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+        }
+        .action {
+          color: rgba(181, 181, 181, 1);
+          font-size: 12px;
+          padding: 6px 12px;
+          border-radius: 15px;
+          border: 1px solid rgba(240, 240, 240, 1);
+        }
+      }
+    }
+  }
+  .dialog {
+    color: rgba(33, 33, 33, 1);
+    font-size: 16px;
+    .text {
+      margin-bottom: 30px;
+    }
+    .actions {
+      text-align: right;
+      .confirm {
+        color: rgba(255, 166, 0, 1);
+        margin-left: 26px;
+      }
+    }
+  }
+}

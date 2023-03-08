@@ -10,8 +10,8 @@ export type Props = AvatarProps & {
 };
 const UserAvatar: React.FC<Props> = (props) => {
   const { prefix, identifier, name } = props;
-  const alternativeText = name[0].toUpperCase();
-  console.log(identifier && `${prefix}/${identifier}`);
+  const alternativeText = name[0]?.toUpperCase();
+  // console.log(identifier && `${prefix}/${identifier}`);
 
   return (
     <div className={styles.content}>

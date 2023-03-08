@@ -31,7 +31,7 @@ export interface State {
 
 export default {
   state: {
-    api: sessionStorage.getItem(ApiURL) || getEndPoint() || DefaultApi,
+    api: getEndPoint() || sessionStorage.getItem(ApiURL) || DefaultApi,
     debugApi: '',
     ws: null,
     requestLoading: true,

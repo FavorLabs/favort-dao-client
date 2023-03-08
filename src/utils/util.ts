@@ -123,7 +123,8 @@ export const switchTheme = () => {
 };
 
 export const flexible = (window: Window, document: Document) => {
-  var docEl = document.documentElement;
+  let docEl = document.documentElement;
+  let bodyEl = document.body;
   // var dpr = window.devicePixelRatio || 1;
   // const pcDefaultFontSize = 16;
   // const mobileDefaultFontSize = 16;
@@ -166,10 +167,14 @@ export const flexible = (window: Window, document: Document) => {
     getTargetWidth();
     if (!isMobile()) {
       docEl.style.fontSize = `16px`;
+      bodyEl.style.fontSize = '16px';
       // docEl.style.fontSize = `${(pcDefaultFontSize / pcDesignSize) * targetWidth}px`;
     } else {
       // docEl.style.fontSize = `14px`;
       docEl.style.fontSize = `${
+        (mobileDefaultFontSize / mobileDesignSize) * targetWidth
+      }px`;
+      bodyEl.style.fontSize = `${
         (mobileDefaultFontSize / mobileDesignSize) * targetWidth
       }px`;
     }

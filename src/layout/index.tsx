@@ -218,12 +218,12 @@ const Layout: React.FC = (props) => {
       {status ? (
         configLoading ? (
           <Loading text={'Loading Config !!!'} status={configLoading} />
+        ) : requestLoading ? (
+          <Loading
+            text={'Connecting to a p2p network'}
+            status={requestLoading}
+          />
         ) : (
-          // ) : requestLoading ? (
-          //   <Loading
-          //     text={'Connecting to a p2p network'}
-          //     status={requestLoading}
-          //   />
           <div className={styles.box}>{props.children}</div>
         )
       ) : (

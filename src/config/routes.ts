@@ -20,6 +20,14 @@ export default [
         component: '@/pages/PostVideo',
       },
       {
+        path: 'groupList',
+        component: '@/pages/GroupList',
+      },
+      {
+        path: 'focusList',
+        component: '@/pages/FocusList',
+      },
+      {
         path: '/video/:vid',
         component: '@/pages/Video',
       },
