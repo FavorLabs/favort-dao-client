@@ -1,12 +1,5 @@
 import * as React from 'react';
-import styles from './index.less';
-import { useEffect, useState } from 'react';
-import { usePath, useResourceUrl, useUrl } from '@/utils/hooks';
 import PostList from '@/components/PostList';
-import postApi from '@/services/tube/PostApi';
-import PostApi from '@/services/tube/PostApi';
-import { useSelector } from 'umi';
-import { Models } from '@/declare/modelType';
 
 export type Props = {};
 const Follow: React.FC<Props> = (props) => {

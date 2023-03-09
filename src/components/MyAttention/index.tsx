@@ -3,113 +3,79 @@ import styles from './index.less';
 import { Avatar, Image } from 'antd';
 import arrowRight from '@/assets/img/arrow_right.png';
 import { useState } from 'react';
+import { DaoInfo } from '@/declare/tubeApiType';
+import { useResourceUrl } from '@/utils/hooks';
+import UserAvatar from '@/components/UserAvatar';
+import { history } from '@@/core/history';
+import addImg from '@/assets/img/add-img.png';
 
 export type Props = {
-  userImg?: string;
+  user: DaoInfo | null;
+  joinedList: DaoInfo[];
+  setDaoId: (daoId: string) => void;
+  daoId: string | undefined;
 };
 
 const MyAttention: React.FC<Props> = (props) => {
-  const { userImg } = props;
-  const [isSel, setIsSel] = useState(-1);
-  const userArr = [
-    {
-      imgUrl:
-        'https://img.js.design/assets/img/63fee9f013c9305ce9416782.png#fcb7b62b61d952467d3445d6bb64ce9a',
-      name: 'Dao1',
-    },
-    {
-      imgUrl:
-        'https://img.js.design/assets/img/63fee9f013c9305ce9416782.png#fcb7b62b61d952467d3445d6bb64ce9a',
-      name: 'Dao1',
-    },
-    {
-      imgUrl:
-        'https://img.js.design/assets/img/63fee9f013c9305ce9416782.png#fcb7b62b61d952467d3445d6bb64ce9a',
-      name: 'Dao1',
-    },
-    {
-      imgUrl:
-        'https://img.js.design/assets/img/63fee9f013c9305ce9416782.png#fcb7b62b61d952467d3445d6bb64ce9a',
-      name: 'Dao1',
-    },
-    {
-      imgUrl:
-        'https://img.js.design/assets/img/63fee9f013c9305ce9416782.png#fcb7b62b61d952467d3445d6bb64ce9a',
-      name: 'Dao1',
-    },
-    {
-      imgUrl:
-        'https://img.js.design/assets/img/63fee9f013c9305ce9416782.png#fcb7b62b61d952467d3445d6bb64ce9a',
-      name: 'Dao1',
-    },
-    {
-      imgUrl:
-        'https://img.js.design/assets/img/63fee9f013c9305ce9416782.png#fcb7b62b61d952467d3445d6bb64ce9a',
-      name: 'Dao1',
-    },
-    {
-      imgUrl:
-        'https://img.js.design/assets/img/63fee9f013c9305ce9416782.png#fcb7b62b61d952467d3445d6bb64ce9a',
-      name: 'Dao1',
-    },
-    {
-      imgUrl:
-        'https://img.js.design/assets/img/63fee9f013c9305ce9416782.png#fcb7b62b61d952467d3445d6bb64ce9a',
-      name: 'Dao1',
-    },
-    {
-      imgUrl:
-        'https://img.js.design/assets/img/63fee9f013c9305ce9416782.png#fcb7b62b61d952467d3445d6bb64ce9a',
-      name: 'Dao1',
-    },
-    {
-      imgUrl:
-        'https://img.js.design/assets/img/63fee9f013c9305ce9416782.png#fcb7b62b61d952467d3445d6bb64ce9a',
-      name: 'Dao1',
-    },
-  ];
+  const { user, joinedList = [], setDaoId, daoId } = props;
+  const avatarsResUrl = useResourceUrl('avatars');
 
   return (
     <div className={styles.page}>
       <div className={styles.content}>
         <div className={styles.topNav}>
           <div className={styles.navLeft}>
-            <span className={styles.text}>my creation</span>
-            <span className={styles.text}>my joined</span>
+            <span className={styles.text}>My DAO</span>
+            <span className={styles.text}>My Joined</span>
           </div>
           <div className={styles.navRight}>
-            <span className={styles.text}>query whole</span>
+            <span className={styles.text}>more</span>
             <img src={arrowRight} className={styles.icon} />
           </div>
         </div>
 
         <div className={styles.bottomNav}>
           <div className={styles.myCreated}>
-            <Avatar src={userImg} className={styles.icon} />
-            <span className={styles.text}>FavorDao</span>
+            {user ? (
+              <>
+                <UserAvatar
+                  prefix={avatarsResUrl}
+                  name={user.name}
+                  identifier={user.avatar}
+                  onClick={() => setDaoId(user.id)}
+                ></UserAvatar>
+                <span className={styles.text}>{user.name}</span>
+              </>
+            ) : (
+              <>
+                <Avatar
+                  className={styles.icon}
+                  onClick={() => {
+                    history.push('/createCommunity');
+                  }}
+                />
+                <span className={styles.text}>create Dao</span>
+              </>
+            )}
           </div>
           <div className={styles.verticalLine}></div>
           <div className={styles.myJoin}>
-            {userArr.map((item, index) => {
+            {joinedList.map((item, index) => {
               return (
                 <div
                   key={index}
                   className={`${styles.userArr}`}
                   onClick={() => {
-                    setIsSel(index);
+                    setDaoId(item.id);
                   }}
                 >
-                  <img
-                    src={item.imgUrl}
+                  <UserAvatar
+                    prefix={avatarsResUrl}
+                    name={item.name}
+                    identifier={item.avatar}
+                    onClick={() => setDaoId(item.id)}
                     className={styles.icon}
-                    style={{
-                      width: isSel === index ? '46px' : '50px',
-                      height: isSel === index ? '46px' : '50px',
-                      border:
-                        isSel === index ? '2px solid rgba(255, 166, 0, 1)' : '',
-                      borderRadius: isSel === index ? '50%' : '',
-                    }}
-                  ></img>
+                  ></UserAvatar>
                   <span className={styles.text}>{item.name}</span>
                 </div>
               );

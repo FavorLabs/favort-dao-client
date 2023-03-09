@@ -37,6 +37,7 @@ export type PostInfo = {
     avatar: string;
     nickname: string;
   };
+  dao: DaoInfo;
 };
 
 export type ResData<T> = Promise<
