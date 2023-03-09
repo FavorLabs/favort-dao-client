@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useMemo, useState, useRef, ReactNode } from 'react';
+import { useMemo, useState, useRef, useEffect, ReactNode } from 'react';
 import styles from './index.less';
 import { NavBar, Input, ProgressCircle } from 'antd-mobile';
 import ImageCrop from '@/components/ImageCrop';
@@ -62,19 +62,25 @@ const CreateCommunity: React.FC<Props> = (props) => {
     }
   };
 
+  const disposePercent = (v: AnimConfig): number => {
+    if (v.percent < 98) return v.percent + 2;
+    else {
+      clearInterval(animTimer.current as NodeJS.Timer);
+      return v.percent;
+    }
+  };
+
   const createHandle = async () => {
     if (createDisable) return message.info('Please complete all options');
-    // setAnimConfig({...animConfig, visible: true});
-    // if (animTimer.current) clearInterval(animTimer.current);
-    // animTimer.current = setInterval(() => {
-    //   if (animConfig.percent < 100) {
-    //     console.log(animConfig.percent);
-    //     setAnimConfig({...animConfig, percent: animConfig.percent + 2});
-    //   } else {
-    //     clearInterval(animTimer.current as NodeJS.Timer);
-    //   }
-    // }, 1500);
-    // await sleep(5000);
+    setAnimConfig({ ...animConfig, visible: true });
+    if (animTimer.current) clearInterval(animTimer.current);
+    animTimer.current = setInterval(() => {
+      setAnimConfig((v) => ({
+        ...v,
+        percent: disposePercent(v),
+      }));
+    }, 200);
+    await sleep(5000);
     try {
       const { data } = await DaoApi.create(url, {
         name: communityName,
@@ -89,13 +95,13 @@ const CreateCommunity: React.FC<Props> = (props) => {
             userInfo: data.data,
           },
         });
+        setAnimConfig({ ...animConfig, percent: 100, visible: false });
         history.goBack();
       }
     } catch (e) {
       if (e instanceof Error) message.error(e.message);
-    } finally {
-      // setAnimConfig({...animConfig, visible: false});
-      // clearInterval(animTimer.current);
+      setAnimConfig({ ...animConfig, visible: false });
+      clearInterval(animTimer.current);
     }
   };
 
@@ -162,6 +168,12 @@ const CreateCommunity: React.FC<Props> = (props) => {
       ),
     },
   ];
+
+  useEffect(() => {
+    return () => {
+      if (animTimer.current) clearInterval(animTimer.current);
+    };
+  }, []);
 
   return (
     <div className={styles.content}>

@@ -62,76 +62,76 @@ const Mine: React.FC<Props> = (props) => {
   };
 
   const settingItems: SettingItem[] = [
-    {
-      name: intl.formatMessage({ id: 'main.mine.setting.language' }),
-      content: (
-        <div className={styles.langAction}>
-          <Popover
-            content={
-              <div className={styles.languageList}>
-                {getAllLocales().map((item) => (
-                  <span
-                    key={item}
-                    onClick={() => {
-                      switchLang(item);
-                    }}
-                  >
-                    {getLanguageName(item)}
-                  </span>
-                ))}
-              </div>
-            }
-            trigger="click"
-            visible={langMenuVisibility}
-            placement="bottom"
-          >
-            <span
-              onClick={(e) => {
-                e.stopPropagation();
-                setLangMenuVisibility(true);
-              }}
-            >
-              {intl.formatMessage({ id: 'main.mine.setting.language-value' })}
-            </span>
-          </Popover>
-        </div>
-      ),
-    },
-    {
-      name: intl.formatMessage({ id: 'main.mine.setting.theme' }),
-      content: (
-        <div className={styles.themeAction}>
-          <div
-            className={styles.switchBtn}
-            onClick={() => {
-              switchTheme();
-              if (isLight) {
-                setThemeType('dark');
-              } else {
-                setThemeType('light');
-              }
-            }}
-          >
-            <div
-              className={`${styles.option} ${isLight && 'themeBtnActive'}`}
-              onClick={(e) => {
-                isLight && e.stopPropagation();
-              }}
-            >
-              {intl.formatMessage({ id: 'main.mine.setting.theme-light' })}
-            </div>
-            <div
-              className={`${styles.option} ${isDark && 'themeBtnActive'}`}
-              onClick={(e) => {
-                isDark && e.stopPropagation();
-              }}
-            >
-              {intl.formatMessage({ id: 'main.mine.setting.theme-dark' })}
-            </div>
-          </div>
-        </div>
-      ),
-    },
+    // {
+    //   name: intl.formatMessage({ id: 'main.mine.setting.language' }),
+    //   content: (
+    //     <div className={styles.langAction}>
+    //       <Popover
+    //         content={
+    //           <div className={styles.languageList}>
+    //             {getAllLocales().map((item) => (
+    //               <span
+    //                 key={item}
+    //                 onClick={() => {
+    //                   switchLang(item);
+    //                 }}
+    //               >
+    //                 {getLanguageName(item)}
+    //               </span>
+    //             ))}
+    //           </div>
+    //         }
+    //         trigger="click"
+    //         visible={langMenuVisibility}
+    //         placement="bottom"
+    //       >
+    //         <span
+    //           onClick={(e) => {
+    //             e.stopPropagation();
+    //             setLangMenuVisibility(true);
+    //           }}
+    //         >
+    //           {intl.formatMessage({ id: 'main.mine.setting.language-value' })}
+    //         </span>
+    //       </Popover>
+    //     </div>
+    //   ),
+    // },
+    // {
+    //   name: intl.formatMessage({ id: 'main.mine.setting.theme' }),
+    //   content: (
+    //     <div className={styles.themeAction}>
+    //       <div
+    //         className={styles.switchBtn}
+    //         onClick={() => {
+    //           switchTheme();
+    //           if (isLight) {
+    //             setThemeType('dark');
+    //           } else {
+    //             setThemeType('light');
+    //           }
+    //         }}
+    //       >
+    //         <div
+    //           className={`${styles.option} ${isLight && 'themeBtnActive'}`}
+    //           onClick={(e) => {
+    //             isLight && e.stopPropagation();
+    //           }}
+    //         >
+    //           {intl.formatMessage({ id: 'main.mine.setting.theme-light' })}
+    //         </div>
+    //         <div
+    //           className={`${styles.option} ${isDark && 'themeBtnActive'}`}
+    //           onClick={(e) => {
+    //             isDark && e.stopPropagation();
+    //           }}
+    //         >
+    //           {intl.formatMessage({ id: 'main.mine.setting.theme-dark' })}
+    //         </div>
+    //       </div>
+    //     </div>
+    //   ),
+    // },
     {
       name: intl.formatMessage({ id: 'main.mine.setting.about' }),
       content: <div className={styles.aboutAction}>version 1.0</div>,

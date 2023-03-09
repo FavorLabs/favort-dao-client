@@ -23,7 +23,7 @@ const NewsletterList: React.FC<Props> = () => {
           history.goBack();
         }}
       >
-        news in brief
+        Newsletter
       </NavBar>
 
       <PostList type={0} />
