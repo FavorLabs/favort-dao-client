@@ -129,25 +129,6 @@ const Main: React.FC<Props> = (props) => {
                     >
                       recommend
                     </NavLink>
-                    <span
-                      style={{ background: '#ccc', padding: '0 6px' }}
-                      onClick={() => {
-                        if (getLocale() === 'en-US') {
-                          setLocale('zh-CN', false);
-                        } else {
-                          setLocale('en-US', false);
-                        }
-                      }}
-                    >
-                      lang
-                    </span>
-                    &nbsp;
-                    <span
-                      style={{ background: '#ccc', padding: '0 6px' }}
-                      onClick={switchTheme}
-                    >
-                      theme
-                    </span>
                   </div>
                 )}
                 <div className={styles.action}>

@@ -27,6 +27,46 @@ const MyAttention: React.FC<Props> = (props) => {
         'https://img.js.design/assets/img/63fee9f013c9305ce9416782.png#fcb7b62b61d952467d3445d6bb64ce9a',
       name: 'Dao1',
     },
+    {
+      imgUrl:
+        'https://img.js.design/assets/img/63fee9f013c9305ce9416782.png#fcb7b62b61d952467d3445d6bb64ce9a',
+      name: 'Dao1',
+    },
+    {
+      imgUrl:
+        'https://img.js.design/assets/img/63fee9f013c9305ce9416782.png#fcb7b62b61d952467d3445d6bb64ce9a',
+      name: 'Dao1',
+    },
+    {
+      imgUrl:
+        'https://img.js.design/assets/img/63fee9f013c9305ce9416782.png#fcb7b62b61d952467d3445d6bb64ce9a',
+      name: 'Dao1',
+    },
+    {
+      imgUrl:
+        'https://img.js.design/assets/img/63fee9f013c9305ce9416782.png#fcb7b62b61d952467d3445d6bb64ce9a',
+      name: 'Dao1',
+    },
+    {
+      imgUrl:
+        'https://img.js.design/assets/img/63fee9f013c9305ce9416782.png#fcb7b62b61d952467d3445d6bb64ce9a',
+      name: 'Dao1',
+    },
+    {
+      imgUrl:
+        'https://img.js.design/assets/img/63fee9f013c9305ce9416782.png#fcb7b62b61d952467d3445d6bb64ce9a',
+      name: 'Dao1',
+    },
+    {
+      imgUrl:
+        'https://img.js.design/assets/img/63fee9f013c9305ce9416782.png#fcb7b62b61d952467d3445d6bb64ce9a',
+      name: 'Dao1',
+    },
+    {
+      imgUrl:
+        'https://img.js.design/assets/img/63fee9f013c9305ce9416782.png#fcb7b62b61d952467d3445d6bb64ce9a',
+      name: 'Dao1',
+    },
   ];
 
   return (
@@ -54,7 +94,6 @@ const MyAttention: React.FC<Props> = (props) => {
               return (
                 <div
                   key={index}
-                  // className={styles.userArr && isSel ? 'active' : ''}
                   className={`${styles.userArr}`}
                   onClick={() => {
                     setIsSel(index);
@@ -62,7 +101,7 @@ const MyAttention: React.FC<Props> = (props) => {
                 >
                   <img
                     src={item.imgUrl}
-                    className={`${isSel === index ? 'imgActive' : 'icon'}`}
+                    className={styles.icon}
                     style={{
                       width: isSel === index ? '46px' : '50px',
                       height: isSel === index ? '46px' : '50px',
@@ -71,7 +110,7 @@ const MyAttention: React.FC<Props> = (props) => {
                       borderRadius: isSel === index ? '50%' : '',
                     }}
                   ></img>
-                  <span className={styles.texts}>{item.name}</span>
+                  <span className={styles.text}>{item.name}</span>
                 </div>
               );
             })}

@@ -8,7 +8,7 @@ import { Models } from '@/declare/modelType';
 
 export type Props = {};
 
-const MessageList: React.FC<Props> = () => {
+const NewsletterList: React.FC<Props> = () => {
   const history = useHistory();
   const { userInfo } = useSelector((state: Models) => state.dao);
   console.log(userInfo, 'xinx');
@@ -31,4 +31,4 @@ const MessageList: React.FC<Props> = () => {
   );
 };
 
-export default MessageList;
+export default NewsletterList;

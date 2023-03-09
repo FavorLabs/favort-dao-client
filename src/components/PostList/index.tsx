@@ -11,10 +11,11 @@ import { DotLoading, InfiniteScroll, List } from 'antd-mobile';
 export type Props = {
   type?: number;
   address?: string;
+  focus?: boolean;
 };
 const Index: React.FC<Props> = (props) => {
   const url = useUrl();
-  const { type, address } = props;
+  const { type, address, focus = false } = props;
   const [pageData, setPageData] = useState<Page>({
     page: 1,
     page_size: 10,
@@ -24,12 +25,14 @@ const Index: React.FC<Props> = (props) => {
   const [list, setList] = useState<PostInfo[]>([]);
 
   const loadMore = async () => {
-    const request = address
+    const request = focus
+      ? (params: Page) => PostApi.getRecommend(url, params)
+      : address
       ? (params: Page) => PostApi.getPostListByAddress(url, address, params)
       : (params: Page) => PostApi.getPostListByType(url, params);
     const { data } = await request(pageData);
     setList((list) => [...list, ...data.data.list]);
-    setPageData((pageData) => ({ ...pageData, page: pageData.page++ }));
+    setPageData((pageData) => ({ ...pageData, page: ++pageData.page }));
     setHasMore(data.data.pager.total_rows > pageData.page * pageData.page_size);
   };
 

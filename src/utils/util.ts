@@ -1,5 +1,5 @@
 import Web3 from 'web3';
-import { CreatePost, DaoInfo } from '@/declare/tubeApiType';
+import { CreatePost, DaoInfo, Post } from '@/declare/tubeApiType';
 import WebUtils from 'web3-utils';
 import { ReviteURL } from '@/config/constants';
 import { setTheme, ThemeType } from '@/utils/setTheme';
@@ -123,20 +123,11 @@ export const switchTheme = () => {
   }
 };
 
-export const judgmentType = (info: any) => {
-  const obj = info.map((item: any) => {
-    return item.type;
-  });
-  const valueArr = [1, 2, 3, 4, 5];
-  const newArr: any = [];
-  valueArr.forEach((i) => {
-    newArr.push(
-      info.filter((key: any) => {
-        return key.type === i;
-      }),
-    );
-  });
-  return newArr;
+export const getContent = (contents: Post[]) => {
+  return contents?.reduce((prev, content) => {
+    prev[content.type] = (prev[content.type] || []).concat(content);
+    return prev;
+  }, {} as Record<number, Post[]>);
 };
 
 export const flexible = (window: Window, document: Document) => {

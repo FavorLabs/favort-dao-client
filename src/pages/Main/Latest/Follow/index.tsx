@@ -4,13 +4,12 @@ import { useEffect, useState } from 'react';
 import { usePath, useResourceUrl, useUrl } from '@/utils/hooks';
 import PostList from '@/components/PostList';
 import postApi from '@/services/tube/PostApi';
+import PostApi from '@/services/tube/PostApi';
+import { useSelector } from 'umi';
+import { Models } from '@/declare/modelType';
 
 export type Props = {};
 const Follow: React.FC<Props> = (props) => {
-  const url = useUrl();
-  const handleClick = () => {
-    console.log(1);
-  };
   const userImg =
     'https://img.js.design/assets/img/63fee9f013c9305ce9416782.png#fcb7b62b61d952467d3445d6bb64ce9a';
 
@@ -19,7 +18,7 @@ const Follow: React.FC<Props> = (props) => {
 
   return (
     <>
-      <PostList />
+      <PostList focus />
     </>
   );
 };
