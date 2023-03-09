@@ -3,10 +3,10 @@ import React, { useState } from 'react';
 import { Page, PostInfo } from '@/declare/tubeApiType';
 import GraphicMessage from '@/components/GraphicMessage';
 import LongVideo from '@/components/LongVideo';
-import CommunityIntro from '@/components/CommunityIntro';
 import PostApi from '@/services/tube/PostApi';
 import { useUrl } from '@/utils/hooks';
 import { DotLoading, InfiniteScroll, List } from 'antd-mobile';
+import CommunityIntro from '@/components/CommunityIntro';
 
 export type Props = {
   type?: number;
@@ -44,8 +44,8 @@ const Index: React.FC<Props> = (props) => {
             <GraphicMessage post={item} />
           ) : item.type === 1 ? (
             <LongVideo post={item} />
-          ) : item.type === 2 ? (
-            <LongVideo post={item} />
+          ) : item.type === -1 ? (
+            <CommunityIntro post={item} />
           ) : (
             <></>
           )}

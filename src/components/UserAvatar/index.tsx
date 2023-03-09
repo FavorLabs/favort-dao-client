@@ -19,7 +19,7 @@ const UserAvatar: React.FC<Props> = (props) => {
         {...props}
         alt={alternativeText}
         src={identifier && `${prefix}/${identifier}`}
-        className={styles.userAvatar}
+        className={`${styles.userAvatar} userAvatar`}
         // style={{ backgroundColor: '#F44336' }}
       >
         <span className={styles.text}>{alternativeText}</span>

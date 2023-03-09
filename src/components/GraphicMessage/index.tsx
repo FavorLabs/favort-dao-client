@@ -5,7 +5,6 @@ import CommunityInfo from '@/components/CommunityInfo';
 import CommentArea from '@/components/CommentArea';
 import { PostInfo } from '@/declare/tubeApiType';
 import { getContent } from '@/utils/util';
-import menuBar from '@/components/ThreeStageLayout/MenuBar';
 import { useResourceUrl } from '@/utils/hooks';
 
 export type Props = {
@@ -13,14 +12,13 @@ export type Props = {
 };
 
 const GraphicMessage: React.FC<Props> = (props) => {
-  const { user, contents, view_count, upvote_count } = props.post;
+  const { dao, contents, view_count, upvote_count } = props.post;
   const imagesResUrl = useResourceUrl('images');
   const info = getContent(contents);
-  const userImg = '';
   return (
     <div className={styles.container}>
       <div className={styles.inContent}>
-        <CommunityInfo userImg={userImg} />
+        <CommunityInfo daoInfo={dao} />
 
         <div className={styles.textInfo}>{info[2]?.[0]?.content}</div>
 

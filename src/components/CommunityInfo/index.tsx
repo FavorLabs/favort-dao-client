@@ -1,20 +1,29 @@
 import * as React from 'react';
 import styles from './index.less';
 import { Avatar } from 'antd';
+import { DaoInfo } from '@/declare/tubeApiType';
+import UserAvatar from '@/components/UserAvatar';
+import { useResourceUrl } from '@/utils/hooks';
 
 export type Props = {
-  userImg?: string;
+  daoInfo: DaoInfo;
 };
 
 const CommunityInfo: React.FC<Props> = (props) => {
-  const { userImg } = props;
+  const { avatar = '', name = '' } = props.daoInfo || {};
+  const avatarsResUrl = useResourceUrl('avatars');
 
   return (
     <>
       <div className={styles.userInfo}>
-        <Avatar src={userImg} className={styles.userImg}></Avatar>
+        <UserAvatar
+          className={styles.userImg}
+          prefix={avatarsResUrl}
+          identifier={avatar}
+          name={name}
+        />
         <div className={styles.userText}>
-          <p className={styles.userName}>FavorDao</p>
+          <p className={styles.userName}>{name}</p>
           <p className={styles.releaseTime}>today 08:23</p>
         </div>
       </div>
