@@ -24,7 +24,7 @@ const JumpIconButton: React.FC<Props> = (props) => {
     if (title === 'chat') {
       toChat(userInfo?.name, api, config?.proxyGroup);
     } else if (title === 'message') {
-      history.push(`/messageList/${userInfo?.id}`);
+      history.push(`/newsletterList/${userInfo?.id}`);
     } else {
       history.push(`/videoList/${userInfo?.id}`);
     }

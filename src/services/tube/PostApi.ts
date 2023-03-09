@@ -3,6 +3,7 @@ import request from '@/services';
 import {
   CreatePost,
   ListData,
+  Page,
   PostInfo,
   ResData,
   Status,
@@ -57,10 +58,11 @@ export default {
       url: url + `/post?id=${id}`,
     });
   },
-  getRecommend(url: string): ResData<any> {
+  getRecommend(url: string, params: Page): ResData<any> {
     return request({
       method: 'get',
-      url,
+      url: url + `/posts/focus`,
+      params,
     });
   },
 };

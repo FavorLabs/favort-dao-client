@@ -5,22 +5,16 @@ import moreImg from '@/assets/img/more-img.png';
 import CommentArea from '@/components/CommentArea';
 import { PostInfo } from '@/declare/tubeApiType';
 import { useResourceUrl } from '@/utils/hooks';
-import { judgmentType } from '@/utils/util';
+import { getContent } from '@/utils/util';
 
 export type Props = {
-  // title?: string;
-  // community?: string;
-  // time?: string;
-  // content?: string;
-  // videoUrl?: string;
-  // videoTime?: string;
   post: PostInfo;
 };
 const LongVideo: React.FC<Props> = (props) => {
   const { user, contents, view_count, upvote_count } = props.post;
   const history = useHistory();
   const videosResUrl = useResourceUrl('images');
-  const info = judgmentType(contents);
+  const info = getContent(contents);
   const community = 'FavorDao';
   const time = '08:00';
   const videoTime = '16:05';
@@ -39,7 +33,7 @@ const LongVideo: React.FC<Props> = (props) => {
         <div className={styles.left}>
           <img
             className={styles.img}
-            src={`${videosResUrl}/${info[2][0].content}`}
+            src={`${videosResUrl}/${info?.[3]?.[0]?.content}`}
             alt=""
             onClick={toVideo}
           />
@@ -48,7 +42,7 @@ const LongVideo: React.FC<Props> = (props) => {
         <div className={styles.right}>
           <div className={styles.top}>
             <div className={styles.nav}>
-              <p className={styles.title}>{info[0][0].content}</p>
+              <p className={styles.title}>{info?.[1]?.[0]?.content}</p>
               <img
                 className={styles.moreImg}
                 src={moreImg}
@@ -56,7 +50,7 @@ const LongVideo: React.FC<Props> = (props) => {
                 onClick={moreClick}
               />
             </div>
-            <p className={styles.content}>{info[1][0].content}</p>
+            <p className={styles.content}>{info?.[2]?.[0]?.content}</p>
           </div>
           <div className={styles.bottom}>
             <p className={styles.name}>{community}</p>

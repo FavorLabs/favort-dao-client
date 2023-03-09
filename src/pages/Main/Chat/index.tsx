@@ -1,14 +1,9 @@
 import * as React from 'react';
 import styles from './index.less';
-import DaoCard from '@/components/DaoCard';
-import avatar_2 from '@/assets/img/avatar_2.jpg';
 import { useEffect, useState } from 'react';
 import DaoApi from '@/services/tube/Dao';
 import { useUrl } from '@/utils/hooks';
 import { DaoInfo } from '@/declare/tubeApiType';
-import WebUtils from 'web3-utils';
-import { ReviteURL } from '@/config/constants';
-import { toChat } from '@/utils/util';
 import { useSelector } from 'umi';
 import { Models } from '@/declare/modelType';
 
@@ -30,18 +25,7 @@ const Chat: React.FC<Props> = (props) => {
 
   return (
     <div className={styles.content}>
-      <div className={styles.list}>
-        {chatList.map((item, index) => (
-          <div className={styles.list_item} key={index}>
-            <DaoCard
-              key={1}
-              name={item.name}
-              avatar={item.avatar}
-              clickHandle={() => toChat(item.name, api, config?.proxyGroup)}
-            />
-          </div>
-        ))}
-      </div>
+      <div className={styles.list}></div>
     </div>
   );
 };

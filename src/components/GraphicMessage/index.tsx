@@ -4,7 +4,7 @@ import { Image } from 'antd';
 import CommunityInfo from '@/components/CommunityInfo';
 import CommentArea from '@/components/CommentArea';
 import { PostInfo } from '@/declare/tubeApiType';
-import { judgmentType } from '@/utils/util';
+import { getContent } from '@/utils/util';
 import menuBar from '@/components/ThreeStageLayout/MenuBar';
 import { useResourceUrl } from '@/utils/hooks';
 
@@ -15,17 +15,17 @@ export type Props = {
 const GraphicMessage: React.FC<Props> = (props) => {
   const { user, contents, view_count, upvote_count } = props.post;
   const imagesResUrl = useResourceUrl('images');
-  const info = judgmentType(contents);
+  const info = getContent(contents);
   const userImg = '';
   return (
     <div className={styles.container}>
       <div className={styles.inContent}>
         <CommunityInfo userImg={userImg} />
 
-        <div className={styles.textInfo}>{info[1][0].content}</div>
+        <div className={styles.textInfo}>{info?.[2]?.[0]?.content}</div>
 
         <div className={styles.mediumInfo}>
-          {info[2].map((item: any, index: number) => (
+          {info?.[3]?.map((item: any, index: number) => (
             <Image
               src={`${imagesResUrl}/${item.content}`}
               className={styles.imgUrl}
