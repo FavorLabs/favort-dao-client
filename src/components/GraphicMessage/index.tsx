@@ -22,10 +22,10 @@ const GraphicMessage: React.FC<Props> = (props) => {
       <div className={styles.inContent}>
         <CommunityInfo userImg={userImg} />
 
-        <div className={styles.textInfo}>{info?.[2]?.[0]?.content}</div>
+        <div className={styles.textInfo}>{info[2]?.[0]?.content}</div>
 
         <div className={styles.mediumInfo}>
-          {info?.[3]?.map((item: any, index: number) => (
+          {info[3]?.map((item: any, index: number) => (
             <Image
               src={`${imagesResUrl}/${item.content}`}
               className={styles.imgUrl}

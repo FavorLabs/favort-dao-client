@@ -10,12 +10,12 @@ import { DotLoading, InfiniteScroll, List } from 'antd-mobile';
 
 export type Props = {
   type?: number;
-  address?: string;
+  daoId?: string;
   focus?: boolean;
 };
 const Index: React.FC<Props> = (props) => {
   const url = useUrl();
-  const { type, address, focus = false } = props;
+  const { type, daoId, focus = false } = props;
   const [pageData, setPageData] = useState<Page>({
     page: 1,
     page_size: 10,
@@ -27,8 +27,8 @@ const Index: React.FC<Props> = (props) => {
   const loadMore = async () => {
     const request = focus
       ? (params: Page) => PostApi.getRecommend(url, params)
-      : address
-      ? (params: Page) => PostApi.getPostListByAddress(url, address, params)
+      : daoId
+      ? (params: Page) => PostApi.getPostListByDaoId(url, daoId, params)
       : (params: Page) => PostApi.getPostListByType(url, params);
     const { data } = await request(pageData);
     setList((list) => [...list, ...data.data.list]);
@@ -41,12 +41,10 @@ const Index: React.FC<Props> = (props) => {
       {list.map((item) => (
         <div key={item.id}>
           {item.type === 0 ? (
-            // <CommunityIntro post={item} />
             <GraphicMessage post={item} />
           ) : item.type === 1 ? (
             <LongVideo post={item} />
-          ) : // <GraphicMessage post={item} />
-          item.type === 2 ? (
+          ) : item.type === 2 ? (
             <LongVideo post={item} />
           ) : (
             <></>

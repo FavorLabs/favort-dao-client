@@ -17,30 +17,19 @@ export default {
       data,
     });
   },
-  getPostListByType(
-    url: string,
-    params: {
-      page: number;
-      page_size: number;
-      type?: number;
-    },
-  ): ResData<ListData<PostInfo>> {
+  getPostListByType(url: string, params: Page): ResData<ListData<PostInfo>> {
     return request({
       url: url + '/posts',
       params,
     });
   },
-  getPostListByAddress(
+  getPostListByDaoId(
     url: string,
-    address: string,
-    params: {
-      page: number;
-      page_size: number;
-      type?: number;
-    },
+    daoId: string,
+    params: Page,
   ): ResData<ListData<PostInfo>> {
     return request({
-      url: url + `/user/posts?address=${address}`,
+      url: url + `/dao/posts?daoId=${daoId}`,
       params,
     });
   },
