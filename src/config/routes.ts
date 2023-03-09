@@ -66,7 +66,7 @@ export default [
             ],
           },
           {
-            path: '/dao/:daoId',
+            path: '/dao/:daoId?',
             component: '@/pages/Main/Dao',
           },
           {
