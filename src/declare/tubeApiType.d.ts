@@ -31,6 +31,7 @@ export type PostInfo = {
   view_count: number;
   visibility: number;
   id: string;
+  dao: DaoInfo;
   user: {
     address: string;
     avatar: string;

@@ -10,11 +10,14 @@ import {
 } from '@ant-design/icons';
 import { useSelector, useHistory } from 'umi';
 import VideoCard from '@/components/VideoCard';
-import { usePath, useUrl } from '@/utils/hooks';
-import { PostInfo } from '@/declare/tubeApiType';
+import { usePath, useResourceUrl, useUrl } from '@/utils/hooks';
+import { Post, PostInfo } from '@/declare/tubeApiType';
 import { Models } from '@/declare/modelType';
-import postApi from '@/services/tube/PostApi';
-import { judgmentType } from '@/utils/util';
+import PostApi from '@/services/tube/PostApi';
+import DaoApi from '@/services/tube/Dao';
+import { getContent } from '@/utils/util';
+import UserAvatar from '@/components/UserAvatar';
+import CommentArea from '@/components/CommentArea';
 
 export type Props = {
   match: {
@@ -26,6 +29,7 @@ export type Props = {
 const Video: React.FC<Props> = (props) => {
   const path = usePath();
   const url = useUrl();
+  const avatarsResUrl = useResourceUrl('avatars');
   const history = useHistory();
 
   const [videoData, setVideoData] = useState<PostInfo | null>(null);
@@ -34,48 +38,54 @@ const Video: React.FC<Props> = (props) => {
   const [description, setDescription] = useState('');
   const [thumbnail, setThumbnail] = useState('');
   const [vSrc, setVSrc] = useState('');
+  const [joined, setJoined] = useState<boolean>(false);
 
   const { api } = useSelector((state: Models) => state.global);
   const { userInfo } = useSelector((state: Models) => state.dao);
 
   const getVideoById = async (id: string) => {
     try {
-      const { data } = await postApi.getPostById(url, id);
+      const { data } = await PostApi.getPostById(url, id);
       if (data.data) {
         setVideoData(data.data);
+        checkJoinStatus(data.data.dao.id);
+        getVideoList(data.data.address);
       }
     } catch (e) {
       if (e instanceof Error) message.error(e.message);
     }
   };
 
-  const getVideoList = async () => {
-    const { data } = await postApi.getPostListByDaoId(
-      url,
-      userInfo?.address as string,
-      {
-        page: 1,
-        page_size: 12,
-        type: 1,
-      },
-    );
+  const getVideoList = async (address: string) => {
+    const { data } = await PostApi.getPostListByAddress(url, address, {
+      page: 1,
+      page_size: 12,
+      type: 1,
+    });
     if (data.data.list) {
       setVideoList(data.data.list);
     }
   };
 
   const getInfo = () => {
-    const arr = judgmentType(videoData?.contents);
-    setTitle(arr[0][0]?.content);
-    setDescription(arr[1][0]?.content);
-    setThumbnail(arr[2][0]?.content);
-    setVSrc(arr[3][0]?.content);
-    console.log(arr);
+    const obj = getContent(videoData?.contents as Post[]);
+    setTitle(obj[1][0]?.content);
+    setDescription(obj[2][0]?.content);
+    setThumbnail(obj[3][0]?.content);
+    setVSrc(obj[4][0]?.content);
+  };
+
+  const joinDao = () => {};
+
+  const checkJoinStatus = async (id: string) => {
+    const { data } = await DaoApi.checkBookmark(url, id);
+    if (data.data) {
+      setJoined(data.data.status);
+    }
   };
 
   useEffect(() => {
     getVideoById(props.match.params.vid);
-    getVideoList();
   }, [props.match.params.vid]);
 
   useEffect(() => {
@@ -125,7 +135,7 @@ const Video: React.FC<Props> = (props) => {
                           width: '100%',
                           height: '100%',
                           maxHeight: '500px',
-                          borderRadius: '4px',
+                          borderRadius: '0px',
                         }}
                       >
                         <source
@@ -138,76 +148,37 @@ const Video: React.FC<Props> = (props) => {
                     <div className={styles.skeleton}></div>
                   )}
                   <figcaption className={styles.detail}>
-                    <p className={styles.title}>{title}</p>
-                    <div className={styles.userActions}>
-                      <div className={styles.left}>
-                        <Avatar
-                          className={styles.avatar}
-                          size={40}
-                          style={{
-                            backgroundColor: '#F44336',
-                            fontSize: '14px',
-                            cursor: 'pointer',
-                          }}
-                          onClick={() => {
-                            path('');
-                          }}
-                          src={videoData?.user?.avatar}
-                        >
-                          {videoData?.user?.nickname
-                            ? videoData?.user?.nickname
-                                ?.toUpperCase()
-                                .substr(0, 1)
-                            : 'U'}
-                        </Avatar>
-                        <div className={styles.channelDetail}>
-                          <p className={styles.name}>
-                            {videoData?.user?.nickname
-                              ? videoData?.user?.nickname
-                              : 'User'}
-                          </p>
-                          <p className={styles.subscribers}>0 subscribers</p>
+                    {videoData && (
+                      <>
+                        <div className={styles.info}>
+                          <div className={styles.left}>
+                            <UserAvatar
+                              prefix={avatarsResUrl}
+                              name={videoData.dao.name}
+                              identifier={videoData.dao.avatar}
+                            />
+                            <div className={styles.text}>
+                              <div className={styles.daoName}>
+                                {videoData.dao.name}
+                              </div>
+                              <div className={styles.subscribe}>
+                                {0} followers
+                              </div>
+                            </div>
+                          </div>
+                          <div className={styles.joinBtn} onClick={joinDao}>
+                            join
+                          </div>
                         </div>
-                        {/*<Button*/}
-                        {/*  className={styles.subscribe}*/}
-                        {/*  type="primary"*/}
-                        {/*  shape="round"*/}
-                        {/*>*/}
-                        {/*  Subscribe*/}
-                        {/*</Button>*/}
-                      </div>
-                      <div className={styles.right}>
-                        <span className={styles.likeOrDislikeOrShare}>
-                          <span>
-                            <LikeOutlined
-                              className={`${styles.like} ${styles.actionBtn}`}
-                            />
-                            {0}
-                          </span>
-                          <span>
-                            <DislikeOutlined
-                              className={`${styles.dislike} ${styles.actionBtn}`}
-                            />
-                            {0}
-                          </span>
-                          <span>
-                            <ShareAltOutlined
-                              className={`${styles.share} ${styles.actionBtn}`}
-                            />
-                            Share
-                          </span>
-                        </span>
-                      </div>
-                    </div>
-                    <div className={styles.extra}>
-                      <p className={styles.viewsAndDate}>
-                        <span className={styles.views}>{0} views</span>
-                        <span className={styles.date}>
-                          {/*{videoData?.updatedAt}*/}
-                        </span>
-                      </p>
-                      <p className={styles.description}>{description}</p>
-                    </div>
+                        <div className={styles.title}>{title}</div>
+                        <div className={styles.desc}>{description}</div>
+                        <CommentArea
+                          watchNum={videoData.view_count}
+                          commentOnNum={0}
+                          likeNum={videoData.upvote_count}
+                        />
+                      </>
+                    )}
                   </figcaption>
                 </figure>
                 <div className={styles.comments}>Comments</div>
@@ -230,7 +201,7 @@ const Video: React.FC<Props> = (props) => {
                           path(`/video/${item.id}`);
                         }}
                       >
-                        <VideoCard videoInfo={item} />
+                        <VideoCard post={item} />
                       </div>
                     )
                   );

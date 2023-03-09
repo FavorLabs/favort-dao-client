@@ -26,13 +26,12 @@
     }
   }
   .VideoMain {
-    padding-top: 10px;
     overflow-y: scroll;
     .row {
       margin: 0 !important;
       .col {
         width: 100%;
-        padding: 0 8px !important;
+        padding: 0 !important;
       }
       .mainLeft {
         .skeleton {
@@ -41,92 +40,51 @@
           background-color: @skeletonColor;
         }
         .detail {
-          .title {
-            display: -webkit-box;
-            overflow: hidden;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 4;
-            font-weight: bold;
-            font-size: 18px;
-            margin: 10px 0;
-          }
-          .userActions {
+          padding: 20px;
+          .info {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            .left,
-            .right {
-              margin-bottom: 24px;
-            }
             .left {
               display: flex;
               justify-content: flex-start;
               align-items: center;
-              margin-right: 4px;
-              .avatar {
-                flex-shrink: 0;
-              }
-              .channelDetail {
-                margin-left: 16px;
-                .name {
-                  font-size: 18px;
-                  font-weight: bold;
-                }
-                .subscribers {
-                  color: #777;
-                  font-size: 14px;
-                }
-              }
-              .subscribe {
-                margin-left: 16px;
-              }
-            }
-            .right {
-              .actionBtn {
-                font-size: 20px;
-              }
-              .actionBtn:hover {
-                color: @mainColor;
-                cursor: pointer;
-              }
-              .likeOrDislikeOrShare {
+              .text {
                 display: flex;
                 justify-content: flex-start;
-                align-items: center;
-                padding: 16px 32px;
-                border-radius: 50px;
-                background-color: #eee;
-                > span {
-                  margin-right: 16px;
+                align-items: flex-start;
+                flex-direction: column;
+                margin-left: 10px;
+                .daoName {
+                  color: rgba(33, 33, 33, 1);
+                  font-size: 16px;
                 }
-                > span:last-child {
-                  margin-right: 0;
-                }
-                .like,
-                .dislike,
-                .share {
-                  margin-right: 5px;
-                  vertical-align: middle;
+                .subscribe {
+                  color: rgba(181, 181, 181, 1);
+                  font-size: 12px;
                 }
               }
+            }
+            .joinBtn {
+              color: rgba(255, 255, 255, 1);
+              padding: 6px 12px;
+              border-radius: 15px;
+              background-color: rgba(255, 166, 0, 1);
             }
           }
-          .extra {
-            padding: 16px;
-            border-radius: 6px;
-            background-color: #ebebeb;
-            .viewsAndDate {
-              margin-bottom: 10px;
-              font-weight: bold;
-              .date {
-                margin-left: 16px;
-              }
-            }
+          .title {
+            color: rgba(33, 33, 33, 1);
+            font-weight: 700;
+            font-size: 16px;
+            margin-top: 10px;
+          }
+          .desc {
+            color: rgba(33, 33, 33, 1);
+            margin-top: 10px;
           }
         }
         .comments {
-          height: 200px;
+          padding: 20px;
           font-weight: bold;
         }
       }
