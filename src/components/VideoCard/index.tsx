@@ -1,18 +1,19 @@
 import * as React from 'react';
 import styles from './index.less';
-import { PostInfo, VideoRes } from '@/declare/tubeApiType';
+import { Post, PostInfo } from '@/declare/tubeApiType';
 import { useEffect, useState } from 'react';
 import { useResourceUrl } from '@/utils/hooks';
 import { useSelector } from 'umi';
 import { Models } from '@/declare/modelType';
+import { getContent } from '@/utils/util';
 
 export type Props = {
-  videoInfo: PostInfo;
+  post: PostInfo;
   openThumb?: boolean;
 };
 const VideoCard: React.FC<Props> = (props) => {
-  const { videoInfo, openThumb = true } = props;
-  const resourceUrl = useResourceUrl();
+  const { post, openThumb = true } = props;
+  const resourceUrl = useResourceUrl('images');
   const [title, setTitle] = useState('');
   const [thumbnail, setThumbnail] = useState('');
   const [vSrc, setVSrc] = useState('');
@@ -26,21 +27,10 @@ const VideoCard: React.FC<Props> = (props) => {
   };
 
   const getInfo = () => {
-    videoInfo.contents.forEach((item) => {
-      switch (item.type) {
-        case contentType.title:
-          setTitle(item.content);
-          break;
-        case contentType.thumbnail:
-          setThumbnail(item.content);
-          break;
-        case contentType.video:
-          setVSrc(item.content);
-          break;
-        default:
-          break;
-      }
-    });
+    const obj = getContent(post?.contents as Post[]);
+    setTitle(obj[1][0]?.content);
+    setThumbnail(obj[3][0]?.content);
+    setVSrc(obj[4][0]?.content);
   };
 
   useEffect(() => {
@@ -76,7 +66,7 @@ const VideoCard: React.FC<Props> = (props) => {
           <figcaption className={styles.details}>
             <p className={styles.title}>{title}</p>
             <p className={styles.viewsDate}>
-              <span className={styles.views}>{videoInfo.view_count} views</span>
+              <span className={styles.views}>{post.view_count} views</span>
               <span className={styles.separator}>&bull;</span>
               {/*<span className={styles.date}>{videoInfo?.createdAt}</span>*/}
             </p>

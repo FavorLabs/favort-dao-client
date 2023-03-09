@@ -26,7 +26,9 @@ const NewsletterList: React.FC<Props> = () => {
         Newsletter
       </NavBar>
 
-      <PostList type={0} />
+      <div className={styles.list}>
+        <PostList type={0} />
+      </div>
     </div>
   );
 };
