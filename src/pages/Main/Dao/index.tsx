@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
-import { history, useSelector } from 'umi';
+import { useEffect, useMemo, useState } from 'react';
+import { history, useParams, useSelector } from 'umi';
 import styles from './index.less';
 import DaoApi from '@/services/tube/Dao';
 import { useUrl } from '@/utils/hooks';
@@ -19,54 +19,75 @@ import PostList from '@/components/PostList';
 export type Props = {};
 
 const DaoList: React.FC<Props> = (props) => {
+  const params: { daoId?: string } = useParams();
   const userImg =
     'https://img.js.design/assets/img/63fee9f013c9305ce9416782.png#fcb7b62b61d952467d3445d6bb64ce9a';
   const bgImg =
     'https://img.js.design/assets/img/63fda924b045c20466fc7a43.jpeg#d9b517fc27cf3e514de98ce387eadd7d';
   const url = useUrl();
-  // const resourceUrl = useResourceUrl();
-  const [value, setValue] = useState('');
   const [bookmarkList, setBookmarkList] = useState<DaoInfo[]>([]);
-  const [options, setOptions] = useState<{ value: string; label: string }[]>(
-    [],
-  );
+  const [isBookmark, setIsBookmark] = useState(false);
   const { userInfo } = useSelector((state: Models) => state.dao);
+  const [daoId, setDaoId] = useState(params.daoId || userInfo?.id);
+  const [daoInfo, setDaoInfo] = useState<DaoInfo>();
 
+  const getDaoInfo = async () => {
+    if (!daoId) return;
+    const { data } = await DaoApi.getById(url, daoId);
+    setDaoInfo(data.data);
+  };
   const getBookmarkList = async () => {
     const { data } = await DaoApi.getBookmarkList(url);
-    if (data.data.list) setBookmarkList(data.data.list);
+    if (data.data.list) {
+      setBookmarkList(data.data.list);
+      if (!daoId) setDaoId(data.data.list[0].id);
+    }
+  };
+
+  const bookmarkHandle = async () => {
+    if (!daoId) return;
+    const { data } = await DaoApi.bookmark(url, daoId);
+    setIsBookmark(data.data.status);
+  };
+
+  const checkBookmark = async () => {
+    if (!daoId) return;
+    const { data } = await DaoApi.checkBookmark(url, daoId);
+    setIsBookmark(data.data.status);
   };
 
   useEffect(() => {
     getBookmarkList();
   }, []);
 
-  const { run } = useDebounceFn(async (value: string) => {
-    if (!value) return setOptions([]);
-    const { data } = await DaoApi.queryDao(url, value);
-    const res = data.data.list?.map((item) => {
-      return {
-        value: item.id,
-        label: item.name,
-      };
-    });
-    setOptions(res || []);
-  });
+  useEffect(() => {
+    checkBookmark();
+    getDaoInfo();
+  }, [daoId]);
 
   return (
     <>
       <div className={styles.content}>
-        {userInfo ? (
+        <MyAttention
+          user={userInfo}
+          joinedList={bookmarkList}
+          setDaoId={setDaoId}
+        />
+        {daoId ? (
           <>
-            <MyAttention userImg={userImg} />
-            <CommunityCard bgImg={bgImg} />
+            <CommunityCard
+              status={isBookmark}
+              handle={bookmarkHandle}
+              daoInfo={daoInfo}
+              bgImg={bgImg}
+            />
             <div className={styles.jumpBlock}>
               <JumpIconButton imgUrl={newsInBriefImg} title={'message'} />
               <JumpIconButton imgUrl={videoImg} title={'video'} />
               <JumpIconButton imgUrl={groupChatImg} title={'chat'} />
             </div>
             <div className={styles.underLine}></div>
-            <PostList />
+            <PostList daoId={daoId} />
           </>
         ) : (
           <div className={styles.createPage}>
@@ -87,7 +108,7 @@ const DaoList: React.FC<Props> = (props) => {
             </div>
             <div className={styles.noCreateBackGround}></div>
             <p className={styles.noCreateText}>
-              什么都没有，快去创建或加入社区吧
+              Nothing. Go create or join a community!
             </p>
           </div>
         )}

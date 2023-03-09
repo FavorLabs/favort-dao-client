@@ -124,7 +124,7 @@ const Video: React.FC<Props> = (props) => {
             <Col xl={{ span: 18 }} className={styles.col}>
               <div className={styles.mainLeft}>
                 <figure style={{ margin: 0 }}>
-                  {videoData ? (
+                  {vSrc ? (
                     <div className={styles.player}>
                       <video
                         controls
@@ -192,6 +192,7 @@ const Video: React.FC<Props> = (props) => {
             >
               <aside className={styles.mainRight}>
                 {videoList.map((item, index) => {
+                  item.type === 1 && console.log(item);
                   return (
                     item.type === 1 && (
                       <div
