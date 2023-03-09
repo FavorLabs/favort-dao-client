@@ -24,9 +24,8 @@ const Layout: React.FC = (props) => {
   const dispatch = useDispatch();
   const url = useUrl();
 
-  const { api, debugApi, ws, status, requestLoading, config } = useSelector(
-    (state: Models) => state.global,
-  );
+  const { api, debugApi, ws, status, requestLoading, config, user } =
+    useSelector((state: Models) => state.global);
 
   const { web3 } = useSelector((state: Models) => state.web3);
   const proxyResult = useRef<string | number | null>(null);
@@ -171,7 +170,6 @@ const Layout: React.FC = (props) => {
           address,
         },
       });
-      getUserCommunityInfo();
     } catch (e) {
       localStorage.removeItem(ConnectType);
       localStorage.removeItem('token');
@@ -217,6 +215,12 @@ const Layout: React.FC = (props) => {
       location.reload();
     });
   }, [web3]);
+
+  useEffect(() => {
+    if (user) {
+      getUserCommunityInfo();
+    }
+  }, [user]);
 
   return (
     <div className={styles.main}>

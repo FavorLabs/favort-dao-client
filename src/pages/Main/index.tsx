@@ -52,7 +52,7 @@ const Main: React.FC<Props> = (props) => {
       ),
     },
     {
-      key: `/dao/${userInfo?.id}`,
+      key: `/dao`,
       title: 'DAO',
       icon: (
         <div className={`${styles.dao} dao`}>

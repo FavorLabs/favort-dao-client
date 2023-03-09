@@ -124,6 +124,7 @@ export const switchTheme = () => {
 };
 
 export const getContent = (contents: Post[]) => {
+  if (!Array.isArray(contents)) return {};
   return contents?.reduce((prev, content) => {
     prev[content.type] = (prev[content.type] || []).concat(content);
     return prev;
@@ -168,6 +169,7 @@ export const flexible = (window: Window, document: Document) => {
       document.addEventListener('DOMContentLoaded', setBodyFontSize);
     }
   }
+
   setBodyFontSize();
 
   // set 1rem = viewWidth / 10
@@ -187,6 +189,7 @@ export const flexible = (window: Window, document: Document) => {
       }px`;
     }
   }
+
   setRemUnit();
 
   // reset rem unit on page resize
