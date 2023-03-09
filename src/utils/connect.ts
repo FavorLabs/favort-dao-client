@@ -40,11 +40,6 @@ const connectWalletConnect = async (refresh: boolean, config: Config) => {
     },
   });
   await provider.enable();
-  provider?.once('disconnect', () => {
-    localStorage.removeItem('walletconnect');
-    localStorage.removeItem('connectType');
-    location.href = location.origin;
-  });
   if (refresh && !provider.connected) {
     await provider.connector.killSession();
     throw new Error('Connection interruption');
@@ -80,7 +75,7 @@ const connectUniPassFlutter = async () => {
           sign: FlutterMethod.uniPassSignTransaction,
         },
       },
-    },
+    } as unknown as Web3,
     address: info.address,
   };
 };

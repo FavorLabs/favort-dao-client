@@ -3,12 +3,7 @@ import { Models } from '@/declare/modelType';
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch, history } from 'umi';
-import {
-  ConnectType,
-  NodeConfig,
-  ProxyGroup,
-  ProxyOverlay,
-} from '@/config/constants';
+import { ConnectType, NodeConfig } from '@/config/constants';
 import { connect } from '@/utils/connect';
 import { WalletType } from '@/declare/global';
 import SettingApi from '@/components/SettingApi';
@@ -17,7 +12,6 @@ import { Config, favorTubeAbi, tokenAbi } from '@/config/config';
 import Api from '@/services/Api';
 import Loading from '@/components/Loading';
 import styles from './index.less';
-import web3 from '@/models/web3';
 import UserApi from '@/services/tube/UserApi';
 import { useUrl } from '@/utils/hooks';
 import FavorlabsApi from '@/services/FavorlabsApi';
@@ -33,6 +27,8 @@ const Layout: React.FC = (props) => {
   const { api, debugApi, ws, status, requestLoading, config } = useSelector(
     (state: Models) => state.global,
   );
+
+  const { web3 } = useSelector((state: Models) => state.web3);
   const proxyResult = useRef<string | number | null>(null);
   const [configLoading, setConfigLoading] = useState(true);
 
@@ -66,19 +62,19 @@ const Layout: React.FC = (props) => {
   };
 
   const getConfig = async () => {
-    let nodeConfig = sessionStorage.getItem(NodeConfig);
-    if (nodeConfig) {
-      let config = JSON.parse(nodeConfig);
-      dispatch({
-        type: 'global/updateState',
-        payload: {
-          config,
-        },
-      });
-      // setConfig(config);
-      setConfigLoading(false);
-      return;
-    }
+    // let nodeConfig = sessionStorage.getItem(NodeConfig);
+    // if (nodeConfig) {
+    //   let config = JSON.parse(nodeConfig);
+    //   dispatch({
+    //     type: 'global/updateState',
+    //     payload: {
+    //       config,
+    //     },
+    //   });
+    //   // setConfig(config);
+    //   setConfigLoading(false);
+    //   return;
+    // }
     const data = await Api.getAddresses(debugApi);
     const config = await FavorlabsApi.getConfig(
       data.data.network_id,
@@ -212,6 +208,15 @@ const Layout: React.FC = (props) => {
       getLoginStatus();
     }
   }, [requestLoading]);
+
+  useEffect(() => {
+    // @ts-ignore
+    web3?.currentProvider?.once('disconnect', () => {
+      localStorage.removeItem('walletconnect');
+      localStorage.removeItem(ConnectType);
+      location.reload();
+    });
+  }, [web3]);
 
   return (
     <div className={styles.main}>

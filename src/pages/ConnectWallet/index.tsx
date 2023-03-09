@@ -1,20 +1,20 @@
 import * as React from 'react';
-import styles from './index.less';
 import { useState } from 'react';
+import styles from './index.less';
 import metamask_png from '@/assets/img/metamask.png';
 import walletConnect_png from '@/assets/img/walletconnect.png';
 import okx_png from '@/assets/img/okx.png';
 import unipass_png from '@/assets/img/unipass.png';
 import {
-  MetaMask,
-  WalletConnect,
-  OKX,
   ConnectType,
+  MetaMask,
+  OKX,
   UniPass,
+  WalletConnect,
 } from '@/config/constants';
 import { connect } from '@/utils/connect';
-import { message, Button } from 'antd';
-import { useDispatch, history, useSelector } from 'umi';
+import { Button, message } from 'antd';
+import { history, useDispatch, useSelector } from 'umi';
 import { WalletType } from '@/declare/global';
 import UserApi from '@/services/tube/UserApi';
 import { useUrl } from '@/utils/hooks';
@@ -22,7 +22,6 @@ import Web3 from 'web3';
 import { isFavorApp, isMobile } from '@/utils/util';
 import { Models } from '@/declare/modelType';
 import { Config } from '@/config/config';
-import web3 from '@/models/web3';
 
 const ConnectWallet: React.FC = (props) => {
   const dispatch = useDispatch();
@@ -40,7 +39,9 @@ const ConnectWallet: React.FC = (props) => {
       .then(({ web3, address }) => {
         setCType(connectType);
         setAddress(address.toLowerCase());
-        setWeb3(web3 as Web3);
+        setWeb3(web3);
+        // @ts-ignore
+        web3?.currentProvider?.once('disconnect', init);
       })
       .catch((reason) => {
         console.log(reason);
