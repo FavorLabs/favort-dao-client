@@ -38,7 +38,7 @@ const DaoList: React.FC<Props> = (props) => {
   };
   const getBookmarkList = async () => {
     const { data } = await DaoApi.getBookmarkList(url);
-    if (data.data.list) {
+    if (data.data.list.length) {
       setBookmarkList(data.data.list);
       if (!daoId) setDaoId(data.data.list[0].id);
     }
@@ -72,6 +72,7 @@ const DaoList: React.FC<Props> = (props) => {
           user={userInfo}
           joinedList={bookmarkList}
           setDaoId={setDaoId}
+          daoId={daoId}
         />
         {daoId ? (
           <>
