@@ -50,7 +50,7 @@ const Video: React.FC<Props> = (props) => {
   };
 
   const getVideoList = async () => {
-    const { data } = await postApi.getPostListByAddress(
+    const { data } = await postApi.getPostListByDaoId(
       url,
       userInfo?.address as string,
       {
