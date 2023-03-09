@@ -30,14 +30,14 @@ const VideoList: React.FC<Props> = (props) => {
           history.goBack();
         }}
       >
-        video
+        Video
       </NavBar>
 
-      <div>
+      <div className={styles.list}>
         <div>
           <video
             controls
-            autoPlay={true}
+            autoPlay={false}
             playsInline
             key={vSrc}
             style={{
