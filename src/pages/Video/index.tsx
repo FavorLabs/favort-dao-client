@@ -14,6 +14,7 @@ import { usePath, useUrl } from '@/utils/hooks';
 import { PostInfo } from '@/declare/tubeApiType';
 import { Models } from '@/declare/modelType';
 import postApi from '@/services/tube/PostApi';
+import { judgmentType } from '@/utils/util';
 
 export type Props = {
   match: {
@@ -35,14 +36,7 @@ const Video: React.FC<Props> = (props) => {
   const [vSrc, setVSrc] = useState('');
 
   const { api } = useSelector((state: Models) => state.global);
-  // const { channelInfo } = useSelector((state: Models) => state.channel);
-
-  const contentType = {
-    title: 1,
-    description: 2,
-    thumbnail: 3,
-    video: 4,
-  };
+  const { userInfo } = useSelector((state: Models) => state.dao);
 
   const getVideoById = async (id: string) => {
     try {
@@ -56,35 +50,27 @@ const Video: React.FC<Props> = (props) => {
   };
 
   const getVideoList = async () => {
-    const { data } = await postApi.getPostListByType(url, {
-      page: 1,
-      page_size: 12,
-      type: 1,
-    });
+    const { data } = await postApi.getPostListByAddress(
+      url,
+      userInfo?.address as string,
+      {
+        page: 1,
+        page_size: 12,
+        type: 1,
+      },
+    );
     if (data.data.list) {
       setVideoList(data.data.list);
     }
   };
 
   const getInfo = () => {
-    videoData?.contents?.forEach((item) => {
-      switch (item.type) {
-        case contentType.title:
-          setTitle(item.content);
-          break;
-        case contentType.description:
-          setDescription(item.content);
-          break;
-        case contentType.thumbnail:
-          setThumbnail(item.content);
-          break;
-        case contentType.video:
-          setVSrc(item.content);
-          break;
-        default:
-          break;
-      }
-    });
+    const arr = judgmentType(videoData?.contents);
+    setTitle(arr[0][0]?.content);
+    setDescription(arr[1][0]?.content);
+    setThumbnail(arr[2][0]?.content);
+    setVSrc(arr[3][0]?.content);
+    console.log(arr);
   };
 
   useEffect(() => {
@@ -101,26 +87,24 @@ const Video: React.FC<Props> = (props) => {
   return (
     <>
       <div className={styles.content}>
-        <header className={'header'}>
-          <div className={styles.topBar}>
-            <span
-              className={styles.goBack}
-              onClick={() => {
-                history.goBack();
-              }}
-            >
-              <ArrowLeftOutlined />
-            </span>
-            <div
-              className={styles.logo}
-              onClick={() => {
-                // path('');
-              }}
-            >
-              FavorDao
-            </div>
+        <div className={styles.topBar}>
+          <span
+            className={styles.goBack}
+            onClick={() => {
+              history.goBack();
+            }}
+          >
+            <ArrowLeftOutlined />
+          </span>
+          <div
+            className={styles.logo}
+            onClick={() => {
+              // path('');
+            }}
+          >
+            FavorDao
           </div>
-        </header>
+        </div>
         <main className={styles.VideoMain}>
           <Row
             gutter={[30, 20]}
@@ -237,6 +221,7 @@ const Video: React.FC<Props> = (props) => {
             >
               <aside className={styles.mainRight}>
                 {videoList.map((item, index) => {
+                  item.type === 1 && console.log(item);
                   return (
                     item.type === 1 && (
                       <div

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import styles from './index.less';
+import { useHistory } from 'umi';
 import moreImg from '@/assets/img/more-img.png';
 import CommentArea from '@/components/CommentArea';
 import { PostInfo } from '@/declare/tubeApiType';
@@ -17,13 +18,19 @@ export type Props = {
 };
 const LongVideo: React.FC<Props> = (props) => {
   const { user, contents, view_count, upvote_count } = props.post;
+  const history = useHistory();
   const videosResUrl = useResourceUrl('images');
   const info = judgmentType(contents);
   const community = 'FavorDao';
   const time = '08:00';
   const videoTime = '16:05';
+
   const moreClick = () => {
     console.log('Click more buttons');
+  };
+
+  const toVideo = () => {
+    history.push(`/video/${props.post.id}`);
   };
 
   return (
@@ -34,6 +41,7 @@ const LongVideo: React.FC<Props> = (props) => {
             className={styles.img}
             src={`${videosResUrl}/${info[2][0].content}`}
             alt=""
+            onClick={toVideo}
           />
           <div className={styles.duration}>{videoTime}</div>
         </div>

@@ -17,11 +17,7 @@ const Follow: React.FC<Props> = (props) => {
   const videoUrl =
     'https://img.js.design/assets/img/63feebab9d2376d02eccbaf7.jpg#7b6f740e4ff20b3a5645a0e598ea9bca';
 
-  return (
-    <>
-      <PostList />
-    </>
-  );
+  return <>{/*<PostList />*/}</>;
 };
 
 export default Follow;
