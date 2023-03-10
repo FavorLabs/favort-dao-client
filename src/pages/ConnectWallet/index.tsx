@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './index.less';
 import metamask_png from '@/assets/img/metamask.png';
 import walletConnect_png from '@/assets/img/walletconnect.png';

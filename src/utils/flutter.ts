@@ -10,6 +10,7 @@ interface FlutterMethodsRes {
   newwebview: { res: any };
   transaction1: { res: any };
   transaction2: { res: any };
+  chat: { res: any };
 }
 
 type FlutterMethods = keyof FlutterMethodsRes;
@@ -43,7 +44,10 @@ export default {
   uniPassTransferTransaction(eoaAddress: string, value: number) {
     return flutterAsyncFn('transaction1', eoaAddress, value);
   },
-  uniPassContractTransaction(caAddress: string, abiString: string) {
-    return flutterAsyncFn('transaction2', caAddress, abiString);
+  // uniPassContractTransaction(caAddress: string, abiString: string) {
+  //   return flutterAsyncFn('transaction2', caAddress, abiString);
+  // },
+  openChat(token: string, hash: string, name: string) {
+    return flutterAsyncFn('chat', token, hash, name);
   },
 };

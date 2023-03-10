@@ -12,6 +12,7 @@ import daoSvg from '@/assets/icon/dao.svg';
 import addCommunitySvg from '@/assets/icon/addCommunity.svg';
 import chatSvg from '@/assets/icon/chat.svg';
 import mineSvg from '@/assets/icon/mine.svg';
+import homeSvg from '@/assets/icon/home.svg';
 import {
   useSelector,
   useHistory,
@@ -25,8 +26,10 @@ import { Models } from '@/declare/modelType';
 import { useUrl, useResourceUrl } from '@/utils/hooks';
 import { Tabs, TabBarItemProps, Popup } from 'antd-mobile';
 import { SearchOutline } from 'antd-mobile-icons';
-import { switchTheme } from '@/utils/util';
+import { isFavorApp, switchTheme } from '@/utils/util';
 import DaoApi from '@/services/tube/Dao';
+import UserAvatar from '@/components/UserAvatar';
+import Flutter from '@/utils/flutter';
 
 export type Props = {};
 export type MenuItem = TabBarItemProps & {
@@ -34,7 +37,7 @@ export type MenuItem = TabBarItemProps & {
 };
 const Main: React.FC<Props> = (props) => {
   const url = useUrl();
-  const resourceUrl = useResourceUrl('avatars');
+  const avatarsResUrl = useResourceUrl('avatars');
   const history = useHistory();
   const intl = useIntl();
   const dispatch = useDispatch();
@@ -74,7 +77,7 @@ const Main: React.FC<Props> = (props) => {
       ),
     },
     {
-      key: '/chat',
+      key: '/groupList',
       title: 'Chat',
       icon: (
         <div className={`${styles.chat} chat`}>
@@ -109,8 +112,16 @@ const Main: React.FC<Props> = (props) => {
       <div className={styles.content}>
         <TopBar
           content={
-            topBarVisibility ? (
+            topBarVisibility && (
               <div className={styles.header}>
+                <span
+                  className={styles.toHome}
+                  onClick={() => {
+                    if (isFavorApp()) Flutter.closeWebview();
+                  }}
+                >
+                  <SvgIcon svg={homeSvg} />
+                </span>
                 {latestNavVisibility && (
                   <div className={styles.latestNav}>
                     <NavLink
@@ -133,16 +144,15 @@ const Main: React.FC<Props> = (props) => {
                 )}
                 <div className={styles.action}>
                   <SearchOutline className={styles.searchBtn} />
-                  <Avatar
-                    size={16}
-                    alt=""
-                    src={user?.avatar && resourceUrl + '/' + user?.avatar}
-                    className={styles.userAvatar}
-                  />
+                  <div className={styles.userAvatar}>
+                    <UserAvatar
+                      prefix={avatarsResUrl}
+                      name={user?.nickname as string}
+                      identifier={user?.avatar as string}
+                    />
+                  </div>
                 </div>
               </div>
-            ) : (
-              <></>
             )
           }
         />

@@ -20,7 +20,6 @@ const DaoList: React.FC<Props> = (props) => {
   const [bookmarkList, setBookmarkList] = useState<DaoInfo[]>([]);
   const [isBookmark, setIsBookmark] = useState(false);
   const { userInfo } = useSelector((state: Models) => state.dao);
-  // const [daoId, setDaoId] = useState(params.daoId || userInfo?.id);
   const [daoInfo, setDaoInfo] = useState<DaoInfo>();
 
   const daoId = params.daoId;

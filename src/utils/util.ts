@@ -6,6 +6,7 @@ import { setTheme, ThemeType } from '@/utils/setTheme';
 import { defaultTheme } from '@/config/themeConfig';
 import { debounce } from 'lodash';
 import { useState } from 'react';
+import Flutter from '@/utils/flutter';
 
 export const splitUrl = (url: string): [string, string, string] => {
   let i = new URL(url);
@@ -99,13 +100,18 @@ export const toChat = (
   api: string,
   proxyGroup: string | undefined,
 ) => {
-  const hash = WebUtils.keccak256(`server_${name}`);
   const token = localStorage.getItem('token');
-  window.open(
-    `${ReviteURL}/server/${hash.slice(
-      2,
-    )}?token=${token}&api=${api}&proxyGroup=${proxyGroup}`,
-  );
+  if (isFavorApp()) {
+    const hash = WebUtils.keccak256(`server_${name}_channel_General`);
+    Flutter.openChat(token as string, hash.slice(2), name as string);
+  } else {
+    const hash = WebUtils.keccak256(`server_${name}`);
+    window.open(
+      `${ReviteURL}/server/${hash.slice(
+        2,
+      )}?token=${token}&api=${api}&proxyGroup=${proxyGroup}`,
+    );
+  }
 };
 
 export const switchTheme = () => {

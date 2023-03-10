@@ -19,6 +19,8 @@ import { appName, flexible } from '@/utils/util';
 import { setTheme, ThemeType } from '@/utils/setTheme';
 import { defaultTheme } from '@/config/themeConfig';
 import DaoApi from '@/services/tube/Dao';
+// import VConsole from "vconsole";
+// new VConsole();
 
 const Layout: React.FC = (props) => {
   const dispatch = useDispatch();
@@ -192,13 +194,13 @@ const Layout: React.FC = (props) => {
 
   useEffect(() => {
     if (status) {
-      // getContract();
       getConfig();
     }
   }, [status]);
 
   useEffect(() => {
     connectNode();
+    // if (config) getContract()
   }, [config]);
 
   useEffect(() => {
