@@ -16,12 +16,7 @@ export type Props = {
 const CommunityCard: React.FC<Props> = (props) => {
   const { status, handle, daoInfo, daoId } = props;
   const { userInfo } = useSelector((state: Models) => state.dao);
-  const [isShowButton, setIsShowButton] = useState(true);
   const imagesResUrl = useResourceUrl('images');
-
-  useEffect(() => {
-    if (userInfo?.id === daoId) setIsShowButton(false);
-  }, []);
 
   return (
     <div className={styles.page}>
@@ -37,17 +32,14 @@ const CommunityCard: React.FC<Props> = (props) => {
           <p
             className={styles.textLeft}
           >{`communityProfile: ${daoInfo?.introduction}`}</p>
-          {isShowButton ? (
-            status ? (
+          {daoInfo?.id !== userInfo?.id &&
+            (status ? (
               <div className={styles.joined}>joined</div>
             ) : (
               <div className={styles.join} onClick={handle}>
                 join
               </div>
-            )
-          ) : (
-            <></>
-          )}
+            ))}
         </div>
       </div>
     </div>

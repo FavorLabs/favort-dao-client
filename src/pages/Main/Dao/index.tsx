@@ -20,8 +20,10 @@ const DaoList: React.FC<Props> = (props) => {
   const [bookmarkList, setBookmarkList] = useState<DaoInfo[]>([]);
   const [isBookmark, setIsBookmark] = useState(false);
   const { userInfo } = useSelector((state: Models) => state.dao);
-  const [daoId, setDaoId] = useState(params.daoId || userInfo?.id);
+  // const [daoId, setDaoId] = useState(params.daoId || userInfo?.id);
   const [daoInfo, setDaoInfo] = useState<DaoInfo>();
+
+  const daoId = params.daoId;
 
   const getDaoInfo = async () => {
     if (!daoId) return;
@@ -32,7 +34,6 @@ const DaoList: React.FC<Props> = (props) => {
     const { data } = await DaoApi.getBookmarkList(url);
     if (data.data.list.length) {
       setBookmarkList(data.data.list);
-      if (!daoId) setDaoId(data.data.list[0].id);
     }
   };
 
@@ -58,15 +59,17 @@ const DaoList: React.FC<Props> = (props) => {
     getDaoInfo();
   }, [daoId]);
 
+  useEffect(() => {
+    if (!daoId) {
+      let id = userInfo?.id || bookmarkList[0]?.id;
+      if (id) history.push(`/dao/${id}`);
+    }
+  }, [daoId, bookmarkList]);
+
   return (
     <>
       <div className={styles.content}>
-        <MyAttention
-          user={userInfo}
-          joinedList={bookmarkList}
-          setDaoId={setDaoId}
-          daoId={daoId}
-        />
+        <MyAttention user={userInfo} joinedList={bookmarkList} daoId={daoId} />
         {daoId ? (
           <>
             <CommunityCard
@@ -81,7 +84,7 @@ const DaoList: React.FC<Props> = (props) => {
               <JumpIconButton type={2} daoId={daoId} />
             </div>
             <div className={styles.underLine}></div>
-            <PostList daoId={daoId} />
+            <PostList key={daoId} daoId={daoId} />
           </>
         ) : (
           <div className={styles.createPage}>
