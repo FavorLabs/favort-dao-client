@@ -10,11 +10,10 @@ export type Props = {
   status: boolean;
   handle: () => void;
   daoInfo: DaoInfo | undefined;
-  daoId: string;
 };
 
 const CommunityCard: React.FC<Props> = (props) => {
-  const { status, handle, daoInfo, daoId } = props;
+  const { status, handle, daoInfo } = props;
   const { userInfo } = useSelector((state: Models) => state.dao);
   const imagesResUrl = useResourceUrl('images');
 
@@ -34,7 +33,9 @@ const CommunityCard: React.FC<Props> = (props) => {
           >{`communityProfile: ${daoInfo?.introduction}`}</p>
           {daoInfo?.id !== userInfo?.id &&
             (status ? (
-              <div className={styles.joined}>joined</div>
+              <div className={styles.joined} onClick={handle}>
+                joined
+              </div>
             ) : (
               <div className={styles.join} onClick={handle}>
                 join

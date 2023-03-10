@@ -75,7 +75,6 @@ const DaoList: React.FC<Props> = (props) => {
               status={isBookmark}
               handle={bookmarkHandle}
               daoInfo={daoInfo}
-              daoId={daoId}
             />
             <div className={styles.jumpBlock}>
               <JumpIconButton type={0} daoId={daoId} />

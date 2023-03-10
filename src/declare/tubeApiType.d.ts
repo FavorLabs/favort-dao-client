@@ -24,7 +24,6 @@ export type CreatePost = {
 export type PostInfo = {
   address: string;
   collection_count: number;
-  comment_count: number;
   contents: Post[];
   created_on: number;
   dao: DaoInfo;
@@ -34,6 +33,7 @@ export type PostInfo = {
   type: number;
   upvote_count: number;
   view_count: number;
+  comment_count: number;
   visibility: number;
   user: {
     address: string;
