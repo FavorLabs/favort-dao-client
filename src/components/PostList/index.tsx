@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 // import styles from "./index.less";
 import { Page, PostInfo } from '@/declare/tubeApiType';
 import GraphicMessage from '@/components/GraphicMessage';
@@ -26,7 +26,7 @@ const Index: React.FC<Props> = (props) => {
 
   const loadMore = async () => {
     const request = focus
-      ? (params: Page) => PostApi.getRecommend(url, params)
+      ? (params: Page) => PostApi.getFollow(url, params)
       : daoId
       ? (params: Page) => PostApi.getPostListByDaoId(url, daoId, params)
       : (params: Page) => PostApi.getPostListByType(url, params);
