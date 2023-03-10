@@ -47,7 +47,7 @@ export default {
       url: url + `/post?id=${id}`,
     });
   },
-  getRecommend(url: string, params: Page): ResData<any> {
+  getFollow(url: string, params: Page): ResData<any> {
     return request({
       method: 'get',
       url: url + `/posts/focus`,

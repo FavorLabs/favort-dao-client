@@ -10,20 +10,12 @@ import { Models } from '@/declare/modelType';
 import MyAttention from '@/components/MyAttention';
 import CommunityCard from '@/components/CommunityCard';
 import JumpIconButton from '@/components/JumpIconButton';
-import addImg from '@/assets/img/add-img.png';
-import newsInBriefImg from '@/assets/img/newsInBrief-img.png';
-import videoImg from '@/assets/img/video-img.png';
-import groupChatImg from '@/assets/img/groupChat-img.png';
 import PostList from '@/components/PostList';
 
 export type Props = {};
 
 const DaoList: React.FC<Props> = (props) => {
   const params: { daoId?: string } = useParams();
-  const userImg =
-    'https://img.js.design/assets/img/63fee9f013c9305ce9416782.png#fcb7b62b61d952467d3445d6bb64ce9a';
-  const bgImg =
-    'https://img.js.design/assets/img/63fda924b045c20466fc7a43.jpeg#d9b517fc27cf3e514de98ce387eadd7d';
   const url = useUrl();
   const [bookmarkList, setBookmarkList] = useState<DaoInfo[]>([]);
   const [isBookmark, setIsBookmark] = useState(false);
@@ -52,6 +44,7 @@ const DaoList: React.FC<Props> = (props) => {
 
   const checkBookmark = async () => {
     if (!daoId) return;
+    if (userInfo?.id === daoId) return setIsBookmark(true);
     const { data } = await DaoApi.checkBookmark(url, daoId);
     setIsBookmark(data.data.status);
   };
@@ -80,33 +73,18 @@ const DaoList: React.FC<Props> = (props) => {
               status={isBookmark}
               handle={bookmarkHandle}
               daoInfo={daoInfo}
-              bgImg={bgImg}
+              daoId={daoId}
             />
             <div className={styles.jumpBlock}>
-              <JumpIconButton imgUrl={newsInBriefImg} title={'message'} />
-              <JumpIconButton imgUrl={videoImg} title={'video'} />
-              <JumpIconButton imgUrl={groupChatImg} title={'chat'} />
+              <JumpIconButton type={0} daoId={daoId} />
+              <JumpIconButton type={1} daoId={daoId} />
+              <JumpIconButton type={2} daoId={daoId} />
             </div>
             <div className={styles.underLine}></div>
             <PostList daoId={daoId} />
           </>
         ) : (
           <div className={styles.createPage}>
-            <div className={styles.createCommunityCard}>
-              <div className={styles.createCommunity}>
-                <div className={styles.block}>
-                  <p className={styles.title}>create community</p>
-                  <div
-                    className={styles.button}
-                    onClick={() => {
-                      history.push('/createCommunity');
-                    }}
-                  >
-                    <img src={addImg} className={styles.addImg} alt="" />
-                  </div>
-                </div>
-              </div>
-            </div>
             <div className={styles.noCreateBackGround}></div>
             <p className={styles.noCreateText}>
               Nothing. Go create or join a community!

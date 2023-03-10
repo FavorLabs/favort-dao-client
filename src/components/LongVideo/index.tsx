@@ -11,11 +11,10 @@ export type Props = {
   post: PostInfo;
 };
 const LongVideo: React.FC<Props> = (props) => {
-  const { user, contents, view_count, upvote_count } = props.post;
+  const { contents, view_count, upvote_count, dao } = props.post;
   const history = useHistory();
   const videosResUrl = useResourceUrl('images');
   const info = getContent(contents);
-  const community = 'FavorDao';
   const time = '08:00';
   const videoTime = '16:05';
 
@@ -53,7 +52,7 @@ const LongVideo: React.FC<Props> = (props) => {
             <p className={styles.content}>{info?.[2]?.[0]?.content}</p>
           </div>
           <div className={styles.bottom}>
-            <p className={styles.name}>{community}</p>
+            <p className={styles.name}>{dao.name}</p>
             <p className={styles.time}>{time}</p>
           </div>
         </div>

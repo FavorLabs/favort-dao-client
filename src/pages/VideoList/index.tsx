@@ -20,8 +20,6 @@ const VideoList: React.FC<Props> = (props) => {
   const { daoId } = props.match.params;
   const [vSrc, setVSrc] = useState('');
   const { api } = useSelector((state: Models) => state.global);
-  const videoUrl =
-    'https://img.js.design/assets/img/63feebab9d2376d02eccbaf7.jpg#7b6f740e4ff20b3a5645a0e598ea9bca';
   return (
     <div className={styles.content}>
       <NavBar
@@ -51,7 +49,7 @@ const VideoList: React.FC<Props> = (props) => {
           </video>
         </div>
 
-        <PostList type={1} />
+        <PostList type={1} daoId={daoId} />
       </div>
     </div>
   );

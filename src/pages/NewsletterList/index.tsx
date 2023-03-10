@@ -3,16 +3,18 @@ import styles from './index.less';
 import { NavBar } from 'antd-mobile';
 import { useHistory, useSelector } from 'umi';
 import PostList from '@/components/PostList';
-import { Models } from '@/declare/modelType';
 
-export type Props = {};
+type Props = {
+  match: {
+    params: {
+      daoId: string;
+    };
+  };
+};
 
-const NewsletterList: React.FC<Props> = () => {
+const NewsletterList: React.FC<Props> = (props) => {
   const history = useHistory();
-  const { userInfo } = useSelector((state: Models) => state.dao);
-  const userImg =
-    'https://img.js.design/assets/img/63fee9f013c9305ce9416782.png#fcb7b62b61d952467d3445d6bb64ce9a';
-
+  const { daoId } = props.match.params;
   return (
     <div className={styles.content}>
       <NavBar
@@ -25,7 +27,7 @@ const NewsletterList: React.FC<Props> = () => {
       </NavBar>
 
       <div className={styles.list}>
-        <PostList type={0} />
+        <PostList type={0} daoId={daoId} />
       </div>
     </div>
   );
