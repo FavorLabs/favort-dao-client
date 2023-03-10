@@ -18,9 +18,27 @@ export type Props = {
 const MyAttention: React.FC<Props> = (props) => {
   const { user, joinedList = [], daoId } = props;
   const avatarsResUrl = useResourceUrl('avatars');
+  const [focus, setFocus] = useState(0);
+  const idList = joinedList.map((item) => {
+    return item.id;
+  });
+  const indexlist = Array.from(new Set([user?.id, ...idList]));
 
   const setDaoId = (daoId: string) => {
     history.push(`/dao/${daoId}`);
+  };
+
+  const moreHandle = () => {
+    history.push(`/focusList/`);
+  };
+
+  const onFocusCommunity = (id: string) => {
+    setDaoId(id);
+    indexlist.map((item, index) => {
+      if (daoId === item) {
+        setFocus(index);
+      }
+    });
   };
 
   return (
@@ -38,7 +56,9 @@ const MyAttention: React.FC<Props> = (props) => {
           <div className={styles.navRight}>
             {joinedList.length ? (
               <div>
-                <span className={styles.text}>more</span>
+                <span className={styles.text} onClick={moreHandle}>
+                  more
+                </span>
                 <img src={arrowRight} className={styles.icon} />
               </div>
             ) : (
@@ -50,15 +70,15 @@ const MyAttention: React.FC<Props> = (props) => {
         <div className={styles.bottomNav}>
           <div className={styles.myCreated}>
             {user ? (
-              <>
+              <div className={styles.icon}>
                 <UserAvatar
                   prefix={avatarsResUrl}
                   name={user.name}
                   identifier={user.avatar}
-                  onClick={() => setDaoId(user.id)}
+                  onClick={() => onFocusCommunity(user.id)}
                 ></UserAvatar>
                 <span className={styles.text}>{user.name}</span>
-              </>
+              </div>
             ) : (
               <>
                 <div
@@ -77,20 +97,20 @@ const MyAttention: React.FC<Props> = (props) => {
             {joinedList.length ? (
               joinedList.map((item, index) => {
                 return (
-                  <div
-                    key={index}
-                    className={`${styles.userArr}`}
-                    onClick={() => {
-                      setDaoId(item.id);
-                    }}
-                  >
-                    <UserAvatar
-                      prefix={avatarsResUrl}
-                      name={item.name}
-                      identifier={item.avatar}
-                      onClick={() => setDaoId(item.id)}
-                      className={styles.icon}
-                    ></UserAvatar>
+                  <div key={index} className={`${styles.userArr}`}>
+                    <div
+                      className={
+                        index === focus ? styles.imgActive : styles.icon
+                      }
+                    >
+                      <UserAvatar
+                        prefix={avatarsResUrl}
+                        name={item.name}
+                        identifier={item.avatar}
+                        onClick={() => onFocusCommunity(item.id)}
+                        className={styles.icon}
+                      ></UserAvatar>
+                    </div>
                     <span className={styles.text}>{item.name}</span>
                   </div>
                 );

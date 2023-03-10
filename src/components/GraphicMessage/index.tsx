@@ -12,13 +12,15 @@ export type Props = {
 };
 
 const GraphicMessage: React.FC<Props> = (props) => {
-  const { dao, contents, view_count, upvote_count } = props.post;
+  const { dao, contents, view_count, upvote_count, comment_count, created_on } =
+    props.post;
+  if (!dao) return <></>;
   const imagesResUrl = useResourceUrl('images');
   const info = getContent(contents);
   return (
     <div className={styles.container}>
       <div className={styles.inContent}>
-        <CommunityInfo daoInfo={dao} />
+        <CommunityInfo daoInfo={dao} createTime={created_on} />
 
         <div className={styles.textInfo}>{info[2]?.[0]?.content}</div>
 
@@ -34,7 +36,7 @@ const GraphicMessage: React.FC<Props> = (props) => {
 
         <CommentArea
           watchNum={view_count}
-          commentOnNum={456}
+          commentOnNum={comment_count}
           likeNum={upvote_count}
         />
       </div>

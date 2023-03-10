@@ -4,14 +4,17 @@ import { Avatar } from 'antd';
 import { DaoInfo } from '@/declare/tubeApiType';
 import UserAvatar from '@/components/UserAvatar';
 import { useResourceUrl } from '@/utils/hooks';
+import { getTime } from '@/utils/util';
 
 export type Props = {
   daoInfo: DaoInfo;
+  createTime: number;
 };
 
 const CommunityInfo: React.FC<Props> = (props) => {
   const { avatar = '', name = '' } = props.daoInfo || {};
   const avatarsResUrl = useResourceUrl('avatars');
+  const createTime = getTime(props.createTime);
 
   return (
     <>
@@ -24,7 +27,7 @@ const CommunityInfo: React.FC<Props> = (props) => {
         />
         <div className={styles.userText}>
           <p className={styles.userName}>{name}</p>
-          <p className={styles.releaseTime}>today 08:23</p>
+          <p className={styles.releaseTime}>{createTime}</p>
         </div>
       </div>
     </>

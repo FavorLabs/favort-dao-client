@@ -9,6 +9,7 @@ export type Props = {
 
 const CommunityIntro: React.FC<Props> = (props) => {
   const { dao } = props.post;
+  if (!dao) return <></>;
   const avatarsResUrl = useResourceUrl('avatars');
   const imagesResUrl = useResourceUrl('images');
   const handleClick = () => {
