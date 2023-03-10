@@ -21,9 +21,9 @@ const JumpIconButton: React.FC<Props> = (props) => {
   const { imgUrl, title, address } = props;
 
   const jumpPage = (title?: string) => {
-    if (title === 'chat') {
+    if (title === 'Chat') {
       toChat(userInfo?.name, api, config?.proxyGroup);
-    } else if (title === 'message') {
+    } else if (title === 'Newsletter') {
       history.push(`/newsletterList/${userInfo?.id}`);
     } else {
       history.push(`/videoList/${userInfo?.id}`);

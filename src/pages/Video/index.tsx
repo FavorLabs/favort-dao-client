@@ -1,13 +1,8 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import styles from './index.less';
-import { Row, Col, Avatar, Button, message } from 'antd';
-import {
-  LikeOutlined,
-  DislikeOutlined,
-  ShareAltOutlined,
-  ArrowLeftOutlined,
-} from '@ant-design/icons';
+import { Row, Col, message } from 'antd';
+import { ArrowLeftOutlined } from '@ant-design/icons';
 import { useSelector, useHistory } from 'umi';
 import VideoCard from '@/components/VideoCard';
 import { usePath, useResourceUrl, useUrl } from '@/utils/hooks';
@@ -18,6 +13,7 @@ import DaoApi from '@/services/tube/Dao';
 import { getContent } from '@/utils/util';
 import UserAvatar from '@/components/UserAvatar';
 import CommentArea from '@/components/CommentArea';
+import ExitCommunityDialog from '@/components/ExitCommunityDialog';
 
 export type Props = {
   match: {
@@ -32,6 +28,8 @@ const Video: React.FC<Props> = (props) => {
   const avatarsResUrl = useResourceUrl('avatars');
   const history = useHistory();
 
+  const { vid } = props.match.params;
+
   const [videoData, setVideoData] = useState<PostInfo | null>(null);
   const [videoList, setVideoList] = useState<PostInfo[]>([]);
   const [title, setTitle] = useState('');
@@ -39,6 +37,8 @@ const Video: React.FC<Props> = (props) => {
   const [thumbnail, setThumbnail] = useState('');
   const [vSrc, setVSrc] = useState('');
   const [joined, setJoined] = useState<boolean>(false);
+  const [isSelf, setIsSelf] = useState<boolean>(true);
+  const [focusDialog, setFocusDialog] = useState<boolean>(false);
 
   const { api } = useSelector((state: Models) => state.global);
   const { userInfo } = useSelector((state: Models) => state.dao);
@@ -47,17 +47,20 @@ const Video: React.FC<Props> = (props) => {
     try {
       const { data } = await PostApi.getPostById(url, id);
       if (data.data) {
+        const daoId = data.data.dao.id;
+        const isSelf = daoId === userInfo?.id;
         setVideoData(data.data);
-        checkJoinStatus(data.data.dao.id);
-        getVideoList(data.data.address);
+        setIsSelf(isSelf);
+        !isSelf && checkJoinStatus(daoId);
+        getVideoList(daoId);
       }
     } catch (e) {
       if (e instanceof Error) message.error(e.message);
     }
   };
 
-  const getVideoList = async (address: string) => {
-    const { data } = await PostApi.getPostListByAddress(url, address, {
+  const getVideoList = async (daoId: string) => {
+    const { data } = await PostApi.getPostListByDaoId(url, daoId, {
       page: 1,
       page_size: 12,
       type: 1,
@@ -75,7 +78,34 @@ const Video: React.FC<Props> = (props) => {
     setVSrc(obj[4][0]?.content);
   };
 
-  const joinDao = () => {};
+  const joinDao = async () => {
+    if (joined) {
+      setFocusDialog(true);
+    } else {
+      try {
+        const { data } = await DaoApi.bookmark(
+          url,
+          videoData?.dao?.id as string,
+        );
+        if (data.data) {
+          setJoined(data.data.status);
+        }
+      } catch (e) {
+        if (e instanceof Error) message.error(e.message);
+      }
+    }
+  };
+
+  const confirmFocus = async () => {
+    try {
+      const { data } = await DaoApi.bookmark(url, videoData?.dao?.id as string);
+      setJoined(data.data.status);
+    } catch (e) {
+      if (e instanceof Error) message.error(e.message);
+    } finally {
+      setFocusDialog(false);
+    }
+  };
 
   const checkJoinStatus = async (id: string) => {
     const { data } = await DaoApi.checkBookmark(url, id);
@@ -85,8 +115,10 @@ const Video: React.FC<Props> = (props) => {
   };
 
   useEffect(() => {
-    getVideoById(props.match.params.vid);
-  }, [props.match.params.vid]);
+    if (vid && userInfo) {
+      getVideoById(vid);
+    }
+  }, [vid, userInfo]);
 
   useEffect(() => {
     if (videoData) {
@@ -166,15 +198,17 @@ const Video: React.FC<Props> = (props) => {
                               </div>
                             </div>
                           </div>
-                          <div className={styles.joinBtn} onClick={joinDao}>
-                            join
-                          </div>
+                          {!isSelf && (
+                            <div className={styles.joinBtn} onClick={joinDao}>
+                              {joined ? 'joined' : 'join'}
+                            </div>
+                          )}
                         </div>
                         <div className={styles.title}>{title}</div>
                         <div className={styles.desc}>{description}</div>
                         <CommentArea
                           watchNum={videoData.view_count}
-                          commentOnNum={0}
+                          commentOnNum={videoData.comment_count}
                           likeNum={videoData.upvote_count}
                         />
                       </>
@@ -192,7 +226,6 @@ const Video: React.FC<Props> = (props) => {
             >
               <aside className={styles.mainRight}>
                 {videoList.map((item, index) => {
-                  item.type === 1 && console.log(item);
                   return (
                     item.type === 1 && (
                       <div
@@ -210,6 +243,13 @@ const Video: React.FC<Props> = (props) => {
             </Col>
           </Row>
         </main>
+        <ExitCommunityDialog
+          visible={focusDialog}
+          closeDialog={() => {
+            setFocusDialog(false);
+          }}
+          confirmHandle={confirmFocus}
+        />
       </div>
     </>
   );

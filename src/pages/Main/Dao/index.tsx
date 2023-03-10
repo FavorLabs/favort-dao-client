@@ -83,9 +83,9 @@ const DaoList: React.FC<Props> = (props) => {
               bgImg={bgImg}
             />
             <div className={styles.jumpBlock}>
-              <JumpIconButton imgUrl={newsInBriefImg} title={'message'} />
-              <JumpIconButton imgUrl={videoImg} title={'video'} />
-              <JumpIconButton imgUrl={groupChatImg} title={'chat'} />
+              <JumpIconButton imgUrl={newsInBriefImg} title={'Newsletter'} />
+              <JumpIconButton imgUrl={videoImg} title={'Video'} />
+              <JumpIconButton imgUrl={groupChatImg} title={'Chat'} />
             </div>
             <div className={styles.underLine}></div>
             <PostList daoId={daoId} />

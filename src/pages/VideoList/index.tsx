@@ -2,7 +2,7 @@ import * as React from 'react';
 import styles from './index.less';
 import LongVideo from '@/components/LongVideo';
 import { NavBar } from 'antd-mobile';
-import { useHistory, useSelector } from 'umi';
+import { useHistory, useParams, useSelector } from 'umi';
 import { useState } from 'react';
 import { Models } from '@/declare/modelType';
 import PostList from '@/components/PostList';
@@ -16,6 +16,7 @@ type Props = {
 };
 
 const VideoList: React.FC<Props> = (props) => {
+  const params: { daoId: string } = useParams();
   const history = useHistory();
   const { daoId } = props.match.params;
   const [vSrc, setVSrc] = useState('');
@@ -51,7 +52,7 @@ const VideoList: React.FC<Props> = (props) => {
           </video>
         </div>
 
-        <PostList type={1} />
+        <PostList type={1} daoId={params.daoId} />
       </div>
     </div>
   );

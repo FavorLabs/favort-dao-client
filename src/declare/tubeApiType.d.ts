@@ -24,20 +24,22 @@ export type CreatePost = {
 export type PostInfo = {
   address: string;
   collection_count: number;
+  comment_count: number;
   contents: Post[];
+  created_on: number;
+  dao: DaoInfo;
+  id: string;
+  latest_replied_on: number;
   tags: [];
   type: number;
   upvote_count: number;
   view_count: number;
   visibility: number;
-  id: string;
-  dao: DaoInfo;
   user: {
     address: string;
     avatar: string;
     nickname: string;
   };
-  dao: DaoInfo;
 };
 
 export type ResData<T> = Promise<

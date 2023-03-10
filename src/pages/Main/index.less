@@ -8,9 +8,14 @@
     justify-content: center;
     align-items: center;
     border-bottom: 0.5px solid rgba(229, 229, 229, 1);
-    .latestNav {
+    .toHome {
       position: absolute;
       left: 0;
+    }
+    .latestNav {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
       display: flex;
       justify-content: flex-start;
       align-items: center;
@@ -22,11 +27,16 @@
     .action {
       position: absolute;
       right: 10px;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
       .searchBtn {
+        width: 20px;
+        height: 20px;
         margin-right: 10px;
+        vertical-align: middle !important;
       }
       .userAvatar {
-        background-color: #f44336;
       }
     }
   }

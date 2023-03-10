@@ -28,7 +28,12 @@ const MyAttention: React.FC<Props> = (props) => {
             <span className={styles.text}>My DAO</span>
             <span className={styles.text}>My Joined</span>
           </div>
-          <div className={styles.navRight}>
+          <div
+            className={styles.navRight}
+            onClick={() => {
+              history.push('/focusList');
+            }}
+          >
             <span className={styles.text}>more</span>
             <img src={arrowRight} className={styles.icon} />
           </div>

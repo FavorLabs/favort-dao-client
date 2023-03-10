@@ -20,12 +20,6 @@ const VideoCard: React.FC<Props> = (props) => {
 
   const { api } = useSelector((state: Models) => state.global);
 
-  const contentType = {
-    title: 1,
-    thumbnail: 3,
-    video: 4,
-  };
-
   const getInfo = () => {
     const obj = getContent(post?.contents as Post[]);
     setTitle(obj[1][0]?.content);
@@ -41,27 +35,29 @@ const VideoCard: React.FC<Props> = (props) => {
     <>
       <div className={styles.content}>
         <figure className={styles.videoCard}>
-          {openThumb ? (
+          {openThumb && thumbnail ? (
             <div
               className={styles.thumbnail}
               style={{ backgroundImage: `url(${resourceUrl}/${thumbnail})` }}
             />
           ) : (
-            <div className={styles.player}>
-              <video
-                controls
-                autoPlay={false}
-                playsInline
-                key={vSrc}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  maxHeight: '500px',
-                }}
-              >
-                <source src={api + '/file/' + vSrc} type={'video/mp4'} />
-              </video>
-            </div>
+            vSrc && (
+              <div className={styles.player}>
+                <video
+                  controls
+                  autoPlay={false}
+                  playsInline
+                  key={vSrc}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    maxHeight: '500px',
+                  }}
+                >
+                  <source src={api + '/file/' + vSrc} type={'video/mp4'} />
+                </video>
+              </div>
+            )
           )}
           <figcaption className={styles.details}>
             <p className={styles.title}>{title}</p>

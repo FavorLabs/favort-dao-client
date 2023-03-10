@@ -4,6 +4,7 @@ import styles from './index.less';
 import { NavBar, Dialog } from 'antd-mobile';
 import { useHistory } from 'umi';
 import UserAvatar from '@/components/UserAvatar';
+import ExitCommunityDialog from '@/components/ExitCommunityDialog';
 import DaoApi from '@/services/tube/Dao';
 import { useResourceUrl, useUrl } from '@/utils/hooks';
 import { message } from 'antd';
@@ -78,28 +79,12 @@ const FocusList: React.FC<Props> = (props) => {
           </div>
         ))}
       </div>
-      <Dialog
+      <ExitCommunityDialog
         visible={dialogVisible}
-        content={
-          <div className={styles.dialog}>
-            <div className={styles.text}>
-              Confirm your withdrawal from this community?
-            </div>
-            <div className={styles.actions}>
-              <span
-                className={styles.cancel}
-                onClick={() => {
-                  setDialogVisible(false);
-                }}
-              >
-                cancel
-              </span>
-              <span className={styles.confirm} onClick={confirmHandle}>
-                confirm
-              </span>
-            </div>
-          </div>
-        }
+        closeDialog={() => {
+          setDialogVisible(false);
+        }}
+        confirmHandle={confirmHandle}
       />
     </div>
   );
