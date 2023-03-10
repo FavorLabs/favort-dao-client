@@ -137,6 +137,23 @@ export const getContent = (contents: Post[]) => {
   }, {} as Record<number, Post[]>);
 };
 
+export const getTime = (time: number) => {
+  const date = new Date(time * 1000);
+  const Y = date.getFullYear() + '-';
+  let M =
+    (date.getMonth() + 1 < 10
+      ? '0' + (date.getMonth() + 1)
+      : date.getMonth() + 1) + '-';
+  let D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + ' ';
+  const hh =
+    date.getHours() < 10 ? '0' + date.getHours() + ':' : date.getHours() + ':';
+  const mm =
+    date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
+  const ss =
+    date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
+  return `${Y}${M}${D} ${hh}${mm}`;
+};
+
 export const flexible = (window: Window, document: Document) => {
   let docEl = document.documentElement;
   let bodyEl = document.body;

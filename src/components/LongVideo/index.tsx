@@ -5,17 +5,19 @@ import moreImg from '@/assets/img/more-img.png';
 import CommentArea from '@/components/CommentArea';
 import { PostInfo } from '@/declare/tubeApiType';
 import { useResourceUrl } from '@/utils/hooks';
-import { getContent } from '@/utils/util';
+import { getContent, getTime } from '@/utils/util';
 
 export type Props = {
   post: PostInfo;
 };
 const LongVideo: React.FC<Props> = (props) => {
-  const { contents, view_count, upvote_count, dao } = props.post;
+  const { contents, view_count, upvote_count, dao, comment_count, created_on } =
+    props.post;
+  if (!dao) return <></>;
   const history = useHistory();
   const videosResUrl = useResourceUrl('images');
   const info = getContent(contents);
-  const time = '08:00';
+  const time = getTime(created_on);
   const videoTime = '16:05';
 
   const moreClick = () => {
@@ -60,7 +62,7 @@ const LongVideo: React.FC<Props> = (props) => {
 
       <CommentArea
         watchNum={view_count}
-        commentOnNum={456}
+        commentOnNum={comment_count}
         likeNum={upvote_count}
       />
     </div>
