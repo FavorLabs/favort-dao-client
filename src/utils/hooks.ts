@@ -19,7 +19,7 @@ export const useUrl = () => {
 };
 
 export const useResourceUrl = (type: BucketsPath) => {
-  let { api, config } = useSelector((state: Models) => state.global);
+  let { api, config, bucket } = useSelector((state: Models) => state.global);
   if (!config) return '';
   return (
     api +
@@ -27,7 +27,9 @@ export const useResourceUrl = (type: BucketsPath) => {
     config.proxyGroup +
     '/' +
     AutumnDomainName +
-    '/paopao19/' +
+    '/' +
+    bucket +
+    '/' +
     type
   );
 };
