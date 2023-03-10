@@ -19,6 +19,7 @@ import { appName, flexible } from '@/utils/util';
 import { setTheme, ThemeType } from '@/utils/setTheme';
 import { defaultTheme } from '@/config/themeConfig';
 import DaoApi from '@/services/tube/Dao';
+import Bucket from '@/services/tube/Bucket';
 // import VConsole from "vconsole";
 // new VConsole();
 
@@ -148,6 +149,17 @@ const Layout: React.FC = (props) => {
     }
   };
 
+  const getBucketInfo = async () => {
+    if (!config) return;
+    const { data } = await Bucket.getBucket(url);
+    dispatch({
+      type: 'global/updateState',
+      payload: {
+        bucket: data.data.Settings.Bucket,
+      },
+    });
+  };
+
   const getLoginStatus = async () => {
     const token = localStorage.getItem('token');
     const connectType = localStorage.getItem(ConnectType);
@@ -200,6 +212,7 @@ const Layout: React.FC = (props) => {
 
   useEffect(() => {
     connectNode();
+    getBucketInfo();
     // if (config) getContract()
   }, [config]);
 

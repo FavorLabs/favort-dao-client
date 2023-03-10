@@ -103,7 +103,12 @@ export const toChat = (
   const token = localStorage.getItem('token');
   if (isFavorApp()) {
     const hash = WebUtils.keccak256(`server_${name}_channel_General`);
-    Flutter.openChat(token as string, hash.slice(2), name as string);
+    Flutter.openChat(
+      token as string,
+      hash.slice(2),
+      name as string,
+      proxyGroup as string,
+    );
   } else {
     const hash = WebUtils.keccak256(`server_${name}`);
     window.open(

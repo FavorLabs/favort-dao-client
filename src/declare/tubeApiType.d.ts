@@ -81,3 +81,14 @@ export type UploadImage = 'avatars' | 'images';
 export type UploadVideo = 'videos';
 
 export type BucketsPath = UploadImage | UploadVideo;
+
+export type BucketRes = {
+  BuildInfo: {
+    Version: string;
+    Sum: string;
+    BuildDate: string;
+  };
+  Settings: {
+    Bucket: string;
+  };
+};

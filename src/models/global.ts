@@ -13,6 +13,7 @@ import * as Events from 'events';
 import FavorlabsApi from '@/services/FavorlabsApi';
 import { Config } from '@/config/config';
 import { Addresses } from '@/declare/nodeApiType';
+import { BucketRes } from '@/declare/tubeApiType';
 
 export interface State {
   api: string;
@@ -27,6 +28,7 @@ export interface State {
     nickname: string;
   } | null;
   config: Config | null;
+  bucket: string;
 }
 
 export default {
@@ -38,6 +40,7 @@ export default {
     status: false,
     user: null,
     config: null,
+    bucket: '',
   },
   reducers: {
     updateState(state, { payload }) {

@@ -47,7 +47,7 @@ export default {
   // uniPassContractTransaction(caAddress: string, abiString: string) {
   //   return flutterAsyncFn('transaction2', caAddress, abiString);
   // },
-  openChat(token: string, hash: string, name: string) {
-    return flutterAsyncFn('chat', token, hash, name);
+  openChat(token: string, hash: string, name: string, proxyGroup: string) {
+    return flutterAsyncFn('chat', token, hash, name, proxyGroup);
   },
 };

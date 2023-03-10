@@ -208,7 +208,6 @@ const Mine: React.FC<Props> = (props) => {
                       user: null,
                     },
                   });
-                  history.replace('/login');
                   location.reload();
                 }
               }}
