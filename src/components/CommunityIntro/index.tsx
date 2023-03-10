@@ -10,6 +10,7 @@ export type Props = {
 const CommunityIntro: React.FC<Props> = (props) => {
   const { dao } = props.post;
   const avatarsResUrl = useResourceUrl('avatars');
+  const imagesResUrl = useResourceUrl('images');
   const handleClick = () => {
     console.log('click button');
   };
@@ -20,7 +21,7 @@ const CommunityIntro: React.FC<Props> = (props) => {
         className={styles.head}
         style={{
           background: dao.banner
-            ? `url(${dao.banner})`
+            ? `url(${imagesResUrl}/${dao.banner})`
             : `rgba(240, 240, 240, 1)`,
           backgroundSize: `100%`,
           backgroundPosition: `center center`,

@@ -2,7 +2,7 @@ import * as React from 'react';
 import styles from './index.less';
 import LongVideo from '@/components/LongVideo';
 import { NavBar } from 'antd-mobile';
-import { useHistory, useParams, useSelector } from 'umi';
+import { useHistory, useSelector } from 'umi';
 import { useState } from 'react';
 import { Models } from '@/declare/modelType';
 import PostList from '@/components/PostList';
@@ -16,13 +16,10 @@ type Props = {
 };
 
 const VideoList: React.FC<Props> = (props) => {
-  const params: { daoId: string } = useParams();
   const history = useHistory();
   const { daoId } = props.match.params;
   const [vSrc, setVSrc] = useState('');
   const { api } = useSelector((state: Models) => state.global);
-  const videoUrl =
-    'https://img.js.design/assets/img/63feebab9d2376d02eccbaf7.jpg#7b6f740e4ff20b3a5645a0e598ea9bca';
   return (
     <div className={styles.content}>
       <NavBar
@@ -52,7 +49,7 @@ const VideoList: React.FC<Props> = (props) => {
           </video>
         </div>
 
-        <PostList type={1} daoId={params.daoId} />
+        <PostList type={1} daoId={daoId} />
       </div>
     </div>
   );

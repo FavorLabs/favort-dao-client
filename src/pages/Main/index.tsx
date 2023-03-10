@@ -26,9 +26,10 @@ import { Models } from '@/declare/modelType';
 import { useUrl, useResourceUrl } from '@/utils/hooks';
 import { Tabs, TabBarItemProps, Popup } from 'antd-mobile';
 import { SearchOutline } from 'antd-mobile-icons';
-import { switchTheme } from '@/utils/util';
+import { isFavorApp, switchTheme } from '@/utils/util';
 import DaoApi from '@/services/tube/Dao';
 import UserAvatar from '@/components/UserAvatar';
+import Flutter from '@/utils/flutter';
 
 export type Props = {};
 export type MenuItem = TabBarItemProps & {
@@ -113,7 +114,12 @@ const Main: React.FC<Props> = (props) => {
           content={
             topBarVisibility && (
               <div className={styles.header}>
-                <span className={styles.toHome}>
+                <span
+                  className={styles.toHome}
+                  onClick={() => {
+                    if (isFavorApp()) Flutter.closeWebview();
+                  }}
+                >
                   <SvgIcon svg={homeSvg} />
                 </span>
                 {latestNavVisibility && (
