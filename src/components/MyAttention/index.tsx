@@ -12,13 +12,16 @@ import addImg from '@/assets/img/add-img.png';
 export type Props = {
   user: DaoInfo | null;
   joinedList: DaoInfo[];
-  setDaoId: (daoId: string) => void;
   daoId: string | undefined;
 };
 
 const MyAttention: React.FC<Props> = (props) => {
-  const { user, joinedList = [], setDaoId, daoId } = props;
+  const { user, joinedList = [], daoId } = props;
   const avatarsResUrl = useResourceUrl('avatars');
+
+  const setDaoId = (daoId: string) => {
+    history.push(`/dao/${daoId}`);
+  };
 
   return (
     <div className={styles.page}>
