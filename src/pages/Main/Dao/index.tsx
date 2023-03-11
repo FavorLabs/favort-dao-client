@@ -11,6 +11,7 @@ import MyAttention from '@/components/MyAttention';
 import CommunityCard from '@/components/CommunityCard';
 import JumpIconButton from '@/components/JumpIconButton';
 import PostList from '@/components/PostList';
+import _ from 'lodash';
 
 export type Props = {};
 
@@ -32,7 +33,11 @@ const DaoList: React.FC<Props> = (props) => {
   const getBookmarkList = async () => {
     const { data } = await DaoApi.getBookmarkList(url);
     if (data.data.list.length) {
-      setBookmarkList(data.data.list);
+      const followList = _.filter(
+        data.data.list,
+        (v) => v.id !== (userInfo?.id as string),
+      );
+      setBookmarkList(followList);
     }
   };
 
@@ -44,7 +49,6 @@ const DaoList: React.FC<Props> = (props) => {
 
   const checkBookmark = async () => {
     if (!daoId) return;
-    if (userInfo?.id === daoId) return setIsBookmark(true);
     const { data } = await DaoApi.checkBookmark(url, daoId);
     setIsBookmark(data.data.status);
   };

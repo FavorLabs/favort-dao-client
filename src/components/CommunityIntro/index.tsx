@@ -1,7 +1,10 @@
 import * as React from 'react';
 import styles from './index.less';
 import { PostInfo } from '@/declare/tubeApiType';
-import { useResourceUrl } from '@/utils/hooks';
+import { useResourceUrl, useUrl } from '@/utils/hooks';
+import DaoApi from '@/services/tube/Dao';
+import { useState } from 'react';
+import { history } from '@@/core/history';
 
 export type Props = {
   post: PostInfo;
@@ -12,8 +15,9 @@ const CommunityIntro: React.FC<Props> = (props) => {
   if (!dao) return <></>;
   const avatarsResUrl = useResourceUrl('avatars');
   const imagesResUrl = useResourceUrl('images');
-  const handleClick = () => {
-    console.log('click button');
+
+  const handleClick = (daoId: string) => {
+    history.push(`/dao/${daoId}`);
   };
   const operate = 'view details';
   return (
@@ -42,7 +46,7 @@ const CommunityIntro: React.FC<Props> = (props) => {
           <p className={styles.text}>{dao.introduction}</p>
         </div>
 
-        <button className={styles.right} onClick={handleClick}>
+        <button className={styles.right} onClick={() => handleClick(dao.id)}>
           {operate}
         </button>
       </div>

@@ -1,5 +1,7 @@
 .page {
   .content {
+    position: relative;
+    display: flex;
     box-sizing: border-box;
     width: 100%;
     margin: 10px 0;
@@ -8,122 +10,127 @@
     background: var(--main-myAttention-content-background);
     box-shadow: 0px 2px 15px 5px rgba(0, 0, 0, 0.05);
 
-    .topNav {
+    .navLeft {
       display: flex;
-      flex-direction: row;
-      justify-content: space-between;
+      flex-direction: column;
+      align-items: center;
 
-      .navLeft {
-        display: flex;
-        align-items: center;
-
+      .top {
         .text {
-          margin-right: 20px;
           font-size: 16px;
           font-weight: 500;
           color: var(--main-myAttention-topNav-navLeft-text-color);
         }
-
-        .text:last-child {
-          margin-right: 0;
-        }
       }
 
-      .navRight {
+      .bottom {
         display: flex;
-        align-items: center;
-        cursor: pointer;
+        flex-direction: column;
 
-        .text {
-          margin-right: 2px;
-          font-size: 12px;
-          font-weight: 500;
-          color: var(--main-myAttention-topNav-navRight-text-color);
-        }
-
-        .icon {
-          width: 8px;
-          height: 12px;
-        }
-      }
-    }
-
-    .bottomNav {
-      display: flex;
-      align-items: center;
-      margin-top: 10px;
-
-      .myCreated {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-right: 17px;
-
-        .icon {
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          width: 38px;
-          height: 38px;
-          cursor: pointer;
-        }
-
-        .imgActive {
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          width: 40px;
-          height: 40px;
-          border: 2px solid rgba(255, 166, 0, 1) !important;
-          border-radius: 50%;
-        }
-
-        .text {
-          font-size: 12px;
-          font-weight: 500;
-          color: var(--main-myAttention-bottomNav-myCreated-text-color);
-        }
-      }
-
-      .verticalLine {
-        width: 0px;
-        height: 40px;
-        border: 1px solid var(--main-myAttention-bottomNav-verticalLine-border);
-      }
-
-      .myJoin {
-        display: flex;
-        margin-left: 11px;
-        overflow-x: auto;
-        white-space: nowrap;
-
-        .userArr {
+        .block {
           display: flex;
           flex-direction: column;
           align-items: center;
-          margin: 0 2px;
 
           .icon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
             width: 38px;
             height: 38px;
+            cursor: pointer;
           }
 
           .imgActive {
             display: flex;
             justify-content: center;
             align-items: center;
-            width: 40px;
-            height: 40px;
-            border: 2px solid rgba(255, 166, 0, 1) !important;
+            border: 2px solid rgba(255, 166, 0, 1);
+            border-radius: 50%;
+          }
+
+          .text {
+            align-self: flex-end;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--main-myAttention-bottomNav-myCreated-text-color);
+          }
+        }
+      }
+    }
+
+    .verticalLine {
+      align-self: flex-end;
+      position: relative;
+      bottom: 15px;
+      width: 0px;
+      height: 40px;
+      margin: 0 10px;
+      border: 1px solid var(--main-myAttention-bottomNav-verticalLine-border);
+    }
+
+    .navRight {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+
+      .top {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+
+        .leftText {
+          font-size: 16px;
+          font-weight: 500;
+          color: var(--main-myAttention-topNav-navLeft-text-color);
+        }
+
+        .right {
+          .text {
+            margin-right: 2px;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--main-myAttention-topNav-navRight-text-color);
+          }
+
+          .icon {
+            width: 8px;
+            height: 12px;
+          }
+        }
+      }
+
+      .bottom {
+        display: flex;
+
+        .block {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          overflow-x: auto;
+          white-space: nowrap;
+
+          .icon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 38px;
+            height: 38px;
+            cursor: pointer;
+          }
+
+          .imgActive {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid rgba(255, 166, 0, 1);
             border-radius: 50%;
           }
 
           .text {
             font-size: 12px;
             font-weight: 500;
-            color: var(--main-myAttention-bottomNav-myJoin-userArr-text-color);
+            color: var(--main-myAttention-bottomNav-myCreated-text-color);
           }
         }
       }
@@ -139,5 +146,137 @@
       background: rgba(240, 240, 240, 1);
       cursor: pointer;
     }
+
+    //.topNav {
+    //  display: flex;
+    //  flex-direction: row;
+    //  justify-content: space-between;
+    //
+    //  .navLeft {
+    //    display: flex;
+    //    align-items: center;
+    //
+    //    .text {
+    //      margin-right: 20px;
+    //      font-size: 16px;
+    //      font-weight: 500;
+    //      color: var(--main-myAttention-topNav-navLeft-text-color);
+    //    }
+    //
+    //    .text:last-child {
+    //      margin-right: 0;
+    //    }
+    //  }
+    //
+    //  .navRight {
+    //    display: flex;
+    //    align-items: center;
+    //    cursor: pointer;
+    //
+    //    .text {
+    //      margin-right: 2px;
+    //      font-size: 12px;
+    //      font-weight: 500;
+    //      color: var(--main-myAttention-topNav-navRight-text-color);
+    //    }
+    //
+    //    .icon {
+    //      width: 8px;
+    //      height: 12px;
+    //    }
+    //  }
+    //}
+    //
+    //.bottomNav {
+    //  display: flex;
+    //  align-items: center;
+    //  margin-top: 10px;
+    //
+    //  .myCreated {
+    //    display: flex;
+    //    justify-content: center;
+    //    align-items: center;
+    //    margin-right: 17px;
+    //
+    //    .icon {
+    //      display: flex;
+    //      flex-direction: column;
+    //      justify-content: center;
+    //      align-items: center;
+    //      width: 38px;
+    //      height: 38px;
+    //      cursor: pointer;
+    //    }
+    //
+    //    .imgActive {
+    //      display: flex;
+    //      flex-direction: column;
+    //      justify-content: center;
+    //      align-items: center;
+    //      width: 40px;
+    //      height: 40px;
+    //      border: 2px solid rgba(255, 166, 0, 1) !important;
+    //      border-radius: 50%;
+    //    }
+    //
+    //    .text {
+    //      font-size: 12px;
+    //      font-weight: 500;
+    //      color: var(--main-myAttention-bottomNav-myCreated-text-color);
+    //    }
+    //  }
+    //
+    //  .verticalLine {
+    //    width: 0px;
+    //    height: 40px;
+    //    border: 1px solid var(--main-myAttention-bottomNav-verticalLine-border);
+    //  }
+    //
+    //  .myJoin {
+    //    display: flex;
+    //    margin-left: 11px;
+    //    overflow-x: auto;
+    //    white-space: nowrap;
+    //
+    //    .userArr {
+    //      display: flex;
+    //      flex-direction: column;
+    //      align-items: center;
+    //      margin: 0 2px;
+    //
+    //      .icon {
+    //        width: 38px;
+    //        height: 38px;
+    //      }
+    //
+    //      .imgActive {
+    //        display: flex;
+    //        justify-content: center;
+    //        align-items: center;
+    //        width: 40px;
+    //        height: 40px;
+    //        border: 2px solid rgba(255, 166, 0, 1) !important;
+    //        border-radius: 50%;
+    //      }
+    //
+    //      .text {
+    //        font-size: 12px;
+    //        font-weight: 500;
+    //        color: var(--main-myAttention-bottomNav-myJoin-userArr-text-color);
+    //      }
+    //    }
+    //  }
+    //}
+    //
+    //.button {
+    //  display: flex;
+    //  justify-content: center;
+    //  align-items: center;
+    //  width: 50px;
+    //  height: 50px;
+    //  border-radius: 50%;
+    //  background: rgba(240, 240, 240, 1);
+    //  cursor: pointer;
+    //}
   }
 }
