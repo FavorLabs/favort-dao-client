@@ -105,6 +105,8 @@ const Main: React.FC<Props> = (props) => {
   useEffect(() => {
     setLatestNavVisibility(pathname.includes('/latest'));
     setTopBarVisibility(!pathname.includes('/mine'));
+    const pathKey = `/${pathname.split('/')[1]}`;
+    setActiveKey(pathKey);
   }, [pathname]);
 
   return (
@@ -164,7 +166,6 @@ const Main: React.FC<Props> = (props) => {
             if (key === '/addBtn') {
               if (userInfo) setPostPopupVisibility(true);
             } else {
-              setActiveKey(key);
               history.push(key);
             }
           }}

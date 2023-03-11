@@ -1,7 +1,7 @@
 .page {
   .content {
     width: 100%;
-    height: 120px;
+    height: 152px;
     border-radius: 10px;
     display: flex;
     align-items: flex-end;
@@ -13,15 +13,19 @@
       width: 100%;
       height: 56px;
       border-radius: 0 0 10px 10px;
-      background: var(--main-communityCard-bottom-background);
-      backdrop-filter: blur(17px);
+      background: rgba(255, 255, 255, 1);
+      box-shadow: 0px -5px 30px 1px rgba(128, 128, 128, 0.21);
 
       .textLeft {
+        width: 60%;
+        height: 20px;
         font-size: 14px;
         font-weight: 500;
-        letter-spacing: 0px;
-        line-height: 0px;
-        color: var(--main-communityCard-bottom-textLeft-color);
+        color: rgba(33, 33, 33, 1);
+        text-align: center;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
       }
 
       .joined {
@@ -34,7 +38,7 @@
         border: 1px solid var(--main-communityCard-bottom-textRight-border);
         font-size: 12px;
         font-weight: 500;
-        color: var(--main-communityCard-bottom-textRight-color);
+        color: rgba(33, 33, 33, 1);
         cursor: pointer;
       }
 
