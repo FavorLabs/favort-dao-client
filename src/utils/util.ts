@@ -1,12 +1,12 @@
 import Web3 from 'web3';
-import { CreatePost, DaoInfo, Post } from '@/declare/tubeApiType';
+import { Post } from '@/declare/tubeApiType';
 import WebUtils from 'web3-utils';
 import { ReviteURL } from '@/config/constants';
 import { setTheme, ThemeType } from '@/utils/setTheme';
 import { defaultTheme } from '@/config/themeConfig';
 import { debounce } from 'lodash';
-import { useState } from 'react';
 import Flutter from '@/utils/flutter';
+import moment from 'moment';
 
 export const splitUrl = (url: string): [string, string, string] => {
   let i = new URL(url);
@@ -143,20 +143,8 @@ export const getContent = (contents: Post[]) => {
 };
 
 export const getTime = (time: number) => {
-  const date = new Date(time * 1000);
-  const Y = date.getFullYear() + '-';
-  let M =
-    (date.getMonth() + 1 < 10
-      ? '0' + (date.getMonth() + 1)
-      : date.getMonth() + 1) + '-';
-  let D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + ' ';
-  const hh =
-    date.getHours() < 10 ? '0' + date.getHours() + ':' : date.getHours() + ':';
-  const mm =
-    date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
-  const ss =
-    date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
-  return `${Y}${M}${D} ${hh}${mm}`;
+  const t = time.toString().length === 10 ? time * 1000 : time;
+  return moment(t).fromNow();
 };
 
 export const flexible = (window: Window, document: Document) => {

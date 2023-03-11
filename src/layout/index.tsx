@@ -2,7 +2,7 @@
 import { Models } from '@/declare/modelType';
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
-import { useSelector, useDispatch, history } from 'umi';
+import { useSelector, useDispatch, history, getLocale } from 'umi';
 import { ConnectType, NodeConfig } from '@/config/constants';
 import { connect } from '@/utils/connect';
 import { WalletType } from '@/declare/global';
@@ -20,6 +20,8 @@ import { setTheme, ThemeType } from '@/utils/setTheme';
 import { defaultTheme } from '@/config/themeConfig';
 import DaoApi from '@/services/tube/Dao';
 import Bucket from '@/services/tube/Bucket';
+import moment from 'moment';
+const currentLang = getLocale();
 // import VConsole from "vconsole";
 // new VConsole();
 
@@ -33,6 +35,11 @@ const Layout: React.FC = (props) => {
   const { web3 } = useSelector((state: Models) => state.web3);
   const proxyResult = useRef<string | number | null>(null);
   const [configLoading, setConfigLoading] = useState(true);
+
+  const setMomentLang = () => {
+    const currentLang = getLocale();
+    moment.locale(currentLang);
+  };
 
   const getContract = async () => {
     if (!config) return;
@@ -236,6 +243,10 @@ const Layout: React.FC = (props) => {
       getUserCommunityInfo();
     }
   }, [user]);
+
+  useEffect(() => {
+    setMomentLang();
+  }, [currentLang]);
 
   return (
     <div className={styles.main}>

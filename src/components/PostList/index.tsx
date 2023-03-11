@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-// import styles from "./index.less";
+import styles from './index.less';
 import { Page, PostInfo } from '@/declare/tubeApiType';
 import GraphicMessage from '@/components/GraphicMessage';
 import LongVideo from '@/components/LongVideo';
@@ -48,7 +48,7 @@ const Index: React.FC<Props> = (props) => {
   return (
     <>
       {list.map((item) => (
-        <div key={item.id}>
+        <div key={item.id} className={styles.postItem}>
           {item.type === 0 ? (
             <GraphicMessage post={item} />
           ) : item.type === 1 ? (

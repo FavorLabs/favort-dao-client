@@ -146,12 +146,15 @@ const Main: React.FC<Props> = (props) => {
                 )}
                 <div className={styles.action}>
                   <SearchOutline className={styles.searchBtn} />
-                  <div className={styles.userAvatar}>
-                    <UserAvatar
-                      prefix={avatarsResUrl}
-                      name={user?.nickname as string}
-                      identifier={user?.avatar as string}
-                    />
+                  <div className={styles.avatar}>
+                    {user && (
+                      <UserAvatar
+                        prefix={avatarsResUrl}
+                        name={user.nickname}
+                        identifier={user.avatar}
+                        size={25}
+                      />
+                    )}
                   </div>
                 </div>
               </div>

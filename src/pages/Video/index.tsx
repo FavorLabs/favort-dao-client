@@ -5,7 +5,7 @@ import { Row, Col, message } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { useSelector, useHistory } from 'umi';
 import VideoCard from '@/components/VideoCard';
-import { usePath, useResourceUrl, useUrl } from '@/utils/hooks';
+import { useResourceUrl, useUrl } from '@/utils/hooks';
 import { Post, PostInfo } from '@/declare/tubeApiType';
 import { Models } from '@/declare/modelType';
 import PostApi from '@/services/tube/PostApi';
@@ -23,7 +23,6 @@ export type Props = {
   };
 };
 const Video: React.FC<Props> = (props) => {
-  const path = usePath();
   const url = useUrl();
   const avatarsResUrl = useResourceUrl('avatars');
   const history = useHistory();
@@ -39,6 +38,8 @@ const Video: React.FC<Props> = (props) => {
   const [joined, setJoined] = useState<boolean>(false);
   const [isSelf, setIsSelf] = useState<boolean>(true);
   const [focusDialog, setFocusDialog] = useState<boolean>(false);
+  const [like, setLike] = useState<boolean>(false);
+  const [likeCount, setLikeCount] = useState<number>(0);
 
   const { api } = useSelector((state: Models) => state.global);
   const { userInfo } = useSelector((state: Models) => state.dao);
@@ -114,6 +115,22 @@ const Video: React.FC<Props> = (props) => {
     }
   };
 
+  const getPostLikeStatus = async () => {
+    const { data } = await PostApi.checkPostLike(url, videoData?.id as string);
+    if (data.data) {
+      setLike(data.data.status);
+    }
+  };
+
+  const postLike = async () => {
+    const { data } = await PostApi.postLike(url, videoData?.id as string);
+    if (data.data) {
+      setLike(data.data.status);
+      if (data.data.status) setLikeCount(likeCount + 1);
+      else setLikeCount(likeCount - 1);
+    }
+  };
+
   useEffect(() => {
     if (vid && userInfo) {
       getVideoById(vid);
@@ -123,6 +140,8 @@ const Video: React.FC<Props> = (props) => {
   useEffect(() => {
     if (videoData) {
       getInfo();
+      getPostLikeStatus();
+      setLikeCount(videoData.upvote_count);
     }
   }, [videoData]);
 
@@ -153,7 +172,7 @@ const Video: React.FC<Props> = (props) => {
             className={styles.row}
             justify={{ md: 'center', xl: 'start' }}
           >
-            <Col xl={{ span: 18 }} className={styles.col}>
+            <Col xl={{ span: 24 }} className={styles.col}>
               <div className={styles.mainLeft}>
                 <figure style={{ margin: 0 }}>
                   {vSrc ? (
@@ -177,13 +196,18 @@ const Video: React.FC<Props> = (props) => {
                       </video>
                     </div>
                   ) : (
-                    <div className={styles.skeleton}></div>
+                    <div className={styles.videoSkeleton} />
                   )}
                   <figcaption className={styles.detail}>
-                    {videoData && (
+                    {videoData ? (
                       <>
                         <div className={styles.info}>
-                          <div className={styles.left}>
+                          <div
+                            className={styles.left}
+                            onClick={() => {
+                              history.push(`/dao/${videoData.dao.id}`);
+                            }}
+                          >
                             <UserAvatar
                               prefix={avatarsResUrl}
                               name={videoData.dao.name}
@@ -209,9 +233,13 @@ const Video: React.FC<Props> = (props) => {
                         <CommentArea
                           watchNum={videoData.view_count}
                           commentOnNum={videoData.comment_count}
-                          likeNum={videoData.upvote_count}
+                          likeNum={likeCount}
+                          likeStatus={like}
+                          likeHandle={postLike}
                         />
                       </>
+                    ) : (
+                      <div className={styles.detailSkeleton} />
                     )}
                   </figcaption>
                 </figure>
@@ -221,22 +249,20 @@ const Video: React.FC<Props> = (props) => {
             <Col
               md={{ span: 20 }}
               lg={{ span: 16 }}
-              xl={{ span: 6 }}
+              xl={{ span: 24 }}
               className={styles.col}
             >
               <aside className={styles.mainRight}>
                 {videoList.map((item, index) => {
                   return (
-                    item.type === 1 && (
-                      <div
-                        key={index}
-                        onClick={() => {
-                          path(`/video/${item.id}`);
-                        }}
-                      >
-                        <VideoCard post={item} />
-                      </div>
-                    )
+                    <div
+                      key={index}
+                      onClick={() => {
+                        history.push(`/video/${item.id}`);
+                      }}
+                    >
+                      <VideoCard post={item} />
+                    </div>
                   );
                 })}
               </aside>

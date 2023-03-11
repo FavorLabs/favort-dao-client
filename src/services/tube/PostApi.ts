@@ -54,4 +54,17 @@ export default {
       params,
     });
   },
+  checkPostLike(url: string, id: string): ResData<Status> {
+    return request({
+      url: url + '/post/star',
+      params: { id },
+    });
+  },
+  postLike(url: string, id: string): ResData<Status> {
+    return request({
+      method: 'post',
+      url: url + '/post/star',
+      data: { id },
+    });
+  },
 };

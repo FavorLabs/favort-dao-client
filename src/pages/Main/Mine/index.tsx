@@ -10,12 +10,13 @@ import {
   useIntl,
   useDispatch,
 } from 'umi';
-import { Avatar } from 'antd';
+import { Dialog } from 'antd-mobile';
 import { Models } from '@/declare/modelType';
 import avatar_1 from '@/assets/img/avatar_1.png';
 import { omitAddress } from '@/utils/util';
+import UserAvatar from '@/components/UserAvatar';
 import CopyText from '@/components/CopyText';
-import { useUrl } from '@/utils/hooks';
+import { useResourceUrl, useUrl } from '@/utils/hooks';
 import { sleep, switchTheme } from '@/utils/util';
 import { DaoInfo } from '@/declare/tubeApiType';
 import { Popover } from 'antd-mobile';
@@ -32,6 +33,7 @@ type SettingItem = {
 const Mine: React.FC<Props> = (props) => {
   const history = useHistory();
   const url = useUrl();
+  const avatarsResUrl = useResourceUrl('avatars');
   const intl = useIntl();
   const dispatch = useDispatch();
 
@@ -42,7 +44,9 @@ const Mine: React.FC<Props> = (props) => {
   const [themeType, setThemeType] = useState<ThemeType>(
     (theme as ThemeType) || (defaultTheme as ThemeType),
   );
+  const [logoutDialog, setLogoutDialog] = useState<boolean>(false);
 
+  const { user } = useSelector((state: Models) => state.global);
   const { address, web3 } = useSelector((state: Models) => state.web3);
 
   const localeLang = getLocale();
@@ -156,6 +160,25 @@ const Mine: React.FC<Props> = (props) => {
     if (b) setBalance(web3.utils.fromWei(b, 'ether'));
   };
 
+  const logout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem(ConnectType);
+    dispatch({
+      type: 'web3/updateState',
+      payload: {
+        web3: null,
+        address: '',
+      },
+    });
+    dispatch({
+      type: 'global/updateState',
+      payload: {
+        user: null,
+      },
+    });
+    location.reload();
+  };
+
   useEffect(() => {
     if (web3) {
       getBalance();
@@ -172,18 +195,20 @@ const Mine: React.FC<Props> = (props) => {
       >
         <div className={styles.walletInfo}>
           <div className={styles.walletDetails}>
-            <Avatar
-              size={50}
-              alt=""
-              src={avatar_1}
-              className={styles.avatar}
-              style={{ backgroundColor: '#F44336' }}
-            />
+            {user && (
+              <UserAvatar
+                className={styles.avatar}
+                prefix={avatarsResUrl}
+                identifier={user.avatar}
+                name={user.nickname}
+                size={50}
+              />
+            )}
             <div className={styles.addressBtn}>
               <span className={styles.address}>{omitAddress(address)}</span>
               <CopyText text={address} />
             </div>
-            <div className={styles.balance}>{Number(balance).toFixed(4)}</div>
+            {/*<div className={styles.balance}>{Number(balance).toFixed(4)}</div>*/}
           </div>
         </div>
         <div className={styles.setting}>
@@ -193,22 +218,7 @@ const Mine: React.FC<Props> = (props) => {
               key={item.name}
               onClick={() => {
                 if (item.key === 4) {
-                  localStorage.removeItem('token');
-                  localStorage.removeItem(ConnectType);
-                  dispatch({
-                    type: 'web3/updateState',
-                    payload: {
-                      web3: null,
-                      address: '',
-                    },
-                  });
-                  dispatch({
-                    type: 'global/updateState',
-                    payload: {
-                      user: null,
-                    },
-                  });
-                  location.reload();
+                  setLogoutDialog(true);
                 }
               }}
             >
@@ -217,6 +227,27 @@ const Mine: React.FC<Props> = (props) => {
             </div>
           ))}
         </div>
+        <Dialog
+          visible={logoutDialog}
+          content={
+            <div className={styles.dialog}>
+              <div className={styles.text}>Sure you want to log out?</div>
+              <div className={styles.actions}>
+                <span
+                  className={styles.cancel}
+                  onClick={() => {
+                    setLogoutDialog(false);
+                  }}
+                >
+                  cancel
+                </span>
+                <span className={styles.confirm} onClick={logout}>
+                  confirm
+                </span>
+              </div>
+            </div>
+          }
+        />
       </div>
     </>
   );

@@ -26,6 +26,7 @@
     }
   }
   .VideoMain {
+    width: 100%;
     overflow-y: scroll;
     .row {
       margin: 0 !important;
@@ -34,9 +35,9 @@
         padding: 0 !important;
       }
       .mainLeft {
-        .skeleton {
+        .videoSkeleton {
           width: 100%;
-          min-height: 500px;
+          min-height: 350px;
           background-color: @skeletonColor;
         }
         .detail {
@@ -82,6 +83,12 @@
             color: rgba(33, 33, 33, 1);
             margin-top: 10px;
           }
+        }
+        .detailSkeleton {
+          width: 100%;
+          min-height: 100px;
+          margin-top: 50px;
+          background-color: @skeletonColor;
         }
         .comments {
           padding: 20px;
