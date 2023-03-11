@@ -28,14 +28,10 @@ const CommunityCard: React.FC<Props> = (props) => {
         }}
       >
         <div className={styles.bottom}>
-          <p
-            className={styles.textLeft}
-          >{`communityProfile: ${daoInfo?.introduction}`}</p>
+          <p className={styles.textLeft}>{daoInfo?.introduction}</p>
           {daoInfo?.id !== userInfo?.id &&
             (status ? (
-              <div className={styles.joined} onClick={handle}>
-                joined
-              </div>
+              <div className={styles.joined}>joined</div>
             ) : (
               <div className={styles.join} onClick={handle}>
                 join

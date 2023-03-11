@@ -42,9 +42,6 @@ const JumpIconButton: React.FC<Props> = (props) => {
             className={styles.img}
           />
         </div>
-        <p className={styles.title}>
-          {type === 0 ? 'message' : type === 1 ? 'video' : 'chat'}
-        </p>
       </div>
     </>
   );

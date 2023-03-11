@@ -7,6 +7,8 @@ import PostApi from '@/services/tube/PostApi';
 import { useUrl } from '@/utils/hooks';
 import { DotLoading, InfiniteScroll, List } from 'antd-mobile';
 import CommunityIntro from '@/components/CommunityIntro';
+import { useSelector } from 'umi';
+import { Models } from '@/declare/modelType';
 
 export type Props = {
   type?: number;
@@ -16,6 +18,7 @@ export type Props = {
 const Index: React.FC<Props> = (props) => {
   const url = useUrl();
   const { type, daoId, focus = false } = props;
+  const { refreshPostList } = useSelector((state: Models) => state.manage);
   const [pageData, setPageData] = useState<Page>({
     page: 1,
     page_size: 10,
@@ -35,6 +38,12 @@ const Index: React.FC<Props> = (props) => {
     setPageData((pageData) => ({ ...pageData, page: ++pageData.page }));
     setHasMore(data.data.pager.total_rows > pageData.page * pageData.page_size);
   };
+
+  useEffect(() => {
+    if (!hasMore) {
+      loadMore();
+    }
+  }, [refreshPostList]);
 
   return (
     <>

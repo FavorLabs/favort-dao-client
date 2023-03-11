@@ -40,7 +40,7 @@ const GroupList: React.FC<Props> = (props) => {
           history.goBack();
         }}
       >
-        Group Chat
+        Group Chats
       </NavBar>
       {focusList.map((item) => (
         <div

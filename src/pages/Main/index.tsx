@@ -47,7 +47,7 @@ const Main: React.FC<Props> = (props) => {
   const menuItems: MenuItem[] = [
     {
       key: '/latest',
-      title: 'Latest',
+      title: 'News',
       icon: (
         <div className={`${styles.latest} latest`}>
           <SvgIcon svg={latestSvg} />
@@ -78,7 +78,7 @@ const Main: React.FC<Props> = (props) => {
     },
     {
       key: '/groupList',
-      title: 'Chat',
+      title: 'Chats',
       icon: (
         <div className={`${styles.chat} chat`}>
           <SvgIcon svg={chatSvg} />
@@ -87,7 +87,7 @@ const Main: React.FC<Props> = (props) => {
     },
     {
       key: '/mine',
-      title: 'Mine',
+      title: 'My',
       icon: (
         <div className={`${styles.mine} mine`}>
           <SvgIcon svg={mineSvg} />
@@ -105,6 +105,8 @@ const Main: React.FC<Props> = (props) => {
   useEffect(() => {
     setLatestNavVisibility(pathname.includes('/latest'));
     setTopBarVisibility(!pathname.includes('/mine'));
+    const pathKey = `/${pathname.split('/')[1]}`;
+    setActiveKey(pathKey);
   }, [pathname]);
 
   return (
@@ -130,7 +132,7 @@ const Main: React.FC<Props> = (props) => {
                       activeClassName="navSelected"
                     >
                       {intl.formatMessage({
-                        id: 'main.latest.header.nav.follow',
+                        id: 'main.latest.header.nav.join',
                       })}
                     </NavLink>
                     <NavLink
@@ -138,7 +140,7 @@ const Main: React.FC<Props> = (props) => {
                       to="/latest/recommend"
                       activeClassName="navSelected"
                     >
-                      recommend
+                      Recommend
                     </NavLink>
                   </div>
                 )}
@@ -167,7 +169,6 @@ const Main: React.FC<Props> = (props) => {
             if (key === '/addBtn') {
               if (userInfo) setPostPopupVisibility(true);
             } else {
-              setActiveKey(key);
               history.push(key);
             }
           }}
@@ -192,7 +193,7 @@ const Main: React.FC<Props> = (props) => {
               history.push('/postNewsletter');
             }}
           >
-            Post newsletter
+            News
           </div>
           <div
             className={styles.postItem}
@@ -201,7 +202,7 @@ const Main: React.FC<Props> = (props) => {
               history.push('/postVideo');
             }}
           >
-            Post video
+            Video
           </div>
         </Popup>
       </div>

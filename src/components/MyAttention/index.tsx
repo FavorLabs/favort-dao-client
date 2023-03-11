@@ -1,8 +1,6 @@
 import * as React from 'react';
 import styles from './index.less';
-import { Avatar, Image } from 'antd';
 import arrowRight from '@/assets/img/arrow_right.png';
-import { useState } from 'react';
 import { DaoInfo } from '@/declare/tubeApiType';
 import { useResourceUrl } from '@/utils/hooks';
 import UserAvatar from '@/components/UserAvatar';
@@ -18,11 +16,6 @@ export type Props = {
 const MyAttention: React.FC<Props> = (props) => {
   const { user, joinedList = [], daoId } = props;
   const avatarsResUrl = useResourceUrl('avatars');
-  const [focus, setFocus] = useState(0);
-  const idList = joinedList.map((item) => {
-    return item.id;
-  });
-  const indexlist = Array.from(new Set([user?.id, ...idList]));
 
   const setDaoId = (daoId: string) => {
     history.push(`/dao/${daoId}`);
@@ -33,50 +26,35 @@ const MyAttention: React.FC<Props> = (props) => {
   };
 
   const onFocusCommunity = (id: string) => {
-    setDaoId(id);
-    indexlist.map((item, index) => {
-      if (daoId === item) {
-        setFocus(index);
-      }
-    });
+    if (daoId !== id) {
+      setDaoId(id);
+    }
   };
 
   return (
     <div className={styles.page}>
       <div className={styles.content}>
-        <div className={styles.topNav}>
-          <div className={styles.navLeft}>
+        <div className={styles.navLeft}>
+          <div className={styles.top}>
             {user ? (
-              <span className={styles.text}>My DAO</span>
+              <span className={styles.text}>My</span>
             ) : (
-              <span className={styles.text}>Create DAO</span>
-            )}
-            <span className={styles.text}>My Joined</span>
-          </div>
-          <div className={styles.navRight}>
-            {joinedList.length ? (
-              <div>
-                <span className={styles.text} onClick={moreHandle}>
-                  more
-                </span>
-                <img src={arrowRight} className={styles.icon} />
-              </div>
-            ) : (
-              <></>
+              <span className={styles.text}>Create</span>
             )}
           </div>
-        </div>
-
-        <div className={styles.bottomNav}>
-          <div className={styles.myCreated}>
+          <div className={styles.bottom}>
             {user ? (
-              <div className={styles.icon}>
-                <UserAvatar
-                  prefix={avatarsResUrl}
-                  name={user.name}
-                  identifier={user.avatar}
-                  onClick={() => onFocusCommunity(user.id)}
-                ></UserAvatar>
+              <div className={styles.block}>
+                <div
+                  className={user.id === daoId ? styles.imgActive : styles.icon}
+                >
+                  <UserAvatar
+                    prefix={avatarsResUrl}
+                    name={user.name}
+                    identifier={user.avatar}
+                    onClick={() => onFocusCommunity(user.id)}
+                  ></UserAvatar>
+                </div>
                 <span className={styles.text}>{user.name}</span>
               </div>
             ) : (
@@ -92,15 +70,33 @@ const MyAttention: React.FC<Props> = (props) => {
               </>
             )}
           </div>
-          <div className={styles.verticalLine}></div>
-          <div className={styles.myJoin}>
+        </div>
+
+        <div className={styles.verticalLine}></div>
+
+        <div className={styles.navRight}>
+          <div className={styles.top}>
+            <span className={styles.leftText}>Joined</span>
+            {joinedList.length ? (
+              <div className={styles.right}>
+                <span className={styles.text} onClick={moreHandle}>
+                  more
+                </span>
+                <img src={arrowRight} className={styles.icon} />
+              </div>
+            ) : (
+              <></>
+            )}
+          </div>
+
+          <div className={styles.bottom}>
             {joinedList.length ? (
               joinedList.map((item, index) => {
                 return (
-                  <div key={index} className={`${styles.userArr}`}>
+                  <div key={index} className={styles.block}>
                     <div
                       className={
-                        index === focus ? styles.imgActive : styles.icon
+                        item.id === daoId ? styles.imgActive : styles.icon
                       }
                     >
                       <UserAvatar
@@ -116,11 +112,7 @@ const MyAttention: React.FC<Props> = (props) => {
                 );
               })
             ) : (
-              <>
-                <div className={styles.button}>
-                  <img src={addImg} className={styles.addImg} alt="" />
-                </div>
-              </>
+              <></>
             )}
           </div>
         </div>

@@ -5,6 +5,7 @@ import { DaoInfo } from '@/declare/tubeApiType';
 import UserAvatar from '@/components/UserAvatar';
 import { useResourceUrl } from '@/utils/hooks';
 import { getTime } from '@/utils/util';
+import { history } from '@@/core/history';
 
 export type Props = {
   daoInfo: DaoInfo;
@@ -12,13 +13,17 @@ export type Props = {
 };
 
 const CommunityInfo: React.FC<Props> = (props) => {
-  const { avatar = '', name = '' } = props.daoInfo || {};
+  const { avatar = '', name = '', id } = props.daoInfo || {};
   const avatarsResUrl = useResourceUrl('avatars');
   const createTime = getTime(props.createTime);
 
+  const handleClick = (daoId: string) => {
+    history.push(`/dao/${daoId}`);
+  };
+
   return (
     <>
-      <div className={styles.userInfo}>
+      <div className={styles.userInfo} onClick={() => handleClick(id)}>
         <UserAvatar
           className={styles.userImg}
           prefix={avatarsResUrl}
