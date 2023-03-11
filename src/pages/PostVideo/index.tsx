@@ -364,7 +364,7 @@ const PostVideo: React.FC<Props> = (props) => {
       ),
     },
     {
-      name: 'Video Cover',
+      name: 'Thumbnail',
       content: (
         <div className={styles.coverUpload}>
           <ImageCrop
@@ -379,7 +379,7 @@ const PostVideo: React.FC<Props> = (props) => {
       ),
     },
     {
-      name: 'Video Content',
+      name: 'Video',
       content: (
         <div className={`${styles.videoUpload} videoUpload`}>
           <Upload {...uploadVideoProps} className={styles.uploadContainer}>
@@ -418,7 +418,7 @@ const PostVideo: React.FC<Props> = (props) => {
         onClick={postHandle}
       >
         {postLoading && <span className={styles.loading} />}
-        &nbsp;Post
+        &nbsp;Publish
       </div>
       {uploading && (
         <div className={styles.uploadVideoOverlay}>

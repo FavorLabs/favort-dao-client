@@ -23,7 +23,7 @@ const NewsletterList: React.FC<Props> = (props) => {
           history.goBack();
         }}
       >
-        Newsletter
+        News
       </NavBar>
 
       <div className={styles.list}>

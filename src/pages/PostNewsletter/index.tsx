@@ -86,7 +86,7 @@ const PostNewsletter: React.FC<Props> = (props) => {
     //   ),
     // },
     {
-      name: 'Main text',
+      name: 'Text',
       content: (
         <TextArea
           placeholder="Please enter main text"
@@ -124,7 +124,7 @@ const PostNewsletter: React.FC<Props> = (props) => {
           history.goBack();
         }}
       >
-        Post Newsletter
+        News
       </NavBar>
       <div className={styles.postOptions}>
         {optionsItems.map((item) => (
@@ -139,7 +139,7 @@ const PostNewsletter: React.FC<Props> = (props) => {
         onClick={postHandle}
       >
         {postLoading && <span className={styles.loading} />}
-        &nbsp;Post
+        &nbsp;Publish
       </div>
     </div>
   );

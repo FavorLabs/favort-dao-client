@@ -1,6 +1,6 @@
 export default {
   // main latest
-  'main.latest.header.nav.follow': 'follow',
+  'main.latest.header.nav.join': 'Joined',
   // main mine
   'main.mine.setting.language': 'Language',
   'main.mine.setting.language-value': 'English',

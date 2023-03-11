@@ -51,7 +51,7 @@ const FocusList: React.FC<Props> = (props) => {
           history.goBack();
         }}
       >
-        My Focus
+        Joined
       </NavBar>
       <div className={styles.focusItemList}>
         {focusList.map((item) => (
