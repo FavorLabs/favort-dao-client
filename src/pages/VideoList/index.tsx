@@ -28,25 +28,25 @@ const VideoList: React.FC<Props> = (props) => {
           history.goBack();
         }}
       >
-        Video
+        Videos
       </NavBar>
 
       <div className={styles.list}>
         <div>
-          <video
-            controls
-            autoPlay={false}
-            playsInline
-            key={vSrc}
-            style={{
-              width: '100%',
-              height: '100%',
-              maxHeight: '500px',
-              borderRadius: '4px',
-            }}
-          >
-            <source src={api + '/file/' + vSrc} type={'video/mp4'} />
-          </video>
+          {/*<video*/}
+          {/*  controls*/}
+          {/*  autoPlay={false}*/}
+          {/*  playsInline*/}
+          {/*  key={vSrc}*/}
+          {/*  style={{*/}
+          {/*    width: '100%',*/}
+          {/*    height: '100%',*/}
+          {/*    maxHeight: '500px',*/}
+          {/*    borderRadius: '4px',*/}
+          {/*  }}*/}
+          {/*>*/}
+          {/*  <source src={api + '/file/' + vSrc} type={'video/mp4'} />*/}
+          {/*</video>*/}
         </div>
 
         <PostList type={1} daoId={daoId} />
