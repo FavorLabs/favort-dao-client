@@ -22,7 +22,7 @@ import DaoApi from '@/services/tube/Dao';
 import Bucket from '@/services/tube/Bucket';
 import moment from 'moment';
 const currentLang = getLocale();
-// import VConsole from "vconsole";
+// import VConsole from 'vconsole';
 // new VConsole();
 
 const Layout: React.FC = (props) => {

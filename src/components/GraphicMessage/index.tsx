@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import styles from './index.less';
 import { Image } from 'antd';
 import CommunityInfo from '@/components/CommunityInfo';
@@ -6,9 +7,8 @@ import CommentArea from '@/components/CommentArea';
 import { PostInfo } from '@/declare/tubeApiType';
 import { getContent } from '@/utils/util';
 import { useResourceUrl, useUrl } from '@/utils/hooks';
-import { useEffect, useState } from 'react';
+import moreImg from '@/assets/img/more-img.png';
 import PopupContent from '@/components/PopupContent';
-import PostApi from '@/services/tube/PostApi';
 
 export type Props = {
   post: PostInfo;
@@ -26,30 +26,12 @@ const GraphicMessage: React.FC<Props> = (props) => {
   } = props.post;
   if (!dao) return <></>;
   const url = useUrl();
-  const [like, setLike] = useState<boolean>(false);
-  const [likeCount, setLikeCount] = useState<number>(upvote_count);
+  const [visible, setVisible] = useState(false);
+  const moreClick = () => {
+    setVisible(!visible);
+  };
   const imagesResUrl = useResourceUrl('images');
   const info = getContent(contents);
-
-  const getPostLikeStatus = async () => {
-    const { data } = await PostApi.checkPostLike(url, id);
-    if (data.data) {
-      setLike(data.data.status);
-    }
-  };
-
-  const postLike = async () => {
-    const { data } = await PostApi.postLike(url, id);
-    if (data.data) {
-      setLike(data.data.status);
-      if (data.data.status) setLikeCount(likeCount + 1);
-      else setLikeCount(likeCount - 1);
-    }
-  };
-
-  useEffect(() => {
-    if (id) getPostLikeStatus();
-  }, [id]);
 
   return (
     <div className={styles.container}>
@@ -74,9 +56,8 @@ const GraphicMessage: React.FC<Props> = (props) => {
         <CommentArea
           watchNum={view_count}
           commentOnNum={comment_count}
-          likeNum={likeCount}
-          likeStatus={like}
-          likeHandle={postLike}
+          likeNum={upvote_count}
+          postId={id}
         />
       </div>
     </div>
