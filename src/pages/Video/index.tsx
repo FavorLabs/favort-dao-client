@@ -225,27 +225,27 @@ const Video: React.FC<Props> = (props) => {
                 <div className={styles.comments}>Comments</div>
               </div>
             </Col>
-            <Col
-              md={{ span: 20 }}
-              lg={{ span: 16 }}
-              xl={{ span: 24 }}
-              className={styles.col}
-            >
-              <aside className={styles.mainRight}>
-                {videoList.map((item, index) => {
-                  return (
-                    <div
-                      key={index}
-                      onClick={() => {
-                        history.push(`/video/${item.id}`);
-                      }}
-                    >
-                      <VideoCard post={item} />
-                    </div>
-                  );
-                })}
-              </aside>
-            </Col>
+            {/*<Col*/}
+            {/*  md={{ span: 20 }}*/}
+            {/*  lg={{ span: 16 }}*/}
+            {/*  xl={{ span: 24 }}*/}
+            {/*  className={styles.col}*/}
+            {/*>*/}
+            {/*  <aside className={styles.mainRight}>*/}
+            {/*    {videoList.map((item, index) => {*/}
+            {/*      return (*/}
+            {/*        <div*/}
+            {/*          key={index}*/}
+            {/*          onClick={() => {*/}
+            {/*            history.push(`/video/${item.id}`);*/}
+            {/*          }}*/}
+            {/*        >*/}
+            {/*          <VideoCard post={item} />*/}
+            {/*        </div>*/}
+            {/*      );*/}
+            {/*    })}*/}
+            {/*  </aside>*/}
+            {/*</Col>*/}
           </Row>
         </main>
         <ExitCommunityDialog

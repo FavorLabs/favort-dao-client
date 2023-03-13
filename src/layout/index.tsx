@@ -15,15 +15,15 @@ import styles from './index.less';
 import UserApi from '@/services/tube/UserApi';
 import { useUrl } from '@/utils/hooks';
 import FavorlabsApi from '@/services/FavorlabsApi';
-import { appName, flexible } from '@/utils/util';
+import { appName, checkLogin, flexible } from '@/utils/util';
 import { setTheme, ThemeType } from '@/utils/setTheme';
 import { defaultTheme } from '@/config/themeConfig';
 import DaoApi from '@/services/tube/Dao';
 import Bucket from '@/services/tube/Bucket';
 import moment from 'moment';
 const currentLang = getLocale();
-// import VConsole from 'vconsole';
-// new VConsole();
+import VConsole from 'vconsole';
+new VConsole();
 
 const Layout: React.FC = (props) => {
   const dispatch = useDispatch();
@@ -159,18 +159,19 @@ const Layout: React.FC = (props) => {
   const getBucketInfo = async () => {
     if (!config) return;
     const { data } = await Bucket.getBucket(url);
-    dispatch({
-      type: 'global/updateState',
-      payload: {
-        bucket: data.data.Settings.Bucket,
-      },
-    });
+    if (data.data) {
+      dispatch({
+        type: 'global/updateState',
+        payload: {
+          bucket: data.data.Settings.Bucket,
+        },
+      });
+    }
   };
 
   const getLoginStatus = async () => {
-    const token = localStorage.getItem('token');
     const connectType = localStorage.getItem(ConnectType);
-    if (!token || !connectType) return history.push('/login');
+    if (!checkLogin()) return history.push('/');
     try {
       const info = await UserApi.getInfo(url);
       const { address, web3 } = await connect(

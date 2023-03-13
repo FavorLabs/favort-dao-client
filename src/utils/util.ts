@@ -1,7 +1,7 @@
 import Web3 from 'web3';
 import { Post } from '@/declare/tubeApiType';
 import WebUtils from 'web3-utils';
-import { ReviteURL } from '@/config/constants';
+import { ConnectType, ReviteURL } from '@/config/constants';
 import { setTheme, ThemeType } from '@/utils/setTheme';
 import { defaultTheme } from '@/config/themeConfig';
 import { debounce } from 'lodash';
@@ -129,6 +129,12 @@ export const toChat = (
       )}?token=${token}&api=${api}&proxyGroup=${proxyGroup}`,
     );
   }
+};
+
+export const checkLogin = () => {
+  const token = localStorage.getItem('token');
+  const connectType = localStorage.getItem(ConnectType);
+  return !!(token || connectType);
 };
 
 export const switchTheme = () => {

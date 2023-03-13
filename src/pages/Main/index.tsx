@@ -128,19 +128,19 @@ const Main: React.FC<Props> = (props) => {
                   <div className={styles.latestNav}>
                     <NavLink
                       className={styles.navItem}
+                      to="/latest/recommend"
+                      activeClassName="navSelected"
+                    >
+                      Recommend
+                    </NavLink>
+                    <NavLink
+                      className={styles.navItem}
                       to="/latest/follow"
                       activeClassName="navSelected"
                     >
                       {intl.formatMessage({
                         id: 'main.latest.header.nav.join',
                       })}
-                    </NavLink>
-                    <NavLink
-                      className={styles.navItem}
-                      to="/latest/recommend"
-                      activeClassName="navSelected"
-                    >
-                      Recommend
                     </NavLink>
                   </div>
                 )}

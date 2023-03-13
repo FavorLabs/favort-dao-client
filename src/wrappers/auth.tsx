@@ -1,11 +1,11 @@
 import React from 'react';
-import { useVerifyChannel } from '@/utils/hooks';
+import { checkLogin } from '@/utils/util';
+import LogoutDialog from '@/components/LogoutDialog';
 
 export default (props: React.PropsWithChildren<any>) => {
-  const verifyChannel = useVerifyChannel();
-  if (verifyChannel) {
+  if (checkLogin()) {
     return <div>{props.children}</div>;
   } else {
-    return <>{props.history.goBack(-1)}</>;
+    return <LogoutDialog visible={true} />;
   }
 };

@@ -22,6 +22,8 @@ import Web3 from 'web3';
 import { isFavorApp, isMobile } from '@/utils/util';
 import { Models } from '@/declare/modelType';
 import { Config } from '@/config/config';
+import SvgIcon from '@/components/SvgIcon';
+import homeSvg from '@/assets/icon/home.svg';
 
 const ConnectWallet: React.FC = (props) => {
   const dispatch = useDispatch();
@@ -139,6 +141,14 @@ const ConnectWallet: React.FC = (props) => {
 
   return (
     <div className={styles.box}>
+      <span
+        className={styles.toHome}
+        onClick={() => {
+          history.push('/');
+        }}
+      >
+        <SvgIcon svg={homeSvg} />
+      </span>
       <h1 className={styles.title}>Connect Wallet</h1>
       {walletList.map((item) => (
         <div key={item.name}>

@@ -47,6 +47,7 @@ const Mine: React.FC<Props> = (props) => {
   const [logoutDialog, setLogoutDialog] = useState<boolean>(false);
 
   const { user } = useSelector((state: Models) => state.global);
+  const { userInfo } = useSelector((state: Models) => state.dao);
   const { address, web3 } = useSelector((state: Models) => state.web3);
 
   const localeLang = getLocale();
@@ -176,7 +177,12 @@ const Mine: React.FC<Props> = (props) => {
         user: null,
       },
     });
-    location.reload();
+    dispatch({
+      type: 'dao/updateState',
+      payload: {
+        userInfo: null,
+      },
+    });
   };
 
   useEffect(() => {
@@ -184,6 +190,12 @@ const Mine: React.FC<Props> = (props) => {
       getBalance();
     }
   }, [web3]);
+
+  useEffect(() => {
+    if (!web3 && !address && !user && !userInfo) {
+      history.push('/');
+    }
+  }, [web3, address, user, userInfo]);
 
   return (
     <>
