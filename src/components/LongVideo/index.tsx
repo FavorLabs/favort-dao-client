@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useHistory } from 'umi';
 import moreImg from '@/assets/img/more-img.png';
 import CommentArea from '@/components/CommentArea';
+import PopupContent from '@/components/PopupContent';
 import { PostInfo } from '@/declare/tubeApiType';
 import { useResourceUrl, useUrl } from '@/utils/hooks';
 import { getContent, getTime } from '@/utils/util';
