@@ -4,17 +4,45 @@ import lookOver from '@/assets/img/look_over.png';
 import commentOn from '@/assets/img/comment_on.png';
 import support from '@/assets/img/support.png';
 import supportOn from '@/assets/img/support_on.png';
+import { useEffect, useState } from 'react';
+import PostApi from '@/services/tube/PostApi';
+import { useUrl } from '@/utils/hooks';
+import { debounce } from 'lodash';
 
 export type Props = {
-  watchNum?: number;
-  commentOnNum?: number;
-  likeNum?: number;
-  likeStatus?: boolean;
-  likeHandle?: () => void;
+  watchNum: number;
+  commentOnNum: number;
+  likeNum: number;
+  postId: string;
 };
 
 const CommentArea: React.FC<Props> = (props) => {
-  const { watchNum, commentOnNum, likeNum, likeStatus, likeHandle } = props;
+  const { watchNum, commentOnNum, likeNum, postId } = props;
+  const url = useUrl();
+
+  const [like, setLike] = useState<boolean>(false);
+  const [likeCount, setLikeCount] = useState<number>(likeNum);
+
+  const getPostLikeStatus = async () => {
+    const { data } = await PostApi.checkPostLike(url, postId);
+    if (data.data) {
+      setLike(data.data.status);
+    }
+  };
+
+  const postLike = async () => {
+    const { data } = await PostApi.postLike(url, postId);
+    if (data.data) {
+      setLike(data.data.status);
+      if (data.data.status) setLikeCount(likeCount + 1);
+      else setLikeCount(likeCount - 1);
+    }
+  };
+
+  useEffect(() => {
+    if (postId) getPostLikeStatus();
+  }, [postId]);
+
   return (
     <>
       <div className={styles.operate}>
@@ -29,15 +57,15 @@ const CommentArea: React.FC<Props> = (props) => {
         <div
           className={styles.operateDiv}
           onClick={() => {
-            likeHandle?.();
+            postLike();
           }}
         >
-          {likeStatus ? (
-            <img src={supportOn} className={styles.operateIcon} alt={'like'} />
+          {like ? (
+            <img src={supportOn} className={styles.operateIcon} alt={'liked'} />
           ) : (
-            <img src={support} className={styles.operateIcon} alt={'liked'} />
+            <img src={support} className={styles.operateIcon} alt={'like'} />
           )}
-          <span className={styles.operateText}>{likeNum}</span>
+          <span className={styles.operateText}>{likeCount}</span>
         </div>
       </div>
     </>
