@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import PostApi from '@/services/tube/PostApi';
 import { useUrl } from '@/utils/hooks';
 import { debounce } from 'lodash';
+import { checkLogin } from '@/utils/util';
 
 export type Props = {
   watchNum: number;
@@ -40,7 +41,7 @@ const CommentArea: React.FC<Props> = (props) => {
   };
 
   useEffect(() => {
-    if (postId) getPostLikeStatus();
+    if (postId && checkLogin()) getPostLikeStatus();
   }, [postId]);
 
   return (
