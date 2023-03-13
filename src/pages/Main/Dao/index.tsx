@@ -45,6 +45,7 @@ const DaoList: React.FC<Props> = (props) => {
     if (!daoId) return;
     const { data } = await DaoApi.bookmark(url, daoId);
     setIsBookmark(data.data.status);
+    await getBookmarkList();
   };
 
   const checkBookmark = async () => {

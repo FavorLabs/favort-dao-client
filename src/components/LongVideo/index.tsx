@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useHistory } from 'umi';
 import moreImg from '@/assets/img/more-img.png';
 import CommentArea from '@/components/CommentArea';
+import PopupContent from '@/components/PopupContent';
 import { PostInfo } from '@/declare/tubeApiType';
 import { useResourceUrl, useUrl } from '@/utils/hooks';
 import { getContent, getTime } from '@/utils/util';
@@ -53,12 +54,7 @@ const LongVideo: React.FC<Props> = (props) => {
           <div className={styles.top}>
             <div className={styles.nav}>
               <p className={styles.title}>{info?.[1]?.[0]?.content}</p>
-              <img
-                className={styles.moreImg}
-                src={moreImg}
-                alt=""
-                onClick={moreClick}
-              />
+              <PopupContent post={props.post} />
             </div>
             <p className={styles.content}>{info?.[2]?.[0]?.content}</p>
           </div>

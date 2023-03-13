@@ -2,7 +2,6 @@ import * as React from 'react';
 import { useState } from 'react';
 import styles from './index.less';
 import { Image } from 'antd';
-import { Popup, Space } from 'antd-mobile';
 import CommunityInfo from '@/components/CommunityInfo';
 import CommentArea from '@/components/CommentArea';
 import { PostInfo } from '@/declare/tubeApiType';
@@ -39,13 +38,7 @@ const GraphicMessage: React.FC<Props> = (props) => {
       <div className={styles.inContent}>
         <div className={styles.top}>
           <CommunityInfo daoInfo={dao} createTime={created_on} />
-
-          <img
-            className={styles.moreImg}
-            src={moreImg}
-            alt=""
-            onClick={moreClick}
-          />
+          <PopupContent post={props.post} />
         </div>
 
         <div className={styles.textInfo}>{info[2]?.[0]?.content}</div>
@@ -67,15 +60,6 @@ const GraphicMessage: React.FC<Props> = (props) => {
           postId={id}
         />
       </div>
-      <Popup
-        visible={visible}
-        onMaskClick={() => {
-          setVisible(false);
-        }}
-        bodyStyle={{ height: '30vh', borderRadius: '5px 5px 0 0' }}
-      >
-        <PopupContent handle={moreClick} post={props.post} />
-      </Popup>
     </div>
   );
 };
