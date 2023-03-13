@@ -1,13 +1,11 @@
 import * as React from 'react';
 import styles from './index.less';
 import { Image } from 'antd';
-import { Popup, Space } from 'antd-mobile';
 import CommunityInfo from '@/components/CommunityInfo';
 import CommentArea from '@/components/CommentArea';
 import { PostInfo } from '@/declare/tubeApiType';
 import { getContent } from '@/utils/util';
 import { useResourceUrl, useUrl } from '@/utils/hooks';
-import moreImg from '@/assets/img/more-img.png';
 import { useEffect, useState } from 'react';
 import PopupContent from '@/components/PopupContent';
 import PostApi from '@/services/tube/PostApi';
@@ -28,12 +26,8 @@ const GraphicMessage: React.FC<Props> = (props) => {
   } = props.post;
   if (!dao) return <></>;
   const url = useUrl();
-  const [visible, setVisible] = useState(false);
   const [like, setLike] = useState<boolean>(false);
   const [likeCount, setLikeCount] = useState<number>(upvote_count);
-  const moreClick = () => {
-    setVisible(!visible);
-  };
   const imagesResUrl = useResourceUrl('images');
   const info = getContent(contents);
 
@@ -62,13 +56,7 @@ const GraphicMessage: React.FC<Props> = (props) => {
       <div className={styles.inContent}>
         <div className={styles.top}>
           <CommunityInfo daoInfo={dao} createTime={created_on} />
-
-          <img
-            className={styles.moreImg}
-            src={moreImg}
-            alt=""
-            onClick={moreClick}
-          />
+          <PopupContent post={props.post} />
         </div>
 
         <div className={styles.textInfo}>{info[2]?.[0]?.content}</div>
@@ -91,15 +79,6 @@ const GraphicMessage: React.FC<Props> = (props) => {
           likeHandle={postLike}
         />
       </div>
-      <Popup
-        visible={visible}
-        onMaskClick={() => {
-          setVisible(false);
-        }}
-        bodyStyle={{ height: '30vh', borderRadius: '5px 5px 0 0' }}
-      >
-        <PopupContent handle={moreClick} post={props.post} />
-      </Popup>
     </div>
   );
 };

@@ -8,6 +8,7 @@ import { useResourceUrl, useUrl } from '@/utils/hooks';
 import { getContent, getTime } from '@/utils/util';
 import { useEffect, useState } from 'react';
 import PostApi from '@/services/tube/PostApi';
+import PopupContent from '@/components/PopupContent';
 
 export type Props = {
   post: PostInfo;
@@ -77,12 +78,7 @@ const LongVideo: React.FC<Props> = (props) => {
           <div className={styles.top}>
             <div className={styles.nav}>
               <p className={styles.title}>{info?.[1]?.[0]?.content}</p>
-              <img
-                className={styles.moreImg}
-                src={moreImg}
-                alt=""
-                onClick={moreClick}
-              />
+              <PopupContent post={props.post} />
             </div>
             <p className={styles.content}>{info?.[2]?.[0]?.content}</p>
           </div>
