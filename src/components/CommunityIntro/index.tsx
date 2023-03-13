@@ -19,7 +19,7 @@ const CommunityIntro: React.FC<Props> = (props) => {
   const handleClick = (daoId: string) => {
     history.push(`/dao/${daoId}`);
   };
-  const operate = 'view details';
+  const operate = 'details';
   return (
     <div className={styles.communityCard}>
       <div

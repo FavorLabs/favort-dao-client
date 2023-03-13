@@ -35,7 +35,7 @@ const GraphicMessage: React.FC<Props> = (props) => {
   const info = getContent(contents);
 
   return (
-    <Space className={styles.container} direction="vertical">
+    <div className={styles.container}>
       <div className={styles.inContent}>
         <div className={styles.top}>
           <CommunityInfo daoInfo={dao} createTime={created_on} />
@@ -72,11 +72,11 @@ const GraphicMessage: React.FC<Props> = (props) => {
         onMaskClick={() => {
           setVisible(false);
         }}
-        bodyStyle={{ height: '140px', borderRadius: '5px 5px 0 0' }}
+        bodyStyle={{ height: '30vh', borderRadius: '5px 5px 0 0' }}
       >
         <PopupContent handle={moreClick} post={props.post} />
       </Popup>
-    </Space>
+    </div>
   );
 };
 
