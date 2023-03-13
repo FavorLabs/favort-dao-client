@@ -38,8 +38,6 @@ const Video: React.FC<Props> = (props) => {
   const [joined, setJoined] = useState<boolean>(false);
   const [isSelf, setIsSelf] = useState<boolean>(true);
   const [focusDialog, setFocusDialog] = useState<boolean>(false);
-  const [like, setLike] = useState<boolean>(false);
-  const [likeCount, setLikeCount] = useState<number>(0);
 
   const { api } = useSelector((state: Models) => state.global);
   const { userInfo } = useSelector((state: Models) => state.dao);
@@ -115,22 +113,6 @@ const Video: React.FC<Props> = (props) => {
     }
   };
 
-  const getPostLikeStatus = async () => {
-    const { data } = await PostApi.checkPostLike(url, videoData?.id as string);
-    if (data.data) {
-      setLike(data.data.status);
-    }
-  };
-
-  const postLike = async () => {
-    const { data } = await PostApi.postLike(url, videoData?.id as string);
-    if (data.data) {
-      setLike(data.data.status);
-      if (data.data.status) setLikeCount(likeCount + 1);
-      else setLikeCount(likeCount - 1);
-    }
-  };
-
   useEffect(() => {
     if (vid && userInfo) {
       getVideoById(vid);
@@ -140,8 +122,6 @@ const Video: React.FC<Props> = (props) => {
   useEffect(() => {
     if (videoData) {
       getInfo();
-      getPostLikeStatus();
-      setLikeCount(videoData.upvote_count);
     }
   }, [videoData]);
 
@@ -233,9 +213,8 @@ const Video: React.FC<Props> = (props) => {
                         <CommentArea
                           watchNum={videoData.view_count}
                           commentOnNum={videoData.comment_count}
-                          likeNum={likeCount}
-                          likeStatus={like}
-                          likeHandle={postLike}
+                          likeNum={videoData.upvote_count}
+                          postId={videoData.id}
                         />
                       </>
                     ) : (

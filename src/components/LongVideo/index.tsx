@@ -1,13 +1,12 @@
 import * as React from 'react';
 import styles from './index.less';
+import { useState } from 'react';
 import { useHistory } from 'umi';
 import moreImg from '@/assets/img/more-img.png';
 import CommentArea from '@/components/CommentArea';
 import { PostInfo } from '@/declare/tubeApiType';
 import { useResourceUrl, useUrl } from '@/utils/hooks';
 import { getContent, getTime } from '@/utils/util';
-import { useEffect, useState } from 'react';
-import PostApi from '@/services/tube/PostApi';
 
 export type Props = {
   post: PostInfo;
@@ -30,9 +29,6 @@ const LongVideo: React.FC<Props> = (props) => {
   const time = getTime(created_on);
   const videoTime = '16:05';
 
-  const [like, setLike] = useState<boolean>(false);
-  const [likeCount, setLikeCount] = useState<number>(upvote_count);
-
   const moreClick = () => {
     console.log('Click more buttons');
   };
@@ -40,26 +36,6 @@ const LongVideo: React.FC<Props> = (props) => {
   const toVideo = () => {
     history.push(`/video/${props.post.id}`);
   };
-
-  const getPostLikeStatus = async () => {
-    const { data } = await PostApi.checkPostLike(url, id);
-    if (data.data) {
-      setLike(data.data.status);
-    }
-  };
-
-  const postLike = async () => {
-    const { data } = await PostApi.postLike(url, id);
-    if (data.data) {
-      setLike(data.data.status);
-      if (data.data.status) setLikeCount(likeCount + 1);
-      else setLikeCount(likeCount - 1);
-    }
-  };
-
-  useEffect(() => {
-    if (id) getPostLikeStatus();
-  }, [id]);
 
   return (
     <div className={styles.videoCard}>
@@ -96,9 +72,8 @@ const LongVideo: React.FC<Props> = (props) => {
       <CommentArea
         watchNum={view_count}
         commentOnNum={comment_count}
-        likeNum={likeCount}
-        likeStatus={like}
-        likeHandle={postLike}
+        likeNum={upvote_count}
+        postId={id}
       />
     </div>
   );
