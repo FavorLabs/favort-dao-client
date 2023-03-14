@@ -79,6 +79,7 @@
       display: flex;
       flex-direction: column;
       flex: 1;
+      overflow-x: auto;
 
       .top {
         display: flex;
@@ -110,13 +111,14 @@
       .bottom {
         display: flex;
         align-items: center;
+        flex: 1;
+        overflow-x: auto;
+        white-space: nowrap;
 
         .block {
           display: flex;
           flex-direction: column;
           align-items: center;
-          overflow-x: auto;
-          white-space: nowrap;
 
           .icon {
             display: flex;
