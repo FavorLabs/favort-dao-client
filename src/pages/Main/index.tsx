@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styles from './index.less';
 import { ReactNode, useEffect, useState } from 'react';
-import { Avatar } from 'antd';
+import { Avatar, message } from 'antd';
 import SvgIcon from '@/components/SvgIcon';
 import TopBar from '@/components/ThreeStageLayout/TopBar';
 import Children from '@/components/ThreeStageLayout/Children';
@@ -116,14 +116,16 @@ const Main: React.FC<Props> = (props) => {
           content={
             topBarVisibility && (
               <div className={styles.header}>
-                <span
-                  className={styles.toHome}
-                  onClick={() => {
-                    if (isFavorApp()) Flutter.closeWebview();
-                  }}
-                >
-                  <SvgIcon svg={homeSvg} />
-                </span>
+                {isFavorApp() && (
+                  <span
+                    className={styles.toHome}
+                    onClick={() => {
+                      Flutter.closeWebview();
+                    }}
+                  >
+                    <SvgIcon svg={homeSvg} />
+                  </span>
+                )}
                 {latestNavVisibility && (
                   <div className={styles.latestNav}>
                     <NavLink
@@ -168,6 +170,7 @@ const Main: React.FC<Props> = (props) => {
           onChange={(key: string) => {
             if (key === '/addBtn') {
               if (userInfo) setPostPopupVisibility(true);
+              else message.info('Please create a community first!');
             } else {
               history.push(key);
             }

@@ -102,26 +102,26 @@ export const toChat = (
 ) => {
   const token = localStorage.getItem('token');
   if (isFavorApp()) {
-    toFlutterChat(token as string);
+    toFlutterChat();
   } else {
-    toWebPageChat(token as string);
+    toWebPageChat();
   }
 
-  function toFlutterChat(token: string) {
+  function toFlutterChat() {
     if (window?.flutter_inappwebview) {
       const hash = WebUtils.keccak256(`server_${name}_channel_General`);
       Flutter.openChat(
-        token,
+        token as string,
         hash.slice(2),
         name as string,
         proxyGroup as string,
       );
     } else {
-      toWebPageChat(token as string);
+      toWebPageChat();
     }
   }
 
-  function toWebPageChat(token: string) {
+  function toWebPageChat() {
     const hash = WebUtils.keccak256(`server_${name}`);
     window.open(
       `${ReviteURL}/server/${hash.slice(

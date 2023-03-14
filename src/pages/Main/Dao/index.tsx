@@ -18,17 +18,20 @@ export type Props = {};
 const DaoList: React.FC<Props> = (props) => {
   const params: { daoId?: string } = useParams();
   const url = useUrl();
+
   const [bookmarkList, setBookmarkList] = useState<DaoInfo[]>([]);
   const [isBookmark, setIsBookmark] = useState(false);
   const { userInfo } = useSelector((state: Models) => state.dao);
-  const [daoInfo, setDaoInfo] = useState<DaoInfo>();
+  const [daoInfo, setDaoInfo] = useState<DaoInfo | null>(null);
 
   const daoId = params.daoId;
 
   const getDaoInfo = async () => {
     if (!daoId) return;
     const { data } = await DaoApi.getById(url, daoId);
-    setDaoInfo(data.data);
+    if (data.data) {
+      setDaoInfo(data.data);
+    }
   };
   const getBookmarkList = async () => {
     const { data } = await DaoApi.getBookmarkList(url);
@@ -76,16 +79,24 @@ const DaoList: React.FC<Props> = (props) => {
         <MyAttention user={userInfo} joinedList={bookmarkList} daoId={daoId} />
         {daoId ? (
           <>
-            <CommunityCard
-              status={isBookmark}
-              handle={bookmarkHandle}
-              daoInfo={daoInfo}
-            />
-            <div className={styles.jumpBlock}>
-              <JumpIconButton type={0} daoId={daoId} />
-              <JumpIconButton type={1} daoId={daoId} />
-              <JumpIconButton type={2} daoId={daoId} />
-            </div>
+            {daoInfo && (
+              <>
+                <CommunityCard
+                  status={isBookmark}
+                  handle={bookmarkHandle}
+                  daoInfo={daoInfo}
+                />
+                <div className={styles.jumpBlock}>
+                  <JumpIconButton type={0} daoId={daoId} />
+                  <JumpIconButton type={1} daoId={daoId} />
+                  <JumpIconButton
+                    type={2}
+                    daoId={daoId}
+                    daoName={daoInfo.name}
+                  />
+                </div>
+              </>
+            )}
             <div className={styles.underLine}></div>
             <PostList key={daoId} daoId={daoId} />
           </>
