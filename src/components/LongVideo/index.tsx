@@ -1,12 +1,10 @@
 import * as React from 'react';
 import styles from './index.less';
-import { useState } from 'react';
 import { useHistory } from 'umi';
-import moreImg from '@/assets/img/more-img.png';
 import CommentArea from '@/components/CommentArea';
 import PopupContent from '@/components/PopupContent';
 import { PostInfo } from '@/declare/tubeApiType';
-import { useResourceUrl, useUrl } from '@/utils/hooks';
+import { useResourceUrl } from '@/utils/hooks';
 import { getContent, getTime } from '@/utils/util';
 
 export type Props = {
@@ -28,7 +26,6 @@ const LongVideo: React.FC<Props> = (props) => {
   const videosResUrl = useResourceUrl('images');
   const info = getContent(contents);
   const time = getTime(created_on);
-  const videoTime = '16:05';
   const toVideo = () => {
     history.push(`/video/${props.post.id}`);
   };

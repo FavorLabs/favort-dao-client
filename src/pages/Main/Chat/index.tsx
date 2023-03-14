@@ -1,31 +1,57 @@
 import * as React from 'react';
 import styles from './index.less';
-import { useEffect, useState } from 'react';
+import { useHistory, useSelector } from 'umi';
+import UserAvatar from '@/components/UserAvatar';
+import { useResourceUrl, useUrl } from '@/utils/hooks';
 import DaoApi from '@/services/tube/Dao';
-import { useUrl } from '@/utils/hooks';
+import { useEffect, useState } from 'react';
 import { DaoInfo } from '@/declare/tubeApiType';
-import { useSelector } from 'umi';
+import { toChat } from '@/utils/util';
 import { Models } from '@/declare/modelType';
 
 export type Props = {};
-
 const Chat: React.FC<Props> = (props) => {
   const url = useUrl();
-  const [chatList, setChatList] = useState<DaoInfo[]>([]);
-  const { api, config } = useSelector((state: Models) => state.global);
+  const avatarsResUrl = useResourceUrl('avatars');
 
-  const getList = async () => {
+  const [focusList, setFocusList] = useState<DaoInfo[]>([]);
+
+  const { api, config } = useSelector((state: Models) => state.global);
+  const { userInfo } = useSelector((state: Models) => state.dao);
+
+  const getFocusList = async () => {
     const { data } = await DaoApi.getBookmarkList(url);
-    if (data.data.list) setChatList(data.data.list);
+    if (data.data.list) {
+      setFocusList(data.data.list);
+    }
   };
 
   useEffect(() => {
-    getList();
+    getFocusList();
   }, []);
 
   return (
-    <div className={styles.content}>
-      <div className={styles.list}></div>
+    <div className={styles.groupList}>
+      {focusList.map((item) => (
+        <div
+          className={styles.groupListItem}
+          key={item.id}
+          onClick={() => {
+            toChat(item.name, api, config?.proxyGroup);
+          }}
+        >
+          <UserAvatar
+            prefix={avatarsResUrl}
+            identifier={item.avatar}
+            name={item.name}
+          />
+          <div className={styles.detail}>
+            <div className={styles.nameMsg}>
+              <div className={styles.name}>{item.name}</div>
+            </div>
+          </div>
+        </div>
+      ))}
     </div>
   );
 };

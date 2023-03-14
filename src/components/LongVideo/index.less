@@ -41,28 +41,34 @@
       width: calc(50% - 0.5625rem);
       margin-left: 0.5625rem;
 
-      .nav {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+      .top {
+        .nav {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
 
-        .title {
-          font-size: 1rem;
-          font-weight: 700;
-          color: rgba(33, 33, 33, 1);
+          .title {
+            width: 80%;
+            overflow-x: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            font-size: 1rem;
+            font-weight: 700;
+            color: rgba(33, 33, 33, 1);
+          }
         }
-      }
 
-      .content {
-        margin-top: 5px;
-        font-size: 12px;
-        font-weight: 500;
-        color: rgba(66, 66, 66, 1);
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 2;
+        .content {
+          margin-top: 5px;
+          font-size: 12px;
+          font-weight: 500;
+          color: rgba(66, 66, 66, 1);
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+        }
       }
 
       .bottom {

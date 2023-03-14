@@ -80,7 +80,7 @@ const Main: React.FC<Props> = (props) => {
       ),
     },
     {
-      key: '/groupList',
+      key: '/chat',
       title: 'Chats',
       icon: (
         <div className={`${styles.chat} chat`}>
