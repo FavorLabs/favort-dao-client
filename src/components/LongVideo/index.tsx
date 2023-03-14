@@ -11,6 +11,7 @@ import { getContent, getTime } from '@/utils/util';
 
 export type Props = {
   post: PostInfo;
+  refreshPage: () => void;
 };
 const LongVideo: React.FC<Props> = (props) => {
   const {
@@ -23,17 +24,11 @@ const LongVideo: React.FC<Props> = (props) => {
     id,
   } = props.post;
   if (!dao) return <></>;
-  const url = useUrl();
   const history = useHistory();
   const videosResUrl = useResourceUrl('images');
   const info = getContent(contents);
   const time = getTime(created_on);
   const videoTime = '16:05';
-
-  const moreClick = () => {
-    console.log('Click more buttons');
-  };
-
   const toVideo = () => {
     history.push(`/video/${props.post.id}`);
   };
@@ -54,7 +49,7 @@ const LongVideo: React.FC<Props> = (props) => {
           <div className={styles.top}>
             <div className={styles.nav}>
               <p className={styles.title}>{info?.[1]?.[0]?.content}</p>
-              <PopupContent post={props.post} />
+              <PopupContent post={props.post} refreshPage={props.refreshPage} />
             </div>
             <p className={styles.content}>{info?.[2]?.[0]?.content}</p>
           </div>
