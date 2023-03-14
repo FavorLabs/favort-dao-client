@@ -31,7 +31,7 @@ const CommunityIntro: React.FC<Props> = (props) => {
           backgroundSize: `100%`,
           backgroundPosition: `center center`,
         }}
-      ></div>
+      />
 
       <div className={styles.foot}>
         <div className={styles.left}>

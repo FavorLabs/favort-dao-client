@@ -249,6 +249,12 @@ const PostVideo: React.FC<Props> = (props) => {
   };
 
   const checkVideoSize = (file: RcFile, fileList: RcFile) => {
+    console.log('checkVideoSize', file);
+    if (file.type !== 'video/mp4') {
+      message.warning('Please select mp4 file!');
+      setShowVideoList(false);
+      return false;
+    }
     if (config?.videoLimitSize && file.size / 1024 > config.videoLimitSize) {
       setShowVideoList(false);
       message.warning(`Video needs to be less than ${getSize(307200, 1)}`);
@@ -337,6 +343,9 @@ const PostVideo: React.FC<Props> = (props) => {
     accept: 'video/mp4',
     maxCount: 1,
     showUploadList: showVideoList,
+    onRemove: () => {
+      setVideo('');
+    },
   };
 
   const optionsItems: OptionsItem[] = [

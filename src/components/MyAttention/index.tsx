@@ -105,7 +105,7 @@ const MyAttention: React.FC<Props> = (props) => {
                         identifier={item.avatar}
                         onClick={() => onFocusCommunity(item.id)}
                         className={styles.icon}
-                      ></UserAvatar>
+                      />
                     </div>
                     <span className={styles.text}>{item.name}</span>
                   </div>

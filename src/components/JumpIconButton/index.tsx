@@ -12,13 +12,14 @@ import menuBar from '@/components/ThreeStageLayout/MenuBar';
 export type Props = {
   type: number;
   daoId: string;
+  daoName?: string;
   address?: string;
 };
 
 const JumpIconButton: React.FC<Props> = (props) => {
   const { api, config } = useSelector((state: Models) => state.global);
-  const { userInfo } = useSelector((state: Models) => state.dao);
-  const { address, type, daoId } = props;
+  // const { userInfo } = useSelector((state: Models) => state.dao);
+  const { type, daoId, daoName } = props;
 
   const jumpPage = (type: number) => {
     if (type === 0) {
@@ -26,7 +27,7 @@ const JumpIconButton: React.FC<Props> = (props) => {
     } else if (type === 1) {
       history.push(`/videoList/${daoId}`);
     } else {
-      toChat(userInfo?.name, api, config?.proxyGroup);
+      toChat(daoName, api, config?.proxyGroup);
     }
   };
 
