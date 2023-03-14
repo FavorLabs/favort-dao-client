@@ -15,7 +15,7 @@ import styles from './index.less';
 import UserApi from '@/services/tube/UserApi';
 import { useUrl } from '@/utils/hooks';
 import FavorlabsApi from '@/services/FavorlabsApi';
-import { appName, checkLogin, flexible } from '@/utils/util';
+import { appName, checkLogin, flexible, isFavorApp } from '@/utils/util';
 import { setTheme, ThemeType } from '@/utils/setTheme';
 import { defaultTheme } from '@/config/themeConfig';
 import DaoApi from '@/services/tube/Dao';
@@ -34,7 +34,8 @@ const Layout: React.FC = (props) => {
 
   const { web3 } = useSelector((state: Models) => state.web3);
   const proxyResult = useRef<string | number | null>(null);
-  const [configLoading, setConfigLoading] = useState(true);
+  const [configLoading, setConfigLoading] = useState<boolean>(true);
+  const [connected, setConnected] = useState<boolean>(false);
 
   const setMomentLang = () => {
     const currentLang = getLocale();
@@ -220,19 +221,21 @@ const Layout: React.FC = (props) => {
 
   useEffect(() => {
     connectNode();
-    getBucketInfo();
     // if (config) getContract()
   }, [config]);
 
   useEffect(() => {
-    if (!requestLoading) {
-      getLoginStatus();
+    if (!requestLoading) getLoginStatus();
+    if (!requestLoading && !connected) {
+      setConnected(true);
+      getBucketInfo();
     }
   }, [requestLoading]);
 
   useEffect(() => {
     // @ts-ignore
     web3?.currentProvider?.once('disconnect', () => {
+      if (isFavorApp()) return;
       localStorage.removeItem('walletconnect');
       localStorage.removeItem(ConnectType);
       location.reload();

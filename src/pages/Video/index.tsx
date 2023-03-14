@@ -51,7 +51,7 @@ const Video: React.FC<Props> = (props) => {
         setVideoData(data.data);
         setIsSelf(isSelf);
         !isSelf && checkJoinStatus(daoId);
-        getVideoList(daoId);
+        // getVideoList(daoId);
       }
     } catch (e) {
       if (e instanceof Error) message.error(e.message);
@@ -114,10 +114,10 @@ const Video: React.FC<Props> = (props) => {
   };
 
   useEffect(() => {
-    if (vid && userInfo) {
+    if (vid) {
       getVideoById(vid);
     }
-  }, [vid, userInfo]);
+  }, [vid]);
 
   useEffect(() => {
     if (videoData) {

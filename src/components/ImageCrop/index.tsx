@@ -1,6 +1,10 @@
 import * as React from 'react';
 import styles from './index.less';
-import type { RcFile, UploadFile } from 'antd/es/upload/interface';
+import type {
+  RcFile,
+  UploadChangeParam,
+  UploadFile,
+} from 'antd/es/upload/interface';
 import ImgCrop from 'antd-img-crop';
 import { Upload } from 'antd';
 import { useState } from 'react';
