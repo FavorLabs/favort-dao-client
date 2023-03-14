@@ -42,10 +42,10 @@ const Index: React.FC<Props> = (props) => {
   const refreshPage = async () => {
     const pageInfo = { page: 1, page_size: 10, type };
     const request = focus
-      ? (params: Page) => PostApi.getFollow(url, pageInfo)
+      ? (params: Page) => PostApi.getFollow(url, params)
       : daoId
-      ? (params: Page) => PostApi.getPostListByDaoId(url, daoId, pageInfo)
-      : (params: Page) => PostApi.getPostListByType(url, pageInfo);
+      ? (params: Page) => PostApi.getPostListByDaoId(url, daoId, params)
+      : (params: Page) => PostApi.getPostListByType(url, params);
     const { data } = await request(pageInfo);
     setList((list) => data.data.list);
     setPageData((pageData) => ({ ...pageData, page: 1 }));
