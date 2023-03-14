@@ -114,13 +114,6 @@ const MyAttention: React.FC<Props> = (props) => {
             ) : (
               <></>
             )}
-            <div>aaa</div>
-            <div>aaa</div>
-            <div>aaa</div>
-            <div>aaa</div>
-            <div>aaa</div>
-            <div>aaa</div>
-            <div>aaa</div>
           </div>
         </div>
       </div>

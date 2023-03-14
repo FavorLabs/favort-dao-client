@@ -1,12 +1,15 @@
-.content {
-  padding: 0 4px;
-
-  .list {
-    display: grid;
-    grid-template-columns: repeat(2, 50%);
-    gap: 10px;
-
-    .list_item {
+.groupList {
+  .groupListItem {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px 20px;
+    border-bottom: 0.5px solid rgba(229, 229, 229, 1);
+    .detail {
+      margin-left: 10px;
+      .nameMsg {
+        color: rgba(33, 33, 33, 1);
+      }
     }
   }
 }
