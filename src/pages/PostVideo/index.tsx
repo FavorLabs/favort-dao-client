@@ -413,12 +413,14 @@ const PostVideo: React.FC<Props> = (props) => {
           </div>
         ))}
       </div>
-      <div
-        className={`${styles.postBtn} ${postDisable && styles.disabled}`}
-        onClick={postHandle}
-      >
-        {postLoading && <span className={styles.loading} />}
-        &nbsp;Publish
+      <div className={styles.bottom}>
+        <div
+          className={`${styles.postBtn} ${postDisable && styles.disabled}`}
+          onClick={postHandle}
+        >
+          {postLoading && <span className={styles.loading} />}
+          &nbsp;Publish
+        </div>
       </div>
       {uploading && (
         <div className={styles.uploadVideoOverlay}>

@@ -35,24 +35,33 @@ const Index: React.FC<Props> = (props) => {
       : (params: Page) => PostApi.getPostListByType(url, params);
     const { data } = await request(pageData);
     setList((list) => [...list, ...data.data.list]);
-    setPageData((pageData) => ({ ...pageData, page: ++pageData.page }));
     setHasMore(data.data.pager.total_rows > pageData.page * pageData.page_size);
+    setPageData((pageData) => ({ ...pageData, page: ++pageData.page }));
   };
 
-  useEffect(() => {
-    if (!hasMore) {
-      loadMore();
-    }
-  }, [refreshPostList]);
+  const refreshPage = async () => {
+    const pageInfo = { page: 1, page_size: 10, type };
+    const request = focus
+      ? (params: Page) => PostApi.getFollow(url, pageInfo)
+      : daoId
+      ? (params: Page) => PostApi.getPostListByDaoId(url, daoId, pageInfo)
+      : (params: Page) => PostApi.getPostListByType(url, pageInfo);
+    const { data } = await request(pageInfo);
+    setList((list) => data.data.list);
+    setPageData((pageData) => ({ ...pageData, page: 1 }));
+    setHasMore(data.data.pager.total_rows > pageData.page_size);
+  };
+
+  useEffect(() => {}, [refreshPostList]);
 
   return (
     <>
       {list.map((item) => (
         <div key={item.id} className={styles.postItem}>
           {item.type === 0 ? (
-            <GraphicMessage post={item} />
+            <GraphicMessage post={item} refreshPage={refreshPage} />
           ) : item.type === 1 ? (
-            <LongVideo post={item} />
+            <LongVideo post={item} refreshPage={refreshPage} />
           ) : item.type === -1 ? (
             <CommunityIntro post={item} />
           ) : (

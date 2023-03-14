@@ -80,6 +80,7 @@ const FocusList: React.FC<Props> = (props) => {
         ))}
       </div>
       <ExitCommunityDialog
+        text={'Confirm your withdrawal from this community?'}
         visible={dialogVisible}
         closeDialog={() => {
           setDialogVisible(false);

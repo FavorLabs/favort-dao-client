@@ -13,6 +13,8 @@ import addCommunitySvg from '@/assets/icon/addCommunity.svg';
 import chatSvg from '@/assets/icon/chat.svg';
 import mineSvg from '@/assets/icon/mine.svg';
 import homeSvg from '@/assets/icon/home.svg';
+import postNews from '@/assets/img/postNews.png';
+import postVideo from '@/assets/img/postVideo.png';
 import {
   useSelector,
   useHistory,
@@ -30,6 +32,7 @@ import { isFavorApp, switchTheme } from '@/utils/util';
 import DaoApi from '@/services/tube/Dao';
 import UserAvatar from '@/components/UserAvatar';
 import Flutter from '@/utils/flutter';
+import deleteImg from '@/assets/img/delete-icon.png';
 
 export type Props = {};
 export type MenuItem = TabBarItemProps & {
@@ -180,6 +183,7 @@ const Main: React.FC<Props> = (props) => {
           }}
           bodyStyle={{
             padding: '20px',
+            paddingTop: '0',
             boxSizing: 'border-box',
             borderTopLeftRadius: '4px',
             borderTopRightRadius: '4px',
@@ -193,7 +197,10 @@ const Main: React.FC<Props> = (props) => {
               history.push('/postNewsletter');
             }}
           >
-            News
+            <div className={styles.row}>
+              <img src={postNews} alt="" className={styles.img} />
+              <span className={styles.text}>News</span>
+            </div>
           </div>
           <div
             className={styles.postItem}
@@ -202,7 +209,18 @@ const Main: React.FC<Props> = (props) => {
               history.push('/postVideo');
             }}
           >
-            Video
+            <div className={styles.row}>
+              <img src={postVideo} alt="" className={styles.img} />
+              <span className={styles.text}>Video</span>
+            </div>
+          </div>
+          <div
+            className={styles.cancel}
+            onClick={() => {
+              setPostPopupVisibility(false);
+            }}
+          >
+            Cancel
           </div>
         </Popup>
       </div>

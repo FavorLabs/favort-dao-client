@@ -1,5 +1,4 @@
-import ModelsType, { Models } from '@/declare/modelType';
-
+import ModelsType from '@/declare/modelType';
 export interface State {
   refreshVideoList: boolean;
   refreshPostList: boolean;
@@ -13,6 +12,7 @@ export default {
   reducers: {
     updateState(state, { payload }) {
       Object.assign(state, payload);
+      console.log(state.refreshPostList, '更改之后');
     },
   },
   effects: {

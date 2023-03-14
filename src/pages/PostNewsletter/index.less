@@ -9,6 +9,8 @@
     }
   }
   .postOptions {
+    height: calc(100vh - 150px);
+    overflow-y: auto;
     padding: 0 20px;
     .option {
       display: flex;
@@ -30,28 +32,32 @@
       }
     }
   }
-  .postBtn {
-    position: absolute;
-    bottom: 34px;
+
+  .bottom {
     left: 0;
     right: 0;
-    margin: 0 20px;
-    padding: 10px 0;
-    text-align: center;
-    background: rgba(255, 166, 0, 1);
-    .loading {
-      display: inline-block;
-      width: 16px;
-      height: 16px;
-      border: 3px solid #ccc;
-      border-radius: 50%;
-      border-bottom-color: transparent;
-      animation: loading 1s linear infinite;
-      vertical-align: middle;
+
+    .postBtn {
+      left: 0;
+      right: 0;
+      margin: 0 20px;
+      padding: 10px 0;
+      text-align: center;
+      background: rgba(255, 166, 0, 1);
+      .loading {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border: 3px solid #ccc;
+        border-radius: 50%;
+        border-bottom-color: transparent;
+        animation: loading 1s linear infinite;
+        vertical-align: middle;
+      }
     }
-  }
-  .postBtn.disabled {
-    background: rgba(240, 240, 240, 1);
+    .postBtn.disabled {
+      background: rgba(240, 240, 240, 1);
+    }
   }
 }
 
