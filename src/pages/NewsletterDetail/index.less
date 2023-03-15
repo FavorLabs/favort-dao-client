@@ -1,0 +1,68 @@
+.content {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  height: 100%;
+  .navBar {
+    width: 100%;
+    padding: 20px;
+    height: 60px;
+    box-sizing: border-box;
+    border: 0.5px solid rgba(229, 229, 229, 1);
+    svg {
+      width: 16px;
+    }
+  }
+  .detailsWrap {
+    width: 100%;
+    flex: 1;
+    .details {
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      flex-direction: column;
+      padding: 0 20px;
+      height: calc(80vh - 109px);
+      .postCard,
+      .commentList {
+        width: 100%;
+      }
+      .commentList {
+        flex: 1;
+        overflow-y: scroll;
+      }
+    }
+    .createComment {
+      height: 49px;
+      padding-top: 10px;
+      box-sizing: border-box;
+      box-shadow: 0px -5px 30px 1px rgba(128, 128, 128, 0.21);
+    }
+  }
+}
+
+.commentPopup {
+  .sendBtn {
+    color: rgba(33, 33, 33, 1);
+    height: 44px;
+    line-height: 44px;
+    margin-top: 20px;
+    text-align: center;
+    background: rgba(240, 240, 240, 1);
+  }
+  .sendBtn.active {
+    color: rgba(255, 255, 255, 1);
+    background: rgba(255, 166, 0, 1);
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .content {
+    .detailsWrap {
+      .details {
+        height: calc(100vh - 109px);
+      }
+    }
+  }
+}
