@@ -1,14 +1,16 @@
 import * as React from 'react';
 import styles from './index.less';
-import lookOver from '@/assets/img/look_over.png';
-import commentOn from '@/assets/img/comment_on.png';
-import support from '@/assets/img/support.png';
-import supportOn from '@/assets/img/support_on.png';
+import lookOverImg from '@/assets/icon/look-over.svg';
+import commentOnImg from '@/assets/icon/comment-on.svg';
+// import likeImg from '@/assets/icon/like.svg';
+// import likeOnImg from '@/assets/icon/like-on.svg';
+import likeImg from '@/assets/img/support.png';
+import likeOnImg from '@/assets/img/support_on.png';
 import { useEffect, useState } from 'react';
 import PostApi from '@/services/tube/PostApi';
 import { useUrl } from '@/utils/hooks';
-import { debounce } from 'lodash';
 import { checkLogin } from '@/utils/util';
+import SvgIcon from '@/components/SvgIcon';
 
 export type Props = {
   watchNum: number;
@@ -22,6 +24,7 @@ const CommentArea: React.FC<Props> = (props) => {
   const url = useUrl();
 
   const [like, setLike] = useState<boolean>(false);
+  const [watchCount, setWatchCount] = useState<number>(watchNum);
   const [likeCount, setLikeCount] = useState<number>(likeNum);
 
   const getPostLikeStatus = async () => {
@@ -40,19 +43,31 @@ const CommentArea: React.FC<Props> = (props) => {
     }
   };
 
+  const postView = async () => {
+    const { data } = await PostApi.addPostView(url, postId);
+    if (data.data) {
+      setWatchCount(watchCount);
+    }
+  };
+
   useEffect(() => {
     if (postId && checkLogin()) getPostLikeStatus();
+    // if (postId) postView();
   }, [postId]);
 
   return (
     <>
       <div className={styles.operate}>
         <div className={styles.operateDiv}>
-          <img src={lookOver} className={styles.operateIcon} />
-          <span className={styles.operateText}>{watchNum}</span>
+          <div className={styles.operateIcon}>
+            <SvgIcon svg={lookOverImg} />
+          </div>
+          <span className={styles.operateText}>{watchCount}</span>
         </div>
         <div className={styles.operateDiv}>
-          <img src={commentOn} className={styles.operateIcon} />
+          <div className={styles.operateIcon}>
+            <SvgIcon svg={commentOnImg} />
+          </div>
           <span className={styles.operateText}>{commentOnNum}</span>
         </div>
         <div
@@ -61,11 +76,13 @@ const CommentArea: React.FC<Props> = (props) => {
             postLike();
           }}
         >
-          {like ? (
-            <img src={supportOn} className={styles.operateIcon} alt={'liked'} />
-          ) : (
-            <img src={support} className={styles.operateIcon} alt={'like'} />
-          )}
+          <div className={styles.operateIcon}>
+            {like ? (
+              <img src={likeOnImg} className={styles.img} />
+            ) : (
+              <img src={likeImg} className={styles.img} />
+            )}
+          </div>
           <span className={styles.operateText}>{likeCount}</span>
         </div>
       </div>

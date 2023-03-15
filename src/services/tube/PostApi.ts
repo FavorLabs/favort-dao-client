@@ -67,4 +67,11 @@ export default {
       data: { id },
     });
   },
+  addPostView(url: string, id: string): ResData<Status> {
+    return request({
+      method: 'post',
+      url: url + '/post/view',
+      params: { id },
+    });
+  },
 };

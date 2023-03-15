@@ -27,8 +27,15 @@ const CommunityCard: React.FC<Props> = (props) => {
           backgroundPosition: `center center`,
         }}
       >
-        <div className={styles.bottom}>
-          <p className={styles.textLeft}>{daoInfo?.introduction}</p>
+        <div
+          className={`${styles.bottom} ${
+            daoInfo?.id === userInfo?.id && styles.my
+          }`}
+        >
+          <div className={styles.left}>
+            <p className={styles.name}>{daoInfo?.name}</p>
+            <p className={styles.introduction}>{daoInfo?.introduction}</p>
+          </div>
           {daoInfo?.id !== userInfo?.id &&
             (status ? (
               <div className={styles.joined}>joined</div>

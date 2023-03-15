@@ -4,21 +4,19 @@ import { toChat } from '@/utils/util';
 import { useParams, useSelector } from 'umi';
 import { Models } from '@/declare/modelType';
 import { history } from '@@/core/history';
-import newsInBriefImg from '@/assets/img/newsInBrief-img.png';
-import videoImg from '@/assets/img/video-img.png';
-import groupChatImg from '@/assets/img/groupChat-img.png';
-import menuBar from '@/components/ThreeStageLayout/MenuBar';
+import SvgIcon from '@/components/SvgIcon';
+import newsImg from '@/assets/icon/daoNews.svg';
+import videoImg from '@/assets/icon/daoVideo.svg';
+import chatImg from '@/assets/icon/daoChat.svg';
 
 export type Props = {
   type: number;
   daoId: string;
   daoName?: string;
-  address?: string;
 };
 
 const JumpIconButton: React.FC<Props> = (props) => {
   const { api, config } = useSelector((state: Models) => state.global);
-  // const { userInfo } = useSelector((state: Models) => state.dao);
   const { type, daoId, daoName } = props;
 
   const jumpPage = (type: number) => {
@@ -35,12 +33,8 @@ const JumpIconButton: React.FC<Props> = (props) => {
     <>
       <div className={styles.jumpContent} onClick={() => jumpPage(type)}>
         <div className={styles.imgBox}>
-          <img
-            src={
-              type === 0 ? newsInBriefImg : type === 1 ? videoImg : groupChatImg
-            }
-            alt=""
-            className={styles.img}
+          <SvgIcon
+            svg={type === 0 ? newsImg : type === 1 ? videoImg : chatImg}
           />
         </div>
       </div>

@@ -354,7 +354,7 @@ const PostVideo: React.FC<Props> = (props) => {
       content: (
         <Input
           onChange={(val) => {
-            setTitle(val);
+            setTitle(val.trim());
           }}
           placeholder="Please enter title"
         />
@@ -367,7 +367,7 @@ const PostVideo: React.FC<Props> = (props) => {
           placeholder="Please enter description"
           autoSize={{ minRows: 1, maxRows: 4 }}
           onChange={(val) => {
-            setDesc(val);
+            setDesc(val.trim());
           }}
         />
       ),
