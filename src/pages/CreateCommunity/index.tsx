@@ -120,7 +120,7 @@ const CreateCommunity: React.FC<Props> = (props) => {
       content: (
         <Input
           onChange={(val) => {
-            setCommunityName(val);
+            setCommunityName(val.trim());
           }}
           placeholder="Please enter community name"
         />
@@ -131,7 +131,7 @@ const CreateCommunity: React.FC<Props> = (props) => {
       content: (
         <Input
           onChange={(val) => {
-            setCommunityDesc(val);
+            setCommunityDesc(val.trim());
           }}
           placeholder="Please enter community description"
         />

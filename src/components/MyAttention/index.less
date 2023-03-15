@@ -14,11 +14,13 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
 
       .top {
         display: flex;
-        flex: 1;
         align-items: center;
+        margin-bottom: 5px;
+        flex: 1;
 
         .text {
           font-size: 16px;
@@ -30,6 +32,7 @@
       .bottom {
         display: flex;
         flex-direction: column;
+        align-self: flex-end;
 
         .block {
           display: flex;
@@ -53,7 +56,7 @@
           }
 
           .text {
-            max-width: 2.625rem;
+            max-width: 3.125rem;
             overflow: hidden;
             text-overflow: ellipsis;
             align-self: flex-end;
@@ -68,7 +71,6 @@
     .verticalLine {
       align-self: flex-end;
       position: relative;
-      bottom: 15px;
       width: 0px;
       height: 40px;
       margin: 0 10px;
@@ -86,6 +88,7 @@
         justify-content: space-between;
         align-items: center;
         width: 100%;
+        margin-bottom: 5px;
 
         .leftText {
           font-size: 16px;
@@ -94,6 +97,8 @@
         }
 
         .right {
+          display: flex;
+          align-items: center;
           .text {
             margin-right: 2px;
             font-size: 16px;
@@ -119,6 +124,7 @@
           display: flex;
           flex-direction: column;
           align-items: center;
+          margin: 0 2px;
 
           .icon {
             display: flex;
@@ -138,7 +144,7 @@
 
           .text {
             align-self: flex-end;
-            max-width: 2.625rem;
+            max-width: 3.125rem;
             overflow: hidden;
             text-overflow: ellipsis;
             font-size: 12px;

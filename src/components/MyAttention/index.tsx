@@ -36,11 +36,7 @@ const MyAttention: React.FC<Props> = (props) => {
       <div className={styles.content}>
         <div className={styles.navLeft}>
           <div className={styles.top}>
-            {user ? (
-              <span className={styles.text}>My</span>
-            ) : (
-              <span className={styles.text}>Create</span>
-            )}
+            <span className={styles.text}>My</span>
           </div>
           <div className={styles.bottom}>
             {user ? (
@@ -55,7 +51,7 @@ const MyAttention: React.FC<Props> = (props) => {
                     onClick={() => onFocusCommunity(user.id)}
                   ></UserAvatar>
                 </div>
-                <span className={styles.text}>{user.name}</span>
+                {/*<span className={styles.text}>{user.name}</span>*/}
               </div>
             ) : (
               <>
@@ -107,7 +103,7 @@ const MyAttention: React.FC<Props> = (props) => {
                         className={styles.icon}
                       />
                     </div>
-                    <span className={styles.text}>{item.name}</span>
+                    {/*<span className={styles.text}>{item.name.trim()}</span>*/}
                   </div>
                 );
               })

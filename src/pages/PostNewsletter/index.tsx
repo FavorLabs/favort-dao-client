@@ -92,7 +92,7 @@ const PostNewsletter: React.FC<Props> = (props) => {
           placeholder="Please enter main text"
           autoSize={{ minRows: 1, maxRows: 4 }}
           onChange={(val) => {
-            setMainText(val);
+            setMainText(val.trim());
           }}
         />
       ),
