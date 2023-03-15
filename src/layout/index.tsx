@@ -194,9 +194,14 @@ const Layout: React.FC = (props) => {
         },
       });
     } catch (e) {
-      localStorage.removeItem(ConnectType);
-      localStorage.removeItem('token');
-      history.push('/login');
+      if (e instanceof Error) {
+        if (e.message.includes('timeout')) return;
+        else {
+          localStorage.removeItem(ConnectType);
+          localStorage.removeItem('token');
+          history.push('/login');
+        }
+      }
     }
   };
 

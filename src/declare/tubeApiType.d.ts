@@ -1,5 +1,11 @@
 import { AxiosResponse } from 'axios';
 
+export type User = {
+  address: string;
+  avatar: string;
+  nickname: string;
+};
+
 export type Post = {
   content: string;
   type: number;
@@ -36,11 +42,33 @@ export type PostInfo = {
   view_count: number;
   comment_count: number;
   visibility: number;
-  user: {
-    address: string;
-    avatar: string;
-    nickname: string;
-  };
+  user: User;
+};
+
+export type CommentParams = {
+  content: string;
+  type: number;
+  sort: number;
+};
+
+export type CommentRes = CommentParams & {
+  id: string;
+  created_on: number;
+  modified_on: number;
+  deleted_on: number;
+  is_del: number;
+  comment_id: string;
+};
+
+export type CommentInfo = {
+  id: string;
+  post_id: string;
+  address: string;
+  user: User;
+  contents: CommentRes[];
+  replies: CommentInfo[];
+  created_on: number;
+  modified_on: number;
 };
 
 export type ResData<T> = Promise<

@@ -48,6 +48,11 @@ export default [
         wrappers: ['@/wrappers/auth'],
       },
       {
+        path: '/newsletterDetail/:postId',
+        component: '@/pages/NewsletterDetail',
+        wrappers: ['@/wrappers/auth'],
+      },
+      {
         path: '/search/:type',
         component: '@/pages/Search',
         wrappers: ['@/wrappers/auth'],

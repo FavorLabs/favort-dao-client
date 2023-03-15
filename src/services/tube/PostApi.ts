@@ -1,6 +1,7 @@
 import type { AxiosResponse } from 'axios';
 import request from '@/services';
 import {
+  CommentInfo,
   CreatePost,
   ListData,
   Page,
@@ -72,6 +73,40 @@ export default {
       method: 'post',
       url: url + '/post/view',
       params: { id },
+    });
+  },
+  getPostComments(url: string, id: string): ResData<ListData<CommentInfo>> {
+    return request({
+      url: url + '/post/comments',
+      params: { id },
+    });
+  },
+  addPostComment(url: string, data: any): ResData<any> {
+    return request({
+      method: 'post',
+      url: url + '/post/comment',
+      data,
+    });
+  },
+  deletePostComment(url: string, id: string): ResData<any> {
+    return request({
+      method: 'delete',
+      url: url + '/post/comment',
+      data: { id },
+    });
+  },
+  addCommentReply(url: string, data: any): ResData<any> {
+    return request({
+      method: 'post',
+      url: url + '/post/comment/reply',
+      data,
+    });
+  },
+  deleteCommentReply(url: string, id: string): ResData<any> {
+    return request({
+      method: 'delete',
+      url: url + '/post/comment/reply',
+      data: { id },
     });
   },
 };
