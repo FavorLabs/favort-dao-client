@@ -10,6 +10,7 @@ export type Page = {
   page: number;
   page_size: number;
   type?: number;
+  query?: string;
 };
 
 export type CreatePost = {

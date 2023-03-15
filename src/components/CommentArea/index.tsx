@@ -46,7 +46,7 @@ const CommentArea: React.FC<Props> = (props) => {
   const postView = async () => {
     const { data } = await PostApi.addPostView(url, postId);
     if (data.data) {
-      setWatchCount(watchCount);
+      setWatchCount(watchCount + 1);
     }
   };
 

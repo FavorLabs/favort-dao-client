@@ -4,7 +4,7 @@ import { PostInfo } from '@/declare/tubeApiType';
 import { useResourceUrl, useUrl } from '@/utils/hooks';
 import DaoApi from '@/services/tube/Dao';
 import { useState } from 'react';
-import { history } from '@@/core/history';
+import { history } from 'umi';
 
 export type Props = {
   post: PostInfo;

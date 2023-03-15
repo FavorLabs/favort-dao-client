@@ -14,15 +14,17 @@ export type Props = {
   type?: number;
   daoId?: string;
   focus?: boolean;
+  query?: string;
 };
 const Index: React.FC<Props> = (props) => {
   const url = useUrl();
-  const { type, daoId, focus = false } = props;
+  const { type, daoId, focus = false, query } = props;
   const { refreshPostList } = useSelector((state: Models) => state.manage);
   const [pageData, setPageData] = useState<Page>({
     page: 1,
     page_size: 10,
     type,
+    query,
   });
   const [hasMore, setHasMore] = useState(true);
   const [list, setList] = useState<PostInfo[]>([]);
@@ -40,7 +42,7 @@ const Index: React.FC<Props> = (props) => {
   };
 
   const refreshPage = async () => {
-    const pageInfo = { page: 1, page_size: 10, type };
+    const pageInfo = { page: 1, page_size: 10, type, query };
     const request = focus
       ? (params: Page) => PostApi.getFollow(url, params)
       : daoId
@@ -52,7 +54,11 @@ const Index: React.FC<Props> = (props) => {
     setHasMore(data.data.pager.total_rows > pageData.page_size);
   };
 
-  useEffect(() => {}, [refreshPostList]);
+  useEffect(() => {
+    if (!hasMore) {
+      refreshPage();
+    }
+  }, [query]);
 
   return (
     <>
