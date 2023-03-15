@@ -33,6 +33,7 @@ import DaoApi from '@/services/tube/Dao';
 import UserAvatar from '@/components/UserAvatar';
 import Flutter from '@/utils/flutter';
 import deleteImg from '@/assets/img/delete-icon.png';
+import { history } from '@@/core/history';
 
 export type Props = {};
 export type MenuItem = TabBarItemProps & {
@@ -104,10 +105,19 @@ const Main: React.FC<Props> = (props) => {
   const [topBarVisibility, setTopBarVisibility] = useState<boolean>(true);
   const [postPopupVisibility, setPostPopupVisibility] =
     useState<boolean>(false);
+  const route = pathname.split('/')[1];
+  const [routeKey, setRouteKey] = useState(`/${route}`);
+  const [isShowSearch, setIsShowSearch] = useState<boolean>(true);
+
+  const toSearch = () => {
+    const type = routeKey.split('/')[1];
+    history.push(`/search/${type}`);
+  };
 
   useEffect(() => {
     setLatestNavVisibility(pathname.includes('/latest'));
     setTopBarVisibility(!pathname.includes('/mine'));
+    setIsShowSearch(!pathname.includes('/chat'));
     const pathKey = `/${pathname.split('/')[1]}`;
     setActiveKey(pathKey);
   }, [pathname]);
@@ -150,17 +160,14 @@ const Main: React.FC<Props> = (props) => {
                   </div>
                 )}
                 <div className={styles.action}>
-                  <SearchOutline className={styles.searchBtn} />
-                  <div className={styles.avatar}>
-                    {user && (
-                      <UserAvatar
-                        prefix={avatarsResUrl}
-                        name={user.nickname}
-                        identifier={user.avatar}
-                        size={25}
-                      />
-                    )}
-                  </div>
+                  {isShowSearch ? (
+                    <SearchOutline
+                      className={styles.searchBtn}
+                      onClick={() => toSearch()}
+                    />
+                  ) : (
+                    <></>
+                  )}
                 </div>
               </div>
             )
@@ -176,6 +183,7 @@ const Main: React.FC<Props> = (props) => {
               else message.info('Please create a community first!');
             } else {
               history.push(key);
+              setRouteKey(key);
             }
           }}
         />

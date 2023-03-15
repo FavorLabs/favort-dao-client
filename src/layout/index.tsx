@@ -19,7 +19,7 @@ import { appName, checkLogin, flexible, isFavorApp } from '@/utils/util';
 import { setTheme, ThemeType } from '@/utils/setTheme';
 import { defaultTheme } from '@/config/themeConfig';
 import DaoApi from '@/services/tube/Dao';
-import Bucket from '@/services/tube/Bucket';
+import Bucket from '@/services/tube/Global';
 import moment from 'moment';
 const currentLang = getLocale();
 import VConsole from 'vconsole';

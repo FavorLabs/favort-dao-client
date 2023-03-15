@@ -3,7 +3,7 @@ import styles from './index.less';
 import { toChat } from '@/utils/util';
 import { useParams, useSelector } from 'umi';
 import { Models } from '@/declare/modelType';
-import { history } from '@@/core/history';
+import { history } from 'umi';
 import SvgIcon from '@/components/SvgIcon';
 import newsImg from '@/assets/icon/daoNews.svg';
 import videoImg from '@/assets/icon/daoVideo.svg';
