@@ -5,7 +5,7 @@ import { DaoInfo } from '@/declare/tubeApiType';
 import UserAvatar from '@/components/UserAvatar';
 import { useResourceUrl } from '@/utils/hooks';
 import { getTime } from '@/utils/util';
-import { history } from '@@/core/history';
+import { history } from 'umi';
 
 export type Props = {
   daoInfo: DaoInfo;

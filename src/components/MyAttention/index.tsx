@@ -4,7 +4,7 @@ import arrowRight from '@/assets/img/arrow_right.png';
 import { DaoInfo } from '@/declare/tubeApiType';
 import { useResourceUrl } from '@/utils/hooks';
 import UserAvatar from '@/components/UserAvatar';
-import { history } from '@@/core/history';
+import { history } from 'umi';
 import addImg from '@/assets/img/add-img.png';
 
 export type Props = {
