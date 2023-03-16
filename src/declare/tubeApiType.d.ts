@@ -109,7 +109,17 @@ export type DaoInfo = {
   introduction: string;
   name: string;
   visibility: number;
+  follow_count: number;
+  last_posts: [
+    {
+      type: number;
+      created_on: number;
+      contents: Post[];
+    },
+  ];
 };
+
+export type LastPosts = {};
 
 export type ListData<T> = {
   list: T[];

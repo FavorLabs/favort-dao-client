@@ -18,7 +18,7 @@ const CommunityInfo: React.FC<Props> = (props) => {
   const createTime = getTime(props.createTime);
 
   const handleClick = (daoId: string) => {
-    history.push(`/dao/${daoId}`);
+    history.push(`/daoCommunity/${daoId}`);
   };
 
   return (

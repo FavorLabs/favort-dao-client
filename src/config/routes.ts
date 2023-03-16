@@ -99,6 +99,11 @@ export default [
             component: '@/pages/Main/Mine',
             wrappers: ['@/wrappers/auth'],
           },
+          {
+            path: '/daoCommunity/:daoId?',
+            component: '@/pages/Main/DaoCommunity',
+            wrappers: ['@/wrappers/auth'],
+          },
         ],
       },
     ],
