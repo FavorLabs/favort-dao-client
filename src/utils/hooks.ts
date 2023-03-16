@@ -1,6 +1,10 @@
 import { history, useParams, useSelector } from 'umi';
 import { Models } from '@/declare/modelType';
-import { AutumnDomainName, DaoDomainName } from '@/config/constants';
+import {
+  AutumnDomainName,
+  DaoDomainName,
+  ReviteDomainName,
+} from '@/config/constants';
 import { BucketsPath } from '@/declare/tubeApiType';
 // import { config } from '@/config/config';
 
@@ -16,6 +20,12 @@ export const useUrl = () => {
   let { api, config } = useSelector((state: Models) => state.global);
   if (!config) return '';
   return api + '/group/http/' + config.proxyGroup + '/' + DaoDomainName + '/v1';
+};
+
+export const useReviteUrl = () => {
+  let { api, config } = useSelector((state: Models) => state.global);
+  if (!config) return '';
+  return api + '/group/http/' + config.proxyGroup + '/' + ReviteDomainName;
 };
 
 export const useResourceUrl = (type: BucketsPath) => {

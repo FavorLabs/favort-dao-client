@@ -128,7 +128,16 @@ export const toChat = (
         2,
       )}?token=${token}&api=${api}&proxyGroup=${proxyGroup}`,
     );
+    console.log(
+      `${ReviteURL}/server/${hash.slice(
+        2,
+      )}?token=${token}&api=${api}&proxyGroup=${proxyGroup}`,
+    );
   }
+};
+
+export const getChatHash = (name: string) => {
+  return WebUtils.keccak256(`server_${name}_channel_General`).slice(2);
 };
 
 export const checkLogin = () => {

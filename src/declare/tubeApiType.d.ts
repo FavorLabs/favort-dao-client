@@ -138,3 +138,24 @@ export type BucketRes = {
     Bucket: string;
   };
 };
+
+export type GetMsgIdRes = {
+  channel_type: string;
+  _id: string;
+  server: string;
+  name: string;
+  last_message_id: string;
+};
+
+export type GetMsgRes = {
+  _id: string;
+  nonce: string;
+  channel: string;
+  author: string;
+  content: string;
+};
+
+export type LastMsg = {
+  content: string;
+  created_on: number;
+};
