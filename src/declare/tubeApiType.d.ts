@@ -12,9 +12,12 @@ export type Post = {
   sort: number;
 };
 
-export type Page = {
+export type Pagination = {
   page: number;
   page_size: number;
+};
+
+export type Page = Pagination & {
   type?: number;
   query?: string;
 };
@@ -45,19 +48,10 @@ export type PostInfo = {
   user: User;
 };
 
-export type CommentParams = {
+export type Comment = {
   content: string;
   type: number;
   sort: number;
-};
-
-export type CommentRes = CommentParams & {
-  id: string;
-  created_on: number;
-  modified_on: number;
-  deleted_on: number;
-  is_del: number;
-  comment_id: string;
 };
 
 export type CommentInfo = {
@@ -71,6 +65,31 @@ export type CommentInfo = {
   modified_on: number;
 };
 
+export type CreateComment = {
+  post_id: string;
+  contents: Comment[];
+};
+
+export type CreateReply = {
+  comment_id: string;
+  content: string;
+};
+
+export type GetCommentsParams = Pagination & {
+  id: string;
+};
+
+export type CommentRes = Comment & {
+  id: string;
+  created_on: number;
+  modified_on: number;
+  deleted_on: number;
+  is_del: number;
+  comment_id: string;
+  post_id: string;
+  address: string;
+};
+
 export type ResData<T> = Promise<
   AxiosResponse<{
     code: number;
@@ -80,7 +99,10 @@ export type ResData<T> = Promise<
   }>
 >;
 
-export type DaoParams = Omit<DaoInfo, 'address' | 'visibility' | 'id'>;
+export type DaoParams = Omit<
+  DaoInfo,
+  'address' | 'visibility' | 'id' | 'follow_count' | 'last_posts'
+>;
 
 export type DaoInfo = {
   address: string;
@@ -104,9 +126,7 @@ export type LastPosts = {};
 
 export type ListData<T> = {
   list: T[];
-  pager: {
-    page: number;
-    page_size: number;
+  pager: Pagination & {
     total_rows: number;
   };
 };
@@ -130,4 +150,25 @@ export type BucketRes = {
   Settings: {
     Bucket: string;
   };
+};
+
+export type GetMsgIdRes = {
+  channel_type: string;
+  _id: string;
+  server: string;
+  name: string;
+  last_message_id: string;
+};
+
+export type GetMsgRes = {
+  _id: string;
+  nonce: string;
+  channel: string;
+  author: string;
+  content: string;
+};
+
+export type LastMsg = {
+  content: string;
+  created_on: number;
 };

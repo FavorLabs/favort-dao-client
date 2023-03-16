@@ -3,12 +3,31 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    padding: 10px 20px;
+    padding: 10px 5px;
     border-bottom: 0.5px solid rgba(229, 229, 229, 1);
     .detail {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       margin-left: 10px;
+      flex: 1;
       .nameMsg {
-        color: rgba(33, 33, 33, 1);
+        .name {
+          color: rgba(33, 33, 33, 1);
+          font-weight: 700;
+        }
+        .msg {
+          color: rgba(181, 181, 181, 1);
+          font-size: 12px;
+          width: 150px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+      }
+      .lastTime {
+        color: rgba(181, 181, 181, 1);
+        font-size: 12px;
       }
     }
   }

@@ -11,6 +11,7 @@ import PostApi from '@/services/tube/PostApi';
 import { useUrl } from '@/utils/hooks';
 import { checkLogin } from '@/utils/util';
 import SvgIcon from '@/components/SvgIcon';
+import { history } from 'umi';
 
 export type Props = {
   watchNum: number;
@@ -64,7 +65,12 @@ const CommentArea: React.FC<Props> = (props) => {
           </div>
           <span className={styles.operateText}>{watchCount}</span>
         </div>
-        <div className={styles.operateDiv}>
+        <div
+          className={styles.operateDiv}
+          onClick={() => {
+            history.push(`/newsletterDetail/${postId}`);
+          }}
+        >
           <div className={styles.operateIcon}>
             <SvgIcon svg={commentOnImg} />
           </div>

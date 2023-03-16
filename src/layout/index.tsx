@@ -147,7 +147,7 @@ const Layout: React.FC = (props) => {
 
   const getUserCommunityInfo = async () => {
     const { data } = await DaoApi.get(url);
-    if (data.data.list.length) {
+    if (data.data.list?.length) {
       dispatch({
         type: 'dao/updateState',
         payload: {

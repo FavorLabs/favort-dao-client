@@ -2,7 +2,11 @@ import type { AxiosResponse } from 'axios';
 import request from '@/services';
 import {
   CommentInfo,
+  CommentRes,
+  CreateComment,
   CreatePost,
+  CreateReply,
+  GetCommentsParams,
   ListData,
   Page,
   PostInfo,
@@ -75,13 +79,16 @@ export default {
       params: { id },
     });
   },
-  getPostComments(url: string, id: string): ResData<ListData<CommentInfo>> {
+  getPostComments(
+    url: string,
+    params: GetCommentsParams,
+  ): ResData<ListData<CommentInfo>> {
     return request({
       url: url + '/post/comments',
-      params: { id },
+      params,
     });
   },
-  addPostComment(url: string, data: any): ResData<any> {
+  addPostComment(url: string, data: CreateComment): ResData<CommentRes> {
     return request({
       method: 'post',
       url: url + '/post/comment',
@@ -95,7 +102,7 @@ export default {
       data: { id },
     });
   },
-  addCommentReply(url: string, data: any): ResData<any> {
+  addCommentReply(url: string, data: CreateReply): ResData<any> {
     return request({
       method: 'post',
       url: url + '/post/comment/reply',
