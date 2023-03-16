@@ -1,0 +1,178 @@
+.page {
+  margin: 10px;
+  width: 110px;
+  height: 110px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0px -5px 30px 1px rgba(128, 128, 128, 0.21);
+  cursor: pointer;
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 0;
+
+    .avatars {
+      display: flex;
+      border-radius: 4px;
+      border: 2px solid rgba(255, 166, 0, 1);
+    }
+
+    .name {
+      margin: 5px 0;
+      font-size: 16px;
+      font-weight: 700;
+      color: rgba(33, 33, 33, 1);
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .joinedNumber {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 20px;
+      opacity: 1;
+      border-radius: 22px;
+      background: rgba(255, 166, 0, 0.1);
+
+      .svg {
+        width: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .text {
+        margin-left: 2px;
+        font-size: 12px;
+        font-weight: 500;
+        color: rgba(255, 166, 0, 1);
+      }
+    }
+  }
+}
+
+.popup {
+  .popupContent {
+    .card {
+      border-radius: 5px;
+      height: 92px;
+      background: rgba(255, 255, 255, 1);
+      margin-bottom: 20px;
+
+      .bg {
+        border-radius: 5px 5px 0 0;
+        height: 56px;
+      }
+
+      .foot {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        box-sizing: border-box;
+        height: 36px;
+        padding: 0 15px;
+        box-shadow: 0px 2px 15px 5px rgba(0, 0, 0, 0.05);
+        border-radius: 0 0 5px 5px;
+
+        .left {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          position: relative;
+          top: -30%;
+          width: 60%;
+
+          .top {
+            display: flex;
+            align-items: flex-end;
+
+            .img {
+              width: 38px;
+              height: 38px;
+              border-radius: 2px;
+              border: 2px solid
+                var(
+                  --main-communityIntro-communityCard-foot-left-top-img-border
+                );
+            }
+
+            .title {
+              margin-left: 10px;
+              font-size: 16px;
+              font-weight: 700;
+              color: var(
+                --main-communityIntro-communityCard-foot-left-top-title-color
+              );
+            }
+          }
+        }
+        .joined {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 50px;
+          height: 20px;
+          opacity: 1;
+          border-radius: 22px;
+          background: rgba(255, 166, 0, 0.1);
+
+          .svg {
+            width: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+
+          .text {
+            margin-left: 2px;
+            font-size: 12px;
+            font-weight: 500;
+            color: rgba(255, 166, 0, 1);
+          }
+        }
+      }
+    }
+
+    .introduction {
+      margin-bottom: 70px;
+
+      .title {
+        font-size: 14px;
+        font-weight: 500;
+        color: rgba(99, 99, 99, 1);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .text {
+        width: 100%;
+        margin-top: 7px;
+        font-size: 12px;
+        font-weight: 500;
+        color: rgba(33, 33, 33, 1);
+      }
+    }
+
+    .button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 2.75rem;
+      border-radius: 2px;
+      background: rgba(255, 166, 0, 1);
+      font-size: 16px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 1);
+      cursor: pointer;
+    }
+  }
+}

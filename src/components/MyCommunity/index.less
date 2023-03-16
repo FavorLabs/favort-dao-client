@@ -1,0 +1,74 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 2.5rem;
+  position: relative;
+
+  .my {
+    .block {
+      display: flex;
+      .icon {
+        cursor: pointer;
+        border: 2px solid rgba(255, 255, 255, 0);
+      }
+
+      .imgActive {
+        border: 2px solid rgba(255, 166, 0, 1);
+        border-radius: 50%;
+        display: flex;
+      }
+    }
+
+    .button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(240, 240, 240, 1);
+      cursor: pointer;
+    }
+  }
+
+  .bottomLine {
+    margin: 15px 0;
+    width: 1.875rem;
+    height: 0;
+    border: 1px solid rgba(229, 229, 229, 1);
+  }
+
+  .joinedList {
+    height: 20rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+
+    .block {
+      display: flex;
+      margin: 10px 0;
+      .icon {
+        cursor: pointer;
+        border: 2px solid rgba(255, 255, 255, 0);
+      }
+
+      .imgActive {
+        border: 2px solid rgba(255, 166, 0, 1);
+        border-radius: 50%;
+        display: flex;
+      }
+    }
+    .block:first-child {
+      margin-top: 0;
+    }
+  }
+
+  .viewMore {
+    .img {
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+    }
+  }
+}

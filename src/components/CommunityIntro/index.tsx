@@ -17,7 +17,7 @@ const CommunityIntro: React.FC<Props> = (props) => {
   const imagesResUrl = useResourceUrl('images');
 
   const handleClick = (daoId: string) => {
-    history.push(`/dao/${daoId}`);
+    history.push(`/daoCommunity/${daoId}`);
   };
   const operate = 'details';
   return (
