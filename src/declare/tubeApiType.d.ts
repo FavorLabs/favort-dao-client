@@ -12,9 +12,12 @@ export type Post = {
   sort: number;
 };
 
-export type Page = {
+export type Pagination = {
   page: number;
   page_size: number;
+};
+
+export type Page = Pagination & {
   type?: number;
   query?: string;
 };
@@ -45,19 +48,10 @@ export type PostInfo = {
   user: User;
 };
 
-export type CommentParams = {
+export type Comment = {
   content: string;
   type: number;
   sort: number;
-};
-
-export type CommentRes = CommentParams & {
-  id: string;
-  created_on: number;
-  modified_on: number;
-  deleted_on: number;
-  is_del: number;
-  comment_id: string;
 };
 
 export type CommentInfo = {
@@ -69,6 +63,31 @@ export type CommentInfo = {
   replies: CommentInfo[];
   created_on: number;
   modified_on: number;
+};
+
+export type CreateComment = {
+  post_id: string;
+  contents: Comment[];
+};
+
+export type CreateReply = {
+  comment_id: string;
+  content: string;
+};
+
+export type GetCommentsParams = Pagination & {
+  id: string;
+};
+
+export type CommentRes = Comment & {
+  id: string;
+  created_on: number;
+  modified_on: number;
+  deleted_on: number;
+  is_del: number;
+  comment_id: string;
+  post_id: string;
+  address: string;
 };
 
 export type ResData<T> = Promise<
@@ -94,9 +113,7 @@ export type DaoInfo = {
 
 export type ListData<T> = {
   list: T[];
-  pager: {
-    page: number;
-    page_size: number;
+  pager: Pagination & {
     total_rows: number;
   };
 };
