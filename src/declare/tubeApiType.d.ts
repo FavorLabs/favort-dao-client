@@ -99,7 +99,10 @@ export type ResData<T> = Promise<
   }>
 >;
 
-export type DaoParams = Omit<DaoInfo, 'address' | 'visibility' | 'id'>;
+export type DaoParams = Omit<
+  DaoInfo,
+  'address' | 'visibility' | 'id' | 'follow_count' | 'last_posts'
+>;
 
 export type DaoInfo = {
   address: string;
