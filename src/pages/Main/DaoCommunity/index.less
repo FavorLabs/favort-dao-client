@@ -1,0 +1,132 @@
+.content {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding-left: 15px;
+
+  .leftContent {
+  }
+
+  .rightContent {
+    position: absolute;
+    overscroll-behavior: contain;
+    overflow: auto;
+    height: 100%;
+    width: calc(100% - 6.1rem);
+    flex: 1;
+    border-radius: 10px 10px 0 0;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0px -5px 30px 1px rgba(128, 128, 128, 0.21);
+    margin-left: 3.125rem;
+    padding: 20px;
+
+    .information {
+      margin-top: 20px;
+      .title {
+        display: flex;
+        align-items: center;
+
+        .disc {
+          margin-right: 10px;
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: rgba(255, 166, 0, 1);
+        }
+
+        .text {
+          font-size: 18px;
+          font-weight: 700;
+          color: rgba(33, 33, 33, 1);
+        }
+      }
+
+      .contentBox {
+        display: flex;
+        margin: 10px 0;
+
+        .img {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 42px;
+          height: 42px;
+          border-radius: 8px;
+          background: rgba(255, 255, 255, 1);
+          box-shadow: 0px 2px 15px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .right {
+          margin-left: 10px;
+          padding-bottom: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex: 1;
+          border-bottom: 0.5px solid rgba(229, 229, 229, 1);
+          overflow-x: hidden;
+
+          .leftText {
+            overflow: hidden;
+            .name {
+              font-size: 16px;
+              font-weight: 700;
+              color: rgba(33, 33, 33, 1);
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+            }
+
+            .message {
+              width: 130px;
+              font-size: 12px;
+              font-weight: 500;
+              color: rgba(181, 181, 181, 1);
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+            }
+          }
+
+          .time {
+            font-size: 12px;
+            font-weight: 500;
+            color: rgba(181, 181, 181, 1);
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+          }
+        }
+      }
+    }
+
+    .viewDaoGroup {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .createPage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .noCreateBackGround {
+        margin: 3.125rem auto;
+        width: 15.9375rem;
+        height: 19.75rem;
+        background-image: url('../../../assets/img/404.png');
+        background-size: 100%;
+        background-repeat: no-repeat;
+        background-position: center center;
+      }
+
+      .noCreateText {
+        font-size: 12px;
+        font-weight: 500;
+        color: rgba(181, 181, 181, 1);
+      }
+    }
+  }
+}

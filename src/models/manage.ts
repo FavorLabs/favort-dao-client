@@ -12,7 +12,6 @@ export default {
   reducers: {
     updateState(state, { payload }) {
       Object.assign(state, payload);
-      console.log(state.refreshPostList, '更改之后');
     },
   },
   effects: {
