@@ -91,8 +91,6 @@ const Chat: React.FC<Props> = (props) => {
     }
   }, [listLoading]);
 
-  console.log(focusList);
-
   return (
     <div className={styles.groupList}>
       {Object.values(focusList).map((item) => (

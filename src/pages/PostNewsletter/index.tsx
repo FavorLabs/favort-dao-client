@@ -4,9 +4,10 @@ import styles from './index.less';
 import { useHistory, useSelector } from 'umi';
 import { Input, NavBar, TextArea } from 'antd-mobile';
 import { CloseOutline } from 'antd-mobile-icons';
+import { LoadingOutlined } from '@ant-design/icons';
 import ImageCrop from '@/components/ImageCrop';
 import ImageApi from '@/services/tube/Image';
-import { message } from 'antd';
+import { message, Spin } from 'antd';
 import { useResourceUrl, useUrl } from '@/utils/hooks';
 import { CreatePost, Post } from '@/declare/tubeApiType';
 import { Models } from '@/declare/modelType';
@@ -25,11 +26,13 @@ const PostNewsletter: React.FC<Props> = (props) => {
   // const [title, setTitle] = useState<string>('');
   const [mainText, setMainText] = useState<string>('');
   const [imageList, setImageList] = useState<string[]>([]);
+  const [imageListLoading, setImageListLoading] = useState<boolean>(false);
   const [postLoading, setPostLoading] = useState<boolean>(false);
 
   const { userInfo } = useSelector((state: Models) => state.dao);
 
   const uploadImage = async (file: File) => {
+    setImageListLoading(true);
     try {
       let fmData = new FormData();
       fmData.append('newsletterImage', file);
@@ -37,6 +40,8 @@ const PostNewsletter: React.FC<Props> = (props) => {
       setImageList([...imageList, data.id]);
     } catch (e) {
       if (e instanceof Error) message.error(e.message);
+    } finally {
+      setImageListLoading(false);
     }
   };
 
@@ -73,6 +78,8 @@ const PostNewsletter: React.FC<Props> = (props) => {
     return !mainText;
   }, [mainText]);
 
+  const loadIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+
   const optionsItems: OptionsItem[] = [
     // {
     //   name: 'Title',
@@ -103,13 +110,14 @@ const PostNewsletter: React.FC<Props> = (props) => {
         <div className={styles.imageUpload}>
           <ImageCrop
             shape="rect"
-            aspect={2}
+            maxCount={9}
             removeImage={() => {
               // setCommunityAvatar('');
             }}
             multiple={true}
             action={uploadImage}
           />
+          {imageListLoading && <Spin indicator={loadIcon} size="small" />}
         </div>
       ),
     },

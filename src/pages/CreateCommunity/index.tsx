@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { useMemo, useState, useRef, useEffect, ReactNode } from 'react';
 import styles from './index.less';
-import { NavBar, Input, ProgressCircle } from 'antd-mobile';
+import { NavBar, Input, ProgressCircle, TextArea } from 'antd-mobile';
+import { LoadingOutlined } from '@ant-design/icons';
 import ImageCrop from '@/components/ImageCrop';
 import { useHistory, useDispatch } from 'umi';
 import ImageApi from '@/services/tube/Image';
 import { useResourceUrl, useUrl } from '@/utils/hooks';
-import { message } from 'antd';
+import { message, Spin } from 'antd';
 import DaoApi from '@/services/tube/Dao';
 import { sleep } from '@/utils/util';
 
@@ -31,7 +32,9 @@ const CreateCommunity: React.FC<Props> = (props) => {
   const [communityName, setCommunityName] = useState<string>('');
   const [communityDesc, setCommunityDesc] = useState<string>('');
   const [communityAvatar, setCommunityAvatar] = useState<string>('');
+  const [cAvatarLoading, setCAvatarLoading] = useState<boolean>(false);
   const [communityBanner, setCommunityBanner] = useState<string>('');
+  const [cBannerLoading, setCBannerLoading] = useState<boolean>(false);
   const [animConfig, setAnimConfig] = useState<AnimConfig>({
     visible: false,
     tips: 'In progress...',
@@ -41,6 +44,7 @@ const CreateCommunity: React.FC<Props> = (props) => {
   let animTimer = useRef<null | NodeJS.Timer>(null);
 
   const uploadAvatar = async (file: File) => {
+    setCAvatarLoading(true);
     try {
       let fmData = new FormData();
       fmData.append('avatar', file);
@@ -48,10 +52,13 @@ const CreateCommunity: React.FC<Props> = (props) => {
       setCommunityAvatar(data.id);
     } catch (e) {
       if (e instanceof Error) message.error(e.message);
+    } finally {
+      setCAvatarLoading(false);
     }
   };
 
   const uploadBanner = async (file: File) => {
+    setCBannerLoading(true);
     try {
       let fmData = new FormData();
       fmData.append('banner', file);
@@ -59,6 +66,8 @@ const CreateCommunity: React.FC<Props> = (props) => {
       setCommunityBanner(data.id);
     } catch (e) {
       if (e instanceof Error) message.error(e.message);
+    } finally {
+      setCBannerLoading(false);
     }
   };
 
@@ -114,11 +123,14 @@ const CreateCommunity: React.FC<Props> = (props) => {
     );
   }, [communityName, communityDesc, communityAvatar, communityBanner]);
 
+  const loadIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+
   const optionsItems: OptionsItem[] = [
     {
       name: 'Name',
       content: (
         <Input
+          maxLength={20}
           onChange={(val) => {
             setCommunityName(val.trim());
           }}
@@ -129,7 +141,9 @@ const CreateCommunity: React.FC<Props> = (props) => {
     {
       name: 'Description',
       content: (
-        <Input
+        <TextArea
+          maxLength={100}
+          autoSize={{ minRows: 1, maxRows: 4 }}
           onChange={(val) => {
             setCommunityDesc(val.trim());
           }}
@@ -142,6 +156,7 @@ const CreateCommunity: React.FC<Props> = (props) => {
       content: (
         <div className={styles.avatarUpload}>
           <ImageCrop
+            crop={true}
             shape="round"
             aspect={1}
             removeImage={() => {
@@ -149,6 +164,7 @@ const CreateCommunity: React.FC<Props> = (props) => {
             }}
             action={uploadAvatar}
           />
+          {cAvatarLoading && <Spin indicator={loadIcon} size="small" />}
         </div>
       ),
     },
@@ -164,6 +180,7 @@ const CreateCommunity: React.FC<Props> = (props) => {
             }}
             action={uploadBanner}
           />
+          {cBannerLoading && <Spin indicator={loadIcon} size="small" />}
         </div>
       ),
     },

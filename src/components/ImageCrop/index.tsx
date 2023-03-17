@@ -13,7 +13,9 @@ import SvgIcon from '@/components/SvgIcon';
 import { UploadListType } from 'antd/es/upload/interface';
 
 export type Props = {
+  crop?: boolean;
   url?: string;
+  maxCount?: number;
   setImgBase64?: (imgBase64: string) => void;
   removeImage: () => void;
   shape?: 'rect' | 'round';
@@ -24,7 +26,9 @@ export type Props = {
 };
 const Index: React.FC<Props> = (props) => {
   const {
+    crop = false,
     url,
+    maxCount,
     setImgBase64,
     removeImage,
     shape,
@@ -33,11 +37,14 @@ const Index: React.FC<Props> = (props) => {
     listType,
     action,
   } = props;
+
   const defaultFileList: UploadFile[] = url
     ? [{ uid: '1', name: '', status: 'done', url: url }]
     : [];
   const [upload, setUpload] = useState<boolean>(!!url);
   // const [imgBase64, setImgBase64] = useState<string>(url);
+  const [fileCount, setFileCount] = useState<number>(0);
+
   const beforeUpload = (file: RcFile) => {
     const render = new FileReader();
     render.onload = () => {
@@ -47,11 +54,13 @@ const Index: React.FC<Props> = (props) => {
     setUpload(true);
     return file;
   };
+
   const onRemove = () => {
     setImgBase64?.('');
     removeImage();
     setUpload(false);
   };
+
   const onPreview = async (file: UploadFile) => {
     let src = file.url as string;
     if (!src) {
@@ -66,25 +75,43 @@ const Index: React.FC<Props> = (props) => {
     const imgWindow = window.open(src);
     imgWindow?.document.write(image.outerHTML);
   };
+
+  const onChange = (info: UploadChangeParam) => {
+    const { file, fileList } = info;
+    setFileCount(fileList.length);
+  };
+
+  const uploadDOM = (
+    <Upload
+      beforeUpload={beforeUpload}
+      listType={listType || 'picture-card'}
+      onPreview={onPreview}
+      onRemove={onRemove}
+      onChange={onChange}
+      maxCount={multiple ? undefined : 1}
+      action={action || undefined}
+      defaultFileList={defaultFileList}
+    >
+      {multiple
+        ? maxCount && fileCount < maxCount && <SvgIcon svg={addSvg} />
+        : !upload && <SvgIcon svg={addSvg} />}
+    </Upload>
+  );
+
   return (
     <>
-      <ImgCrop rotate shape={shape} aspect={aspect} key={url}>
-        <Upload
-          beforeUpload={beforeUpload}
-          listType={listType || 'picture-card'}
-          onPreview={onPreview}
-          onRemove={onRemove}
-          maxCount={multiple ? undefined : 1}
-          action={action || undefined}
-          defaultFileList={defaultFileList}
+      {crop ? (
+        <ImgCrop
+          rotationSlider={true}
+          cropShape={shape}
+          aspect={aspect}
+          key={url}
         >
-          {multiple ? (
-            <SvgIcon svg={addSvg} />
-          ) : (
-            !upload && <SvgIcon svg={addSvg} />
-          )}
-        </Upload>
-      </ImgCrop>
+          {uploadDOM}
+        </ImgCrop>
+      ) : (
+        uploadDOM
+      )}
     </>
   );
 };
