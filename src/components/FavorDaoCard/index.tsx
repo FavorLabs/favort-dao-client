@@ -83,13 +83,13 @@ const FavorDaoCard: React.FC<Props> = (props) => {
                 <div className={styles.svg}>
                   <SvgIcon svg={joinedImg} />
                 </div>
-                <span className={styles.text}>123</span>
+                <span className={styles.text}>{daoInfo?.follow_count}</span>
               </div>
             </div>
           </div>
           <div className={styles.introduction}>
             <div className={styles.title}>Introduction</div>
-            <span className={styles.text}>my name is xiao liao</span>
+            <span className={styles.text}>{daoInfo?.introduction}</span>
           </div>
           <div
             className={styles.button}

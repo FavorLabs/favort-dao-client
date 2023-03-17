@@ -2,10 +2,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 2.5rem;
   position: relative;
+  box-sizing: border-box;
+  height: calc(100vh - 250px);
+  padding-top: 10px;
 
   .my {
+    position: relative;
+    margin-bottom: 30px;
     .block {
       display: flex;
       .icon {
@@ -40,7 +44,9 @@
   }
 
   .joinedList {
-    height: 20rem;
+    box-sizing: border-box;
+    position: relative;
+    flex: 1;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
@@ -64,7 +70,29 @@
     }
   }
 
+  .viewMore::before,
+  .my::after {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    content: '';
+    display: inline-block;
+    width: 80%;
+    height: 1px;
+    background: rgba(229, 229, 229, 1);
+    z-index: 5;
+  }
+
+  .viewMore::before {
+    top: -15px;
+  }
+  .my::after {
+    bottom: -15px;
+  }
+
   .viewMore {
+    position: relative;
+    margin-top: 30px;
     .img {
       width: 40px;
       height: 40px;

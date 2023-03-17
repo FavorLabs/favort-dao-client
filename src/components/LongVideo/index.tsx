@@ -6,6 +6,9 @@ import PopupContent from '@/components/PopupContent';
 import { PostInfo } from '@/declare/tubeApiType';
 import { useResourceUrl } from '@/utils/hooks';
 import { getContent, getTime } from '@/utils/util';
+import CommunityInfo from '@/components/CommunityInfo';
+import playImg from '@/assets/icon/play-icon.svg';
+import SvgIcon from '@/components/SvgIcon';
 
 export type Props = {
   post: PostInfo;
@@ -26,6 +29,7 @@ const LongVideo: React.FC<Props> = (props) => {
   const videosResUrl = useResourceUrl('images');
   const info = getContent(contents);
   const time = getTime(created_on);
+  const imagesResUrl = useResourceUrl('images');
   const toVideo = () => {
     history.push(`/video/${props.post.id}`);
   };
@@ -33,26 +37,24 @@ const LongVideo: React.FC<Props> = (props) => {
   return (
     <div className={styles.videoCard}>
       <div className={styles.main}>
-        <div className={styles.left}>
-          <img
-            className={styles.img}
-            src={`${videosResUrl}/${info?.[3]?.[0]?.content}`}
-            alt=""
-            onClick={toVideo}
-          />
-          {/*<div className={styles.duration}>{videoTime}</div>*/}
+        <div className={styles.top}>
+          <CommunityInfo daoInfo={dao} createTime={created_on} />
+          <PopupContent post={props.post} refreshPage={props.refreshPage} />
         </div>
-        <div className={styles.right}>
-          <div className={styles.top}>
-            <div className={styles.nav}>
-              <p className={styles.title}>{info?.[1]?.[0]?.content}</p>
-              <PopupContent post={props.post} refreshPage={props.refreshPage} />
-            </div>
-            <p className={styles.content}>{info?.[2]?.[0]?.content}</p>
-          </div>
-          <div className={styles.bottom}>
-            <p className={styles.name}>{dao.name}</p>
-            <p className={styles.time}>{time}</p>
+
+        <div className={styles.bottom} onClick={toVideo}>
+          <div className={styles.title}>{info?.[1]?.[0]?.content}</div>
+
+          <div
+            className={styles.bg}
+            style={{
+              backgroundImage: `url(${imagesResUrl}/${info?.[3]?.[0]?.content})`,
+              backgroundSize: `100%`,
+              backgroundPosition: `center center`,
+              backgroundRepeat: 'no-repeat',
+            }}
+          >
+            <img src={playImg} className={styles.play} />
           </div>
         </div>
       </div>

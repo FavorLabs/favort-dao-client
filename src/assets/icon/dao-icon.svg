@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="21px" height="21px" viewBox="0 0 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>分组 5</title>
+    <defs>
+        <path d="M10,0 C4.48,0 0,4.48 0,10 C0,15.52 4.48,20 10,20 C15.52,20 20,15.52 20,10 C20,4.48 15.52,0 10,0 Z" id="path-1"></path>
+        <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="20" height="20" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+    </defs>
+    <g id="效果图（light--English）" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-dasharray="0,0">
+        <g id="分组-5" transform="translate(-107.000000, -5.000000)" stroke="#424242">
+            <g id="引用组件-2/dao(选中)" transform="translate(104.250000, 5.500000)">
+                <g id="分组-5" transform="translate(3.000000, 0.000000)">
+                    <use id="路径" mask="url(#mask-2)" stroke-width="2.4" xlink:href="#path-1"></use>
+                    <path d="M6.46,14 C7.36,14.9 8.61,15.46 10,15.46 C11.38,15.46 12.63,14.9 13.53,14" id="路径" stroke-width="1.8"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
