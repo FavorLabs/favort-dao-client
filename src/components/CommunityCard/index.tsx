@@ -10,7 +10,7 @@ import joinedImg from '@/assets/icon/joinedNumber.svg';
 import arrow from '@/assets/img/arrow.png';
 import ExitCommunityDialog from '@/components/ExitCommunityDialog';
 import { message } from 'antd';
-import { ImageSize } from '@/config/constants';
+import { ImageMaxSize } from '@/config/constants';
 
 export type Props = {
   status: boolean;
@@ -46,7 +46,7 @@ const CommunityCard: React.FC<Props> = (props) => {
           className={styles.bg}
           style={{
             backgroundImage: `url(${imagesResUrl}/${
-              daoInfo?.banner + ImageSize
+              daoInfo?.banner + ImageMaxSize
             })`,
             backgroundSize: `100%`,
             backgroundPosition: `center center`,
