@@ -6,7 +6,6 @@ import SvgIcon from '@/components/SvgIcon';
 import TopBar from '@/components/ThreeStageLayout/TopBar';
 import Children from '@/components/ThreeStageLayout/Children';
 import MenuBar from '@/components/ThreeStageLayout/MenuBar';
-import avatar_1 from '@/assets/img/avatar_1.png';
 import latestSvg from '@/assets/icon/latest.svg';
 import daoSvg from '@/assets/icon/dao.svg';
 import addCommunitySvg from '@/assets/icon/addCommunity.svg';
@@ -15,6 +14,14 @@ import mineSvg from '@/assets/icon/mine.svg';
 import homeSvg from '@/assets/icon/home.svg';
 import postNews from '@/assets/img/postNews.png';
 import postVideo from '@/assets/img/postVideo.png';
+import lastetIcon from '@/assets/icon/lastet-icon.svg';
+import lastetOnIcon from '@/assets/icon/lastet-on-icon.svg';
+import daoIcon from '@/assets/icon/dao-icon.svg';
+import daoOnIcon from '@/assets/icon/dao-on-icon.svg';
+import chatIcon from '@/assets/icon/chat-icon.svg';
+import chatOnIcon from '@/assets/icon/chat-on-icon.svg';
+import myIcon from '@/assets/icon/my-icon.svg';
+import myOnIcon from '@/assets/icon/my-on-icon.svg';
 import {
   useSelector,
   useHistory,
@@ -27,13 +34,11 @@ import {
 import { Models } from '@/declare/modelType';
 import { useUrl, useResourceUrl } from '@/utils/hooks';
 import { Tabs, TabBarItemProps, Popup } from 'antd-mobile';
-import { SearchOutline } from 'antd-mobile-icons';
 import { isFavorApp, switchTheme } from '@/utils/util';
 import DaoApi from '@/services/tube/Dao';
 import UserAvatar from '@/components/UserAvatar';
 import Flutter from '@/utils/flutter';
-import deleteImg from '@/assets/img/delete-icon.png';
-import { history } from '@@/core/history';
+import searchImg from '@/assets/icon/search-icon.svg';
 
 export type Props = {};
 export type MenuItem = TabBarItemProps & {
@@ -48,13 +53,20 @@ const Main: React.FC<Props> = (props) => {
   const pathname = history.location.pathname;
   const { user } = useSelector((state: Models) => state.global);
   const { userInfo } = useSelector((state: Models) => state.dao);
+  const route = pathname.split('/')[1];
+  const [routeKey, setRouteKey] = useState(`/${route}`);
+  const [isShowSearch, setIsShowSearch] = useState<boolean>(true);
   const menuItems: MenuItem[] = [
     {
       key: '/latest',
-      title: 'News',
+      title: 'Feeds',
       icon: (
         <div className={`${styles.latest} latest`}>
-          <SvgIcon svg={latestSvg} />
+          {routeKey === '/latest' ? (
+            <img src={lastetOnIcon}></img>
+          ) : (
+            <img src={lastetIcon}></img>
+          )}
         </div>
       ),
     },
@@ -63,7 +75,11 @@ const Main: React.FC<Props> = (props) => {
       title: 'DAO',
       icon: (
         <div className={`${styles.dao} dao`}>
-          <SvgIcon svg={daoSvg} />
+          {routeKey === '/daoCommunity' ? (
+            <img src={daoOnIcon}></img>
+          ) : (
+            <img src={daoIcon}></img>
+          )}
         </div>
       ),
     },
@@ -85,7 +101,11 @@ const Main: React.FC<Props> = (props) => {
       title: 'Chats',
       icon: (
         <div className={`${styles.chat} chat`}>
-          <SvgIcon svg={chatSvg} />
+          {routeKey === '/chat' ? (
+            <img src={chatOnIcon}></img>
+          ) : (
+            <img src={chatIcon}></img>
+          )}
         </div>
       ),
     },
@@ -94,7 +114,11 @@ const Main: React.FC<Props> = (props) => {
       title: 'My',
       icon: (
         <div className={`${styles.mine} mine`}>
-          <SvgIcon svg={mineSvg} />
+          {routeKey === '/mine' ? (
+            <img src={myOnIcon}></img>
+          ) : (
+            <img src={myIcon}></img>
+          )}
         </div>
       ),
     },
@@ -105,9 +129,6 @@ const Main: React.FC<Props> = (props) => {
   const [topBarVisibility, setTopBarVisibility] = useState<boolean>(true);
   const [postPopupVisibility, setPostPopupVisibility] =
     useState<boolean>(false);
-  const route = pathname.split('/')[1];
-  const [routeKey, setRouteKey] = useState(`/${route}`);
-  const [isShowSearch, setIsShowSearch] = useState<boolean>(true);
 
   const toSearch = () => {
     const type = routeKey.split('/')[1];
@@ -161,10 +182,12 @@ const Main: React.FC<Props> = (props) => {
                 )}
                 <div className={styles.action}>
                   {isShowSearch ? (
-                    <SearchOutline
+                    <div
                       className={styles.searchBtn}
                       onClick={() => toSearch()}
-                    />
+                    >
+                      <SvgIcon svg={searchImg} />
+                    </div>
                   ) : (
                     <></>
                   )}

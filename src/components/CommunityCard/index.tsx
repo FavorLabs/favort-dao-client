@@ -9,8 +9,8 @@ import SvgIcon from '@/components/SvgIcon';
 import joinedImg from '@/assets/icon/joinedNumber.svg';
 import arrow from '@/assets/img/arrow.png';
 import ExitCommunityDialog from '@/components/ExitCommunityDialog';
-import DaoApi from '@/services/tube/Dao';
 import { message } from 'antd';
+import { ImageSize } from '@/config/constants';
 
 export type Props = {
   status: boolean;
@@ -45,9 +45,12 @@ const CommunityCard: React.FC<Props> = (props) => {
         <div
           className={styles.bg}
           style={{
-            backgroundImage: `url(${imagesResUrl}/${daoInfo?.banner})`,
+            backgroundImage: `url(${imagesResUrl}/${
+              daoInfo?.banner + ImageSize
+            })`,
             backgroundSize: `100%`,
             backgroundPosition: `center center`,
+            backgroundRepeat: `no-repeat`,
           }}
         ></div>
         <div className={`${styles.bottom}`}>

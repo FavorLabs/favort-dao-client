@@ -6,22 +6,23 @@
   .operateDiv {
     display: flex;
     align-items: center;
+    justify-content: center;
     cursor: pointer;
+    flex: 1;
 
     .operateText {
       margin-left: 2px;
       font-size: 12px;
       font-weight: 500;
       color: var(--main-graphicMessage-operate-text-color);
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
 
     .operateIcon {
       display: flex;
       align-items: center;
-      .img {
-        width: 18px;
-        height: 18px;
-      }
     }
   }
 }

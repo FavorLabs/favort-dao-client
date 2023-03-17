@@ -1,5 +1,3 @@
-import { useReviteUrl } from '@/utils/hooks';
-
 export const ReviteURL = 'https://revite.favorlabs.io';
 export const MetaMask = 'metamask';
 export const OKX = 'okx';
@@ -22,3 +20,6 @@ export const StorageOverlay =
 export const ProxyGroup = 'dao-backend';
 export const ProxyOverlay =
   'cc30f0393cfaf2b6b2bea82ea4400fe8e9ff6d94b858beaf36d41fb9f040963e';
+
+export const ImageSize = '?width=150';
+export const avatarSize = '?width=50';

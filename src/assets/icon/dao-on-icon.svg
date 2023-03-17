@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="21px" viewBox="0 0 20 21" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>分组 5</title>
+    <g id="效果图（light--English）" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="dao(选中)" transform="translate(-3.000000, 0.500000)" fill="#FFA600">
+            <g id="分组-5" transform="translate(3.000000, 0.000000)">
+                <path d="M10,0 C4.48,0 0,4.48 0,10 C0,15.52 4.48,20 10,20 C15.52,20 20,15.52 20,10 C20,4.48 15.52,0 10,0 Z" id="路径"></path>
+                <path d="M6.46,14 C7.36,14.9 8.61,15.46 10,15.46 C11.38,15.46 12.63,14.9 13.53,14" id="路径" stroke="#FFFFFF" stroke-width="1.8" stroke-dasharray="0,0"></path>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="22px" viewBox="0 0 20 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>分组 10</title>
+    <defs>
+        <path d="M19,19.6775 C19,17.3375 16.34,15.4375 13.06,15.4375 L5.94,15.4375 C2.66,15.4375 0,17.3375 0,19.6775 L0,21.3775 L19,21.3775 L19,19.6775 Z" id="path-1"></path>
+        <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="19" height="5.94" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <path d="M14.25,7.13 C14.25,3.19 11.06,0 7.13,0 C3.19,0 0,3.19 0,7.13 C0,11.06 3.19,14.25 7.13,14.25 C11.06,14.25 14.25,11.06 14.25,7.13 Z" id="path-3"></path>
+        <mask id="mask-4" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="14.25" height="14.25" fill="white">
+            <use xlink:href="#path-3"></use>
+        </mask>
+    </defs>
+    <g id="效果图（light--English）" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-dasharray="0,0">
+        <g id="分组-5" transform="translate(-316.000000, -5.000000)" stroke="#424242">
+            <g id="引用组件-2/我的（选中）" transform="translate(314.000000, 5.000000)">
+                <g id="分组-10" transform="translate(2.500000, 0.000000)">
+                    <use id="路径" mask="url(#mask-2)" stroke-width="2" xlink:href="#path-1"></use>
+                    <g id="分组-3" transform="translate(2.375000, 0.000000)">
+                        <use id="路径" mask="url(#mask-4)" stroke-width="2" xlink:href="#path-3"></use>
+                        <line x1="5.04473808" y1="5.94" x2="5.04375" y2="8.4399998" id="直线-1" stroke-width="1.8"></line>
+                        <line x1="9.79473808" y1="5.94" x2="9.79375" y2="8.4399998" id="直线-1" stroke-width="1.8"></line>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

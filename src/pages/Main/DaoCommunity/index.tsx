@@ -16,6 +16,7 @@ import videoImg from '@/assets/icon/daoVideo.svg';
 import chatImg from '@/assets/icon/daoChat.svg';
 import { getContent, getTime, toChat } from '@/utils/util';
 import PostApi from '@/services/tube/PostApi';
+import CommunityIntro from '@/components/CommunityIntro';
 
 export type Props = {};
 
@@ -248,7 +249,12 @@ const DaoCommunity: React.FC<Props> = (props) => {
           ) : (
             <div className={styles.viewDaoGroup}>
               {allDao.map((item: any, index: number) => {
-                return <FavorDaoCard daoInfo={item.dao} />;
+                return (
+                  <div key={index} className={styles.viewContent}>
+                    {/*<FavorDaoCard daoInfo={item.dao} />*/}
+                    <CommunityIntro post={item} />
+                  </div>
+                );
               })}
             </div>
           )}
