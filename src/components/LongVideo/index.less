@@ -3,90 +3,37 @@
   border-bottom: 1px solid rgba(229, 229, 229, 1);
   margin-top: 10px;
   .main {
-    display: flex;
+    //display: flex;
     background: #ffffff;
 
-    .left {
-      position: relative;
-      flex: 1;
+    .top {
+      width: 100%;
       display: flex;
-      justify-content: center;
-      align-items: center;
-
-      .img {
-        max-width: 100%;
-        border-radius: 2px;
-      }
-
-      .duration {
-        position: absolute;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        right: 5px;
-        bottom: 8px;
-        font-size: 12px;
-        font-weight: 500;
-        color: rgba(255, 255, 255, 1);
-        padding: 1px 5px;
-        border-radius: 10px;
-        background: rgba(33, 33, 33, 1);
-      }
+      justify-content: space-between;
     }
 
-    .right {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      width: calc(50% - 0.5625rem);
-      margin-left: 0.5625rem;
-
-      .top {
-        .nav {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-
-          .title {
-            width: 80%;
-            overflow-x: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            font-size: 1rem;
-            font-weight: 700;
-            color: rgba(33, 33, 33, 1);
-          }
-        }
-
-        .content {
-          margin-top: 5px;
-          font-size: 12px;
-          font-weight: 500;
-          color: rgba(66, 66, 66, 1);
-          overflow: hidden;
-          text-overflow: ellipsis;
-          display: -webkit-box;
-          -webkit-box-orient: vertical;
-          -webkit-line-clamp: 2;
-        }
+    .bottom {
+      .title {
+        padding: 10px 0;
+        width: 90%;
+        overflow-x: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        font-size: 16px;
+        font-weight: 700;
+        color: rgba(33, 33, 33, 1);
       }
 
-      .bottom {
+      .bg {
         display: flex;
         align-items: center;
-        margin-bottom: 0.3125rem;
+        justify-content: center;
+        width: 100%;
+        height: 10.5rem;
 
-        .name {
-          font-size: 12px;
-          font-weight: 500;
-          color: rgba(181, 181, 181, 1);
-        }
-
-        .time {
-          margin-left: 6px;
-          font-size: 12px;
-          font-weight: 500;
-          color: rgba(181, 181, 181, 1);
+        .play {
+          width: 3.125rem;
+          height: 3.125rem;
         }
       }
     }

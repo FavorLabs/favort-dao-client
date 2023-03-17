@@ -56,7 +56,7 @@ const MyCommunity: React.FC<Props> = (props) => {
         )}
       </div>
 
-      <div className={styles.bottomLine}></div>
+      {/*<div className={styles.bottomLine}></div>*/}
 
       <div className={styles.joinedList}>
         {joinedList.length ? (
@@ -82,7 +82,7 @@ const MyCommunity: React.FC<Props> = (props) => {
         )}
       </div>
 
-      <div className={styles.bottomLine}></div>
+      {/*<div className={styles.bottomLine}></div>*/}
 
       <div className={styles.viewMore}>
         {isViewDaoGroup ? (

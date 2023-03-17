@@ -2,8 +2,8 @@ import * as React from 'react';
 import styles from './index.less';
 import lookOverImg from '@/assets/icon/look-over.svg';
 import commentOnImg from '@/assets/icon/comment-on.svg';
-// import likeImg from '@/assets/icon/like.svg';
-// import likeOnImg from '@/assets/icon/like-on.svg';
+import likeIcon from '@/assets/icon/like-icon.svg';
+import likeOnIcon from '@/assets/icon/like-on-icon.svg';
 import likeImg from '@/assets/img/support.png';
 import likeOnImg from '@/assets/img/support_on.png';
 import { useEffect, useState } from 'react';
@@ -84,9 +84,9 @@ const CommentArea: React.FC<Props> = (props) => {
         >
           <div className={styles.operateIcon}>
             {like ? (
-              <img src={likeOnImg} className={styles.img} />
+              <img src={likeOnIcon} className={styles.img} />
             ) : (
-              <img src={likeImg} className={styles.img} />
+              <img src={likeIcon} className={styles.img} />
             )}
           </div>
           <span className={styles.operateText}>{likeCount}</span>

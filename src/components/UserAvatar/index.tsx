@@ -2,6 +2,7 @@ import * as React from 'react';
 import styles from './index.less';
 import { Avatar } from 'antd';
 import { AvatarProps } from 'antd';
+import { avatarSize } from '@/config/constants';
 
 export type Props = AvatarProps & {
   prefix: string;
@@ -18,7 +19,7 @@ const UserAvatar: React.FC<Props> = (props) => {
       <Avatar
         {...props}
         alt={alternativeText}
-        src={identifier && `${prefix}/${identifier}`}
+        src={identifier && `${prefix}/${identifier + avatarSize}`}
         className={`${styles.userAvatar} ${props.size ? '' : 'userAvatar'}`}
       >
         <span className={styles.text}>{alternativeText}</span>

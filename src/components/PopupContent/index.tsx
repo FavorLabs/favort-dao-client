@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styles from './index.less';
-import deleteImg from '@/assets/img/delete-icon.png';
+import moreIcon from '@/assets/icon/moreIcon.svg';
+import deleteIcon from '@/assets/icon/delete-icon.svg';
 import { useDispatch, useSelector } from 'umi';
 import { Models } from '@/declare/modelType';
 import PostApi from '@/services/tube/PostApi';
@@ -59,7 +60,7 @@ const PopupContent: React.FC<Props> = (props) => {
       <div className={styles.more}>
         <img
           className={styles.moreImg}
-          src={moreImg}
+          src={moreIcon}
           alt=""
           onClick={moreClick}
         />
@@ -89,7 +90,7 @@ const PopupContent: React.FC<Props> = (props) => {
           {/*</div>*/}
           {userInfo?.id === post.dao.id ? (
             <div className={styles.row} onClick={deleteFun}>
-              <img src={deleteImg} alt="" className={styles.img} />
+              <img src={deleteIcon} alt="" className={styles.img} />
               <span className={styles.redText}>Delete</span>
             </div>
           ) : (
