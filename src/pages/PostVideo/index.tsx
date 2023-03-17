@@ -2,10 +2,11 @@ import * as React from 'react';
 import { ReactNode, useMemo, useState } from 'react';
 import styles from './index.less';
 import { useHistory, useSelector } from 'umi';
-import { message, Upload } from 'antd';
+import { message, Spin, Upload } from 'antd';
 import { RcFile, UploadProps } from 'antd/es/upload/interface';
 import { Input, NavBar, ProgressCircle, TextArea } from 'antd-mobile';
 import { CloseOutline } from 'antd-mobile-icons';
+import { LoadingOutlined } from '@ant-design/icons';
 import ImageCrop from '@/components/ImageCrop';
 import SvgIcon from '@/components/SvgIcon';
 import ImageApi from '@/services/tube/Image';
@@ -42,6 +43,7 @@ const PostVideo: React.FC<Props> = (props) => {
   const [videoCover, setVideoCover] = useState<string>('');
   const [video, setVideo] = useState<string>('');
   const [uploading, setUploading] = useState<boolean>(false);
+  const [videoCoverLoading, setVideoCoverLoading] = useState<boolean>(false);
   const [progressValue, setProgressValue] = useState<number>(0);
   const [statusTip, setStatusTip] = useState<string>('');
   const [showVideoList, setShowVideoList] = useState<boolean>(true);
@@ -53,6 +55,7 @@ const PostVideo: React.FC<Props> = (props) => {
   const { userInfo } = useSelector((state: Models) => state.dao);
 
   const uploadImage = async (file: File) => {
+    setVideoCoverLoading(true);
     try {
       let fmData = new FormData();
       fmData.append('videoCover', file);
@@ -60,6 +63,8 @@ const PostVideo: React.FC<Props> = (props) => {
       setVideoCover(data.id);
     } catch (e) {
       if (e instanceof Error) message.error(e.message);
+    } finally {
+      setVideoCoverLoading(false);
     }
   };
 
@@ -348,6 +353,8 @@ const PostVideo: React.FC<Props> = (props) => {
     },
   };
 
+  const loadIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+
   const optionsItems: OptionsItem[] = [
     {
       name: 'Title',
@@ -377,6 +384,7 @@ const PostVideo: React.FC<Props> = (props) => {
       content: (
         <div className={styles.coverUpload}>
           <ImageCrop
+            crop={true}
             shape="rect"
             aspect={2}
             removeImage={() => {
@@ -384,6 +392,7 @@ const PostVideo: React.FC<Props> = (props) => {
             }}
             action={uploadImage}
           />
+          {videoCoverLoading && <Spin indicator={loadIcon} size="small" />}
         </div>
       ),
     },

@@ -88,6 +88,7 @@ const NewsletterDetail: React.FC<Props> = (props) => {
       // setComListLoading(false);
     } catch (e) {
       if (e instanceof Error) message.error(e.message);
+      setHasMore(false);
     }
   };
 

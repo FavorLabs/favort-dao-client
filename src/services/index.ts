@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const request = axios.create({
   baseURL: '',
-  timeout: 5e3,
+  timeout: 10e3,
 });
 
 request.interceptors.request.use((config) => {

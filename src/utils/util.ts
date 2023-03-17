@@ -128,11 +128,6 @@ export const toChat = (
         2,
       )}?token=${token}&api=${api}&proxyGroup=${proxyGroup}`,
     );
-    console.log(
-      `${ReviteURL}/server/${hash.slice(
-        2,
-      )}?token=${token}&api=${api}&proxyGroup=${proxyGroup}`,
-    );
   }
 };
 
