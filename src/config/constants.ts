@@ -21,5 +21,7 @@ export const ProxyGroup = 'dao-backend';
 export const ProxyOverlay =
   'cc30f0393cfaf2b6b2bea82ea4400fe8e9ff6d94b858beaf36d41fb9f040963e';
 
-export const ImageSize = '?width=150';
+export const ImageMinSize = '?width=150';
+export const ImageMidSize = '?width=320';
+export const ImageMaxSize = '?width=640';
 export const avatarSize = '?width=50';

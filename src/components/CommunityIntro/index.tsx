@@ -5,7 +5,7 @@ import { useResourceUrl, useUrl } from '@/utils/hooks';
 import DaoApi from '@/services/tube/Dao';
 import { useState } from 'react';
 import { history } from 'umi';
-import { ImageSize } from '@/config/constants';
+import { ImageMaxSize } from '@/config/constants';
 
 export type Props = {
   post: PostInfo;
@@ -27,7 +27,7 @@ const CommunityIntro: React.FC<Props> = (props) => {
         className={styles.head}
         style={{
           background: dao.banner
-            ? `url(${imagesResUrl}/${dao.banner + ImageSize})`
+            ? `url(${imagesResUrl}/${dao.banner + ImageMaxSize})`
             : `rgba(240, 240, 240, 1)`,
           backgroundSize: `100%`,
           backgroundPosition: `center center`,

@@ -6,11 +6,7 @@ import SvgIcon from '@/components/SvgIcon';
 import TopBar from '@/components/ThreeStageLayout/TopBar';
 import Children from '@/components/ThreeStageLayout/Children';
 import MenuBar from '@/components/ThreeStageLayout/MenuBar';
-import latestSvg from '@/assets/icon/latest.svg';
-import daoSvg from '@/assets/icon/dao.svg';
 import addCommunitySvg from '@/assets/icon/addCommunity.svg';
-import chatSvg from '@/assets/icon/chat.svg';
-import mineSvg from '@/assets/icon/mine.svg';
 import homeSvg from '@/assets/icon/home.svg';
 import postNews from '@/assets/img/postNews.png';
 import postVideo from '@/assets/img/postVideo.png';
@@ -55,6 +51,7 @@ const Main: React.FC<Props> = (props) => {
   const { userInfo } = useSelector((state: Models) => state.dao);
   const route = pathname.split('/')[1];
   const [routeKey, setRouteKey] = useState(`/${route}`);
+  const [routeIcon, setRouteIcon] = useState(`/latest`);
   const [isShowSearch, setIsShowSearch] = useState<boolean>(true);
   const menuItems: MenuItem[] = [
     {
@@ -62,7 +59,7 @@ const Main: React.FC<Props> = (props) => {
       title: 'Feeds',
       icon: (
         <div className={`${styles.latest} latest`}>
-          {routeKey === '/latest' ? (
+          {routeIcon === '/latest' ? (
             <img src={lastetOnIcon}></img>
           ) : (
             <img src={lastetIcon}></img>
@@ -75,7 +72,7 @@ const Main: React.FC<Props> = (props) => {
       title: 'DAO',
       icon: (
         <div className={`${styles.dao} dao`}>
-          {routeKey === '/daoCommunity' ? (
+          {routeIcon === '/daoCommunity' ? (
             <img src={daoOnIcon}></img>
           ) : (
             <img src={daoIcon}></img>
@@ -101,7 +98,7 @@ const Main: React.FC<Props> = (props) => {
       title: 'Chats',
       icon: (
         <div className={`${styles.chat} chat`}>
-          {routeKey === '/chat' ? (
+          {routeIcon === '/chat' ? (
             <img src={chatOnIcon}></img>
           ) : (
             <img src={chatIcon}></img>
@@ -114,7 +111,7 @@ const Main: React.FC<Props> = (props) => {
       title: 'My',
       icon: (
         <div className={`${styles.mine} mine`}>
-          {routeKey === '/mine' ? (
+          {routeIcon === '/mine' ? (
             <img src={myOnIcon}></img>
           ) : (
             <img src={myIcon}></img>
@@ -207,6 +204,7 @@ const Main: React.FC<Props> = (props) => {
             } else {
               history.push(key);
               setRouteKey(key);
+              setRouteIcon(key);
             }
           }}
         />

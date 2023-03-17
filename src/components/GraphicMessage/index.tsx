@@ -9,6 +9,7 @@ import { getContent } from '@/utils/util';
 import { useResourceUrl, useUrl } from '@/utils/hooks';
 import PopupContent from '@/components/PopupContent';
 import ImageCut from '@/components/ImageCut';
+import { useState } from 'react';
 
 export type Props = {
   post: PostInfo;
@@ -26,7 +27,6 @@ const GraphicMessage: React.FC<Props> = (props) => {
     id,
   } = props.post;
   if (!dao) return <></>;
-  const imagesResUrl = useResourceUrl('images');
   const info = getContent(contents);
 
   return (
@@ -52,7 +52,11 @@ const GraphicMessage: React.FC<Props> = (props) => {
         <div className={styles.mediumInfo}>
           {info[3]?.map((item: any, index: number) => (
             <div key={index}>
-              <ImageCut imgUrl={item.content} />
+              {info[3].length === 1 ? (
+                <ImageCut imgUrl={item.content} isOneImg={true} />
+              ) : (
+                <ImageCut imgUrl={item.content} isOneImg={false} />
+              )}
             </div>
           ))}
         </div>

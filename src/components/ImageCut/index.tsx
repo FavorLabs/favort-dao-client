@@ -2,26 +2,35 @@ import * as React from 'react';
 import styles from './index.less';
 import { Mask } from 'antd-mobile';
 import { Image } from 'antd';
-import { ImageSize } from '@/config/constants';
+import { ImageMaxSize, ImageMidSize } from '@/config/constants';
 import { useResourceUrl } from '@/utils/hooks';
 import { useState } from 'react';
 
 export type Props = {
   imgUrl: string;
+  isOneImg: boolean;
 };
 
 const ImageCut: React.FC<Props> = (props) => {
-  const { imgUrl } = props;
+  const { imgUrl, isOneImg } = props;
   const imagesResUrl = useResourceUrl('images');
-  const [visible, setVisible] = useState(false);
   return (
     <div className={styles.page}>
-      <div className={styles.image}>
-        <Image
-          src={`${imagesResUrl}/${imgUrl + ImageSize}`}
-          className={styles.imgUrl}
-        />
-      </div>
+      {isOneImg ? (
+        <div className={styles.imageMax}>
+          <Image
+            src={`${imagesResUrl}/${imgUrl + ImageMaxSize}`}
+            className={styles.imgUrl}
+          />
+        </div>
+      ) : (
+        <div className={styles.image}>
+          <Image
+            src={`${imagesResUrl}/${imgUrl + ImageMidSize}`}
+            className={styles.imgUrl}
+          />
+        </div>
+      )}
     </div>
   );
 };
