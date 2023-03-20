@@ -6,11 +6,7 @@ import SvgIcon from '@/components/SvgIcon';
 import TopBar from '@/components/ThreeStageLayout/TopBar';
 import Children from '@/components/ThreeStageLayout/Children';
 import MenuBar from '@/components/ThreeStageLayout/MenuBar';
-import latestSvg from '@/assets/icon/latest.svg';
-import daoSvg from '@/assets/icon/dao.svg';
 import addCommunitySvg from '@/assets/icon/addCommunity.svg';
-import chatSvg from '@/assets/icon/chat.svg';
-import mineSvg from '@/assets/icon/mine.svg';
 import homeSvg from '@/assets/icon/home.svg';
 import postNews from '@/assets/img/postNews.png';
 import postVideo from '@/assets/img/postVideo.png';
@@ -141,6 +137,7 @@ const Main: React.FC<Props> = (props) => {
     setIsShowSearch(!pathname.includes('/chat'));
     const pathKey = `/${pathname.split('/')[1]}`;
     setActiveKey(pathKey);
+    setRouteKey(pathKey);
   }, [pathname]);
 
   return (

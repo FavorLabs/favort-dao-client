@@ -7,20 +7,23 @@
   height: calc(100vh - 250px);
   padding-top: 10px;
 
+  .boxActive {
+    border: 1px solid rgba(255, 166, 0, 1);
+  }
+
+  .boxNoActive {
+    border: 1px solid rgba(255, 255, 255, 1);
+  }
+
   .my {
     position: relative;
-    margin-bottom: 30px;
+    margin-bottom: 1.1875rem;
     .block {
       display: flex;
-      .icon {
-        cursor: pointer;
-        border: 2px solid rgba(255, 255, 255, 0);
-      }
-
       .imgActive {
-        border: 2px solid rgba(255, 166, 0, 1);
-        border-radius: 50%;
         display: flex;
+        cursor: pointer;
+        border-radius: 50%;
       }
     }
 
@@ -36,11 +39,23 @@
     }
   }
 
-  .bottomLine {
-    margin: 15px 0;
-    width: 1.875rem;
-    height: 0;
-    border: 1px solid rgba(229, 229, 229, 1);
+  .allCommunity {
+    box-sizing: border-box;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-bottom: 1.875rem;
+    border-radius: 0.5rem;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0px 2px 15px 5px rgba(0, 0, 0, 0.05);
+
+    .allImg {
+      width: 1.375rem;
+      height: 1.25rem;
+    }
   }
 
   .joinedList {
@@ -53,15 +68,13 @@
 
     .block {
       display: flex;
-      margin: 10px 0;
-      .icon {
-        cursor: pointer;
-        border: 2px solid rgba(255, 255, 255, 0);
-      }
+      margin: 0.625rem 0;
 
       .imgActive {
-        border: 2px solid rgba(255, 166, 0, 1);
-        border-radius: 50%;
+        overflow: hidden;
+        box-sizing: border-box;
+        cursor: pointer;
+        border-radius: 0.5rem;
         display: flex;
       }
     }
@@ -71,7 +84,7 @@
   }
 
   .viewMore::before,
-  .my::after {
+  .allCommunity::after {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
@@ -86,17 +99,7 @@
   .viewMore::before {
     top: -15px;
   }
-  .my::after {
+  .allCommunity::after {
     bottom: -15px;
-  }
-
-  .viewMore {
-    position: relative;
-    margin-top: 30px;
-    .img {
-      width: 40px;
-      height: 40px;
-      cursor: pointer;
-    }
   }
 }

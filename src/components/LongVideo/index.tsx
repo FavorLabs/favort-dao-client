@@ -8,7 +8,7 @@ import { useResourceUrl } from '@/utils/hooks';
 import { getContent, getTime } from '@/utils/util';
 import CommunityInfo from '@/components/CommunityInfo';
 import playImg from '@/assets/icon/play-icon.svg';
-import SvgIcon from '@/components/SvgIcon';
+import { ImageMaxSize } from '@/config/constants';
 
 export type Props = {
   post: PostInfo;
@@ -49,7 +49,9 @@ const LongVideo: React.FC<Props> = (props) => {
           <div
             className={styles.bg}
             style={{
-              backgroundImage: `url(${imagesResUrl}/${info?.[3]?.[0]?.content})`,
+              backgroundImage: `url(${imagesResUrl}/${
+                info?.[3]?.[0]?.content + ImageMaxSize
+              })`,
               backgroundSize: `100%`,
               backgroundPosition: `center center`,
               backgroundRepeat: 'no-repeat',

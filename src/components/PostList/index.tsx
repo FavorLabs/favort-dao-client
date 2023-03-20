@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styles from './index.less';
 import { Page, PostInfo } from '@/declare/tubeApiType';
 import GraphicMessage from '@/components/GraphicMessage';
@@ -10,6 +10,7 @@ import CommunityIntro from '@/components/CommunityIntro';
 import { useSelector } from 'umi';
 import { Models } from '@/declare/modelType';
 import { isMobile, sleep } from '@/utils/util';
+import _ from 'lodash';
 
 export type Props = {
   type?: number;
@@ -60,6 +61,11 @@ const PostList: React.FC<Props> = (props) => {
     await refreshPage();
   };
 
+  const delPost = async (postId: string) => {
+    const delList = _.filter(list, (v) => v.id !== (postId as string));
+    setList((list) => delList);
+  };
+
   useEffect(() => {
     if (!hasMore) {
       refreshPage();
@@ -79,7 +85,11 @@ const PostList: React.FC<Props> = (props) => {
         {list.map((item) => (
           <div key={item.id} className={styles.postItem}>
             {item.type === 0 ? (
-              <GraphicMessage post={item} refreshPage={refreshPage} />
+              <GraphicMessage
+                post={item}
+                refreshPage={refreshPage}
+                delPost={delPost}
+              />
             ) : item.type === 1 ? (
               <LongVideo post={item} refreshPage={refreshPage} />
             ) : item.type === -1 ? (
