@@ -3,6 +3,7 @@ import { Models } from '@/declare/modelType';
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch, history, getLocale } from 'umi';
+import { AliveScope } from 'react-activation';
 import { ConnectType, NodeConfig } from '@/config/constants';
 import { connect } from '@/utils/connect';
 import { WalletType } from '@/declare/global';
@@ -258,22 +259,25 @@ const Layout: React.FC = (props) => {
   }, [currentLang]);
 
   return (
-    <div className={styles.main}>
-      {status ? (
-        configLoading ? (
-          <Loading text={'Loading Config !!!'} status={configLoading} />
-        ) : requestLoading ? (
-          <Loading
-            text={'Connecting to a p2p network'}
-            status={requestLoading}
-          />
+    // @ts-ignore
+    <AliveScope>
+      <div className={styles.main}>
+        {status ? (
+          configLoading ? (
+            <Loading text={'Loading Config !!!'} status={configLoading} />
+          ) : requestLoading ? (
+            <Loading
+              text={'Connecting to a p2p network'}
+              status={requestLoading}
+            />
+          ) : (
+            <div className={styles.box}>{props.children}</div>
+          )
         ) : (
-          <div className={styles.box}>{props.children}</div>
-        )
-      ) : (
-        <SettingApi />
-      )}
-    </div>
+          <SettingApi />
+        )}
+      </div>
+    </AliveScope>
   );
 };
 

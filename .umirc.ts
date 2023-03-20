@@ -34,16 +34,17 @@ export default defineConfig({
     baseSeparator: '-',
   },
   webpack5: {},
+  extraBabelPlugins: ['react-activation/babel'],
   chainWebpack: (config, { webpack, env }) => {
-    // config.module
-    //   .rule('fonts')
-    //   .test(/\.(eot|woff|woff2|ttf)(\?.*)?$/)
-    //   .use('file-loader')
-    //   .options({
-    //     name: '[name].[contenthash].[ext]',
-    //     outputPath: 'static/fonts',
-    //   })
-    //   .loader(require.resolve('@umijs/deps/compiled/file-loader'));
+    config.module
+      .rule('fonts')
+      .test(/\.(eot|woff|woff2|ttf)(\?.*)?$/)
+      .use('file-loader')
+      .options({
+        name: '[name].[contenthash].[ext]',
+        outputPath: 'static/fonts',
+      })
+      .loader(require.resolve('@umijs/deps/compiled/file-loader'));
     // config.plugin('TerserPlugin').use(TerserPlugin, [
     //   {
     //     parallel: true,
