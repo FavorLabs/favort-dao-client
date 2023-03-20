@@ -8,22 +8,37 @@ export type Props = AvatarProps & {
   prefix: string;
   identifier: string;
   name: string;
+  shape?: string;
 };
 const UserAvatar: React.FC<Props> = (props) => {
-  const { prefix, identifier, name } = props;
+  const { prefix, identifier, name, shape } = props;
   const alternativeText = name?.[0]?.toUpperCase();
   // console.log(identifier && `${prefix}/${identifier}`);
 
   return (
     <div className={styles.content}>
-      <Avatar
-        {...props}
-        alt={alternativeText}
-        src={identifier && `${prefix}/${identifier + avatarSize}`}
-        className={`${styles.userAvatar} ${props.size ? '' : 'userAvatar'}`}
-      >
-        <span className={styles.text}>{alternativeText}</span>
-      </Avatar>
+      {shape ? (
+        <Avatar
+          shape="square"
+          {...props}
+          alt={alternativeText}
+          src={identifier && `${prefix}/${identifier + avatarSize}`}
+          className={`${styles.userAvatar} ${styles.square} ${
+            props.size ? '' : 'userAvatar'
+          }`}
+        >
+          <span className={styles.text}>{alternativeText}</span>
+        </Avatar>
+      ) : (
+        <Avatar
+          {...props}
+          alt={alternativeText}
+          src={identifier && `${prefix}/${identifier + avatarSize}`}
+          className={`${styles.userAvatar} ${props.size ? '' : 'userAvatar'}`}
+        >
+          <span className={styles.text}>{alternativeText}</span>
+        </Avatar>
+      )}
     </div>
   );
 };

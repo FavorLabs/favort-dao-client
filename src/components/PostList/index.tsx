@@ -9,6 +9,7 @@ import { DotLoading, InfiniteScroll, List } from 'antd-mobile';
 import CommunityIntro from '@/components/CommunityIntro';
 import { useSelector } from 'umi';
 import { Models } from '@/declare/modelType';
+import _ from 'lodash';
 
 export type Props = {
   type?: number;
@@ -54,6 +55,11 @@ const Index: React.FC<Props> = (props) => {
     setHasMore(data.data.pager.total_rows > pageData.page_size);
   };
 
+  const delPost = async (postId: string) => {
+    const delList = _.filter(list, (v) => v.id !== (postId as string));
+    setList((list) => delList);
+  };
+
   useEffect(() => {
     if (!hasMore) {
       refreshPage();
@@ -65,7 +71,11 @@ const Index: React.FC<Props> = (props) => {
       {list.map((item) => (
         <div key={item.id} className={styles.postItem}>
           {item.type === 0 ? (
-            <GraphicMessage post={item} refreshPage={refreshPage} />
+            <GraphicMessage
+              post={item}
+              refreshPage={refreshPage}
+              delPost={delPost}
+            />
           ) : item.type === 1 ? (
             <LongVideo post={item} refreshPage={refreshPage} />
           ) : item.type === -1 ? (

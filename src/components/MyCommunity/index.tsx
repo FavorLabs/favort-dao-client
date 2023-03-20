@@ -7,25 +7,31 @@ import { history } from 'umi';
 import addImg from '@/assets/img/add-img.png';
 import viewMore from '@/assets/img/viewMore.png';
 import viewMoreOn from '@/assets/img/viewMore_on.png';
+import allCommunityIcon from '@/assets/icon/home.svg';
+import { useState } from 'react';
 
 export type Props = {
   user: DaoInfo | null;
   joinedList: DaoInfo[];
   daoId: string | undefined;
-  viewDaoGroup: () => void;
-  isViewDaoGroup: boolean;
+  activeId: string | undefined;
 };
 
 const MyCommunity: React.FC<Props> = (props) => {
-  const { user, joinedList = [], daoId, viewDaoGroup, isViewDaoGroup } = props;
+  const { user, joinedList = [], daoId, activeId } = props;
   const avatarsResUrl = useResourceUrl('avatars');
+  const allId = '12345';
 
-  const setDaoId = (daoId: string) => {
-    history.push(`/daoCommunity/${daoId}`);
+  const setDaoId = (id: string) => {
+    if (id === allId) {
+      history.push(`/daoCommunity/`);
+    } else {
+      history.push(`/daoCommunity/${id}`);
+    }
   };
 
   const onFocusCommunity = (id: string) => {
-    if (daoId !== id) {
+    if (activeId !== id) {
       setDaoId(id);
     }
   };
@@ -35,7 +41,11 @@ const MyCommunity: React.FC<Props> = (props) => {
       <div className={styles.my}>
         {user ? (
           <div className={styles.block}>
-            <div className={user.id === daoId ? styles.imgActive : styles.icon}>
+            <div
+              className={`${styles.imgActive} ${
+                activeId === user.id ? styles.boxActive : styles.boxNoActive
+              }`}
+            >
               <UserAvatar
                 prefix={avatarsResUrl}
                 name={user.name}
@@ -56,7 +66,14 @@ const MyCommunity: React.FC<Props> = (props) => {
         )}
       </div>
 
-      {/*<div className={styles.bottomLine}></div>*/}
+      <div
+        className={`${styles.allCommunity} ${
+          activeId === allId ? styles.boxActive : styles.boxNoActive
+        }`}
+        onClick={() => onFocusCommunity(allId)}
+      >
+        <img src={allCommunityIcon} alt="" className={styles.allImg} />
+      </div>
 
       <div className={styles.joinedList}>
         {joinedList.length ? (
@@ -64,9 +81,12 @@ const MyCommunity: React.FC<Props> = (props) => {
             return (
               <div key={index} className={styles.block}>
                 <div
-                  className={item.id === daoId ? styles.imgActive : styles.icon}
+                  className={`${styles.imgActive} ${
+                    activeId === item.id ? styles.boxActive : styles.boxNoActive
+                  }`}
                 >
                   <UserAvatar
+                    shape="square"
                     prefix={avatarsResUrl}
                     name={item.name}
                     identifier={item.avatar}
@@ -82,27 +102,25 @@ const MyCommunity: React.FC<Props> = (props) => {
         )}
       </div>
 
-      {/*<div className={styles.bottomLine}></div>*/}
-
-      <div className={styles.viewMore}>
-        {isViewDaoGroup ? (
-          <img
-            src={viewMoreOn}
-            className={styles.img}
-            onClick={() => {
-              viewDaoGroup();
-            }}
-          />
-        ) : (
-          <img
-            src={viewMore}
-            className={styles.img}
-            onClick={() => {
-              viewDaoGroup();
-            }}
-          />
-        )}
-      </div>
+      {/*<div className={styles.viewMore}>*/}
+      {/*  {isViewDaoGroup ? (*/}
+      {/*    <img*/}
+      {/*      src={viewMoreOn}*/}
+      {/*      className={styles.img}*/}
+      {/*      onClick={() => {*/}
+      {/*        viewDaoGroup();*/}
+      {/*      }}*/}
+      {/*    />*/}
+      {/*  ) : (*/}
+      {/*    <img*/}
+      {/*      src={viewMore}*/}
+      {/*      className={styles.img}*/}
+      {/*      onClick={() => {*/}
+      {/*        viewDaoGroup();*/}
+      {/*      }}*/}
+      {/*    />*/}
+      {/*  )}*/}
+      {/*</div>*/}
     </div>
   );
 };
