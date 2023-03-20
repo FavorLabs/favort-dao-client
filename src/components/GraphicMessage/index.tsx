@@ -24,6 +24,7 @@ const GraphicMessage: React.FC<Props> = (props) => {
     comment_count,
     created_on,
     id,
+    type,
   } = props.post;
   if (!dao) return <></>;
   const imagesResUrl = useResourceUrl('images');
@@ -62,6 +63,7 @@ const GraphicMessage: React.FC<Props> = (props) => {
           commentOnNum={comment_count}
           likeNum={upvote_count}
           postId={id}
+          postType={type}
         />
       </div>
     </div>

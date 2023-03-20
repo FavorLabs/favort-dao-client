@@ -215,6 +215,7 @@ const Video: React.FC<Props> = (props) => {
                           commentOnNum={videoData.comment_count}
                           likeNum={videoData.upvote_count}
                           postId={videoData.id}
+                          postType={videoData.type}
                         />
                       </>
                     ) : (
@@ -249,6 +250,7 @@ const Video: React.FC<Props> = (props) => {
           </Row>
         </main>
         <ExitCommunityDialog
+          text={''}
           visible={focusDialog}
           closeDialog={() => {
             setFocusDialog(false);

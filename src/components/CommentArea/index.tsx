@@ -12,16 +12,18 @@ import { useUrl } from '@/utils/hooks';
 import { checkLogin } from '@/utils/util';
 import SvgIcon from '@/components/SvgIcon';
 import { history } from 'umi';
+import { message } from 'antd';
 
 export type Props = {
   watchNum: number;
   commentOnNum: number;
   likeNum: number;
   postId: string;
+  postType: number;
 };
 
 const CommentArea: React.FC<Props> = (props) => {
-  const { watchNum, commentOnNum, likeNum, postId } = props;
+  const { watchNum, commentOnNum, likeNum, postId, postType } = props;
   const url = useUrl();
 
   const [like, setLike] = useState<boolean>(false);
@@ -51,6 +53,19 @@ const CommentArea: React.FC<Props> = (props) => {
     }
   };
 
+  const toDetail = () => {
+    switch (postType) {
+      case 0:
+        history.push(`/newsletterDetail/${postId}`);
+        break;
+      case 1:
+        history.push(`/video/${postId}`);
+        break;
+      default:
+        message.warning('Post type error!');
+    }
+  };
+
   useEffect(() => {
     if (postId && checkLogin()) getPostLikeStatus();
     // if (postId) postView();
@@ -65,12 +80,7 @@ const CommentArea: React.FC<Props> = (props) => {
           </div>
           <span className={styles.operateText}>{watchCount}</span>
         </div>
-        <div
-          className={styles.operateDiv}
-          onClick={() => {
-            history.push(`/newsletterDetail/${postId}`);
-          }}
-        >
+        <div className={styles.operateDiv} onClick={toDetail}>
           <div className={styles.operateIcon}>
             <SvgIcon svg={commentOnImg} />
           </div>
