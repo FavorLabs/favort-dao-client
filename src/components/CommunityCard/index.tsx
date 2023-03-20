@@ -52,48 +52,46 @@ const CommunityCard: React.FC<Props> = (props) => {
             backgroundPosition: `center center`,
             backgroundRepeat: `no-repeat`,
           }}
-        ></div>
-        <div className={`${styles.bottom}`}>
+        />
+        <div className={`${styles.box}`}>
           <div className={styles.top}>
-            <div className={styles.left}>
-              <p className={styles.name}>{daoInfo?.name}</p>
+            <p className={styles.leftName}>{daoInfo?.name}</p>
+
+            <div className={styles.right}>
               <div className={styles.joinedNumber}>
                 <div className={styles.svg}>
                   <SvgIcon svg={joinedImg} />
                 </div>
                 <span className={styles.text}>{daoInfo?.follow_count}</span>
               </div>
-              {daoInfo?.id !== userInfo?.id &&
-                (status ? (
-                  <div
-                    className={styles.joined}
-                    onClick={() => {
-                      setDialogVisible(true);
-                    }}
-                  >
-                    joined
-                  </div>
-                ) : (
-                  <div className={styles.join} onClick={handle}>
-                    join
-                  </div>
-                ))}
-            </div>
-
-            <div className={styles.right}>
-              <img
-                src={arrow}
-                className={`${isUnfold ? styles.upward : styles.down}`}
-                onClick={() => setIsUnfold(!isUnfold)}
-              />
             </div>
           </div>
 
-          {isUnfold ? (
-            <div className={styles.introduction}>{daoInfo?.introduction}</div>
-          ) : (
-            <></>
-          )}
+          <div className={styles.bottom}>
+            <p className={styles.introduction}>{daoInfo?.introduction}</p>
+
+            {daoInfo?.id !== userInfo?.id &&
+              (status ? (
+                <div
+                  className={styles.joined}
+                  onClick={() => {
+                    setDialogVisible(true);
+                  }}
+                >
+                  joined
+                </div>
+              ) : (
+                <div className={styles.join} onClick={handle}>
+                  join
+                </div>
+              ))}
+          </div>
+
+          {/*{isUnfold ? (*/}
+          {/*  <div className={styles.introduction}>{daoInfo?.introduction}</div>*/}
+          {/*) : (*/}
+          {/*  <></>*/}
+          {/*)}*/}
         </div>
       </div>
       <ExitCommunityDialog

@@ -17,10 +17,11 @@ import { message } from 'antd';
 export type Props = {
   post: PostInfo;
   refreshPage: () => void;
+  delPost: (post: string) => void;
 };
 
 const PopupContent: React.FC<Props> = (props) => {
-  const { post, refreshPage } = props;
+  const { post, refreshPage, delPost } = props;
   const { userInfo } = useSelector((state: Models) => state.dao);
   const { refreshPostList } = useSelector((state: Models) => state.manage);
   const [visible, setVisible] = useState(false);
@@ -36,14 +37,15 @@ const PopupContent: React.FC<Props> = (props) => {
     try {
       const { data } = await PostApi.deletePost(url, post.id);
       if (data.msg === 'success') {
-        dispatch({
-          type: 'dao/updateState',
-          payLoad: {
-            refreshPostList: !refreshPostList,
-          },
-        });
+        // dispatch({
+        //   type: 'dao/updateState',
+        //   payLoad: {
+        //     refreshPostList: !refreshPostList,
+        //   },
+        // });
+        // refreshPage();
+        delPost(post.id);
       }
-      refreshPage();
     } catch (e) {
       if (e instanceof Error) message.error(e.message);
     } finally {

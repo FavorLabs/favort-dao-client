@@ -44,6 +44,10 @@ const DaoCommunity: React.FC<Props> = (props) => {
     type: -1,
   });
   const [allDao, setAllDao] = useState<PostInfo[]>([]);
+  const allId = '12345';
+  const [activeId, setActiveId] = useState<string | undefined>(
+    daoInfo?.id || allId,
+  );
 
   const daoId = params.daoId;
 
@@ -107,7 +111,7 @@ const DaoCommunity: React.FC<Props> = (props) => {
   };
 
   const viewDaoGroup = async () => {
-    setIsViewDaoGroup(!isViewDaoGroup);
+    setIsViewDaoGroup(true);
     if (!isViewDaoGroup) {
       const request = (params: Page) => PostApi.getPostListByType(url, params);
       const { data } = await request(pageData);
@@ -117,6 +121,10 @@ const DaoCommunity: React.FC<Props> = (props) => {
     }
   };
 
+  // const updateActiveId = async (daoId: string) => {
+  //   setActiveId(daoId);
+  // }
+
   useEffect(() => {
     getBookmarkList();
   }, []);
@@ -124,13 +132,12 @@ const DaoCommunity: React.FC<Props> = (props) => {
   useEffect(() => {
     checkBookmark();
     getDaoInfo();
-    setIsViewDaoGroup(false);
-  }, [daoId]);
-
-  useEffect(() => {
     if (!daoId) {
-      let id = userInfo?.id || bookmarkList[0]?.id;
-      if (id) history.push(`/daoCommunity/${id}`);
+      viewDaoGroup();
+      setActiveId(allId);
+    } else {
+      setIsViewDaoGroup(false);
+      setActiveId(daoId);
     }
   }, [daoId, bookmarkList]);
 
@@ -142,8 +149,7 @@ const DaoCommunity: React.FC<Props> = (props) => {
             user={userInfo}
             joinedList={bookmarkList}
             daoId={daoId}
-            viewDaoGroup={viewDaoGroup}
-            isViewDaoGroup={isViewDaoGroup}
+            activeId={activeId}
           />
         </div>
 

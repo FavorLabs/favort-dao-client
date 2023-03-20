@@ -51,7 +51,6 @@ const Main: React.FC<Props> = (props) => {
   const { userInfo } = useSelector((state: Models) => state.dao);
   const route = pathname.split('/')[1];
   const [routeKey, setRouteKey] = useState(`/${route}`);
-  const [routeIcon, setRouteIcon] = useState(`/latest`);
   const [isShowSearch, setIsShowSearch] = useState<boolean>(true);
   const menuItems: MenuItem[] = [
     {
@@ -59,7 +58,7 @@ const Main: React.FC<Props> = (props) => {
       title: 'Feeds',
       icon: (
         <div className={`${styles.latest} latest`}>
-          {routeIcon === '/latest' ? (
+          {routeKey === '/latest' ? (
             <img src={lastetOnIcon}></img>
           ) : (
             <img src={lastetIcon}></img>
@@ -72,7 +71,7 @@ const Main: React.FC<Props> = (props) => {
       title: 'DAO',
       icon: (
         <div className={`${styles.dao} dao`}>
-          {routeIcon === '/daoCommunity' ? (
+          {routeKey === '/daoCommunity' ? (
             <img src={daoOnIcon}></img>
           ) : (
             <img src={daoIcon}></img>
@@ -98,7 +97,7 @@ const Main: React.FC<Props> = (props) => {
       title: 'Chats',
       icon: (
         <div className={`${styles.chat} chat`}>
-          {routeIcon === '/chat' ? (
+          {routeKey === '/chat' ? (
             <img src={chatOnIcon}></img>
           ) : (
             <img src={chatIcon}></img>
@@ -111,7 +110,7 @@ const Main: React.FC<Props> = (props) => {
       title: 'My',
       icon: (
         <div className={`${styles.mine} mine`}>
-          {routeIcon === '/mine' ? (
+          {routeKey === '/mine' ? (
             <img src={myOnIcon}></img>
           ) : (
             <img src={myIcon}></img>
@@ -138,6 +137,7 @@ const Main: React.FC<Props> = (props) => {
     setIsShowSearch(!pathname.includes('/chat'));
     const pathKey = `/${pathname.split('/')[1]}`;
     setActiveKey(pathKey);
+    setRouteKey(pathKey);
   }, [pathname]);
 
   return (
@@ -204,7 +204,6 @@ const Main: React.FC<Props> = (props) => {
             } else {
               history.push(key);
               setRouteKey(key);
-              setRouteIcon(key);
             }
           }}
         />

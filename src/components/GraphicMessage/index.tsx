@@ -14,6 +14,7 @@ import { useState } from 'react';
 export type Props = {
   post: PostInfo;
   refreshPage: () => void;
+  delPost: (post: string) => void;
 };
 
 const GraphicMessage: React.FC<Props> = (props) => {
@@ -35,7 +36,11 @@ const GraphicMessage: React.FC<Props> = (props) => {
         <div className={styles.top}>
           <CommunityInfo daoInfo={dao} createTime={created_on} />
           <div className={styles.more}>
-            <PopupContent post={props.post} refreshPage={props.refreshPage} />
+            <PopupContent
+              post={props.post}
+              refreshPage={props.refreshPage}
+              delPost={props.delPost}
+            />
           </div>
         </div>
 
