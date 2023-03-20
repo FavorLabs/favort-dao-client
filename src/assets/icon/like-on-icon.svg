@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="16px" height="17px" viewBox="0 0 16 17" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>点赞（选中）</title>
-    <g id="效果图（light--English）" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="点赞" transform="translate(-256.000000, -65.000000)">
-            <g id="分组-13" transform="translate(256.000000, 65.000000)">
-                <g id="点赞（选中）" transform="translate(0.000000, 0.500000)">
-                    <path d="M13.4932089,3.00831427 C15.0032089,4.51831427 15.0532089,6.92831427 13.6532089,8.49831427 L8.00320892,14.1583143 L2.34320892,8.49831427 C0.943208915,6.92831427 0.993208915,4.51831427 2.50320892,3.00831427 C4.01320892,1.49831427 6.43320892,1.44831427 8.00320892,2.85831427 C9.56320892,1.44831427 11.9832089,1.49831427 13.4932089,3.00831427 Z" id="并集" fill="#FFA600"></path>
-                    <path d="M0,0 L16,0 L16,16 L0,16 L0,0 Z" id="矩形-4"></path>
+    <title>like（active）</title>
+    <g id="effect（light--English）" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="like" transform="translate(-256.000000, -65.000000)">
+            <g id="group-13" transform="translate(256.000000, 65.000000)">
+                <g id="like（active）" transform="translate(0.000000, 0.500000)">
+                    <path d="M13.4932089,3.00831427 C15.0032089,4.51831427 15.0532089,6.92831427 13.6532089,8.49831427 L8.00320892,14.1583143 L2.34320892,8.49831427 C0.943208915,6.92831427 0.993208915,4.51831427 2.50320892,3.00831427 C4.01320892,1.49831427 6.43320892,1.44831427 8.00320892,2.85831427 C9.56320892,1.44831427 11.9832089,1.49831427 13.4932089,3.00831427 Z" id="union集" fill="#FFA600"></path>
+                    <path d="M0,0 L16,0 L16,16 L0,16 L0,0 Z" id="rectangle-4"></path>
                 </g>
             </g>
         </g>
