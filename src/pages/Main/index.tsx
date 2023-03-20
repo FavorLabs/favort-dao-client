@@ -35,6 +35,7 @@ import DaoApi from '@/services/tube/Dao';
 import UserAvatar from '@/components/UserAvatar';
 import Flutter from '@/utils/flutter';
 import searchImg from '@/assets/icon/search-icon.svg';
+import toHomeIcon from '@/assets/icon/toHome.svg';
 
 export type Props = {};
 export type MenuItem = TabBarItemProps & {
@@ -154,7 +155,7 @@ const Main: React.FC<Props> = (props) => {
                       Flutter.closeWebview();
                     }}
                   >
-                    <SvgIcon svg={homeSvg} />
+                    <SvgIcon svg={toHomeIcon} />
                   </span>
                 )}
                 {latestNavVisibility && (
