@@ -1,5 +1,35 @@
 .content {
+  .block {
+    margin-bottom: 1.25rem;
+    padding: 0.625rem;
+    border-radius: 0.625rem;
+    background: rgba(255, 255, 255, 1);
+    .title {
+      font-weight: 700;
+      margin-bottom: 1.125rem;
+    }
+    .item {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      width: 33.33%;
+      .icon img {
+        width: 1.25rem;
+      }
+      .name {
+        font-size: 0.75rem;
+      }
+    }
+  }
   .userInfo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 0 0.9375rem 0.625rem;
+    box-sizing: border-box;
+    background: rgba(247, 247, 247, 1);
     .info {
       display: flex;
       justify-content: flex-start;
@@ -41,12 +71,18 @@
       }
     }
   }
+  .cryptoAssets,
+  .daoManagement,
+  .services {
+    .itemsList {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+    }
+  }
   .setting {
-    margin-top: 3.9375rem;
-    padding: 0 0.625rem 0.625rem;
+    padding-top: 0;
     font-weight: 500;
-    border-radius: 0.625rem;
-    background: rgba(255, 255, 255, 1);
     .settingItem {
       display: flex;
       justify-content: space-between;
@@ -59,7 +95,14 @@
       .action {
         color: rgba(99, 99, 99, 1);
         .langAction {
-          //
+          .lang {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            .rightArrow {
+              margin-left: 0.25rem;
+            }
+          }
         }
         .themeAction {
           .switchBtn {

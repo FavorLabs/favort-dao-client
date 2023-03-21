@@ -1,4 +1,5 @@
 import request from '@/services';
+import { ResData, Statistic } from '@/declare/tubeApiType';
 
 export default {
   signIn(
@@ -19,6 +20,11 @@ export default {
   getInfo(url: string) {
     return request({
       url: url + '/user/info',
+    });
+  },
+  getStatistic(url: string): ResData<Statistic> {
+    return request({
+      url: url + '/user/statistic',
     });
   },
 };

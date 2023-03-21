@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="22px" viewBox="0 0 24 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>setting</title>
+    <defs>
+        <path d="M12.5,10 C12.5,8.62 11.38,7.5 10,7.5 C8.62,7.5 7.5,8.62 7.5,10 C7.5,11.38 8.62,12.5 10,12.5 C11.38,12.5 12.5,11.38 12.5,10 Z" id="path-1"></path>
+        <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="-2" y="-2" width="9" height="9">
+            <rect x="5.5" y="5.5" width="9" height="9" fill="white"></rect>
+            <use xlink:href="#path-1" fill="black"></use>
+        </mask>
+        <path d="M1.33974596,14.4226497 L1.33974596,5.57735027 C1.33974596,5.22008468 1.53034489,4.88995766 1.83974596,4.71132487 L9.5,0.288675135 C9.80940108,0.11004234 10.1905989,0.11004234 10.5,0.288675135 L18.160254,4.71132487 C18.4696551,4.88995766 18.660254,5.22008468 18.660254,5.57735027 L18.660254,14.4226497 C18.660254,14.7799153 18.4696551,15.1100423 18.160254,15.2886751 L10.5,19.7113249 C10.1905989,19.8899577 9.80940108,19.8899577 9.5,19.7113249 L1.83974596,15.2886751 C1.53034489,15.1100423 1.33974596,14.7799153 1.33974596,14.4226497 Z" id="path-3"></path>
+        <mask id="mask-4" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="-2" y="-2" width="24" height="24">
+            <rect x="-2" y="-2" width="24" height="24" fill="white"></rect>
+            <use xlink:href="#path-3" fill="black"></use>
+        </mask>
+    </defs>
+    <g id="我的" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-dasharray="0,0">
+        <g transform="translate(-65.000000, -398.000000)" id="分组-8" stroke-width="4">
+            <g transform="translate(57.000000, 399.000000)">
+                <g id="setting" transform="translate(10.000000, 0.000000)">
+                    <use id="路径" stroke="#FFA600" mask="url(#mask-2)" xlink:href="#path-1"></use>
+                    <use id="多边形-1" stroke="#212121" mask="url(#mask-4)" transform="translate(10.000000, 10.000000) rotate(90.000000) translate(-10.000000, -10.000000) " xlink:href="#path-3"></use>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

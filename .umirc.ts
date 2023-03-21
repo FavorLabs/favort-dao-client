@@ -35,6 +35,9 @@ export default defineConfig({
   },
   webpack5: {},
   extraBabelPlugins: ['react-activation/babel'],
+  define: {
+    NETWORK_ID: process.env.NETWORK_ID,
+  },
   chainWebpack: (config, { webpack, env }) => {
     config.module
       .rule('fonts')
