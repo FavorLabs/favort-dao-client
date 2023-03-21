@@ -30,7 +30,7 @@ import Bucket from '@/services/tube/Global';
 import moment from 'moment';
 const currentLang = getLocale();
 import VConsole from 'vconsole';
-new VConsole();
+if (!NETWORK_ID || (NETWORK_ID && NETWORK_ID === '19')) new VConsole();
 
 const Layout: React.FC = (props) => {
   const dispatch = useDispatch();

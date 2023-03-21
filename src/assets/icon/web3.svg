@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="27px" height="30px" viewBox="0 0 27 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>web3</title>
+    <defs>
+        <path d="M1.03,10.28 C1.75,9.45 2.19,9.16 3.2,9.16 C4.62,9.16 5.89,9.77 6.43,10.72 C6.53,10.89 6.73,11 6.95,11 C7.16,11 7.36,10.89 7.46,10.72 C7.9,9.94 9.26,9.16 11,9.16 C12.74,9.16 14.1,9.94 14.54,10.72 C14.64,10.89 14.84,11 15.05,11 C15.27,11 15.47,10.89 15.57,10.72 C16.11,9.77 17.38,9.16 18.81,9.16 C19.81,9.16 20.25,9.45 20.97,10.28 C21.12,10.45 21.38,10.52 21.61,10.45 C21.84,10.37 22,10.17 22,9.95 L22,9.87 C22,7.21 20.86,4.73 18.78,2.87 C16.7,1.02 13.94,0 11,0 C8.06,0 5.3,1.02 3.22,2.87 C1.15,4.73 0,7.21 0,9.87 L0,9.95 C0,10.17 0.16,10.37 0.39,10.45 C0.62,10.52 0.88,10.45 1.03,10.28 Z" id="path-1"></path>
+        <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="-2" y="-2" width="26" height="15">
+            <rect x="-2" y="-2" width="26" height="15" fill="white"></rect>
+            <use xlink:href="#path-1" fill="black"></use>
+        </mask>
+        <rect id="path-3" x="5" y="17" width="12" height="9" rx="1"></rect>
+        <mask id="mask-4" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="-2" y="-2" width="16" height="13">
+            <rect x="3" y="15" width="16" height="13" fill="white"></rect>
+            <use xlink:href="#path-3" fill="black"></use>
+        </mask>
+    </defs>
+    <g id="我的" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(-65.000000, -526.000000)" id="分组-9">
+            <g transform="translate(39.000000, 528.000000)">
+                <g id="web3" transform="translate(28.500000, 0.000000)">
+                    <line x1="0" y1="11.4275614" x2="4.5" y2="17" id="直线-1" stroke="#212121" stroke-width="2" fill="#CCCCCC" stroke-dasharray="0,0"></line>
+                    <line x1="7" y1="11.4275614" x2="8.5" y2="16" id="直线-1" stroke="#212121" stroke-width="2" fill="#CCCCCC" stroke-dasharray="0,0"></line>
+                    <line x1="15.7659574" y1="11.4275614" x2="14" y2="15.9733777" id="直线-1" stroke="#212121" stroke-width="2" fill="#CCCCCC" stroke-dasharray="0,0"></line>
+                    <line x1="22" y1="11.4275614" x2="17.5" y2="17" id="直线-1" stroke="#212121" stroke-width="2" fill="#CCCCCC" stroke-dasharray="0,0"></line>
+                    <use id="路径" stroke="#212121" mask="url(#mask-2)" stroke-width="4" stroke-dasharray="0,0" xlink:href="#path-1"></use>
+                    <use id="矩形-1" stroke="#212121" mask="url(#mask-4)" stroke-width="4" fill="#FFFFFF" stroke-dasharray="0,0" xlink:href="#path-3"></use>
+                    <text id="W" font-family="PingFangSC-Regular, PingFang SC" font-size="10" font-weight="normal" line-spacing="14" fill="#FFA600">
+                        <tspan x="6.3" y="25.2">W</tspan>
+                    </text>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

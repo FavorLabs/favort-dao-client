@@ -6,6 +6,12 @@ export type User = {
   nickname: string;
 };
 
+export type Statistic = {
+  comment_count: number;
+  dao_count: number;
+  upvote_count: number;
+};
+
 export type Post = {
   content: string;
   type: number;
