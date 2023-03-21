@@ -4,7 +4,7 @@
     "start": "umi dev",
     "start:18": "cross-env NETWORK_ID=18 umi dev",
     "start:19": "cross-env NETWORK_ID=19 umi dev",
-    "build": "umi build && cd ./dist && appcache-manifest './**/**/**/**/**.**' --network-star -o ./appcache.manifest && cd ../",
+    "build": "cross-env NETWORK_ID=18 umi build && cd ./dist && appcache-manifest './**/**/**/**/**.**' --network-star -o ./appcache.manifest && cd ../",
     "build:18": "cross-env NETWORK_ID=18 umi build && cd ./dist && appcache-manifest './**/**/**/**/**.**' --network-star -o ./appcache.manifest && cd ../",
     "build:19": "cross-env NETWORK_ID=19 umi build && cd ./dist && appcache-manifest './**/**/**/**/**.**' --network-star -o ./appcache.manifest && cd ../",
     "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",

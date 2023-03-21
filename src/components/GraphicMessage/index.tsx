@@ -72,9 +72,13 @@ const GraphicMessage: React.FC<Props> = (props) => {
           )}
         </div>
 
-        <div className={styles.mediumInfo}>
+        <div
+          className={`${
+            info[3].length !== 2 ? styles.mediumInfo : styles.twoImage
+          }`}
+        >
           {info[3]?.map((item: any, index: number) => (
-            <div key={index}>
+            <div key={index} className={styles.block}>
               {info[3].length === 1 ? (
                 <ImageCut imgUrl={item.content} isOneImg={true} />
               ) : (

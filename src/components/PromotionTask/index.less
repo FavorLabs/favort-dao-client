@@ -1,0 +1,112 @@
+.promotionTasks {
+  margin-top: 20px;
+  border-radius: 0.625rem;
+  background: rgba(255, 255, 255, 1);
+
+  .taskTop {
+    display: flex;
+    flex-direction: column;
+    padding: 0.625rem;
+
+    .taskInfo {
+      display: flex;
+      align-items: center;
+
+      .avatar {
+        width: 4.0625rem;
+        height: 4.0625rem;
+        border-radius: 0.625rem;
+        margin-right: 0.625rem;
+      }
+
+      .right {
+        flex: 1;
+        overflow: hidden;
+
+        .title {
+          font-size: 1rem;
+          font-weight: 700;
+          color: rgba(33, 33, 33, 1);
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          margin-bottom: 0.375rem;
+        }
+
+        .text {
+          font-size: 0.75rem;
+          font-weight: 500;
+          color: rgba(99, 99, 99, 1);
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+        }
+      }
+    }
+
+    .taskAmount {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 0.8125rem;
+
+      .block {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 30%;
+
+        .text {
+          max-width: 100%;
+          font-size: 0.75rem;
+          font-weight: 500;
+          color: rgba(33, 33, 33, 1);
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+
+        .amount {
+          max-width: 100%;
+          font-size: 1rem;
+          font-weight: 700;
+          color: rgba(0, 75, 181, 1);
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+  }
+
+  .taskBottom {
+    padding: 0.9375rem 0.625rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 0.5px solid rgba(229, 229, 229, 1);
+
+    .left {
+      display: flex;
+      .image {
+        width: 1.25rem;
+        height: 1.25rem;
+        margin-right: 0.3125rem;
+      }
+    }
+
+    .rightButton {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 3.25rem;
+      height: 1.25rem;
+      border-radius: 0.59375rem;
+      border: 0.0625rem solid rgba(255, 166, 0, 1);
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: rgba(255, 166, 0, 1);
+    }
+  }
+}

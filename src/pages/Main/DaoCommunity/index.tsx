@@ -8,7 +8,6 @@ import { DaoInfo, Page, Post, PostInfo } from '@/declare/tubeApiType';
 import { Models } from '@/declare/modelType';
 import CommunityCard from '@/components/CommunityCard';
 import FavorDaoCard from '@/components/FavorDaoCard';
-import _ from 'lodash';
 import MyCommunity from '@/components/MyCommunity';
 import SvgIcon from '@/components/SvgIcon';
 import newsImg from '@/assets/icon/daoNews.svg';
@@ -17,6 +16,7 @@ import chatImg from '@/assets/icon/daoChat.svg';
 import { getContent, getTime, toChat } from '@/utils/util';
 import PostApi from '@/services/tube/PostApi';
 import CommunityIntro from '@/components/CommunityIntro';
+import KeepAlive from 'react-activation';
 
 export type Props = {};
 
@@ -48,7 +48,6 @@ const DaoCommunity: React.FC<Props> = (props) => {
   const [activeId, setActiveId] = useState<string | undefined>(
     daoInfo?.id || allId,
   );
-
   const daoId = params.daoId;
 
   const getDaoInfo = async () => {
@@ -264,4 +263,11 @@ const DaoCommunity: React.FC<Props> = (props) => {
   );
 };
 
-export default DaoCommunity;
+export default () => {
+  return (
+    // @ts-ignore
+    <KeepAlive when={true} saveScrollPosition={'screen'}>
+      <DaoCommunity />
+    </KeepAlive>
+  );
+};

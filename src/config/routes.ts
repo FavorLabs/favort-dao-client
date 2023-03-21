@@ -58,6 +58,16 @@ export default [
         wrappers: ['@/wrappers/auth'],
       },
       {
+        path: '/pluginForDAOs',
+        component: '@/pages/PluginForDAOs',
+        wrappers: ['@/wrappers/auth'],
+      },
+      {
+        path: '/promotionTaskList',
+        component: '@/pages/PromotionTaskList',
+        wrappers: ['@/wrappers/auth'],
+      },
+      {
         path: '/',
         component: '@/pages/Main',
         routes: [
