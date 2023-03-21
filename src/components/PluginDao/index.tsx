@@ -1,24 +1,25 @@
 import * as React from 'react';
 import styles from './index.less';
 import noticeIcon from '@/assets/icon/noticeIcon.svg';
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 
-export type Props = {};
+export type Props = {
+  icon: ReactNode;
+  title: string;
+  text: string;
+};
 
 const PluginDao: React.FC<Props> = (props) => {
+  const { icon, title, text } = props;
   const [isInstall, setIsInstall] = useState<boolean>(false);
 
   return (
     <div className={styles.pageContent}>
-      <div className={styles.image}>
-        <img src={noticeIcon} alt="" className={styles.img} />
-      </div>
+      <div className={styles.image}>{icon}</div>
 
       <div className={styles.center}>
-        <div className={styles.title}>AMA!</div>
-        <div className={styles.introduction}>
-          Enable you to call Voice AMA in you DAO
-        </div>
+        <div className={styles.title}>{title}</div>
+        <div className={styles.introduction}>{text}</div>
       </div>
 
       {!isInstall ? (

@@ -86,12 +86,6 @@ const CommunityCard: React.FC<Props> = (props) => {
                 </div>
               ))}
           </div>
-
-          {/*{isUnfold ? (*/}
-          {/*  <div className={styles.introduction}>{daoInfo?.introduction}</div>*/}
-          {/*) : (*/}
-          {/*  <></>*/}
-          {/*)}*/}
         </div>
       </div>
       <ExitCommunityDialog

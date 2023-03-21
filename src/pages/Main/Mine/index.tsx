@@ -135,7 +135,7 @@ const Mine: React.FC<Props> = (props) => {
     {
       name: 'Plugin Market',
       icon: <img src={pluginMarketSvg} alt={''} />,
-      path: '',
+      path: '/pluginForDAOs',
     },
   ];
 
@@ -153,7 +153,7 @@ const Mine: React.FC<Props> = (props) => {
     {
       name: 'Promotion',
       icon: <img src={promotionSvg} alt={''} />,
-      path: '',
+      path: '/promotionTaskList',
     },
   ];
 
@@ -236,7 +236,7 @@ const Mine: React.FC<Props> = (props) => {
     {
       key: 3,
       name: intl.formatMessage({ id: 'main.mine.setting.about' }),
-      content: <div className={styles.aboutAction}>version 1.0</div>,
+      content: <div className={styles.aboutAction}>version 1.0.0321</div>,
     },
     {
       key: 4,
