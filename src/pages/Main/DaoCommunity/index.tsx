@@ -88,13 +88,11 @@ const DaoCommunity: React.FC<Props> = (props) => {
 
   const getBookmarkList = async () => {
     const { data } = await DaoApi.getBookmarkList(url);
+    let followList: React.SetStateAction<DaoInfo[]> = [];
     if (data.data.list.length) {
-      const followList = _.filter(
-        data.data.list,
-        (v) => v.id !== (userInfo?.id as string),
-      );
-      setBookmarkList(followList);
+      followList = data.data.list;
     }
+    setBookmarkList(followList);
   };
 
   const bookmarkHandle = async () => {
