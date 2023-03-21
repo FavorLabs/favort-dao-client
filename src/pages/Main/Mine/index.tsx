@@ -13,7 +13,7 @@ import {
 import { Dialog } from 'antd-mobile';
 import { Models } from '@/declare/modelType';
 import avatar_1 from '@/assets/img/avatar_1.png';
-import { omitAddress } from '@/utils/util';
+import { getTokenKey, omitAddress } from '@/utils/util';
 import UserAvatar from '@/components/UserAvatar';
 import CopyText from '@/components/CopyText';
 import { useResourceUrl, useUrl } from '@/utils/hooks';
@@ -30,6 +30,11 @@ type SettingItem = {
   name: string;
   content: ReactNode;
 };
+type userDataItems = {
+  name: string;
+  count: number;
+};
+
 const Mine: React.FC<Props> = (props) => {
   const history = useHistory();
   const url = useUrl();
@@ -70,79 +75,86 @@ const Mine: React.FC<Props> = (props) => {
     }
   };
 
+  const userDataItems: userDataItems[] = [
+    {
+      name: 'joined',
+      count: 123,
+    },
+  ];
+
   const settingItems: SettingItem[] = [
-    // {
-    //   key: 1,
-    //   name: intl.formatMessage({ id: 'main.mine.setting.language' }),
-    //   content: (
-    //     <div className={styles.langAction}>
-    //       <Popover
-    //         content={
-    //           <div className={styles.languageList}>
-    //             {getAllLocales().map((item) => (
-    //               <span
-    //                 key={item}
-    //                 onClick={() => {
-    //                   switchLang(item);
-    //                 }}
-    //               >
-    //                 {getLanguageName(item)}
-    //               </span>
-    //             ))}
-    //           </div>
-    //         }
-    //         trigger="click"
-    //         visible={langMenuVisibility}
-    //         placement="bottom"
-    //       >
-    //         <span
-    //           onClick={(e) => {
-    //             e.stopPropagation();
-    //             setLangMenuVisibility(true);
-    //           }}
-    //         >
-    //           {intl.formatMessage({ id: 'main.mine.setting.language-value' })}
-    //         </span>
-    //       </Popover>
-    //     </div>
-    //   ),
-    // },
-    // {
-    //   key: 2,
-    //   name: intl.formatMessage({ id: 'main.mine.setting.theme' }),
-    //   content: (
-    //     <div className={styles.themeAction}>
-    //       <div
-    //         className={styles.switchBtn}
-    //         onClick={() => {
-    //           switchTheme();
-    //           if (isLight) {
-    //             setThemeType('dark');
-    //           } else {
-    //             setThemeType('light');
-    //           }
-    //         }}
-    //       >
-    //         <div
-    //           className={`${styles.option} ${isLight && 'themeBtnActive'}`}
-    //           onClick={(e) => {
-    //             isLight && e.stopPropagation();
-    //           }}
-    //         >
-    //           {intl.formatMessage({ id: 'main.mine.setting.theme-light' })}
-    //         </div>
-    //         <div
-    //           className={`${styles.option} ${isDark && 'themeBtnActive'}`}
-    //           onClick={(e) => {
-    //             isDark && e.stopPropagation();
-    //           }}
-    //         >
-    //           {intl.formatMessage({ id: 'main.mine.setting.theme-dark' })}
-    //         </div>
-    //       </div>
-    //     </div>
-    //   ),
-    // },
+    {
+      key: 1,
+      name: intl.formatMessage({ id: 'main.mine.setting.language' }),
+      content: (
+        <div className={styles.langAction}>
+          <Popover
+            content={
+              <div className={styles.languageList}>
+                {getAllLocales().map((item) => (
+                  <span
+                    key={item}
+                    onClick={() => {
+                      switchLang(item);
+                    }}
+                  >
+                    {getLanguageName(item)}
+                  </span>
+                ))}
+              </div>
+            }
+            trigger="click"
+            visible={langMenuVisibility}
+            placement="bottom"
+          >
+            <span
+              onClick={(e) => {
+                e.stopPropagation();
+                // setLangMenuVisibility(true);
+              }}
+            >
+              {intl.formatMessage({ id: 'main.mine.setting.language-value' })}
+            </span>
+          </Popover>
+        </div>
+      ),
+    },
+    {
+      key: 2,
+      name: intl.formatMessage({ id: 'main.mine.setting.theme' }),
+      content: (
+        <div className={styles.themeAction}>
+          <div
+            className={styles.switchBtn}
+            onClick={() => {
+              // switchTheme();
+              // if (isLight) {
+              //   setThemeType('dark');
+              // } else {
+              //   setThemeType('light');
+              // }
+            }}
+          >
+            <div
+              className={`${styles.option} ${isLight && 'themeBtnActive'}`}
+              onClick={(e) => {
+                isLight && e.stopPropagation();
+              }}
+            >
+              {intl.formatMessage({ id: 'main.mine.setting.theme-light' })}
+            </div>
+            <div
+              className={`${styles.option} ${isDark && 'themeBtnActive'}`}
+              onClick={(e) => {
+                isDark && e.stopPropagation();
+              }}
+            >
+              {intl.formatMessage({ id: 'main.mine.setting.theme-dark' })}
+            </div>
+          </div>
+        </div>
+      ),
+    },
     {
       key: 3,
       name: intl.formatMessage({ id: 'main.mine.setting.about' }),
@@ -162,7 +174,7 @@ const Mine: React.FC<Props> = (props) => {
   };
 
   const logout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem(getTokenKey());
     localStorage.removeItem(ConnectType);
     dispatch({
       type: 'web3/updateState',
@@ -193,7 +205,7 @@ const Mine: React.FC<Props> = (props) => {
 
   useEffect(() => {
     if (!web3 && !address && !user && !userInfo) {
-      history.push('/');
+      history.replace('/');
     }
   }, [web3, address, user, userInfo]);
 
@@ -205,8 +217,8 @@ const Mine: React.FC<Props> = (props) => {
           setLangMenuVisibility(false);
         }}
       >
-        <div className={styles.walletInfo}>
-          <div className={styles.walletDetails}>
+        <div className={styles.userInfo}>
+          <div className={styles.info}>
             {user && (
               <UserAvatar
                 className={styles.avatar}
@@ -216,11 +228,31 @@ const Mine: React.FC<Props> = (props) => {
                 size={50}
               />
             )}
-            <div className={styles.addressBtn}>
-              <span className={styles.address}>{omitAddress(address)}</span>
-              <CopyText text={address} />
+            <div className={styles.details}>
+              <p className={styles.name}>{user?.nickname}</p>
+              <span className={styles.address}>
+                {omitAddress(address, 6, 14)}
+              </span>
+              {/*<div className={styles.balance}>{Number(balance).toFixed(4)}</div>*/}
             </div>
-            {/*<div className={styles.balance}>{Number(balance).toFixed(4)}</div>*/}
+          </div>
+          <div className={styles.data}>
+            <div className={styles.joined}>
+              <div className={styles.count}>{123}</div>
+              <div className={styles.label}>Joined</div>
+            </div>
+            <div className={styles.likes}>
+              <div className={styles.count}>{123}</div>
+              <div className={styles.label}>Likes</div>
+            </div>
+            <div className={styles.comments}>
+              <div className={styles.count}>{123}</div>
+              <div className={styles.label}>Comments</div>
+            </div>
+            <div className={styles.friends}>
+              <div className={styles.count}>{123}</div>
+              <div className={styles.label}>Friends</div>
+            </div>
           </div>
         </div>
         <div className={styles.setting}>

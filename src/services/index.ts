@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getTokenKey } from '@/utils/util';
 
 const request = axios.create({
   baseURL: '',
@@ -6,7 +7,7 @@ const request = axios.create({
 });
 
 request.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem(getTokenKey());
   if (token) {
     // @ts-ignore
     config.headers['x-session-token'] = token;

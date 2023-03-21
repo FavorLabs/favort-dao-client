@@ -31,14 +31,14 @@ const Chat: React.FC<Props> = (props) => {
   const { userInfo } = useSelector((state: Models) => state.dao);
 
   const getFocusList = async () => {
-    if (!userInfo) return;
     setListLoading(true);
     const { data } = await DaoApi.getBookmarkList(url);
     if (data.data.list) {
       const map: FocusListMap = {};
-      map[0] = { ...userInfo, last_message: { content: '', created_on: 0 } };
+      if (userInfo)
+        map[0] = { ...userInfo, last_message: { content: '', created_on: 0 } };
       data.data.list.forEach((item, index) => {
-        map[index + 1] = {
+        map[userInfo ? index + 1 : index] = {
           ...item,
           last_message: { content: '', created_on: 0 },
         };
@@ -83,7 +83,7 @@ const Chat: React.FC<Props> = (props) => {
 
   useEffect(() => {
     getFocusList();
-  }, [userInfo]);
+  }, []);
 
   useEffect(() => {
     if (!listLoading) {
@@ -93,6 +93,9 @@ const Chat: React.FC<Props> = (props) => {
 
   return (
     <div className={styles.groupList}>
+      {Object.values(focusList).length === 0 && (
+        <p className={styles.noData}>No data</p>
+      )}
       {Object.values(focusList).map((item) => (
         <div
           className={styles.groupListItem}

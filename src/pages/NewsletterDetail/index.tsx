@@ -78,7 +78,6 @@ const NewsletterDetail: React.FC<Props> = (props) => {
         data.data.list.forEach((item, index) => {
           map[index] = item;
         });
-        console.log('map', map);
         setCommentListMap(map);
         setHasMore(
           data.data.pager.total_rows > pageData.page * pageData.page_size,

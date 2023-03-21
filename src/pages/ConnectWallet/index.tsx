@@ -19,7 +19,7 @@ import { WalletType } from '@/declare/global';
 import UserApi from '@/services/tube/UserApi';
 import { useUrl } from '@/utils/hooks';
 import Web3 from 'web3';
-import { isFavorApp, isMobile } from '@/utils/util';
+import { getTokenKey, isFavorApp, isMobile } from '@/utils/util';
 import { Models } from '@/declare/modelType';
 import { Config } from '@/config/config';
 import SvgIcon from '@/components/SvgIcon';
@@ -116,7 +116,7 @@ const ConnectWallet: React.FC = (props) => {
         wallet_addr: address,
         type: typeData[cType],
       });
-      localStorage.setItem('token', data.data.token);
+      localStorage.setItem(getTokenKey(), data.data.token);
       const info = await UserApi.getInfo(url);
       dispatch({
         type: 'web3/updateState',

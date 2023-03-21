@@ -98,6 +98,7 @@ const PostNewsletter: React.FC<Props> = (props) => {
         <TextArea
           placeholder="Please enter main text"
           autoSize={{ minRows: 1, maxRows: 4 }}
+          maxLength={500}
           onChange={(val) => {
             setMainText(val.trim());
           }}
