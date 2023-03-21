@@ -16,7 +16,13 @@ import styles from './index.less';
 import UserApi from '@/services/tube/UserApi';
 import { useUrl } from '@/utils/hooks';
 import FavorlabsApi from '@/services/FavorlabsApi';
-import { appName, checkLogin, flexible, isFavorApp } from '@/utils/util';
+import {
+  appName,
+  checkLogin,
+  flexible,
+  getTokenKey,
+  isFavorApp,
+} from '@/utils/util';
 import { setTheme, ThemeType } from '@/utils/setTheme';
 import { defaultTheme } from '@/config/themeConfig';
 import DaoApi from '@/services/tube/Dao';
@@ -87,6 +93,7 @@ const Layout: React.FC = (props) => {
     //   return;
     // }
     const data = await Api.getAddresses(debugApi);
+    localStorage.setItem('network_id', JSON.stringify(data.data.network_id));
     const config = await FavorlabsApi.getConfig(
       data.data.network_id,
       appName ?? undefined,
@@ -199,7 +206,7 @@ const Layout: React.FC = (props) => {
         if (e.message.includes('timeout')) return;
         else {
           localStorage.removeItem(ConnectType);
-          localStorage.removeItem('token');
+          localStorage.removeItem(getTokenKey());
           history.push('/login');
         }
       }

@@ -25,6 +25,16 @@ export const getEndPoint = (): boolean | string => {
 
 export const appName = new URLSearchParams(location.search).get('name');
 
+export const getTokenKey = () => {
+  const networkId = localStorage.getItem('network_id');
+  const arr = ['token', networkId, appName];
+  return arr
+    .filter((item) => {
+      if (item) return item;
+    })
+    .join('-');
+};
+
 export const websocket = (host: string) => {
   let ws = new Web3.providers.WebsocketProvider(host, {
     reconnect: {
@@ -100,7 +110,7 @@ export const toChat = (
   api: string,
   proxyGroup: string | undefined,
 ) => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem(getTokenKey());
   if (isFavorApp()) {
     toFlutterChat();
   } else {
@@ -136,7 +146,7 @@ export const getChatHash = (name: string) => {
 };
 
 export const checkLogin = () => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem(getTokenKey());
   const connectType = localStorage.getItem(ConnectType);
   return !!(token || connectType);
 };

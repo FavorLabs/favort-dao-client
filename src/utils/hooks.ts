@@ -6,7 +6,6 @@ import {
   ReviteDomainName,
 } from '@/config/constants';
 import { BucketsPath } from '@/declare/tubeApiType';
-// import { config } from '@/config/config';
 
 export const usePath = () => {
   const params = useParams<{ id: string }>();

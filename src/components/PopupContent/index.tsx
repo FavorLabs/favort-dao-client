@@ -8,16 +8,17 @@ import PostApi from '@/services/tube/PostApi';
 import { useUrl } from '@/utils/hooks';
 import { PostInfo } from '@/declare/tubeApiType';
 import { Popup } from 'antd-mobile';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import moreImg from '@/assets/img/more-img.png';
 import ExitCommunityDialog from '@/components/ExitCommunityDialog';
 import DaoApi from '@/services/tube/Dao';
 import { message } from 'antd';
+import { history } from 'umi';
 
 export type Props = {
   post: PostInfo;
   refreshPage: () => void;
-  delPost: (post: string) => void;
+  delPost?: (post: string) => void;
 };
 
 const PopupContent: React.FC<Props> = (props) => {
@@ -26,8 +27,11 @@ const PopupContent: React.FC<Props> = (props) => {
   const { refreshPostList } = useSelector((state: Models) => state.manage);
   const [visible, setVisible] = useState(false);
   const [dialogVisible, setDialogVisible] = useState<boolean>(false);
+  const [moreVisible, setMoreVisible] = useState<boolean>(false);
   const dispatch = useDispatch();
   const url = useUrl();
+  const pathname = history.location.pathname;
+
   const deleteFun = async () => {
     moreClick();
     setDialogVisible(true);
@@ -44,7 +48,7 @@ const PopupContent: React.FC<Props> = (props) => {
         //   },
         // });
         // refreshPage();
-        delPost(post.id);
+        delPost?.(post.id);
       }
     } catch (e) {
       if (e instanceof Error) message.error(e.message);
@@ -57,15 +61,21 @@ const PopupContent: React.FC<Props> = (props) => {
     setVisible(!visible);
   };
 
+  useEffect(() => {
+    if (!pathname.includes('/newsletterDetail')) setMoreVisible(true);
+  }, [pathname]);
+
   return (
     <div className={styles.page}>
       <div className={styles.more}>
-        <img
-          className={styles.moreImg}
-          src={moreIcon}
-          alt=""
-          onClick={moreClick}
-        />
+        {moreVisible && (
+          <img
+            className={styles.moreImg}
+            src={moreIcon}
+            alt=""
+            onClick={moreClick}
+          />
+        )}
       </div>
 
       <Popup

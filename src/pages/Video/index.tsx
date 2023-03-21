@@ -143,7 +143,7 @@ const Video: React.FC<Props> = (props) => {
               // path('');
             }}
           >
-            FavorDao
+            {/*FavorDao*/}
           </div>
         </div>
         <main className={styles.VideoMain}>

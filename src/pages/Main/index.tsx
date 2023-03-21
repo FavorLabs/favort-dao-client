@@ -143,10 +143,14 @@ const Main: React.FC<Props> = (props) => {
 
   return (
     <>
-      <div className={styles.content}>
-        <TopBar
-          content={
-            topBarVisibility && (
+      <div
+        className={`${styles.content} ${
+          pathname === '/mine' ? styles.mine : ''
+        }`}
+      >
+        {topBarVisibility && (
+          <TopBar
+            content={
               <div className={styles.header}>
                 {isFavorApp() && (
                   <span
@@ -191,9 +195,9 @@ const Main: React.FC<Props> = (props) => {
                   )}
                 </div>
               </div>
-            )
-          }
-        />
+            }
+          />
+        )}
         <Children content={props.children} />
         <MenuBar
           items={menuItems}

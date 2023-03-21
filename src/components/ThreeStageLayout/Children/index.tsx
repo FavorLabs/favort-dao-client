@@ -12,7 +12,8 @@ const Children: React.FC<Props> = (props) => {
   const route = pathname.split('/')[1];
   return (
     <div
-      className={`${styles.content} ${
+      className={`
+      ${styles.content} ${pathname === '/mine' ? styles.mine : ''} ${
         route === 'daoCommunity'
           ? styles.dao
           : route === 'chat' || route === 'mine'

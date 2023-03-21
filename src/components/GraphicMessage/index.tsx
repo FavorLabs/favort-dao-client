@@ -16,7 +16,7 @@ import { useHistory } from 'umi';
 export type Props = {
   post: PostInfo;
   refreshPage: () => void;
-  delPost: (post: string) => void;
+  delPost?: (post: string) => void;
 };
 
 const GraphicMessage: React.FC<Props> = (props) => {
@@ -45,7 +45,7 @@ const GraphicMessage: React.FC<Props> = (props) => {
             <PopupContent
               post={props.post}
               refreshPage={props.refreshPage}
-              delPost={props.delPost}
+              delPost={props?.delPost}
             />
           </div>
         </div>
