@@ -53,11 +53,13 @@ const GraphicMessage: React.FC<Props> = (props) => {
         <div
           title="unfold and fold"
           className={`${
-            route !== 'newsletterDetail' ? styles.textInfo : styles.detail
+            route !== 'newsletterDetail' && info[2]?.[0]?.content.length > 116
+              ? styles.textInfo
+              : styles.detail
           }`}
         >
           {info[2]?.[0]?.content}
-          {info[2]?.[0]?.content.length > 113 &&
+          {info[2]?.[0]?.content.length > 116 &&
           route !== 'newsletterDetail' ? (
             <div
               className={styles.toMore}
