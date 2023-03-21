@@ -6,9 +6,21 @@
   margin: 12px 0;
 
   .head {
+    position: relative;
     height: 2.5rem;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
+    border-radius: 5px 5px 0 0;
+  }
+
+  .head::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    border-radius: 5px 5px 0 0;
+    background-color: rgba(0, 0, 0, 0.1);
+    z-index: 2;
   }
 
   .foot {
@@ -111,8 +123,21 @@
       margin-bottom: 1.25rem;
 
       .bg {
+        position: relative;
         border-radius: 5px 5px 0 0;
         height: 2.5rem;
+      }
+
+      .bg::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        border-radius: 5px 5px 0 0;
+        background-color: rgba(0, 0, 0, 0.1);
+        z-index: 2;
       }
 
       .foot {

@@ -13,7 +13,11 @@ const Children: React.FC<Props> = (props) => {
   return (
     <div
       className={`${styles.content} ${
-        route === 'daoCommunity' ? styles.dao : ''
+        route === 'daoCommunity'
+          ? styles.dao
+          : route === 'chat' || route === 'mine'
+          ? styles.chat
+          : ''
       }`}
     >
       {props.content}
