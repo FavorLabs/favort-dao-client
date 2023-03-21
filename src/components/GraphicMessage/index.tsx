@@ -10,6 +10,8 @@ import { useResourceUrl, useUrl } from '@/utils/hooks';
 import PopupContent from '@/components/PopupContent';
 import ImageCut from '@/components/ImageCut';
 import { useState } from 'react';
+import { history } from '@@/core/history';
+import { useHistory } from 'umi';
 
 export type Props = {
   post: PostInfo;
@@ -18,6 +20,9 @@ export type Props = {
 };
 
 const GraphicMessage: React.FC<Props> = (props) => {
+  const history = useHistory();
+  const pathname = history.location.pathname;
+  const route = pathname.split('/')[1];
   const {
     dao,
     contents,
@@ -45,14 +50,24 @@ const GraphicMessage: React.FC<Props> = (props) => {
           </div>
         </div>
 
-        <div title="unfold and fold" className={styles.textInfo}>
-          <Ellipsis
-            rows={4}
-            direction="end"
-            content={info[2]?.[0]?.content}
-            expandText="unfold"
-            collapseText="fold"
-          />
+        <div
+          title="unfold and fold"
+          className={`${
+            route !== 'newsletterDetail' ? styles.textInfo : styles.detail
+          }`}
+        >
+          {info[2]?.[0]?.content}
+          {info[2]?.[0]?.content.length > 113 &&
+          route !== 'newsletterDetail' ? (
+            <div
+              className={styles.toMore}
+              onClick={() => history.push(`/newsletterDetail/${id}`)}
+            >
+              More
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
 
         <div className={styles.mediumInfo}>

@@ -121,10 +121,6 @@ const DaoCommunity: React.FC<Props> = (props) => {
     }
   };
 
-  // const updateActiveId = async (daoId: string) => {
-  //   setActiveId(daoId);
-  // }
-
   useEffect(() => {
     getBookmarkList();
   }, []);
