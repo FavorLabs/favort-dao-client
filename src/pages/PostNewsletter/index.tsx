@@ -110,6 +110,7 @@ const PostNewsletter: React.FC<Props> = (props) => {
       content: (
         <div className={styles.imageUpload}>
           <ImageCrop
+            fileType={'image/jpg, image/png, image/webp'}
             shape="rect"
             maxCount={9}
             removeImage={() => {

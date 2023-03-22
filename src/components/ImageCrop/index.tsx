@@ -18,6 +18,7 @@ export type Props = {
   maxCount?: number;
   setImgBase64?: (imgBase64: string) => void;
   removeImage: () => void;
+  fileType: string;
   shape?: 'rect' | 'round';
   aspect?: number;
   multiple?: boolean;
@@ -31,6 +32,7 @@ const Index: React.FC<Props> = (props) => {
     maxCount,
     setImgBase64,
     removeImage,
+    fileType,
     shape,
     aspect,
     multiple,
@@ -83,6 +85,7 @@ const Index: React.FC<Props> = (props) => {
 
   const uploadDOM = (
     <Upload
+      accept={fileType}
       beforeUpload={beforeUpload}
       listType={listType || 'picture-card'}
       onPreview={onPreview}

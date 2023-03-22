@@ -4,6 +4,7 @@ import WebUtils from 'web3-utils';
 import { ConnectType, ReviteURL } from '@/config/constants';
 import { setTheme, ThemeType } from '@/utils/setTheme';
 import { defaultTheme } from '@/config/themeConfig';
+import EventEmitter from 'eventemitter3';
 import { debounce } from 'lodash';
 import Flutter from '@/utils/flutter';
 import moment from 'moment';
@@ -104,6 +105,8 @@ export const sleep = async (time: number) => {
     setTimeout(s, time);
   });
 };
+
+export const eventEmitter = new EventEmitter();
 
 export const toChat = (
   name: string | undefined,

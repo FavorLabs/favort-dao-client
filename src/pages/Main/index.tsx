@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styles from './index.less';
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState, useMemo } from 'react';
 import { Avatar, message } from 'antd';
 import SvgIcon from '@/components/SvgIcon';
 import TopBar from '@/components/ThreeStageLayout/TopBar';
@@ -28,14 +28,15 @@ import {
   setLocale,
 } from 'umi';
 import { Models } from '@/declare/modelType';
-import { useUrl, useResourceUrl } from '@/utils/hooks';
+import { useUrl, useResourceUrl, useClick } from '@/utils/hooks';
 import { Tabs, TabBarItemProps, Popup } from 'antd-mobile';
-import { isFavorApp, switchTheme } from '@/utils/util';
+import { eventEmitter, isFavorApp, switchTheme } from '@/utils/util';
 import DaoApi from '@/services/tube/Dao';
 import UserAvatar from '@/components/UserAvatar';
 import Flutter from '@/utils/flutter';
 import searchImg from '@/assets/icon/search-icon.svg';
 import toHomeIcon from '@/assets/icon/toHome.svg';
+import { history } from '@@/core/history';
 
 export type Props = {};
 export type MenuItem = TabBarItemProps & {
@@ -60,9 +61,9 @@ const Main: React.FC<Props> = (props) => {
       icon: (
         <div className={`${styles.latest} latest`}>
           {routeKey === '/latest' ? (
-            <img src={lastetOnIcon}></img>
+            <img src={lastetOnIcon} alt={''} />
           ) : (
-            <img src={lastetIcon}></img>
+            <img src={lastetIcon} alt={''} />
           )}
         </div>
       ),
@@ -73,9 +74,9 @@ const Main: React.FC<Props> = (props) => {
       icon: (
         <div className={`${styles.dao} dao`}>
           {routeKey === '/daoCommunity' ? (
-            <img src={daoOnIcon}></img>
+            <img src={daoOnIcon} alt={''} />
           ) : (
-            <img src={daoIcon}></img>
+            <img src={daoIcon} alt={''} />
           )}
         </div>
       ),
@@ -99,9 +100,9 @@ const Main: React.FC<Props> = (props) => {
       icon: (
         <div className={`${styles.chat} chat`}>
           {routeKey === '/chat' ? (
-            <img src={chatOnIcon}></img>
+            <img src={chatOnIcon} alt={''} />
           ) : (
-            <img src={chatIcon}></img>
+            <img src={chatIcon} alt={''} />
           )}
         </div>
       ),
@@ -112,9 +113,9 @@ const Main: React.FC<Props> = (props) => {
       icon: (
         <div className={`${styles.mine} mine`}>
           {routeKey === '/mine' ? (
-            <img src={myOnIcon}></img>
+            <img src={myOnIcon} alt={''} />
           ) : (
-            <img src={myIcon}></img>
+            <img src={myIcon} alt={''} />
           )}
         </div>
       ),
@@ -127,10 +128,37 @@ const Main: React.FC<Props> = (props) => {
   const [postPopupVisibility, setPostPopupVisibility] =
     useState<boolean>(false);
 
+  const FeedsClick = useClick(
+    () => {
+      console.log('click');
+    },
+    () => {
+      console.log('dblclick');
+      if (pathname === '/latest/follow') {
+        eventEmitter.emit('menuRefreshFollow');
+      } else if (pathname === '/latest/recommend') {
+        eventEmitter.emit('menuRefreshRecommend');
+      }
+    },
+  );
+
+  const bindDoubleClickHandle = () => {
+    const FeedsDom = document.querySelector(
+      '.adm-tab-bar-item.Feeds',
+    ) as Element;
+    FeedsDom.addEventListener('click', () => {
+      FeedsClick();
+    });
+  };
+
   const toSearch = () => {
     const type = routeKey.split('/')[1];
     history.push(`/search/${type}`);
   };
+
+  useEffect(() => {
+    bindDoubleClickHandle();
+  }, []);
 
   useEffect(() => {
     setLatestNavVisibility(pathname.includes('/latest'));

@@ -386,6 +386,7 @@ const PostVideo: React.FC<Props> = (props) => {
       content: (
         <div className={styles.coverUpload}>
           <ImageCrop
+            fileType={'image/jpg, image/png, image/webp'}
             crop={true}
             shape="rect"
             aspect={2}

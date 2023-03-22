@@ -9,9 +9,9 @@ import { message } from 'antd';
 import { DotLoading, InfiniteScroll, PullToRefresh } from 'antd-mobile';
 import CommunityIntro from '@/components/CommunityIntro';
 import ErrorOccurred from '@/components/ErrorOccurred';
-import { useSelector } from 'umi';
+import { useSelector, history } from 'umi';
 import { Models } from '@/declare/modelType';
-import { isMobile, sleep } from '@/utils/util';
+import { isMobile, sleep, eventEmitter } from '@/utils/util';
 import _ from 'lodash';
 
 export type Props = {
@@ -33,6 +33,8 @@ const PostList: React.FC<Props> = (props) => {
   const [hasMore, setHasMore] = useState(true);
   const [list, setList] = useState<PostInfo[]>([]);
   const [errored, setErrored] = useState<boolean>(false);
+
+  const pathname = history.location.pathname;
 
   const loadMore = async () => {
     try {
@@ -94,6 +96,16 @@ const PostList: React.FC<Props> = (props) => {
       refreshPage();
     }
   }, [query]);
+
+  useEffect(() => {
+    if (pathname === '/latest/follow') {
+      eventEmitter.removeListener('menuRefreshFollow');
+      eventEmitter.on('menuRefreshFollow', refreshPage);
+    } else if (pathname === '/latest/recommend') {
+      eventEmitter.removeListener('menuRefreshRecommend');
+      eventEmitter.on('menuRefreshRecommend', refreshPage);
+    }
+  }, []);
 
   return (
     <>
