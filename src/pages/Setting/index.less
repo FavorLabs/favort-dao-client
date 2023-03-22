@@ -1,0 +1,232 @@
+.setting {
+  background: rgba(247, 247, 247, 1);
+
+  .content {
+    height: calc(100vh - 7.75rem);
+    overflow-y: auto;
+    padding: 0 1.25rem 1.25rem 1.25rem;
+
+    .userInfo,
+    .contentSync,
+    .chatChannels,
+    .membershipSystem {
+      margin-top: 1.25rem;
+      border-radius: 0.625rem;
+      background: rgba(255, 255, 255, 1);
+
+      .blockTitle {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.9375rem 0.625rem 0 0.625rem;
+
+        .left {
+          font-size: 0.75rem;
+          font-weight: 700;
+          color: rgba(255, 166, 0, 1);
+        }
+      }
+    }
+
+    .userInfo {
+      .avatar,
+      .daoMode,
+      .profile,
+      .tags {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.9375rem 0.625rem;
+        border-bottom: 0.03125rem solid rgba(229, 229, 229, 1);
+
+        .left {
+          max-width: 60%;
+          font-size: 1rem;
+          font-weight: 700;
+          color: rgba(33, 33, 33, 1);
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+      }
+
+      .avatar {
+        .right {
+          display: flex;
+          align-items: center;
+
+          .avatarImg {
+            margin-right: 0.625rem;
+            width: 1.875rem;
+            height: 1.875rem;
+            border-radius: 0.25rem;
+          }
+
+          .arrow {
+            width: 0.5rem;
+            height: 0.75rem;
+          }
+        }
+      }
+
+      .daoMode {
+        .right {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+
+          .switch:last-child {
+            margin-top: 0.9375rem;
+          }
+        }
+      }
+
+      .profile {
+        .left {
+          max-width: 20%;
+        }
+
+        .right {
+          width: 75%;
+          margin-left: 0.125rem;
+        }
+      }
+
+      .tags {
+        border-bottom: none;
+        .right {
+          width: 75%;
+        }
+      }
+    }
+
+    .contentSync {
+      padding-bottom: 1.25rem;
+      .blockInput {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.9375rem 0.625rem 0 0.625rem;
+
+        .left {
+          max-width: 25%;
+          font-size: 1rem;
+          font-weight: 700;
+          color: rgba(33, 33, 33, 1);
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+
+        .input {
+          width: 75%;
+          padding-left: 0.9375rem;
+        }
+      }
+    }
+
+    .chatChannels {
+      .blockTitle {
+        .right {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 0 0.4375rem;
+          border-radius: 0.59375rem;
+          border: 0.0625rem solid rgba(255, 166, 0, 1);
+          font-size: 0.75rem;
+          font-weight: 500;
+          color: rgba(255, 166, 0, 1);
+          cursor: pointer;
+        }
+      }
+
+      .channelBlock {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.9375rem 0.625rem;
+        border-bottom: 0.03125rem solid rgba(229, 229, 229, 1);
+
+        .left {
+          max-width: 60%;
+          font-size: 1rem;
+          font-weight: 700;
+          color: rgba(33, 33, 33, 1);
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+
+        .rightImg {
+          width: 0.9375rem;
+          height: 1rem;
+        }
+      }
+
+      .channelBlock {
+        border-bottom: none;
+      }
+    }
+
+    .membershipSystem {
+      .systemRadio {
+        padding: 0.625rem 0.625rem 0 0.625rem;
+
+        .radioText {
+          font-size: 1rem;
+          font-weight: 700;
+          color: rgba(33, 33, 33, 1);
+        }
+      }
+
+      .row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.9375rem 0.625rem;
+
+        .left {
+          font-size: 1rem;
+          font-weight: 700;
+          color: rgba(33, 33, 33, 1);
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+
+        .right {
+          display: flex;
+          align-items: center;
+          width: 75%;
+
+          .input {
+            height: 2.5rem;
+            padding-left: 1.5625rem;
+            font-size: 1rem;
+            font-weight: 700;
+            color: rgba(0, 75, 181, 1);
+          }
+
+          .text {
+            margin-left: 0.625rem;
+            font-size: 1rem;
+            font-weight: 700;
+            color: rgba(33, 33, 33, 1);
+          }
+        }
+      }
+    }
+  }
+
+  .saveButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 1.25rem;
+    height: 2.75rem;
+    border-radius: 0.125rem;
+    background: rgba(255, 166, 0, 1);
+    font-size: 1rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 1);
+    cursor: pointer;
+  }
+}

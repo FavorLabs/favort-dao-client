@@ -68,6 +68,21 @@ export default [
         wrappers: ['@/wrappers/auth'],
       },
       {
+        path: '/setting',
+        component: '@/pages/Setting',
+        wrappers: ['@/wrappers/auth'],
+      },
+      {
+        path: '/web3Airdrop',
+        component: '@/pages/Web3Airdrop',
+        wrappers: ['@/wrappers/auth'],
+      },
+      {
+        path: '/dAOAirdrop',
+        component: '@/pages/DAOAirdrop',
+        wrappers: ['@/wrappers/auth'],
+      },
+      {
         path: '/',
         component: '@/pages/Main',
         routes: [
