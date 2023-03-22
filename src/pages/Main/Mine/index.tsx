@@ -130,7 +130,7 @@ const Mine: React.FC<Props> = (props) => {
     {
       name: 'Setting',
       icon: <img src={SettingSvg} alt={''} />,
-      path: '',
+      path: '/setting',
     },
     {
       name: 'Plugin Market',
@@ -143,12 +143,12 @@ const Mine: React.FC<Props> = (props) => {
     {
       name: 'Web3 Airdops',
       icon: <img src={web3AirdopsSvg} alt={''} />,
-      path: '',
+      path: '/web3Airdrop',
     },
     {
       name: 'DAO Airdops',
       icon: <img src={daoAirdopsSvg} alt={''} />,
-      path: '',
+      path: '/dAOAirdrop',
     },
     {
       name: 'Promotion',

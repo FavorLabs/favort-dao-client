@@ -5,10 +5,7 @@ import { useResourceUrl } from '@/utils/hooks';
 import UserAvatar from '@/components/UserAvatar';
 import { history } from 'umi';
 import addImg from '@/assets/img/add-img.png';
-import viewMore from '@/assets/img/viewMore.png';
-import viewMoreOn from '@/assets/img/viewMore_on.png';
 import allCommunityIcon from '@/assets/icon/home.svg';
-import { useState } from 'react';
 
 export type Props = {
   user: DaoInfo | null;

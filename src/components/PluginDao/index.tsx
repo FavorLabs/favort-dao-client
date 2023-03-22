@@ -1,6 +1,5 @@
 import * as React from 'react';
 import styles from './index.less';
-import noticeIcon from '@/assets/icon/noticeIcon.svg';
 import { ReactNode, useState } from 'react';
 
 export type Props = {

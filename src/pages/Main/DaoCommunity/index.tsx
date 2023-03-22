@@ -3,8 +3,9 @@ import { useEffect, useState } from 'react';
 import { history, useParams, useSelector } from 'umi';
 import styles from './index.less';
 import DaoApi from '@/services/tube/Dao';
-import { useUrl } from '@/utils/hooks';
-import { DaoInfo, Page, Post, PostInfo } from '@/declare/tubeApiType';
+import ChatApi from '@/services/tube/Chat';
+import { useUrl, useReviteUrl } from '@/utils/hooks';
+import { DaoInfo, LastMsg, Page, Post, PostInfo } from '@/declare/tubeApiType';
 import { Models } from '@/declare/modelType';
 import CommunityCard from '@/components/CommunityCard';
 import FavorDaoCard from '@/components/FavorDaoCard';
@@ -13,10 +14,11 @@ import SvgIcon from '@/components/SvgIcon';
 import newsImg from '@/assets/icon/daoNews.svg';
 import videoImg from '@/assets/icon/daoVideo.svg';
 import chatImg from '@/assets/icon/daoChat.svg';
-import { getContent, getTime, toChat } from '@/utils/util';
+import { getChatHash, getContent, getTime, toChat } from '@/utils/util';
 import PostApi from '@/services/tube/PostApi';
 import CommunityIntro from '@/components/CommunityIntro';
 import KeepAlive from 'react-activation';
+import { decodeTime } from 'ulid';
 
 export type Props = {};
 
@@ -24,6 +26,7 @@ const DaoCommunity: React.FC<Props> = (props) => {
   const params: { daoId?: string } = useParams();
   const { api, config } = useSelector((state: Models) => state.global);
   const url = useUrl();
+  const reviteUrl = useReviteUrl();
 
   const [bookmarkList, setBookmarkList] = useState<DaoInfo[]>([]);
   const [isBookmark, setIsBookmark] = useState(false);
@@ -36,6 +39,10 @@ const DaoCommunity: React.FC<Props> = (props) => {
   });
   const [lastPostVideo, setLastPostVideo] = useState({
     text: 'no video',
+    createTime: '',
+  });
+  const [lastChat, setLastChat] = useState({
+    text: 'no chat',
     createTime: '',
   });
   const [pageData, setPageData] = useState<Page>({
@@ -55,6 +62,7 @@ const DaoCommunity: React.FC<Props> = (props) => {
     const { data } = await DaoApi.getById(url, daoId);
     if (data.data) {
       setDaoInfo(data.data);
+      getMsgIdByName(data.data);
 
       if (data.data.last_posts.length) {
         data.data.last_posts.forEach((item) => {
@@ -115,6 +123,33 @@ const DaoCommunity: React.FC<Props> = (props) => {
       if (data.data.list) {
         setAllDao(data.data.list);
       }
+    }
+  };
+
+  const getMsgIdByName = async (item: DaoInfo) => {
+    const { data } = await ChatApi.getMsgIdByName(
+      reviteUrl,
+      getChatHash(item.name),
+    );
+    if (data?.last_message_id) getMsgById(item.name, data.last_message_id);
+  };
+
+  const getMsgById = async (name: string, msgId: string) => {
+    const { data } = await ChatApi.getMsgById(
+      reviteUrl,
+      getChatHash(name),
+      msgId,
+    );
+    if (data) {
+      setLastChat({
+        text: data.content,
+        createTime: getTime(decodeTime(data._id)),
+      });
+    } else {
+      setLastChat({
+        text: 'no chat',
+        createTime: '',
+      });
     }
   };
 
@@ -227,10 +262,12 @@ const DaoCommunity: React.FC<Props> = (props) => {
                           <div className={styles.leftText}>
                             <div className={styles.name}>General</div>
                             <div className={styles.message}>
-                              To better support the...
+                              {lastChat.text}
                             </div>
                           </div>
-                          <div className={styles.time}>08:23am</div>
+                          <div className={styles.time}>
+                            {lastChat.createTime}
+                          </div>
                         </div>
                       </div>
                     </div>

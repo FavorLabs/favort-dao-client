@@ -1,17 +1,15 @@
 import * as React from 'react';
 import styles from './index.less';
-import { useHistory } from 'umi';
 import PluginDao from '@/components/PluginDao';
-import { NavBar } from 'antd-mobile';
-import Prompt from '@/components/Prompt';
 import { ReactNode } from 'react';
 import noticeIcon from '@/assets/icon/noticeIcon.svg';
 import langLive3 from '@/assets/icon/langLive-3-icon.svg';
 import strawPoll5 from '@/assets/icon/strawPoll-5-icon.svg';
 import gameWorld from '@/assets/icon/gameWorld-icon.svg';
 import shopeeIcon from '@/assets/icon/shopee-icon.svg';
+import TopNavBar from '@/components/TopNavBar';
 
-export type Props = {};
+type Props = {};
 
 type listItems = {
   icon: ReactNode;
@@ -20,9 +18,7 @@ type listItems = {
 };
 
 const PluginForDAOs: React.FC<Props> = (props) => {
-  const history = useHistory();
-
-  const listItems = [
+  const listItems: listItems[] = [
     {
       icon: <img src={noticeIcon} alt="" />,
       title: 'AMA！',
@@ -52,28 +48,17 @@ const PluginForDAOs: React.FC<Props> = (props) => {
 
   return (
     <div className={styles.pluginForDAOs}>
-      <NavBar
-        className={styles.navBar}
-        onBack={() => {
-          history.goBack();
-        }}
-        right={
-          <div className={styles.navRight}>
-            <Prompt />
-          </div>
-        }
-      >
-        Plugin for DAOs
-      </NavBar>
+      <TopNavBar title={'Plugin for DAOs'} />
       <div className={styles.content}>
-        {listItems.map((item: any) => {
+        {listItems.map((item: any, index: number) => {
           return (
-            <PluginDao icon={item.icon} title={item.title} text={item.text} />
+            <div key={index}>
+              <PluginDao icon={item.icon} title={item.title} text={item.text} />
+            </div>
           );
         })}
       </div>
     </div>
   );
 };
-
 export default PluginForDAOs;
