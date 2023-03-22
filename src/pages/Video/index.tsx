@@ -14,6 +14,7 @@ import { getContent } from '@/utils/util';
 import UserAvatar from '@/components/UserAvatar';
 import CommentArea from '@/components/CommentArea';
 import ExitCommunityDialog from '@/components/ExitCommunityDialog';
+import Comment from '@/components/Comment';
 
 export type Props = {
   match: {
@@ -198,7 +199,7 @@ const Video: React.FC<Props> = (props) => {
                                 {videoData.dao.name}
                               </div>
                               <div className={styles.subscribe}>
-                                {0} followers
+                                {videoData.dao.follow_count} followers
                               </div>
                             </div>
                           </div>
@@ -210,20 +211,30 @@ const Video: React.FC<Props> = (props) => {
                         </div>
                         <div className={styles.title}>{title}</div>
                         <div className={styles.desc}>{description}</div>
-                        <CommentArea
-                          watchNum={videoData.view_count}
-                          commentOnNum={videoData.comment_count}
-                          likeNum={videoData.upvote_count}
-                          postId={videoData.id}
-                          postType={videoData.type}
-                        />
+                        <div className={styles.operation}>
+                          <CommentArea
+                            watchNum={videoData.view_count}
+                            commentOnNum={videoData.comment_count}
+                            likeNum={videoData.upvote_count}
+                            postId={videoData.id}
+                            postType={videoData.type}
+                          />
+                        </div>
                       </>
                     ) : (
                       <div className={styles.detailSkeleton} />
                     )}
                   </figcaption>
                 </figure>
-                <div className={styles.comments}>Comments</div>
+                <div className={styles.comments}>
+                  {videoData && (
+                    <Comment
+                      postId={videoData.id}
+                      postType={videoData.type}
+                      postCommentCount={videoData.comment_count}
+                    />
+                  )}
+                </div>
               </div>
             </Col>
             {/*<Col*/}
@@ -250,7 +261,7 @@ const Video: React.FC<Props> = (props) => {
           </Row>
         </main>
         <ExitCommunityDialog
-          text={''}
+          text={'Confirm your withdrawal from this community?'}
           visible={focusDialog}
           closeDialog={() => {
             setFocusDialog(false);

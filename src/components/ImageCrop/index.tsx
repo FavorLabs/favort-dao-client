@@ -105,6 +105,7 @@ const Index: React.FC<Props> = (props) => {
           rotationSlider={true}
           cropShape={shape}
           aspect={aspect}
+          modalTitle={'Edit image'}
           key={url}
         >
           {uploadDOM}
