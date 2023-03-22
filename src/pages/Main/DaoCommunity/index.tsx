@@ -18,6 +18,8 @@ import { getChatHash, getContent, getTime, toChat } from '@/utils/util';
 import PostApi from '@/services/tube/PostApi';
 import CommunityIntro from '@/components/CommunityIntro';
 import KeepAlive from 'react-activation';
+import { message } from 'antd';
+import ErrorOccurred from '@/components/ErrorOccurred';
 import { decodeTime } from 'ulid';
 
 export type Props = {};
@@ -55,6 +57,7 @@ const DaoCommunity: React.FC<Props> = (props) => {
   const [activeId, setActiveId] = useState<string | undefined>(
     daoInfo?.id || allId,
   );
+  const [errored, setErrored] = useState<boolean>(false);
   const daoId = params.daoId;
 
   const getDaoInfo = async () => {
@@ -118,11 +121,21 @@ const DaoCommunity: React.FC<Props> = (props) => {
   const viewDaoGroup = async () => {
     setIsViewDaoGroup(true);
     if (!isViewDaoGroup) {
+      getDaoList();
+    }
+  };
+
+  const getDaoList = async () => {
+    try {
       const request = (params: Page) => PostApi.getPostListByType(url, params);
       const { data } = await request(pageData);
+      setErrored(false);
       if (data.data.list) {
         setAllDao(data.data.list);
       }
+    } catch (e) {
+      if (e instanceof Error) message.error(e.message);
+      setErrored(true);
     }
   };
 
@@ -284,14 +297,20 @@ const DaoCommunity: React.FC<Props> = (props) => {
             )
           ) : (
             <div className={styles.viewDaoGroup}>
-              {allDao.map((item: any, index: number) => {
-                return (
-                  <div key={index} className={styles.viewContent}>
-                    {/*<FavorDaoCard daoInfo={item.dao} />*/}
-                    <CommunityIntro post={item} />
-                  </div>
-                );
-              })}
+              {errored ? (
+                <ErrorOccurred retryFn={getDaoList} />
+              ) : (
+                <>
+                  {allDao.map((item: any, index: number) => {
+                    return (
+                      <div key={index} className={styles.viewContent}>
+                        {/*<FavorDaoCard daoInfo={item.dao} />*/}
+                        <CommunityIntro post={item} />
+                      </div>
+                    );
+                  })}
+                </>
+              )}
             </div>
           )}
         </div>

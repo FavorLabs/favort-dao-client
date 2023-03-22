@@ -58,6 +58,7 @@ const CreateCommunity: React.FC<Props> = (props) => {
   };
 
   const uploadBanner = async (file: File) => {
+    console.log('fileType---', file.type);
     setCBannerLoading(true);
     try {
       let fmData = new FormData();
@@ -156,6 +157,7 @@ const CreateCommunity: React.FC<Props> = (props) => {
       content: (
         <div className={styles.avatarUpload}>
           <ImageCrop
+            fileType={'image/jpg, image/png, image/webp'}
             crop={true}
             shape="round"
             aspect={1}
@@ -173,6 +175,7 @@ const CreateCommunity: React.FC<Props> = (props) => {
       content: (
         <div className={styles.bannerUpload}>
           <ImageCrop
+            fileType={'image/jpg, image/png, image/webp'}
             shape="rect"
             aspect={2}
             removeImage={() => {

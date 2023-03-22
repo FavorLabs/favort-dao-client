@@ -31,11 +31,16 @@ import web3AirdopsSvg from '@/assets/icon/web3.svg';
 import daoAirdopsSvg from '@/assets/icon/dao_s.svg';
 import promotionSvg from '@/assets/icon/promotion.svg';
 import rightArrowSvg from '@/assets/icon/rightArrow.svg';
+import langSvg from '@/assets/icon/language.svg';
+import darkSvg from '@/assets/icon/dark.svg';
+import aboutSvg from '@/assets/icon/about.svg';
+import logoutSvg from '@/assets/icon/logout.svg';
 
 export type Props = {};
 type SettingItem = {
   key: number;
   name: string;
+  icon: ReactNode;
   content: ReactNode;
 };
 type UserDataItems = {
@@ -161,6 +166,7 @@ const Mine: React.FC<Props> = (props) => {
     {
       key: 1,
       name: intl.formatMessage({ id: 'main.mine.setting.language' }),
+      icon: <img src={langSvg} alt={''} />,
       content: (
         <div className={styles.langAction}>
           <Popover
@@ -200,6 +206,7 @@ const Mine: React.FC<Props> = (props) => {
     {
       key: 2,
       name: intl.formatMessage({ id: 'main.mine.setting.theme' }),
+      icon: <img src={darkSvg} alt={''} />,
       content: (
         <div className={styles.themeAction}>
           <div
@@ -236,11 +243,13 @@ const Mine: React.FC<Props> = (props) => {
     {
       key: 3,
       name: intl.formatMessage({ id: 'main.mine.setting.about' }),
+      icon: <img src={aboutSvg} alt={''} />,
       content: <div className={styles.aboutAction}>version 1.0.0321</div>,
     },
     {
       key: 4,
       name: intl.formatMessage({ id: 'main.mine.setting.logout' }),
+      icon: <img src={logoutSvg} alt={''} />,
       content: (
         <div className={styles.logoutAction}>
           <img src={rightArrowSvg} alt="" />
@@ -416,7 +425,10 @@ const Mine: React.FC<Props> = (props) => {
                 }
               }}
             >
-              <div className={styles.name}>{item.name}</div>
+              <div className={styles.iconName}>
+                {item.icon}
+                <div className={styles.name}>{item.name}</div>
+              </div>
               <div className={styles.action}>{item.content}</div>
             </div>
           ))}

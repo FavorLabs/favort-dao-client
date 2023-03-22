@@ -18,9 +18,15 @@ const MenuBar: React.FC<Props> = (props) => {
           className={styles.tabBar}
           activeKey={activeKey}
           onChange={onChange}
+          safeArea={true}
         >
           {items.map((item) => (
-            <TabBar.Item key={item.key} icon={item.icon} title={item.title} />
+            <TabBar.Item
+              key={item.key}
+              icon={item.icon}
+              title={item.title}
+              className={item.key === '/latest' ? 'Feeds' : ''}
+            />
           ))}
         </TabBar>
       </div>

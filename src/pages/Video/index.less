@@ -27,6 +27,7 @@
   }
   .VideoMain {
     width: 100%;
+    height: calc(80vh - 109px);
     overflow-y: scroll;
     .row {
       margin: 0 !important;
@@ -41,7 +42,7 @@
           background-color: @skeletonColor;
         }
         .detail {
-          padding: 20px;
+          padding: 20px 20px 10px;
           .info {
             display: flex;
             justify-content: space-between;
@@ -59,10 +60,12 @@
                 .daoName {
                   color: rgba(33, 33, 33, 1);
                   font-size: 16px;
+                  font-weight: 700;
                 }
                 .subscribe {
                   color: rgba(181, 181, 181, 1);
                   font-size: 12px;
+                  margin-top: 4px;
                 }
               }
             }
@@ -83,6 +86,19 @@
             color: rgba(33, 33, 33, 1);
             margin-top: 10px;
           }
+          .operation {
+            > div {
+              margin-bottom: 0;
+            }
+          }
+        }
+        .detail::after {
+          content: '';
+          display: inline-block;
+          width: 100%;
+          height: 1px;
+          background: rgba(229, 229, 229, 1);
+          transform: scaleY(50%);
         }
         .detailSkeleton {
           width: 100%;
@@ -92,12 +108,19 @@
         }
         .comments {
           padding: 20px;
-          font-weight: bold;
         }
       }
       .mainRight {
         padding: 0 10px;
       }
+    }
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .content {
+    .VideoMain {
+      height: calc(100vh - 109px);
     }
   }
 }

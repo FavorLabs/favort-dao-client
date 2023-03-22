@@ -1,0 +1,107 @@
+.comment {
+  .commentList {
+    width: 100%;
+    .countWrap {
+      padding: 10px 0;
+      .count {
+        margin-top: -10px;
+        color: rgba(99, 99, 99, 1);
+        font-size: 12px;
+      }
+      .skeleton {
+        min-height: 20px;
+      }
+    }
+    .listWrap {
+      .skeleton {
+        min-height: 200px;
+      }
+      .itemList {
+        .item {
+          display: flex;
+          justify-content: flex-start;
+          align-items: flex-start;
+          padding: 10px 0;
+          border-bottom: 0.5px solid rgba(229, 229, 229, 1);
+          .left {
+            margin-right: 10px;
+            .avatar {
+              //
+            }
+          }
+          .right {
+            flex: 1;
+            .name {
+              font-weight: 700;
+            }
+            .time {
+              color: rgba(181, 181, 181, 1);
+              font-size: 12px;
+              margin-bottom: 2px;
+            }
+            .text {
+              font-size: 14px;
+              line-height: 18px;
+              vertical-align: top;
+            }
+            .action {
+              display: flex;
+              justify-content: flex-end;
+              align-items: center;
+              color: rgba(99, 99, 99, 1);
+              font-size: 12px;
+              margin-top: 10px;
+              .replyBtn,
+              .likeBtn {
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+              }
+              .replyBtn {
+                //margin-right: 40px;
+                img {
+                  width: 12px;
+                  margin: 2px 2px 0 0;
+                }
+              }
+              .likeBtn {
+                img {
+                  width: 14px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .InfiniteScroll {
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .createComment {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 49px;
+    padding-top: 10px;
+    box-sizing: border-box;
+    box-shadow: 0px -5px 30px 1px rgba(128, 128, 128, 0.21);
+  }
+}
+
+.commentPopup {
+  .sendBtn {
+    color: rgba(33, 33, 33, 1);
+    height: 44px;
+    line-height: 44px;
+    margin-top: 20px;
+    text-align: center;
+    background: rgba(240, 240, 240, 1);
+  }
+  .sendBtn.active {
+    color: rgba(255, 255, 255, 1);
+    background: rgba(255, 166, 0, 1);
+  }
+}
