@@ -104,7 +104,7 @@ const DaoList: React.FC<Props> = (props) => {
           <div className={styles.createPage}>
             <div className={styles.noCreateBackGround}></div>
             <p className={styles.noCreateText}>
-              Nothing. Go create or join a community!
+              Nothing. Go create or join a DAO!
             </p>
           </div>
         )}
