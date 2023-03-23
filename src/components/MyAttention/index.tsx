@@ -1,11 +1,10 @@
 import * as React from 'react';
 import styles from './index.less';
-import arrowRight from '@/assets/img/arrow_right.png';
 import { DaoInfo } from '@/declare/tubeApiType';
 import { useResourceUrl } from '@/utils/hooks';
 import UserAvatar from '@/components/UserAvatar';
 import { history } from 'umi';
-import addImg from '@/assets/img/add-img.png';
+import addImg from '@/assets/icon/addCommunityIcon.svg';
 
 export type Props = {
   user: DaoInfo | null;
@@ -78,7 +77,7 @@ const MyAttention: React.FC<Props> = (props) => {
                 <span className={styles.text} onClick={moreHandle}>
                   more
                 </span>
-                <img src={arrowRight} className={styles.icon} />
+                {/*<img src={arrowRight} className={styles.icon} />*/}
               </div>
             ) : (
               <></>

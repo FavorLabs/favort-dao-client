@@ -9,7 +9,6 @@ import { useUrl } from '@/utils/hooks';
 import { PostInfo } from '@/declare/tubeApiType';
 import { Popup } from 'antd-mobile';
 import { useEffect, useState } from 'react';
-import moreImg from '@/assets/img/more-img.png';
 import ExitCommunityDialog from '@/components/ExitCommunityDialog';
 import DaoApi from '@/services/tube/Dao';
 import { message } from 'antd';
@@ -85,19 +84,19 @@ const PopupContent: React.FC<Props> = (props) => {
           setVisible(false);
         }}
         bodyStyle={{
-          padding: '20px',
+          padding: '1.25rem',
           boxSizing: 'border-box',
-          borderTopLeftRadius: '4px',
-          borderTopRightRadius: '4px',
+          borderTopLeftRadius: '0.25rem',
+          borderTopRightRadius: '0.25rem',
         }}
       >
         <div className={styles.popupPage}>
           {/*<div className={styles.row}>*/}
-          {/*  <img src={reTransferImg} alt="" className={styles.img} />*/}
+          {/*  <img src={deleteIcon} alt="" className={styles.img} />*/}
           {/*  <span className={styles.text}>ReTransfer</span>*/}
           {/*</div>*/}
           {/*<div className={styles.row}>*/}
-          {/*  <img src={quoteImg} alt="" className={styles.img} />*/}
+          {/*  <img src={deleteIcon} alt="" className={styles.img} />*/}
           {/*  <span className={styles.text}>Quote</span>*/}
           {/*</div>*/}
           {userInfo?.id === post.dao.id ? (

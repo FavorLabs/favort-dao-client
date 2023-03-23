@@ -129,7 +129,11 @@ const PostList: React.FC<Props> = (props) => {
                   delPost={delPost}
                 />
               ) : item.type === 1 ? (
-                <LongVideo post={item} refreshPage={refreshPage} />
+                <LongVideo
+                  post={item}
+                  refreshPage={refreshPage}
+                  delPost={delPost}
+                />
               ) : item.type === -1 ? (
                 <CommunityIntro post={item} />
               ) : (

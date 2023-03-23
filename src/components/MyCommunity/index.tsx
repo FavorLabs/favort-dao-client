@@ -4,7 +4,7 @@ import { DaoInfo } from '@/declare/tubeApiType';
 import { useResourceUrl } from '@/utils/hooks';
 import UserAvatar from '@/components/UserAvatar';
 import { history } from 'umi';
-import addImg from '@/assets/img/add-img.png';
+import addImg from '@/assets/icon/addCommunityIcon.svg';
 import allCommunityIcon from '@/assets/icon/home.svg';
 
 export type Props = {

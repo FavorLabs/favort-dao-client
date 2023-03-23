@@ -3,14 +3,14 @@
   display: flex;
   justify-content: space-between;
   box-sizing: border-box;
-  height: calc(100vh - 120px);
+  height: calc(100vh - 7.5rem);
 
   .rightContent {
     overscroll-behavior: contain;
     overflow: auto;
     flex: 1;
     background: rgba(255, 255, 255, 1);
-    margin-left: 10px;
+    margin-left: 0.625rem;
     padding: 1.25rem;
 
     .information {
@@ -21,14 +21,14 @@
 
         .disc {
           margin-right: 0.625rem;
-          width: 6px;
-          height: 6px;
+          width: 0.375rem;
+          height: 0.375rem;
           border-radius: 50%;
           background: rgba(255, 166, 0, 1);
         }
 
         .text {
-          font-size: 16px;
+          font-size: 1rem;
           font-weight: 700;
           color: rgba(33, 33, 33, 1);
         }
@@ -42,27 +42,33 @@
           display: flex;
           justify-content: center;
           align-items: center;
-          width: 42px;
-          height: 42px;
-          border-radius: 8px;
+          width: 2.625rem;
+          height: 2.625rem;
+          border-radius: 0.5rem;
           background: rgba(255, 255, 255, 1);
-          box-shadow: 0px 2px 15px 5px rgba(0, 0, 0, 0.05);
+          box-shadow: 0px 0.125rem 0.9375rem 0.3125rem rgba(0, 0, 0, 0.05);
+
+          .image {
+            min-width: 1.75rem;
+            min-height: 1.25rem;
+          }
         }
 
         .right {
-          margin-left: 10px;
-          padding-bottom: 10px;
           display: flex;
           align-items: center;
           justify-content: space-between;
           flex: 1;
-          border-bottom: 0.5px solid rgba(229, 229, 229, 1);
+          margin-left: 0.625rem;
+          padding-bottom: 0.625rem;
+          border-bottom: 0.03125rem solid rgba(229, 229, 229, 1);
           overflow-x: hidden;
 
           .leftText {
+            flex: 1;
             overflow: hidden;
             .name {
-              font-size: 16px;
+              font-size: 1rem;
               font-weight: 700;
               color: rgba(33, 33, 33, 1);
               overflow: hidden;
@@ -71,8 +77,8 @@
             }
 
             .message {
-              width: 130px;
-              font-size: 12px;
+              max-width: 70%;
+              font-size: 0.75rem;
               font-weight: 500;
               color: rgba(181, 181, 181, 1);
               overflow: hidden;
@@ -82,7 +88,7 @@
           }
 
           .time {
-            font-size: 12px;
+            font-size: 0.75rem;
             font-weight: 500;
             color: rgba(181, 181, 181, 1);
             overflow: hidden;
@@ -119,7 +125,7 @@
       }
 
       .noCreateText {
-        font-size: 12px;
+        font-size: 0.75rem;
         font-weight: 500;
         color: rgba(181, 181, 181, 1);
       }

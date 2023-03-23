@@ -7,8 +7,8 @@
   .topBar {
     position: relative;
     width: 100%;
-    height: 60px;
-    padding: 12px;
+    height: 3.75rem;
+    padding: 0.75rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -17,17 +17,17 @@
     .goBack {
       position: absolute;
       top: 50%;
-      left: 10px;
+      left: 0.625rem;
       transform: translateY(-50%);
     }
     .logo {
-      font-size: 14px;
+      font-size: 0.875rem;
       cursor: pointer;
     }
   }
   .VideoMain {
     width: 100%;
-    height: calc(80vh - 109px);
+    height: calc(80vh - 6.8125rem);
     overflow-y: scroll;
     .row {
       margin: 0 !important;
@@ -38,11 +38,11 @@
       .mainLeft {
         .videoSkeleton {
           width: 100%;
-          min-height: 350px;
+          min-height: 21.875rem;
           background-color: @skeletonColor;
         }
         .detail {
-          padding: 20px 20px 10px;
+          padding: 1.25rem 1.25rem 0.625rem;
           .info {
             display: flex;
             justify-content: space-between;
@@ -56,35 +56,53 @@
                 justify-content: flex-start;
                 align-items: flex-start;
                 flex-direction: column;
-                margin-left: 10px;
+                margin-left: 0.625rem;
                 .daoName {
                   color: rgba(33, 33, 33, 1);
-                  font-size: 16px;
+                  font-size: 1rem;
                   font-weight: 700;
                 }
                 .subscribe {
                   color: rgba(181, 181, 181, 1);
-                  font-size: 12px;
-                  margin-top: 4px;
+                  font-size: 0.75rem;
+                  margin-top: 0.25rem;
                 }
               }
             }
-            .joinBtn {
+            .joined,
+            .join {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              width: 3.125rem;
+              height: 1.25rem;
+              border-radius: 0.5625rem;
+              font-size: 0.75rem;
+              font-weight: 500;
+              cursor: pointer;
+            }
+
+            .joined {
               color: rgba(255, 255, 255, 1);
-              padding: 6px 12px;
-              border-radius: 15px;
-              background-color: rgba(255, 166, 0, 1);
+              background: rgba(255, 166, 0, 1);
+              border: 0.0625rem solid rgba(255, 166, 0, 1);
+            }
+
+            .join {
+              border: 0.0625rem solid rgba(181, 181, 181, 1);
+              color: rgba(99, 99, 99, 1);
             }
           }
           .title {
             color: rgba(33, 33, 33, 1);
             font-weight: 700;
-            font-size: 16px;
-            margin-top: 10px;
+            font-size: 1rem;
+            margin-top: 0.625rem;
           }
           .desc {
             color: rgba(33, 33, 33, 1);
-            margin-top: 10px;
+            margin-top: 0.625rem;
+            font-size: 0.75rem;
           }
           .operation {
             > div {
@@ -102,16 +120,16 @@
         }
         .detailSkeleton {
           width: 100%;
-          min-height: 100px;
-          margin-top: 50px;
+          min-height: 6.25rem;
+          margin-top: 3.125rem;
           background-color: @skeletonColor;
         }
         .comments {
-          padding: 20px;
+          padding: 1.25rem;
         }
       }
       .mainRight {
-        padding: 0 10px;
+        padding: 0 0.625rem;
       }
     }
   }
@@ -120,7 +138,7 @@
 @media screen and (max-width: 960px) {
   .content {
     .VideoMain {
-      height: calc(100vh - 109px);
+      height: calc(100vh - 6.8125rem);
     }
   }
 }
@@ -132,7 +150,7 @@
         .mainLeft {
           .skeleton {
             width: 100%;
-            min-height: 176px;
+            min-height: 11rem;
           }
         }
       }

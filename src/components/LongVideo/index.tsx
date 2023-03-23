@@ -13,6 +13,7 @@ import { ImageMaxSize } from '@/config/constants';
 export type Props = {
   post: PostInfo;
   refreshPage: () => void;
+  delPost?: (post: string) => void;
 };
 const LongVideo: React.FC<Props> = (props) => {
   const {
@@ -40,7 +41,11 @@ const LongVideo: React.FC<Props> = (props) => {
       <div className={styles.main}>
         <div className={styles.top}>
           <CommunityInfo daoInfo={dao} createTime={created_on} />
-          <PopupContent post={props.post} refreshPage={props.refreshPage} />
+          <PopupContent
+            post={props.post}
+            refreshPage={props.refreshPage}
+            delPost={props?.delPost}
+          />
         </div>
 
         <div className={styles.bottom} onClick={toVideo}>
