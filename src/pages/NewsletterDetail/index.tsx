@@ -9,6 +9,8 @@ import { useUrl } from '@/utils/hooks';
 import { message } from 'antd';
 import GraphicMessage from '@/components/GraphicMessage';
 import Comment from '@/components/Comment';
+import CommentSkeleton from '@/components/CustomSkeleton/CommentSkeleton';
+import DetailSkeleton from '@/components/CustomSkeleton/PostSkeleton/DetailSkeleton';
 
 export type Props = {};
 
@@ -45,19 +47,22 @@ const NewsletterDetail: React.FC<Props> = (props) => {
       </NavBar>
       <div className={styles.detailsWrap}>
         <div className={styles.details}>
-          <div className={styles.postCard}>
-            {postInfo ? (
-              <GraphicMessage post={postInfo} refreshPage={() => {}} />
-            ) : (
-              <Skeleton animated className={styles.skeleton} />
-            )}
-          </div>
-          {postInfo && (
-            <Comment
-              postId={postId}
-              postType={postInfo.type}
-              postCommentCount={postInfo.comment_count}
-            />
+          {postInfo ? (
+            <>
+              <div className={styles.postCard}>
+                <GraphicMessage post={postInfo} refreshPage={() => {}} />
+              </div>
+              <Comment
+                postId={postId}
+                postType={postInfo.type}
+                postCommentCount={postInfo.comment_count}
+              />
+            </>
+          ) : (
+            <div className={styles.skeleton}>
+              <DetailSkeleton />
+              <CommentSkeleton />
+            </div>
           )}
         </div>
       </div>

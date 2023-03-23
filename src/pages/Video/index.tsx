@@ -15,6 +15,8 @@ import UserAvatar from '@/components/UserAvatar';
 import CommentArea from '@/components/CommentArea';
 import ExitCommunityDialog from '@/components/ExitCommunityDialog';
 import Comment from '@/components/Comment';
+import DetailSkeleton from '@/components/CustomSkeleton/PostSkeleton/DetailSkeleton';
+import CommentSkeleton from '@/components/CustomSkeleton/CommentSkeleton';
 
 export type Props = {
   match: {
@@ -155,33 +157,33 @@ const Video: React.FC<Props> = (props) => {
           >
             <Col xl={{ span: 24 }} className={styles.col}>
               <div className={styles.mainLeft}>
-                <figure style={{ margin: 0 }}>
-                  {vSrc ? (
-                    <div className={styles.player}>
-                      <video
-                        controls
-                        autoPlay={true}
-                        playsInline
-                        key={vSrc}
-                        style={{
-                          width: '100%',
-                          height: '100%',
-                          maxHeight: '500px',
-                          borderRadius: '0px',
-                        }}
-                      >
-                        <source
-                          src={api + '/file/' + vSrc}
-                          type={'video/mp4'}
-                        />
-                      </video>
-                    </div>
-                  ) : (
-                    <div className={styles.videoSkeleton} />
-                  )}
-                  <figcaption className={styles.detail}>
-                    {videoData ? (
-                      <>
+                {videoData ? (
+                  <>
+                    <figure style={{ margin: 0 }}>
+                      {vSrc ? (
+                        <div className={styles.player}>
+                          <video
+                            controls
+                            autoPlay={true}
+                            playsInline
+                            key={vSrc}
+                            style={{
+                              width: '100%',
+                              height: '100%',
+                              maxHeight: '500px',
+                              borderRadius: '0px',
+                            }}
+                          >
+                            <source
+                              src={api + '/file/' + vSrc}
+                              type={'video/mp4'}
+                            />
+                          </video>
+                        </div>
+                      ) : (
+                        <div className={styles.videoSkeleton} />
+                      )}
+                      <figcaption className={styles.detail}>
                         <div className={styles.info}>
                           <div
                             className={styles.left}
@@ -220,21 +222,22 @@ const Video: React.FC<Props> = (props) => {
                             postType={videoData.type}
                           />
                         </div>
-                      </>
-                    ) : (
-                      <div className={styles.detailSkeleton} />
-                    )}
-                  </figcaption>
-                </figure>
-                <div className={styles.comments}>
-                  {videoData && (
-                    <Comment
-                      postId={videoData.id}
-                      postType={videoData.type}
-                      postCommentCount={videoData.comment_count}
-                    />
-                  )}
-                </div>
+                      </figcaption>
+                    </figure>
+                    <div className={styles.comments}>
+                      <Comment
+                        postId={videoData.id}
+                        postType={videoData.type}
+                        postCommentCount={videoData.comment_count}
+                      />
+                    </div>
+                  </>
+                ) : (
+                  <div className={styles.skeleton}>
+                    <DetailSkeleton />
+                    <CommentSkeleton />
+                  </div>
+                )}
               </div>
             </Col>
             {/*<Col*/}
