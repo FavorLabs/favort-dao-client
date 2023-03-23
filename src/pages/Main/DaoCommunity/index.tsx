@@ -65,7 +65,7 @@ const DaoCommunity: React.FC<Props> = (props) => {
     const { data } = await DaoApi.getById(url, daoId);
     if (data.data) {
       setDaoInfo(data.data);
-      getMsgIdByName(data.data);
+      // getMsgIdByName(data.data);
 
       if (data.data.last_posts.length) {
         data.data.last_posts.forEach((item) => {
@@ -220,7 +220,7 @@ const DaoCommunity: React.FC<Props> = (props) => {
                         }}
                       >
                         <div className={styles.img}>
-                          <SvgIcon svg={newsImg} />
+                          <img src={newsImg} alt="" className={styles.image} />
                         </div>
                         <div className={styles.right}>
                           <div className={styles.leftText}>
@@ -241,7 +241,7 @@ const DaoCommunity: React.FC<Props> = (props) => {
                         }}
                       >
                         <div className={styles.img}>
-                          <SvgIcon svg={videoImg} />
+                          <img src={videoImg} alt="" className={styles.image} />
                         </div>
                         <div className={styles.right}>
                           <div className={styles.leftText}>
@@ -269,7 +269,7 @@ const DaoCommunity: React.FC<Props> = (props) => {
                         }}
                       >
                         <div className={styles.img}>
-                          <SvgIcon svg={chatImg} />
+                          <img src={chatImg} alt="" className={styles.image} />
                         </div>
                         <div className={styles.right}>
                           <div className={styles.leftText}>

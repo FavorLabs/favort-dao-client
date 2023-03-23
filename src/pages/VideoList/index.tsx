@@ -1,11 +1,11 @@
 import * as React from 'react';
 import styles from './index.less';
 import LongVideo from '@/components/LongVideo';
-import { NavBar } from 'antd-mobile';
-import { useHistory, useSelector } from 'umi';
+import { useSelector } from 'umi';
 import { useState } from 'react';
 import { Models } from '@/declare/modelType';
 import PostList from '@/components/PostList';
+import TopNavBar from '@/components/TopNavBar';
 
 type Props = {
   match: {
@@ -16,20 +16,12 @@ type Props = {
 };
 
 const VideoList: React.FC<Props> = (props) => {
-  const history = useHistory();
   const { daoId } = props.match.params;
   const [vSrc, setVSrc] = useState('');
   const { api } = useSelector((state: Models) => state.global);
   return (
     <div className={styles.content}>
-      <NavBar
-        className={styles.navBar}
-        onBack={() => {
-          history.goBack();
-        }}
-      >
-        Videos
-      </NavBar>
+      <TopNavBar title={'Videos'} noRight={true} />
 
       <div className={styles.list}>
         <div>

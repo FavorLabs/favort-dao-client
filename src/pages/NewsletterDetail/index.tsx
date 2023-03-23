@@ -9,6 +9,7 @@ import { useUrl } from '@/utils/hooks';
 import { message } from 'antd';
 import GraphicMessage from '@/components/GraphicMessage';
 import Comment from '@/components/Comment';
+import TopNavBar from '@/components/TopNavBar';
 
 export type Props = {};
 
@@ -35,14 +36,7 @@ const NewsletterDetail: React.FC<Props> = (props) => {
 
   return (
     <div className={styles.content}>
-      <NavBar
-        className={styles.navBar}
-        onBack={() => {
-          history.goBack();
-        }}
-      >
-        Main text
-      </NavBar>
+      <TopNavBar title={'Main text'} noRight={true} />
       <div className={styles.detailsWrap}>
         <div className={styles.details}>
           <div className={styles.postCard}>
