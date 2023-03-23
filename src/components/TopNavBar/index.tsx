@@ -7,7 +7,6 @@ import { useHistory } from 'umi';
 type Props = {
   title: string;
   promptText?: string;
-
   noRight?: boolean;
 };
 

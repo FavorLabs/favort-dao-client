@@ -35,7 +35,7 @@ const DaoList: React.FC<Props> = (props) => {
   };
   const getBookmarkList = async () => {
     const { data } = await DaoApi.getBookmarkList(url);
-    if (data.data.list.length) {
+    if (data.data.list?.length) {
       const followList = _.filter(
         data.data.list,
         (v) => v.id !== (userInfo?.id as string),

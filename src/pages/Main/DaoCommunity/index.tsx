@@ -21,6 +21,8 @@ import KeepAlive from 'react-activation';
 import { message } from 'antd';
 import ErrorOccurred from '@/components/ErrorOccurred';
 import { decodeTime } from 'ulid';
+import DaoCardSkeleton from '@/components/CustomSkeleton/DaoDetailSkeleton/DaoCardSkeleton';
+import DaoDetailSkeleton from '@/components/CustomSkeleton/DaoDetailSkeleton';
 
 export type Props = {};
 
@@ -34,6 +36,7 @@ const DaoCommunity: React.FC<Props> = (props) => {
   const [isBookmark, setIsBookmark] = useState(false);
   const { userInfo } = useSelector((state: Models) => state.dao);
   const [daoInfo, setDaoInfo] = useState<DaoInfo | null>(null);
+  const [haveDaoInfo, setHaveDaoInfo] = useState<boolean>(false);
   const [isViewDaoGroup, setIsViewDaoGroup] = useState(false);
   const [lastPostNews, setLastPostNews] = useState({
     text: 'no news',
@@ -58,16 +61,19 @@ const DaoCommunity: React.FC<Props> = (props) => {
     daoInfo?.id || allId,
   );
   const [errored, setErrored] = useState<boolean>(false);
+  const [firstLoad, setFirstLoad] = useState<boolean>(true);
   const daoId = params.daoId;
 
   const getDaoInfo = async () => {
     if (!daoId) return;
+    setHaveDaoInfo(false);
     const { data } = await DaoApi.getById(url, daoId);
     if (data.data) {
+      setHaveDaoInfo(true);
       setDaoInfo(data.data);
-      // getMsgIdByName(data.data);
+      getMsgIdByName(data.data);
 
-      if (data.data.last_posts.length) {
+      if (data.data.last_posts?.length) {
         data.data.last_posts.forEach((item) => {
           if (item.type === 0) {
             const obj = getContent(item.contents as Post[]);
@@ -99,7 +105,7 @@ const DaoCommunity: React.FC<Props> = (props) => {
   const getBookmarkList = async () => {
     const { data } = await DaoApi.getBookmarkList(url);
     let followList: React.SetStateAction<DaoInfo[]> = [];
-    if (data.data.list.length) {
+    if (data.data.list?.length) {
       followList = data.data.list;
     }
     setBookmarkList(followList);
@@ -136,15 +142,21 @@ const DaoCommunity: React.FC<Props> = (props) => {
     } catch (e) {
       if (e instanceof Error) message.error(e.message);
       setErrored(true);
+    } finally {
+      setFirstLoad(false);
     }
   };
 
   const getMsgIdByName = async (item: DaoInfo) => {
-    const { data } = await ChatApi.getMsgIdByName(
-      reviteUrl,
-      getChatHash(item.name),
-    );
-    if (data?.last_message_id) getMsgById(item.name, data.last_message_id);
+    try {
+      const { data } = await ChatApi.getMsgIdByName(
+        reviteUrl,
+        getChatHash(item.name),
+      );
+      if (data?.last_message_id) getMsgById(item.name, data.last_message_id);
+    } catch (e) {
+      //
+    }
   };
 
   const getMsgById = async (name: string, msgId: string) => {
@@ -198,92 +210,108 @@ const DaoCommunity: React.FC<Props> = (props) => {
           {!isViewDaoGroup ? (
             daoId ? (
               <>
-                {daoInfo && (
+                {haveDaoInfo ? (
                   <>
-                    <div className={styles.card}>
-                      <CommunityCard
-                        status={isBookmark}
-                        handle={bookmarkHandle}
-                        daoInfo={daoInfo}
-                      />
-                    </div>
+                    {daoInfo && (
+                      <>
+                        <div className={styles.card}>
+                          <CommunityCard
+                            status={isBookmark}
+                            handle={bookmarkHandle}
+                            daoInfo={daoInfo}
+                          />
+                        </div>
 
-                    <div className={styles.information}>
-                      <div className={styles.title}>
-                        <div className={styles.disc} />
-                        <span className={styles.text}>Information</span>
-                      </div>
-                      <div
-                        className={styles.contentBox}
-                        onClick={() => {
-                          history.push(`/newsletterList/${daoId}`);
-                        }}
-                      >
-                        <div className={styles.img}>
-                          <img src={newsImg} alt="" className={styles.image} />
-                        </div>
-                        <div className={styles.right}>
-                          <div className={styles.leftText}>
-                            <div className={styles.name}>News</div>
-                            <div className={styles.message}>
-                              {lastPostNews.text}
+                        <div className={styles.information}>
+                          <div className={styles.title}>
+                            <div className={styles.disc} />
+                            <span className={styles.text}>Information</span>
+                          </div>
+                          <div
+                            className={styles.contentBox}
+                            onClick={() => {
+                              history.push(`/newsletterList/${daoId}`);
+                            }}
+                          >
+                            <div className={styles.img}>
+                              <img
+                                src={newsImg}
+                                alt=""
+                                className={styles.image}
+                              />
+                            </div>
+                            <div className={styles.right}>
+                              <div className={styles.leftText}>
+                                <div className={styles.name}>News</div>
+                                <div className={styles.message}>
+                                  {lastPostNews.text}
+                                </div>
+                              </div>
+                              <div className={styles.time}>
+                                {lastPostNews.createTime}
+                              </div>
                             </div>
                           </div>
-                          <div className={styles.time}>
-                            {lastPostNews.createTime}
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        className={styles.contentBox}
-                        onClick={() => {
-                          history.push(`/videoList/${daoId}`);
-                        }}
-                      >
-                        <div className={styles.img}>
-                          <img src={videoImg} alt="" className={styles.image} />
-                        </div>
-                        <div className={styles.right}>
-                          <div className={styles.leftText}>
-                            <div className={styles.name}>Video</div>
-                            <div className={styles.message}>
-                              {lastPostVideo.text}
+                          <div
+                            className={styles.contentBox}
+                            onClick={() => {
+                              history.push(`/videoList/${daoId}`);
+                            }}
+                          >
+                            <div className={styles.img}>
+                              <SvgIcon svg={videoImg} />
+                            </div>
+                            <div className={styles.right}>
+                              <div className={styles.leftText}>
+                                <div className={styles.name}>Video</div>
+                                <div className={styles.message}>
+                                  {lastPostVideo.text}
+                                </div>
+                              </div>
+                              <div className={styles.time}>
+                                {lastPostVideo.createTime}
+                              </div>
                             </div>
                           </div>
-                          <div className={styles.time}>
-                            {lastPostVideo.createTime}
-                          </div>
                         </div>
-                      </div>
-                    </div>
 
-                    <div className={styles.information}>
-                      <div className={styles.title}>
-                        <div className={styles.disc} />
-                        <span className={styles.text}>channel</span>
-                      </div>
-                      <div
-                        className={styles.contentBox}
-                        onClick={() => {
-                          toChat(daoInfo.name, api, config?.proxyGroup);
-                        }}
-                      >
-                        <div className={styles.img}>
-                          <img src={chatImg} alt="" className={styles.image} />
-                        </div>
-                        <div className={styles.right}>
-                          <div className={styles.leftText}>
-                            <div className={styles.name}>General</div>
-                            <div className={styles.message}>
-                              {lastChat.text}
+                        <div className={styles.information}>
+                          <div className={styles.title}>
+                            <div className={styles.disc} />
+                            <span className={styles.text}>channel</span>
+                          </div>
+                          <div
+                            className={styles.contentBox}
+                            onClick={() => {
+                              toChat(daoInfo.name, api, config?.proxyGroup);
+                            }}
+                          >
+                            <div className={styles.img}>
+                              <img
+                                src={chatImg}
+                                alt=""
+                                className={styles.image}
+                              />
+                            </div>
+                            <div className={styles.right}>
+                              <div className={styles.leftText}>
+                                <div className={styles.name}>General</div>
+                                <div className={styles.message}>
+                                  {lastChat.text}
+                                </div>
+                              </div>
+                              <div className={styles.time}>
+                                {lastChat.createTime}
+                              </div>
                             </div>
                           </div>
-                          <div className={styles.time}>
-                            {lastChat.createTime}
-                          </div>
                         </div>
-                      </div>
-                    </div>
+                      </>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <DaoDetailSkeleton />
                   </>
                 )}
               </>
@@ -301,14 +329,25 @@ const DaoCommunity: React.FC<Props> = (props) => {
                 <ErrorOccurred retryFn={getDaoList} />
               ) : (
                 <>
-                  {allDao.map((item: any, index: number) => {
-                    return (
-                      <div key={index} className={styles.viewContent}>
-                        {/*<FavorDaoCard daoInfo={item.dao} />*/}
-                        <CommunityIntro post={item} />
-                      </div>
-                    );
-                  })}
+                  {firstLoad ? (
+                    <>
+                      <DaoCardSkeleton />
+                      <DaoCardSkeleton />
+                      <DaoCardSkeleton />
+                      <DaoCardSkeleton />
+                    </>
+                  ) : (
+                    <>
+                      {allDao.map((item: any, index: number) => {
+                        return (
+                          <div key={index} className={styles.viewContent}>
+                            {/*<FavorDaoCard daoInfo={item.dao} />*/}
+                            <CommunityIntro post={item} />
+                          </div>
+                        );
+                      })}
+                    </>
+                  )}
                 </>
               )}
             </div>

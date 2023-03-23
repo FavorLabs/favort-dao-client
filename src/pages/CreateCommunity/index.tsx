@@ -132,11 +132,12 @@ const CreateCommunity: React.FC<Props> = (props) => {
       name: 'Name',
       content: (
         <Input
+          className={styles.input}
           maxLength={20}
           onChange={(val) => {
             setCommunityName(val.trim());
           }}
-          placeholder="Please enter community name"
+          placeholder="Please enter DAO name"
         />
       ),
     },
@@ -144,12 +145,13 @@ const CreateCommunity: React.FC<Props> = (props) => {
       name: 'Description',
       content: (
         <TextArea
+          className={styles.textArea}
           maxLength={100}
           autoSize={{ minRows: 1, maxRows: 4 }}
           onChange={(val) => {
             setCommunityDesc(val.trim());
           }}
-          placeholder="Please enter community description"
+          placeholder="Please enter DAO description"
         />
       ),
     },
@@ -198,7 +200,7 @@ const CreateCommunity: React.FC<Props> = (props) => {
 
   return (
     <div className={styles.content}>
-      <TopNavBar title={'Create community'} noRight={true} />
+      <TopNavBar title={'Create DAO'} noRight={true} />
       <div className={styles.createOptions}>
         {optionsItems.map((item) => (
           <div className={styles.option} key={item.name}>
