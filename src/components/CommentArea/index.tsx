@@ -4,13 +4,10 @@ import lookOverImg from '@/assets/icon/look-over.svg';
 import commentOnImg from '@/assets/icon/comment-on.svg';
 import likeIcon from '@/assets/icon/like-icon.svg';
 import likeOnIcon from '@/assets/icon/like-on-icon.svg';
-import likeImg from '@/assets/img/support.png';
-import likeOnImg from '@/assets/img/support_on.png';
 import { useEffect, useState } from 'react';
 import PostApi from '@/services/tube/PostApi';
 import { useUrl } from '@/utils/hooks';
 import { checkLogin } from '@/utils/util';
-import SvgIcon from '@/components/SvgIcon';
 import { history } from 'umi';
 import { message } from 'antd';
 
@@ -76,13 +73,13 @@ const CommentArea: React.FC<Props> = (props) => {
       <div className={styles.operate}>
         <div className={styles.operateDiv}>
           <div className={styles.operateIcon}>
-            <SvgIcon svg={lookOverImg} />
+            <img src={lookOverImg} className={styles.img} />
           </div>
           <span className={styles.operateText}>{watchCount}</span>
         </div>
         <div className={styles.operateDiv} onClick={toDetail}>
           <div className={styles.operateIcon}>
-            <SvgIcon svg={commentOnImg} />
+            <img src={commentOnImg} alt="" className={styles.img} />
           </div>
           <span className={styles.operateText}>{commentOnNum}</span>
         </div>

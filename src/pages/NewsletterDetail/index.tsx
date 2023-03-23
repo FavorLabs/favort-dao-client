@@ -11,6 +11,7 @@ import GraphicMessage from '@/components/GraphicMessage';
 import Comment from '@/components/Comment';
 import CommentSkeleton from '@/components/CustomSkeleton/CommentSkeleton';
 import DetailSkeleton from '@/components/CustomSkeleton/PostSkeleton/DetailSkeleton';
+import TopNavBar from '@/components/TopNavBar';
 
 export type Props = {};
 
@@ -37,14 +38,7 @@ const NewsletterDetail: React.FC<Props> = (props) => {
 
   return (
     <div className={styles.content}>
-      <NavBar
-        className={styles.navBar}
-        onBack={() => {
-          history.goBack();
-        }}
-      >
-        Main text
-      </NavBar>
+      <TopNavBar title={'Main text'} noRight={true} />
       <div className={styles.detailsWrap}>
         <div className={styles.details}>
           {postInfo ? (

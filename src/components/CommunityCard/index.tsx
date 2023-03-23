@@ -7,7 +7,6 @@ import { Models } from '@/declare/modelType';
 import { useEffect, useState } from 'react';
 import SvgIcon from '@/components/SvgIcon';
 import joinedImg from '@/assets/icon/joinedNumber.svg';
-import arrow from '@/assets/img/arrow.png';
 import ExitCommunityDialog from '@/components/ExitCommunityDialog';
 import { message } from 'antd';
 import { ImageMaxSize } from '@/config/constants';
@@ -60,7 +59,7 @@ const CommunityCard: React.FC<Props> = (props) => {
             <div className={styles.right}>
               <div className={styles.joinedNumber}>
                 <div className={styles.svg}>
-                  <SvgIcon svg={joinedImg} />
+                  <img src={joinedImg} alt="" className={styles.img} />
                 </div>
                 <span className={styles.text}>{daoInfo?.follow_count}</span>
               </div>

@@ -170,7 +170,7 @@ const Video: React.FC<Props> = (props) => {
                             style={{
                               width: '100%',
                               height: '100%',
-                              maxHeight: '500px',
+                              maxHeight: '31.25rem',
                               borderRadius: '0px',
                             }}
                           >
@@ -206,7 +206,12 @@ const Video: React.FC<Props> = (props) => {
                             </div>
                           </div>
                           {!isSelf && (
-                            <div className={styles.joinBtn} onClick={joinDao}>
+                            <div
+                              className={`${
+                                joined ? styles.joined : styles.join
+                              }`}
+                              onClick={joinDao}
+                            >
                               {joined ? 'joined' : 'join'}
                             </div>
                           )}

@@ -10,6 +10,7 @@ import { useResourceUrl, useUrl } from '@/utils/hooks';
 import { message, Spin } from 'antd';
 import DaoApi from '@/services/tube/Dao';
 import { sleep } from '@/utils/util';
+import TopNavBar from '@/components/TopNavBar';
 
 export type Props = {};
 type AnimConfig = {
@@ -58,6 +59,7 @@ const CreateCommunity: React.FC<Props> = (props) => {
   };
 
   const uploadBanner = async (file: File) => {
+    console.log('fileType---', file.type);
     setCBannerLoading(true);
     try {
       let fmData = new FormData();
@@ -198,14 +200,7 @@ const CreateCommunity: React.FC<Props> = (props) => {
 
   return (
     <div className={styles.content}>
-      <NavBar
-        className={styles.navBar}
-        onBack={() => {
-          history.goBack();
-        }}
-      >
-        Create DAO
-      </NavBar>
+      <TopNavBar title={'Create DAO'} noRight={true} />
       <div className={styles.createOptions}>
         {optionsItems.map((item) => (
           <div className={styles.option} key={item.name}>

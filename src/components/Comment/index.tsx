@@ -244,7 +244,7 @@ const Comment: React.FC<Props> = (props) => {
           setCommentPopup(false);
         }}
         destroyOnClose={true}
-        bodyStyle={{ padding: '20px', boxSizing: 'border-box' }}
+        bodyStyle={{ padding: '1.25rem', boxSizing: 'border-box' }}
       >
         <TextArea
           ref={textInput}

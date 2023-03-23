@@ -7,6 +7,7 @@ import TopBar from '@/components/ThreeStageLayout/TopBar';
 import Children from '@/components/ThreeStageLayout/Children';
 import MenuBar from '@/components/ThreeStageLayout/MenuBar';
 import addCommunitySvg from '@/assets/icon/addCommunity.svg';
+import unAddCommunityIcon from '@/assets/icon/unAddCommunity.svg';
 import homeSvg from '@/assets/icon/home.svg';
 import postNews from '@/assets/img/postNews.png';
 import postVideo from '@/assets/img/postVideo.png';
@@ -59,7 +60,7 @@ const Main: React.FC<Props> = (props) => {
       key: '/latest',
       title: 'Feeds',
       icon: (
-        <div className={`${styles.latest} latest`}>
+        <div className={`${styles.latest}`}>
           {routeKey === '/latest' ? (
             <img src={lastetOnIcon} alt={''} />
           ) : (
@@ -72,7 +73,7 @@ const Main: React.FC<Props> = (props) => {
       key: `/daoCommunity`,
       title: 'DAO',
       icon: (
-        <div className={`${styles.dao} dao`}>
+        <div className={`${styles.dao}`}>
           {routeKey === '/daoCommunity' ? (
             <img src={daoOnIcon} alt={''} />
           ) : (
@@ -90,7 +91,11 @@ const Main: React.FC<Props> = (props) => {
             userInfo && 'haveCommunity'
           }`}
         >
-          <SvgIcon svg={addCommunitySvg} />
+          {userInfo ? (
+            <img src={addCommunitySvg} alt="" />
+          ) : (
+            <img src={unAddCommunityIcon} alt="" />
+          )}
         </div>
       ),
     },
@@ -98,7 +103,7 @@ const Main: React.FC<Props> = (props) => {
       key: '/chat',
       title: 'Chats',
       icon: (
-        <div className={`${styles.chat} chat`}>
+        <div className={`${styles.chat}`}>
           {routeKey === '/chat' ? (
             <img src={chatOnIcon} alt={''} />
           ) : (
@@ -111,7 +116,7 @@ const Main: React.FC<Props> = (props) => {
       key: '/mine',
       title: 'My',
       icon: (
-        <div className={`${styles.mine} mine`}>
+        <div className={`${styles.mine}`}>
           {routeKey === '/mine' ? (
             <img src={myOnIcon} alt={''} />
           ) : (
@@ -246,11 +251,11 @@ const Main: React.FC<Props> = (props) => {
             setPostPopupVisibility(false);
           }}
           bodyStyle={{
-            padding: '20px',
+            padding: '1.25rem',
             paddingTop: '0',
             boxSizing: 'border-box',
-            borderTopLeftRadius: '4px',
-            borderTopRightRadius: '4px',
+            borderTopLeftRadius: '0.25rem',
+            borderTopRightRadius: '0.25rem',
           }}
           className={styles.postPopup}
         >

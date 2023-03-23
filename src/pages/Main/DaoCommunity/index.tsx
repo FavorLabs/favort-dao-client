@@ -234,7 +234,11 @@ const DaoCommunity: React.FC<Props> = (props) => {
                             }}
                           >
                             <div className={styles.img}>
-                              <SvgIcon svg={newsImg} />
+                              <img
+                                src={newsImg}
+                                alt=""
+                                className={styles.image}
+                              />
                             </div>
                             <div className={styles.right}>
                               <div className={styles.leftText}>
@@ -283,7 +287,11 @@ const DaoCommunity: React.FC<Props> = (props) => {
                             }}
                           >
                             <div className={styles.img}>
-                              <SvgIcon svg={chatImg} />
+                              <img
+                                src={chatImg}
+                                alt=""
+                                className={styles.image}
+                              />
                             </div>
                             <div className={styles.right}>
                               <div className={styles.leftText}>

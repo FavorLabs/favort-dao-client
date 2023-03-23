@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>编组 2</title>
+    <title>grouping 2</title>
     <defs>
         <rect id="path-1" x="0" y="0" width="20" height="20" rx="2"></rect>
         <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="-2" y="-2" width="24" height="24">
@@ -8,21 +8,21 @@
             <use xlink:href="#path-1" fill="black"></use>
         </mask>
     </defs>
-    <g id="我的" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g transform="translate(-235.000000, -397.000000)" id="编组-2">
+    <g id="my" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(-235.000000, -397.000000)" id="grouping-2">
             <g transform="translate(237.000000, 399.000000)">
-                <use id="矩形-1备份" stroke="#212121" mask="url(#mask-2)" stroke-width="4" stroke-dasharray="0,0" xlink:href="#path-1"></use>
-                <g id="编组" transform="translate(3.000000, 2.500000)">
+                <use id="rectangle-1backup" stroke="#212121" mask="url(#mask-2)" stroke-width="4" stroke-dasharray="0,0" xlink:href="#path-1"></use>
+                <g id="grouping" transform="translate(3.000000, 2.500000)">
                     <g>
-                        <path d="M3,15 L3,15 C3.27,15 3.52,14.89 3.71,14.71 C3.89,14.52 4,14.27 4,14 L4,1 C4,0.73 3.89,0.48 3.71,0.29 C3.52,0.11 3.27,0 3,0 L3,0 C2.73,0 2.48,0.11 2.29,0.29 C2.11,0.48 2,0.73 2,1 L2,14 C2,14.27 2.11,14.52 2.29,14.71 C2.48,14.89 2.73,15 3,15 Z" id="矩形-2" fill="#FFA600"></path>
-                        <g transform="translate(0.000000, 2.000000)" id="圆形-2">
+                        <path d="M3,15 L3,15 C3.27,15 3.52,14.89 3.71,14.71 C3.89,14.52 4,14.27 4,14 L4,1 C4,0.73 3.89,0.48 3.71,0.29 C3.52,0.11 3.27,0 3,0 L3,0 C2.73,0 2.48,0.11 2.29,0.29 C2.11,0.48 2,0.73 2,1 L2,14 C2,14.27 2.11,14.52 2.29,14.71 C2.48,14.89 2.73,15 3,15 Z" id="rectangle-2" fill="#FFA600"></path>
+                        <g transform="translate(0.000000, 2.000000)" id="circle-2">
                             <path d="M3,0 C1.34,0 0,1.34 0,3 C0,4.66 1.34,6 3,6 C4.66,6 6,4.66 6,3 C6,1.34 4.66,0 3,0 Z" fill="#FFA600"></path>
                             <path d="M3,2 C2.45,2 2,2.45 2,3 C2,3.55 2.45,4 3,4 C3.55,4 4,3.55 4,3 C4,2.45 3.55,2 3,2 Z" fill="#FFFFFF"></path>
                         </g>
                     </g>
                     <g transform="translate(8.000000, 0.000000)">
-                        <path d="M4,14 L4,1 C4,0.73 3.89,0.48 3.71,0.29 C3.52,0.11 3.27,0 3,0 L3,0 C2.73,0 2.48,0.11 2.29,0.29 C2.11,0.48 2,0.73 2,1 L2,14 C2,14.27 2.11,14.52 2.29,14.71 C2.48,14.89 2.73,15 3,15 L3,15 C3.27,15 3.52,14.89 3.71,14.71 C3.89,14.52 4,14.27 4,14 Z" id="矩形-2" fill="#FFA600"></path>
-                        <g transform="translate(0.000000, 7.000000)" id="圆形-2">
+                        <path d="M4,14 L4,1 C4,0.73 3.89,0.48 3.71,0.29 C3.52,0.11 3.27,0 3,0 L3,0 C2.73,0 2.48,0.11 2.29,0.29 C2.11,0.48 2,0.73 2,1 L2,14 C2,14.27 2.11,14.52 2.29,14.71 C2.48,14.89 2.73,15 3,15 L3,15 C3.27,15 3.52,14.89 3.71,14.71 C3.89,14.52 4,14.27 4,14 Z" id="rectangle-2" fill="#FFA600"></path>
+                        <g transform="translate(0.000000, 7.000000)" id="circle-2">
                             <path d="M3,0 C1.34,0 0,1.34 0,3 C0,4.66 1.34,6 3,6 C4.66,6 6,4.66 6,3 C6,1.34 4.66,0 3,0 Z" fill="#FFA600"></path>
                             <path d="M3,2 C2.45,2 2,2.45 2,3 C2,3.55 2.45,4 3,4 C3.55,4 4,3.55 4,3 C4,2.45 3.55,2 3,2 Z" fill="#FFFFFF"></path>
                         </g>

@@ -52,7 +52,7 @@ const CommunityIntro: React.FC<Props> = (props) => {
             </div>
             <div className={styles.joinedNumber}>
               <div className={styles.svg}>
-                <SvgIcon svg={joinedImg} />
+                <img src={joinedImg} alt="" className={styles.img} />
               </div>
               <span className={styles.text}>{dao?.follow_count}</span>
             </div>
@@ -68,10 +68,10 @@ const CommunityIntro: React.FC<Props> = (props) => {
           setVisible(false);
         }}
         bodyStyle={{
-          padding: '20px',
+          padding: '1.25rem',
           boxSizing: 'border-box',
-          borderTopLeftRadius: '4px',
-          borderTopRightRadius: '4px',
+          borderTopLeftRadius: '0.25rem',
+          borderTopRightRadius: '0.25rem',
         }}
       >
         <div className={styles.popupContent}>
@@ -97,7 +97,8 @@ const CommunityIntro: React.FC<Props> = (props) => {
               </div>
               <div className={styles.joined}>
                 <div className={styles.svg}>
-                  <SvgIcon svg={joinedImg} />
+                  {/*<SvgIcon svg={joinedImg} />*/}
+                  <img src={joinedImg} alt="" className={styles.img} />
                 </div>
                 <span className={styles.text}>{dao.follow_count}</span>
               </div>

@@ -1,8 +1,7 @@
 import * as React from 'react';
 import styles from './index.less';
-import { NavBar } from 'antd-mobile';
-import { useHistory, useSelector } from 'umi';
 import PostList from '@/components/PostList';
+import TopNavBar from '@/components/TopNavBar';
 
 type Props = {
   match: {
@@ -13,18 +12,10 @@ type Props = {
 };
 
 const NewsletterList: React.FC<Props> = (props) => {
-  const history = useHistory();
   const { daoId } = props.match.params;
   return (
     <div className={styles.content}>
-      <NavBar
-        className={styles.navBar}
-        onBack={() => {
-          history.goBack();
-        }}
-      >
-        News
-      </NavBar>
+      <TopNavBar title={'News'} noRight={true} />
 
       <div className={styles.list}>
         <PostList type={0} daoId={daoId} />

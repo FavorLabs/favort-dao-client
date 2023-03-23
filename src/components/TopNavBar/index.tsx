@@ -7,27 +7,39 @@ import { useHistory } from 'umi';
 type Props = {
   title: string;
   promptText?: string;
+  noRight?: boolean;
 };
 
 const TopNavBar: React.FC<Props> = (props) => {
-  const { title, promptText } = props;
+  const { title, promptText, noRight } = props;
   const history = useHistory();
 
   return (
     <>
-      <NavBar
-        className={styles.navBar}
-        onBack={() => {
-          history.goBack();
-        }}
-        right={
-          <div className={styles.navRight}>
-            <Prompt />
-          </div>
-        }
-      >
-        {title}
-      </NavBar>
+      {noRight ? (
+        <NavBar
+          className={styles.navBar}
+          onBack={() => {
+            history.goBack();
+          }}
+        >
+          {title}
+        </NavBar>
+      ) : (
+        <NavBar
+          className={styles.navBar}
+          onBack={() => {
+            history.goBack();
+          }}
+          right={
+            <div className={styles.navRight}>
+              <Prompt />
+            </div>
+          }
+        >
+          {title}
+        </NavBar>
+      )}
     </>
   );
 };
