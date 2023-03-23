@@ -53,13 +53,13 @@ const GraphicMessage: React.FC<Props> = (props) => {
         <div
           title="unfold and fold"
           className={`${
-            route !== 'newsletterDetail' && info[2]?.[0]?.content.length > 116
+            route !== 'newsletterDetail' && info[2]?.[0]?.content?.length > 116
               ? styles.textInfo
               : styles.detail
           }`}
         >
           {info[2]?.[0]?.content}
-          {info[2]?.[0]?.content.length > 116 &&
+          {info[2]?.[0]?.content?.length > 116 &&
           route !== 'newsletterDetail' ? (
             <div
               className={styles.toMore}
@@ -74,12 +74,12 @@ const GraphicMessage: React.FC<Props> = (props) => {
 
         <div
           className={`${
-            info[3].length !== 2 ? styles.mediumInfo : styles.twoImage
+            info[3]?.length !== 2 ? styles.mediumInfo : styles.twoImage
           }`}
         >
           {info[3]?.map((item: any, index: number) => (
             <div key={index} className={styles.block}>
-              {info[3].length === 1 ? (
+              {info[3]?.length === 1 ? (
                 <ImageCut imgUrl={item.content} isOneImg={true} />
               ) : (
                 <ImageCut imgUrl={item.content} isOneImg={false} />

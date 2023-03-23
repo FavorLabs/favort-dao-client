@@ -67,7 +67,7 @@ const DaoCommunity: React.FC<Props> = (props) => {
       setDaoInfo(data.data);
       getMsgIdByName(data.data);
 
-      if (data.data.last_posts.length) {
+      if (data.data.last_posts?.length) {
         data.data.last_posts.forEach((item) => {
           if (item.type === 0) {
             const obj = getContent(item.contents as Post[]);
@@ -99,7 +99,7 @@ const DaoCommunity: React.FC<Props> = (props) => {
   const getBookmarkList = async () => {
     const { data } = await DaoApi.getBookmarkList(url);
     let followList: React.SetStateAction<DaoInfo[]> = [];
-    if (data.data.list.length) {
+    if (data.data.list?.length) {
       followList = data.data.list;
     }
     setBookmarkList(followList);
@@ -140,11 +140,15 @@ const DaoCommunity: React.FC<Props> = (props) => {
   };
 
   const getMsgIdByName = async (item: DaoInfo) => {
-    const { data } = await ChatApi.getMsgIdByName(
-      reviteUrl,
-      getChatHash(item.name),
-    );
-    if (data?.last_message_id) getMsgById(item.name, data.last_message_id);
+    try {
+      const { data } = await ChatApi.getMsgIdByName(
+        reviteUrl,
+        getChatHash(item.name),
+      );
+      if (data?.last_message_id) getMsgById(item.name, data.last_message_id);
+    } catch (e) {
+      //
+    }
   };
 
   const getMsgById = async (name: string, msgId: string) => {

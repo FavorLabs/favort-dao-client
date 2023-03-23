@@ -58,7 +58,6 @@ const CreateCommunity: React.FC<Props> = (props) => {
   };
 
   const uploadBanner = async (file: File) => {
-    console.log('fileType---', file.type);
     setCBannerLoading(true);
     try {
       let fmData = new FormData();
@@ -131,11 +130,12 @@ const CreateCommunity: React.FC<Props> = (props) => {
       name: 'Name',
       content: (
         <Input
+          className={styles.input}
           maxLength={20}
           onChange={(val) => {
             setCommunityName(val.trim());
           }}
-          placeholder="Please enter community name"
+          placeholder="Please enter DAO name"
         />
       ),
     },
@@ -143,12 +143,13 @@ const CreateCommunity: React.FC<Props> = (props) => {
       name: 'Description',
       content: (
         <TextArea
+          className={styles.textArea}
           maxLength={100}
           autoSize={{ minRows: 1, maxRows: 4 }}
           onChange={(val) => {
             setCommunityDesc(val.trim());
           }}
-          placeholder="Please enter community description"
+          placeholder="Please enter DAO description"
         />
       ),
     },
@@ -203,7 +204,7 @@ const CreateCommunity: React.FC<Props> = (props) => {
           history.goBack();
         }}
       >
-        Create community
+        Create DAO
       </NavBar>
       <div className={styles.createOptions}>
         {optionsItems.map((item) => (
