@@ -37,7 +37,7 @@ const PluginForDAOs: React.FC<Props> = (props) => {
     {
       icon: <img src={gameWorld} alt="" />,
       title: 'Game World',
-      text: 'Add in-page games in the community',
+      text: 'Add in-page games in the DAO',
     },
     {
       icon: <img src={shopeeIcon} alt="" />,

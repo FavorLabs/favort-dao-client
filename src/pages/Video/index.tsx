@@ -269,7 +269,7 @@ const Video: React.FC<Props> = (props) => {
           </Row>
         </main>
         <ExitCommunityDialog
-          text={'Confirm your withdrawal from this community?'}
+          text={'Confirm your withdrawal from this DAO?'}
           visible={focusDialog}
           closeDialog={() => {
             setFocusDialog(false);

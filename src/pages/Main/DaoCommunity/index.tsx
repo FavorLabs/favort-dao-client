@@ -72,33 +72,58 @@ const DaoCommunity: React.FC<Props> = (props) => {
       setHaveDaoInfo(true);
       setDaoInfo(data.data);
       getMsgIdByName(data.data);
+      processMessage(data.data);
+    }
+  };
 
-      if (data.data.last_posts?.length) {
-        data.data.last_posts.forEach((item) => {
-          if (item.type === 0) {
-            const obj = getContent(item.contents as Post[]);
-            setLastPostNews({
-              text: obj[2]?.[0]?.content,
-              createTime: getTime(item.created_on),
-            });
-          } else if (item.type === 1) {
-            const obj = getContent(item.contents as Post[]);
-            setLastPostVideo({
-              text: obj[1][0]?.content,
-              createTime: getTime(item.created_on),
-            });
-          }
-        });
-      } else {
-        setLastPostNews({
-          text: 'no news',
-          createTime: '',
-        });
-        setLastPostVideo({
-          text: 'no video',
-          createTime: '',
-        });
-      }
+  const processMessage = (arrData: DaoInfo) => {
+    if (arrData.last_posts?.length > 1) {
+      arrData.last_posts.forEach((item) => {
+        let obj = getContent(item.contents as Post[]);
+        if (item.type === 0) {
+          setLastPostNews({
+            text: obj[2]?.[0]?.content,
+            createTime: getTime(item.created_on),
+          });
+        } else {
+          setLastPostVideo({
+            text: obj[1][0]?.content,
+            createTime: getTime(item.created_on),
+          });
+        }
+      });
+    } else if (arrData.last_posts?.length === 1) {
+      arrData.last_posts.forEach((item) => {
+        let obj = getContent(item.contents as Post[]);
+        if (item.type === 0) {
+          setLastPostNews({
+            text: obj[2]?.[0]?.content,
+            createTime: getTime(item.created_on),
+          });
+          setLastPostVideo({
+            text: 'no video',
+            createTime: '',
+          });
+        } else {
+          setLastPostVideo({
+            text: obj[1][0]?.content,
+            createTime: getTime(item.created_on),
+          });
+          setLastPostNews({
+            text: 'no news',
+            createTime: '',
+          });
+        }
+      });
+    } else {
+      setLastPostNews({
+        text: 'no news',
+        createTime: '',
+      });
+      setLastPostVideo({
+        text: 'no video',
+        createTime: '',
+      });
     }
   };
 
