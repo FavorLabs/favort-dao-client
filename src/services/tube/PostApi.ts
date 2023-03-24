@@ -4,6 +4,7 @@ import {
   CommentInfo,
   CommentRes,
   CreateComment,
+  CreateCommentReplyRes,
   CreatePost,
   CreateReply,
   GetCommentsParams,
@@ -102,7 +103,10 @@ export default {
       data: { id },
     });
   },
-  addCommentReply(url: string, data: CreateReply): ResData<any> {
+  addCommentReply(
+    url: string,
+    data: CreateReply,
+  ): ResData<CreateCommentReplyRes> {
     return request({
       method: 'post',
       url: url + '/post/comment/reply',

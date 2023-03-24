@@ -15,16 +15,26 @@ import UserAvatar from '@/components/UserAvatar';
 import { useUrl, useResourceUrl } from '@/utils/hooks';
 import { getTime } from '@/utils/util';
 import PostApi from '@/services/tube/PostApi';
-import { CommentInfo, GetCommentsParams } from '@/declare/tubeApiType';
+import {
+  CommentInfo,
+  CommentReplyRes,
+  GetCommentsParams,
+} from '@/declare/tubeApiType';
 import { Models } from '@/declare/modelType';
+import commentOnImg from '@/assets/icon/comment-on.svg';
 
 export type Props = {
   postId: string;
   postType: number;
   postCommentCount: number;
 };
+type CommentInfoRender = CommentInfo & { folded: boolean };
 type CommentListMap = {
-  [key: number]: CommentInfo;
+  [key: number]: CommentInfoRender;
+};
+type CurrentReply = {
+  id: string;
+  idx: number;
 };
 const Comment: React.FC<Props> = (props) => {
   const { postId, postType, postCommentCount } = props;
@@ -34,6 +44,7 @@ const Comment: React.FC<Props> = (props) => {
 
   const [comment, setComment] = useState<string>('');
   const [commentPopup, setCommentPopup] = useState<boolean>(false);
+  const [commentCount, setCommentCount] = useState<number>(postCommentCount);
   const [commentListMap, setCommentListMap] = useState<CommentListMap>({});
   const [comListLoading, setComListLoading] = useState<boolean>(false);
   const [hasMore, setHasMore] = useState(true);
@@ -42,7 +53,10 @@ const Comment: React.FC<Props> = (props) => {
     page_size: 10,
     id: postId,
   });
-  const [currentReply, setCurrentReply] = useState<string>('');
+  const [currentReply, setCurrentReply] = useState<CurrentReply>({
+    id: '',
+    idx: 0,
+  });
 
   const { user } = useSelector((state: Models) => state.global);
 
@@ -54,9 +68,9 @@ const Comment: React.FC<Props> = (props) => {
         // setCommentList(data.data.list);
         const map: CommentListMap = {};
         data.data.list.forEach((item, index) => {
-          map[index] = item;
+          map[(pageData.page - 1) * 10 + index] = { ...item, folded: true };
         });
-        setCommentListMap(map);
+        setCommentListMap({ ...commentListMap, ...map });
         setHasMore(
           data.data.pager.total_rows > pageData.page * pageData.page_size,
         );
@@ -75,7 +89,7 @@ const Comment: React.FC<Props> = (props) => {
 
   const resetPopup = () => {
     setComment('');
-    setCurrentReply('');
+    setCurrentReply({ id: '', idx: 0 });
     setCommentPopup(false);
   };
 
@@ -94,7 +108,7 @@ const Comment: React.FC<Props> = (props) => {
       });
       if (data.data) {
         const res = data.data;
-        const commentFill: CommentInfo = {
+        const commentFill: CommentInfoRender = {
           id: res.id,
           post_id: res.post_id,
           address: res.address,
@@ -119,6 +133,7 @@ const Comment: React.FC<Props> = (props) => {
             },
           ],
           replies: [],
+          folded: true,
           created_on: res.created_on,
           modified_on: res.modified_on,
         };
@@ -126,6 +141,7 @@ const Comment: React.FC<Props> = (props) => {
           ...commentListMap,
           [Object.keys(commentListMap).length]: commentFill,
         });
+        setCommentCount(commentCount + 1);
         resetPopup();
       }
     } catch (e) {
@@ -137,11 +153,31 @@ const Comment: React.FC<Props> = (props) => {
     if (sendDisable) return message.info('Please enter your reply!');
     try {
       const { data } = await PostApi.addCommentReply(url, {
-        comment_id: currentReply,
+        comment_id: currentReply.id,
         content: comment,
       });
       if (data.data) {
-        console.log('sendReply', data.data);
+        const res = data.data;
+        const commentReplyFill: CommentReplyRes = {
+          id: res.id,
+          content: res.content,
+          user: {
+            address: user?.address as string,
+            avatar: user?.avatar as string,
+            nickname: user?.nickname as string,
+          },
+        };
+        setCommentListMap({
+          ...commentListMap,
+          [currentReply.idx]: {
+            ...commentListMap[currentReply.idx],
+            replies: [
+              ...commentListMap[currentReply.idx].replies,
+              commentReplyFill,
+            ],
+          },
+        });
+        setCommentCount(commentCount + 1);
         resetPopup();
       }
     } catch (e) {
@@ -154,7 +190,7 @@ const Comment: React.FC<Props> = (props) => {
       <div className={styles.commentList}>
         <div className={styles.countWrap}>
           {postCommentCount != undefined ? (
-            <p className={styles.count}>{postCommentCount} comments</p>
+            <p className={styles.count}>{commentCount} comments</p>
           ) : (
             <Skeleton animated className={styles.skeleton} />
           )}
@@ -164,7 +200,7 @@ const Comment: React.FC<Props> = (props) => {
             <Skeleton animated className={styles.skeleton} />
           ) : (
             <div className={styles.itemList}>
-              {Object.values(commentListMap).map((item) => (
+              {Object.values(commentListMap).map((item, index) => (
                 <div className={styles.item} key={item.id}>
                   <div className={styles.left}>
                     <UserAvatar
@@ -181,15 +217,55 @@ const Comment: React.FC<Props> = (props) => {
                       {getTime(item.created_on)}
                     </div>
                     <p className={styles.text}>{item.contents[0].content}</p>
+                    {!!item.replies?.length && (
+                      <div className={styles.replyList}>
+                        {item.folded
+                          ? item.replies.slice(0, 2).map((item) => (
+                              <p key={item.id} className={styles.replyItem}>
+                                <span className={styles.name}>
+                                  {item.user.nickname}:
+                                </span>
+                                {item.content}
+                              </p>
+                            ))
+                          : item.replies.map((item) => (
+                              <p key={item.id} className={styles.replyItem}>
+                                <span className={styles.name}>
+                                  {item.user.nickname}:
+                                </span>
+                                {item.content}
+                              </p>
+                            ))}
+                        {item.replies.length > 2 && item.folded && (
+                          <p
+                            className={styles.moreReply}
+                            onClick={() => {
+                              setCommentListMap({
+                                ...commentListMap,
+                                [index]: {
+                                  ...commentListMap[index],
+                                  folded: false,
+                                },
+                              });
+                            }}
+                          >
+                            {item.replies.length - 2} more replies {'>'}
+                          </p>
+                        )}
+                      </div>
+                    )}
                     <div className={styles.action}>
-                      {/*<div className={styles.replyBtn} onClick={() => {*/}
-                      {/*  setCurrentReply(item.id);*/}
-                      {/*  setComment('');*/}
-                      {/*  setCommentPopup(true);*/}
-                      {/*}}>*/}
-                      {/*  <img src={commentOnImg} alt=""/>*/}
-                      {/*  <span>reply</span>*/}
-                      {/*</div>*/}
+                      <div
+                        className={styles.replyBtn}
+                        onClick={() => {
+                          setCurrentReply({ id: item.id, idx: index });
+                          setComment('');
+                          setCommentPopup(true);
+                        }}
+                      >
+                        <img src={commentOnImg} alt="" />
+                        <span>reply</span>
+                      </div>
                       {/*<div className={styles.likeBtn}>*/}
                       {/*  <img src={supportImg} alt=""/>*/}
                       {/*  <span>123</span>*/}
@@ -227,7 +303,7 @@ const Comment: React.FC<Props> = (props) => {
           value={''}
           disabled={postType == undefined}
           onClick={() => {
-            setCurrentReply('');
+            setCurrentReply({ id: '', idx: 0 });
             setComment('');
             setCommentPopup(true);
             setTimeout(() => {
@@ -249,7 +325,9 @@ const Comment: React.FC<Props> = (props) => {
         <TextArea
           ref={textInput}
           className={'newsCommentInput'}
-          placeholder="Please enter a comment"
+          placeholder={`Please enter a ${
+            currentReply.id ? 'reply' : 'comment'
+          }`}
           autoSize={{ minRows: 5, maxRows: 7 }}
           maxLength={100}
           onChange={(val) => {
@@ -259,7 +337,7 @@ const Comment: React.FC<Props> = (props) => {
         <div
           className={`${styles.sendBtn} ${!sendDisable && styles.active}`}
           onClick={() => {
-            if (currentReply) sendReply();
+            if (currentReply.id) sendReply();
             else sendComment();
           }}
         >
