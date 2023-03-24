@@ -66,7 +66,7 @@ export type CommentInfo = {
   address: string;
   user: User;
   contents: CommentRes[];
-  replies: CommentInfo[];
+  replies: CommentReplyRes[];
   created_on: number;
   modified_on: number;
 };
@@ -94,6 +94,17 @@ export type CommentRes = Comment & {
   comment_id: string;
   post_id: string;
   address: string;
+};
+
+export type CommentReplyRes = {
+  id: string;
+  content: string;
+  user: User;
+};
+
+export type CreateCommentReplyRes = {
+  id: string;
+  content: string;
 };
 
 export type ResData<T> = Promise<

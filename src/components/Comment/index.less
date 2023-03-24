@@ -38,12 +38,31 @@
             .time {
               color: rgba(181, 181, 181, 1);
               font-size: 0.75rem;
-              margin-bottom: 0.125rem;
+              margin: 0.125rem 0 0.5rem;
             }
             .text {
               font-size: 0.875rem;
               line-height: 1.125rem;
               vertical-align: top;
+            }
+            .replyList {
+              font-size: 0.75rem;
+              margin: 0.625rem 0;
+              padding: 0.625rem;
+              border-radius: 0.125rem;
+              box-sizing: border-box;
+              background: rgba(247, 247, 247, 1);
+              .replyItem {
+                word-break: break-word;
+                .name {
+                  color: rgba(0, 75, 181, 1);
+                  margin-right: 0.25rem;
+                }
+              }
+              .moreReply {
+                color: rgba(0, 75, 181, 1);
+                margin-top: 0.25rem;
+              }
             }
             .action {
               display: flex;
@@ -79,6 +98,9 @@
   .InfiniteScroll {
     width: 100%;
     box-sizing: border-box;
+    .loading {
+      width: 100%;
+    }
   }
   .createComment {
     position: fixed;
