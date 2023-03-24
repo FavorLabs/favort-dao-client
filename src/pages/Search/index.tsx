@@ -66,7 +66,7 @@ const Search: React.FC<Props> = (props) => {
         {/*) : (*/}
         {/*  <div className={styles.nobody}></div>*/}
         {/*)}*/}
-        {queryValue ? <PostList query={queryValue} /> : <></>}
+        {queryValue ? <PostList query={queryValue} name={'Search'} /> : <></>}
       </div>
     </div>
   );

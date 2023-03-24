@@ -12,6 +12,7 @@ import { useResourceUrl, useUrl } from '@/utils/hooks';
 import { CreatePost, Post } from '@/declare/tubeApiType';
 import { Models } from '@/declare/modelType';
 import PostApi from '@/services/tube/PostApi';
+import { UploadImgType } from '@/config/constants';
 
 export type Props = {};
 type OptionsItem = {
@@ -110,7 +111,7 @@ const PostNewsletter: React.FC<Props> = (props) => {
       content: (
         <div className={styles.imageUpload}>
           <ImageCrop
-            fileType={'image/jpg, image/png, image/webp'}
+            fileType={UploadImgType}
             shape="rect"
             maxCount={9}
             removeImage={() => {

@@ -7,7 +7,7 @@ import likeOnIcon from '@/assets/icon/like-on-icon.svg';
 import { useEffect, useState } from 'react';
 import PostApi from '@/services/tube/PostApi';
 import { useUrl } from '@/utils/hooks';
-import { checkLogin } from '@/utils/util';
+import { checkLogin, eventEmitter } from '@/utils/util';
 import { history } from 'umi';
 import { message } from 'antd';
 
@@ -15,15 +15,23 @@ export type Props = {
   watchNum: number;
   commentOnNum: number;
   likeNum: number;
+  likeStatus: boolean;
   postId: string;
   postType: number;
 };
 
-const CommentArea: React.FC<Props> = (props) => {
-  const { watchNum, commentOnNum, likeNum, postId, postType } = props;
-  const url = useUrl();
+export type Option = {
+  id: string;
+  status: boolean;
+};
 
-  const [like, setLike] = useState<boolean>(false);
+const CommentArea: React.FC<Props> = (props) => {
+  const { watchNum, commentOnNum, likeNum, postId, postType, likeStatus } =
+    props;
+  const url = useUrl();
+  const pathname = history.location.pathname.split('/')[1];
+
+  const [like, setLike] = useState<boolean>(likeStatus);
   const [watchCount, setWatchCount] = useState<number>(watchNum);
   const [likeCount, setLikeCount] = useState<number>(likeNum);
 
@@ -38,6 +46,13 @@ const CommentArea: React.FC<Props> = (props) => {
     const { data } = await PostApi.postLike(url, postId);
     if (data.data) {
       setLike(data.data.status);
+      if (pathname === 'newsletterDetail' || pathname === 'video') {
+        const option: Option = {
+          id: postId,
+          status: data.data.status,
+        };
+        eventEmitter.emit('refreshLikeStatus', option);
+      }
       if (data.data.status) setLikeCount(likeCount + 1);
       else setLikeCount(likeCount - 1);
     }
@@ -45,9 +60,7 @@ const CommentArea: React.FC<Props> = (props) => {
 
   const postView = async () => {
     const { data } = await PostApi.addPostView(url, postId);
-    if (data.data) {
-      setWatchCount(watchCount + 1);
-    }
+    if (data.data.status) setWatchCount(watchCount + 1);
   };
 
   const toDetail = () => {
@@ -90,11 +103,7 @@ const CommentArea: React.FC<Props> = (props) => {
           }}
         >
           <div className={styles.operateIcon}>
-            {like ? (
-              <img src={likeOnIcon} className={styles.img} />
-            ) : (
-              <img src={likeIcon} className={styles.img} />
-            )}
+            <img src={like ? likeOnIcon : likeIcon} className={styles.img} />
           </div>
           <span className={styles.operateText}>{likeCount}</span>
         </div>

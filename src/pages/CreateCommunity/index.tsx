@@ -11,6 +11,7 @@ import { message, Spin } from 'antd';
 import DaoApi from '@/services/tube/Dao';
 import { sleep } from '@/utils/util';
 import TopNavBar from '@/components/TopNavBar';
+import { UploadImgType } from '@/config/constants';
 
 export type Props = {};
 type AnimConfig = {
@@ -160,7 +161,7 @@ const CreateCommunity: React.FC<Props> = (props) => {
       content: (
         <div className={styles.avatarUpload}>
           <ImageCrop
-            fileType={'image/jpg, image/png, image/webp'}
+            fileType={UploadImgType}
             crop={true}
             shape="round"
             aspect={1}
@@ -178,7 +179,7 @@ const CreateCommunity: React.FC<Props> = (props) => {
       content: (
         <div className={styles.bannerUpload}>
           <ImageCrop
-            fileType={'image/jpg, image/png, image/webp'}
+            fileType={UploadImgType}
             shape="rect"
             aspect={2}
             removeImage={() => {

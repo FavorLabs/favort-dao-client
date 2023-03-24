@@ -244,7 +244,7 @@ const Mine: React.FC<Props> = (props) => {
       key: 3,
       name: intl.formatMessage({ id: 'main.mine.setting.about' }),
       icon: <img src={aboutSvg} alt={''} />,
-      content: <div className={styles.aboutAction}>version 1.0.023</div>,
+      content: <div className={styles.aboutAction}>version 1.0.0324</div>,
     },
     {
       key: 4,
@@ -321,6 +321,10 @@ const Mine: React.FC<Props> = (props) => {
     <>
       <div
         className={styles.content}
+        style={{
+          // @ts-ignore
+          paddingTop: userInfoRef?.current?.clientHeight,
+        }}
         onClick={() => {
           setLangMenuVisibility(false);
         }}
@@ -353,35 +357,12 @@ const Mine: React.FC<Props> = (props) => {
             ))}
           </div>
         </div>
-        <div
-          className={`${styles.cryptoAssets} ${styles.block}`}
-          style={{
-            // @ts-ignore
-            marginTop: userInfoRef?.current?.clientHeight,
-          }}
-        >
-          <p className={styles.title}>Crypto Assets</p>
-          <div className={styles.itemsList}>
-            {cryptoAssetsItems.map((item) => (
-              <div
-                key={item.name}
-                className={styles.item}
-                onClick={() => {
-                  item.path && history.push(item.path);
-                }}
-              >
-                <div className={styles.icon}>{item.icon}</div>
-                <p className={styles.name}>{item.name}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-        {userInfo && (
+        {NETWORK_ID === '19' && (
           <>
-            <div className={`${styles.daoManagement} ${styles.block}`}>
-              <p className={styles.title}>DAO Management</p>
+            <div className={`${styles.cryptoAssets} ${styles.block}`}>
+              <p className={styles.title}>Crypto Assets</p>
               <div className={styles.itemsList}>
-                {daoManagementItems.map((item) => (
+                {cryptoAssetsItems.map((item) => (
                   <div
                     key={item.name}
                     className={styles.item}
@@ -395,23 +376,44 @@ const Mine: React.FC<Props> = (props) => {
                 ))}
               </div>
             </div>
-            <div className={`${styles.services} ${styles.block}`}>
-              <p className={styles.title}>Services</p>
-              <div className={styles.itemsList}>
-                {servicesItems.map((item) => (
-                  <div
-                    key={item.name}
-                    className={styles.item}
-                    onClick={() => {
-                      item.path && history.push(item.path);
-                    }}
-                  >
-                    <div className={styles.icon}>{item.icon}</div>
-                    <p className={styles.name}>{item.name}</p>
+            {userInfo && (
+              <>
+                <div className={`${styles.daoManagement} ${styles.block}`}>
+                  <p className={styles.title}>DAO Management</p>
+                  <div className={styles.itemsList}>
+                    {daoManagementItems.map((item) => (
+                      <div
+                        key={item.name}
+                        className={styles.item}
+                        onClick={() => {
+                          item.path && history.push(item.path);
+                        }}
+                      >
+                        <div className={styles.icon}>{item.icon}</div>
+                        <p className={styles.name}>{item.name}</p>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            </div>
+                </div>
+                <div className={`${styles.services} ${styles.block}`}>
+                  <p className={styles.title}>Services</p>
+                  <div className={styles.itemsList}>
+                    {servicesItems.map((item) => (
+                      <div
+                        key={item.name}
+                        className={styles.item}
+                        onClick={() => {
+                          item.path && history.push(item.path);
+                        }}
+                      >
+                        <div className={styles.icon}>{item.icon}</div>
+                        <p className={styles.name}>{item.name}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </>
+            )}
           </>
         )}
         <div className={`${styles.setting} ${styles.block}`}>

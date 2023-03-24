@@ -17,6 +17,7 @@ import Api from '@/services/Api';
 import { Models } from '@/declare/modelType';
 import { CreatePost, Post } from '@/declare/tubeApiType';
 import PostApi from '@/services/tube/PostApi';
+import { UploadImgType } from '@/config/constants';
 
 export type Props = {};
 type OptionsItem = {
@@ -386,7 +387,7 @@ const PostVideo: React.FC<Props> = (props) => {
       content: (
         <div className={styles.coverUpload}>
           <ImageCrop
-            fileType={'image/jpg, image/png, image/webp'}
+            fileType={UploadImgType}
             crop={true}
             shape="rect"
             aspect={2}
