@@ -12,9 +12,10 @@ import ImageCut from '@/components/ImageCut';
 import { useState } from 'react';
 import { history } from '@@/core/history';
 import { useHistory } from 'umi';
+import { PostInfoAndLike } from '@/components/PostList';
 
 export type Props = {
-  post: PostInfo;
+  post: PostInfoAndLike;
   refreshPage: () => void;
   delPost?: (post: string) => void;
 };
@@ -32,6 +33,7 @@ const GraphicMessage: React.FC<Props> = (props) => {
     created_on,
     id,
     type,
+    likeStatus,
   } = props.post;
   if (!dao) return <></>;
   const info = getContent(contents);
@@ -94,6 +96,7 @@ const GraphicMessage: React.FC<Props> = (props) => {
           likeNum={upvote_count}
           postId={id}
           postType={type}
+          likeStatus={likeStatus}
         />
       </div>
     </div>

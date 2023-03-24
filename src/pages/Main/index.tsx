@@ -61,11 +61,10 @@ const Main: React.FC<Props> = (props) => {
       title: 'Feeds',
       icon: (
         <div className={`${styles.latest}`}>
-          {routeKey === '/latest' ? (
-            <img src={lastetOnIcon} alt={''} />
-          ) : (
-            <img src={lastetIcon} alt={''} />
-          )}
+          <img
+            src={routeKey === '/latest' ? lastetOnIcon : lastetIcon}
+            alt={''}
+          />
         </div>
       ),
     },
@@ -74,11 +73,10 @@ const Main: React.FC<Props> = (props) => {
       title: 'DAO',
       icon: (
         <div className={`${styles.dao}`}>
-          {routeKey === '/daoCommunity' ? (
-            <img src={daoOnIcon} alt={''} />
-          ) : (
-            <img src={daoIcon} alt={''} />
-          )}
+          <img
+            src={routeKey === '/daoCommunity' ? daoOnIcon : daoIcon}
+            alt={''}
+          />
         </div>
       ),
     },
@@ -91,11 +89,7 @@ const Main: React.FC<Props> = (props) => {
             userInfo && 'haveCommunity'
           }`}
         >
-          {userInfo ? (
-            <img src={addCommunitySvg} alt="" />
-          ) : (
-            <img src={unAddCommunityIcon} alt="" />
-          )}
+          <img src={userInfo ? addCommunitySvg : unAddCommunityIcon} alt={''} />
         </div>
       ),
     },
@@ -104,11 +98,7 @@ const Main: React.FC<Props> = (props) => {
       title: 'Chats',
       icon: (
         <div className={`${styles.chat}`}>
-          {routeKey === '/chat' ? (
-            <img src={chatOnIcon} alt={''} />
-          ) : (
-            <img src={chatIcon} alt={''} />
-          )}
+          <img src={routeKey === '/chat' ? chatOnIcon : chatIcon} alt={''} />
         </div>
       ),
     },
@@ -117,11 +107,7 @@ const Main: React.FC<Props> = (props) => {
       title: 'My',
       icon: (
         <div className={`${styles.mine}`}>
-          {routeKey === '/mine' ? (
-            <img src={myOnIcon} alt={''} />
-          ) : (
-            <img src={myIcon} alt={''} />
-          )}
+          <img src={routeKey === '/mine' ? myOnIcon : myIcon} alt={''} />
         </div>
       ),
     },

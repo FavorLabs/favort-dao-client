@@ -23,7 +23,7 @@ const Recommend: React.FC<Props> = (props) => {
 
   return (
     <div className={styles.recommend}>
-      <PostList />
+      <PostList name={'Recommend'} />
       {!loginStatus && (
         <div
           className={styles.mask}
@@ -47,7 +47,7 @@ const Recommend: React.FC<Props> = (props) => {
 export default () => {
   return (
     // @ts-ignore
-    <KeepAlive when={true} saveScrollPosition={'screen'}>
+    <KeepAlive when={true} saveScrollPosition={'screen'} autoFreeze={true}>
       <Recommend />
     </KeepAlive>
   );

@@ -41,7 +41,7 @@ const VideoList: React.FC<Props> = (props) => {
           {/*</video>*/}
         </div>
 
-        <PostList type={1} daoId={daoId} />
+        <PostList type={1} daoId={daoId} name={'VideoList'} />
       </div>
     </div>
   );

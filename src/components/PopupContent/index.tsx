@@ -47,6 +47,7 @@ const PopupContent: React.FC<Props> = (props) => {
         //   },
         // });
         // refreshPage();
+        message.success('Delete successfully');
         delPost?.(post.id);
       }
     } catch (e) {

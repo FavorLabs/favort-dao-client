@@ -14,16 +14,23 @@ import { Models } from '@/declare/modelType';
 import { isMobile, sleep, eventEmitter } from '@/utils/util';
 import _ from 'lodash';
 import DetailSkeleton from '@/components/CustomSkeleton/PostSkeleton/DetailSkeleton';
+import { Option } from '@/components/CommentArea';
 
 export type Props = {
   type?: number;
   daoId?: string;
   focus?: boolean;
   query?: string;
+  name: string;
 };
+
+export type PostInfoAndLike = PostInfo & {
+  likeStatus: false;
+};
+
 const PostList: React.FC<Props> = (props) => {
   const url = useUrl();
-  const { type, daoId, focus = false, query } = props;
+  const { type, daoId, focus = false, query, name } = props;
   const { refreshPostList } = useSelector((state: Models) => state.manage);
   const [pageData, setPageData] = useState<Page>({
     page: 1,
@@ -32,7 +39,7 @@ const PostList: React.FC<Props> = (props) => {
     query,
   });
   const [hasMore, setHasMore] = useState(true);
-  const [list, setList] = useState<PostInfo[]>([]);
+  const [list, setList] = useState<PostInfoAndLike[]>([]);
   const [errored, setErrored] = useState<boolean>(false);
 
   const pathname = history.location.pathname;
@@ -46,7 +53,10 @@ const PostList: React.FC<Props> = (props) => {
         : (params: Page) => PostApi.getPostListByType(url, params);
       const { data } = await request(pageData);
       setErrored(false);
-      setList((list) => [...list, ...data.data.list]);
+      const listArr: PostInfoAndLike[] = data.data.list.map((item) => {
+        return { ...item, likeStatus: false };
+      });
+      setList((list) => [...list, ...listArr]);
       setHasMore(
         data.data.pager.total_rows > pageData.page * pageData.page_size,
       );
@@ -67,7 +77,10 @@ const PostList: React.FC<Props> = (props) => {
         : (params: Page) => PostApi.getPostListByType(url, params);
       const { data } = await request(pageInfo);
       setErrored(false);
-      setList((list) => data.data.list);
+      const listArr: PostInfoAndLike[] = data.data.list.map((item) => {
+        return { ...item, likeStatus: false };
+      });
+      setList((list) => [...list, ...listArr]);
       setPageData((pageData) => ({ ...pageData, page: 1 }));
       setHasMore(data.data.pager.total_rows > pageData.page_size);
     } catch (e) {
@@ -92,11 +105,44 @@ const PostList: React.FC<Props> = (props) => {
     setList((list) => delList);
   };
 
+  const bindEvent = () => {
+    switch (name) {
+      case 'Recommend':
+        eventEmitter.removeListener('refreshLikeStatus');
+        eventEmitter.on('refreshLikeStatus', (option: Option) => {
+          // @ts-ignore
+          const newList: PostInfoAndLike[] = list.map((item) => {
+            if (item.id === option.id) {
+              return { ...item, likeStatus: option.status };
+            } else {
+              return item;
+            }
+          });
+          // console.log(newList, list)
+          setList([...newList]);
+        });
+        break;
+      case 'Follow':
+        eventEmitter.removeListener('refreshLikeStatus');
+        eventEmitter.on('refreshLikeStatus', () => {
+          // console.log('refreshLikeStatus ',name);
+        });
+        break;
+      default:
+      // console.log('default');
+    }
+  };
+
   useEffect(() => {
     if (!hasMore) {
       refreshPage();
     }
   }, [query]);
+
+  useEffect(() => {
+    bindEvent();
+    // console.log('--', list);
+  }, [list]);
 
   useEffect(() => {
     if (pathname === '/latest/follow') {
