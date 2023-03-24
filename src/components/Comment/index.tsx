@@ -22,6 +22,7 @@ import {
 } from '@/declare/tubeApiType';
 import { Models } from '@/declare/modelType';
 import commentOnImg from '@/assets/icon/comment-on.svg';
+import ItemSkeleton from '@/components/CustomSkeleton/CommentSkeleton/ItemSkeleton';
 
 export type Props = {
   postId: string;
@@ -285,10 +286,9 @@ const Comment: React.FC<Props> = (props) => {
       >
         <>
           {hasMore ? (
-            <>
-              <span>Loading</span>
-              <DotLoading />
-            </>
+            <div className={styles.loading}>
+              <ItemSkeleton />
+            </div>
           ) : (
             <p style={{ width: '100%', textAlign: 'center' }}>
               Already at the bottom

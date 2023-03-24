@@ -13,6 +13,7 @@ import { useSelector, history } from 'umi';
 import { Models } from '@/declare/modelType';
 import { isMobile, sleep, eventEmitter } from '@/utils/util';
 import _ from 'lodash';
+import DetailSkeleton from '@/components/CustomSkeleton/PostSkeleton/DetailSkeleton';
 
 export type Props = {
   type?: number;
@@ -144,10 +145,10 @@ const PostList: React.FC<Props> = (props) => {
           <InfiniteScroll loadMore={loadMore} hasMore={hasMore}>
             <>
               {hasMore ? (
-                <>
-                  <span>Loading</span>
-                  <DotLoading />
-                </>
+                <div className={styles.loading}>
+                  <DetailSkeleton />
+                  <DetailSkeleton />
+                </div>
               ) : (
                 <span>Already at the bottom</span>
               )}
