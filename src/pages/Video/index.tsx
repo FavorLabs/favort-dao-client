@@ -188,7 +188,7 @@ const Video: React.FC<Props> = (props) => {
                           <div
                             className={styles.left}
                             onClick={() => {
-                              history.push(`/dao/${videoData.dao.id}`);
+                              history.push(`/daoCommunity/${videoData.dao.id}`);
                             }}
                           >
                             <UserAvatar

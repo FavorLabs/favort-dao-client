@@ -434,7 +434,7 @@ const PostVideo: React.FC<Props> = (props) => {
             }}
             action={uploadImage}
           />
-          {videoCoverLoading && <Spin indicator={loadIcon} size="small" />}
+          {/*{videoCoverLoading && <Spin indicator={loadIcon} size="small" />}*/}
         </div>
       ),
     },
