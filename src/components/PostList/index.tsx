@@ -183,9 +183,10 @@ const PostList: React.FC<Props> = (props) => {
                   refreshPage={refreshPage}
                   delPost={delPost}
                 />
-              ) : item.type === -1 ? (
-                <CommunityIntro post={item} />
               ) : (
+                //   : item.type === -1 ? (
+                //   <CommunityIntro post={item} />
+                // )
                 <></>
               )}
             </div>
