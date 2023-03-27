@@ -14,14 +14,9 @@ import { Models } from '@/declare/modelType';
 import PostApi from '@/services/tube/PostApi';
 import { UploadImgType } from '@/config/constants';
 import { eventEmitter, sleep } from '@/utils/util';
+import { AnimConfig } from '@/declare/global';
 
 export type Props = {};
-
-type AnimConfig = {
-  visible: boolean;
-  tips: string;
-  percent: number;
-};
 
 type OptionsItem = {
   name: string;

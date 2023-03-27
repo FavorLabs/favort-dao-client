@@ -13,3 +13,9 @@ export type WalletType =
   | typeof OKX
   | typeof WalletConnect
   | typeof UniPass;
+
+export type AnimConfig = {
+  visible: boolean;
+  tips: string;
+  percent: number;
+};

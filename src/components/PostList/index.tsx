@@ -17,20 +17,15 @@ import DetailSkeleton from '@/components/CustomSkeleton/PostSkeleton/DetailSkele
 import { Option } from '@/components/CommentArea';
 
 export type Props = {
-  type?: number;
+  type?: number | string;
   daoId?: string;
   focus?: boolean;
   query?: string;
-  name: string;
-};
-
-export type PostInfoAndLike = PostInfo & {
-  likeStatus: false;
 };
 
 const PostList: React.FC<Props> = (props) => {
   const url = useUrl();
-  const { type, daoId, focus = false, query, name } = props;
+  const { type, daoId, focus = false, query } = props;
   const { refreshPostList } = useSelector((state: Models) => state.manage);
   const [pageData, setPageData] = useState<Page>({
     page: 1,
@@ -53,9 +48,6 @@ const PostList: React.FC<Props> = (props) => {
         : (params: Page) => PostApi.getPostListByType(url, params);
       const { data } = await request(pageData);
       setErrored(false);
-      // const listArr: PostInfoAndLike[] = data.data.list.map((item) => {
-      //   return { ...item, likeStatus: false };
-      // });
       const listArr: PostInfo[] = data.data.list;
       setList((list) => [...list, ...listArr]);
       setHasMore(
@@ -78,9 +70,6 @@ const PostList: React.FC<Props> = (props) => {
         : (params: Page) => PostApi.getPostListByType(url, params);
       const { data } = await request(pageInfo);
       setErrored(false);
-      // const listArr: PostInfoAndLike[] = data.data.list.map((item) => {
-      //   return { ...item, likeStatus: false };
-      // });
       const listArr: PostInfo[] = data.data.list;
       setList((list) => [...listArr]);
       setPageData((pageData) => ({ ...pageData, page: 1 }));
@@ -107,44 +96,11 @@ const PostList: React.FC<Props> = (props) => {
     setList((list) => delList);
   };
 
-  const bindEvent = () => {
-    switch (name) {
-      case 'Recommend':
-        eventEmitter.removeListener('refreshLikeStatus');
-        eventEmitter.on('refreshLikeStatus', (option: Option) => {
-          // @ts-ignore
-          const newList: PostInfoAndLike[] = list.map((item) => {
-            if (item.id === option.id) {
-              return { ...item, likeStatus: option.status };
-            } else {
-              return item;
-            }
-          });
-          // console.log(newList, list)
-          setList([...newList]);
-        });
-        break;
-      case 'Follow':
-        eventEmitter.removeListener('refreshLikeStatus');
-        eventEmitter.on('refreshLikeStatus', () => {
-          // console.log('refreshLikeStatus ',name);
-        });
-        break;
-      default:
-      // console.log('default');
-    }
-  };
-
   useEffect(() => {
     if (!hasMore) {
       refreshPage();
     }
   }, [query]);
-
-  // useEffect(() => {
-  //   // bindEvent();
-  //   // console.log('--', list);
-  // }, [list]);
 
   useEffect(() => {
     if (pathname === '/latest/follow') {
@@ -170,7 +126,12 @@ const PostList: React.FC<Props> = (props) => {
           disabled={!isMobile()}
         >
           {list.map((item) => (
-            <div key={item.id} className={styles.postItem}>
+            <div
+              key={item.id}
+              className={`${
+                item.type === 0 || item.type === 1 ? styles.postItem : ''
+              }`}
+            >
               {item.type === 0 ? (
                 <GraphicMessage
                   post={item}

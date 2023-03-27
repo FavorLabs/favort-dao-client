@@ -18,7 +18,7 @@ const NewsletterList: React.FC<Props> = (props) => {
       <TopNavBar title={'News'} noRight={true} />
 
       <div className={styles.list}>
-        <PostList type={0} daoId={daoId} name={'NewsletterList'} />
+        <PostList type={0} daoId={daoId} />
       </div>
     </div>
   );

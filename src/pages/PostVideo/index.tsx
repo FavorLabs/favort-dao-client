@@ -24,6 +24,7 @@ import { Models } from '@/declare/modelType';
 import { CreatePost, Post } from '@/declare/tubeApiType';
 import PostApi from '@/services/tube/PostApi';
 import { UploadImgType } from '@/config/constants';
+import { AnimConfig } from '@/declare/global';
 
 export type Props = {};
 type OptionsItem = {
@@ -38,11 +39,6 @@ type downloadWsResItem = {
   };
   Overlay: string;
   RootCid: string;
-};
-type AnimConfig = {
-  visible: boolean;
-  tips: string;
-  percent: number;
 };
 
 const PostVideo: React.FC<Props> = (props) => {
@@ -438,7 +434,7 @@ const PostVideo: React.FC<Props> = (props) => {
             }}
             action={uploadImage}
           />
-          {videoCoverLoading && <Spin indicator={loadIcon} size="small" />}
+          {/*{videoCoverLoading && <Spin indicator={loadIcon} size="small" />}*/}
         </div>
       ),
     },

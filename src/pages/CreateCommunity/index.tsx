@@ -12,13 +12,10 @@ import DaoApi from '@/services/tube/Dao';
 import { sleep } from '@/utils/util';
 import TopNavBar from '@/components/TopNavBar';
 import { UploadImgType } from '@/config/constants';
+import { AnimConfig } from '@/declare/global';
 
 export type Props = {};
-type AnimConfig = {
-  visible: boolean;
-  tips: string;
-  percent: number;
-};
+
 type OptionsItem = {
   name: string;
   content: ReactNode;

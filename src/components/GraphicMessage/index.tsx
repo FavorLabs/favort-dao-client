@@ -1,18 +1,12 @@
 import * as React from 'react';
 import styles from './index.less';
-import { Image } from 'antd';
-import { Ellipsis } from 'antd-mobile';
 import CommunityInfo from '@/components/CommunityInfo';
 import CommentArea from '@/components/CommentArea';
 import { PostInfo } from '@/declare/tubeApiType';
 import { getContent } from '@/utils/util';
-import { useResourceUrl, useUrl } from '@/utils/hooks';
 import PopupContent from '@/components/PopupContent';
 import ImageCut from '@/components/ImageCut';
-import { useState } from 'react';
-import { history } from '@@/core/history';
 import { useHistory } from 'umi';
-import { PostInfoAndLike } from '@/components/PostList';
 
 export type Props = {
   // post: PostInfoAndLike;
@@ -34,7 +28,6 @@ const GraphicMessage: React.FC<Props> = (props) => {
     created_on,
     id,
     type,
-    // likeStatus,
   } = props.post;
   if (!dao) return <></>;
   const info = getContent(contents);
@@ -97,7 +90,6 @@ const GraphicMessage: React.FC<Props> = (props) => {
           likeNum={upvote_count}
           postId={id}
           postType={type}
-          // likeStatus={likeStatus}
         />
       </div>
     </div>
