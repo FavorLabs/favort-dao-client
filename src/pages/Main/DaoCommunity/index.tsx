@@ -284,7 +284,11 @@ const DaoCommunity: React.FC<Props> = (props) => {
                             }}
                           >
                             <div className={styles.img}>
-                              <SvgIcon svg={videoImg} />
+                              <img
+                                src={videoImg}
+                                alt=""
+                                className={styles.image}
+                              />
                             </div>
                             <div className={styles.right}>
                               <div className={styles.leftText}>

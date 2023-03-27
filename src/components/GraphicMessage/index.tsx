@@ -15,7 +15,8 @@ import { useHistory } from 'umi';
 import { PostInfoAndLike } from '@/components/PostList';
 
 export type Props = {
-  post: PostInfoAndLike;
+  // post: PostInfoAndLike;
+  post: PostInfo;
   refreshPage: () => void;
   delPost?: (post: string) => void;
 };
@@ -33,7 +34,7 @@ const GraphicMessage: React.FC<Props> = (props) => {
     created_on,
     id,
     type,
-    likeStatus,
+    // likeStatus,
   } = props.post;
   if (!dao) return <></>;
   const info = getContent(contents);
@@ -96,7 +97,7 @@ const GraphicMessage: React.FC<Props> = (props) => {
           likeNum={upvote_count}
           postId={id}
           postType={type}
-          likeStatus={likeStatus}
+          // likeStatus={likeStatus}
         />
       </div>
     </div>
