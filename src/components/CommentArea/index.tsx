@@ -16,7 +16,6 @@ export type Props = {
   watchNum: number;
   commentOnNum: number;
   likeNum: number;
-  // likeStatus: boolean;
   postId: string;
   postType: number;
 };
@@ -35,16 +34,6 @@ const CommentArea: React.FC<Props> = (props) => {
   const [watchCount, setWatchCount] = useState<number>(watchNum);
   const [likeCount, setLikeCount] = useState<number>(likeNum);
 
-  // useActivate(() => {
-  //   setLike(likeStatus);
-  //   console.log(likeStatus,'1')
-  //   setLikeCount(likeStatus ? (likeCount + 1) : (likeCount - 1));
-  // });
-  //
-  // useUnactivate(() => {
-  //   setLikeCount(likeStatus ? (likeCount - 1) : (likeCount + 1));
-  // });
-
   const getPostLikeStatus = async () => {
     const { data } = await PostApi.checkPostLike(url, postId);
     if (data.data) {
@@ -56,13 +45,13 @@ const CommentArea: React.FC<Props> = (props) => {
     const { data } = await PostApi.postLike(url, postId);
     if (data.data) {
       setLike(data.data.status);
-      if (pathname === 'newsletterDetail' || pathname === 'video') {
-        const option: Option = {
-          id: postId,
-          status: data.data.status,
-        };
-        eventEmitter.emit('refreshLikeStatus', option);
-      }
+      // if (pathname === 'newsletterDetail' || pathname === 'video') {
+      //   const option: Option = {
+      //     id: postId,
+      //     status: data.data.status,
+      //   };
+      //   eventEmitter.emit('refreshLikeStatus', option);
+      // }
       if (data.data.status) setLikeCount(likeCount + 1);
       else setLikeCount(likeCount - 1);
     }

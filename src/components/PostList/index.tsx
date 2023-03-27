@@ -24,10 +24,6 @@ export type Props = {
   name: string;
 };
 
-export type PostInfoAndLike = PostInfo & {
-  likeStatus: false;
-};
-
 const PostList: React.FC<Props> = (props) => {
   const url = useUrl();
   const { type, daoId, focus = false, query, name } = props;
@@ -53,9 +49,6 @@ const PostList: React.FC<Props> = (props) => {
         : (params: Page) => PostApi.getPostListByType(url, params);
       const { data } = await request(pageData);
       setErrored(false);
-      // const listArr: PostInfoAndLike[] = data.data.list.map((item) => {
-      //   return { ...item, likeStatus: false };
-      // });
       const listArr: PostInfo[] = data.data.list;
       setList((list) => [...list, ...listArr]);
       setHasMore(
@@ -113,14 +106,13 @@ const PostList: React.FC<Props> = (props) => {
         eventEmitter.removeListener('refreshLikeStatus');
         eventEmitter.on('refreshLikeStatus', (option: Option) => {
           // @ts-ignore
-          const newList: PostInfoAndLike[] = list.map((item) => {
+          const newList = list.map((item) => {
             if (item.id === option.id) {
               return { ...item, likeStatus: option.status };
             } else {
               return item;
             }
           });
-          // console.log(newList, list)
           setList([...newList]);
         });
         break;
@@ -140,11 +132,6 @@ const PostList: React.FC<Props> = (props) => {
       refreshPage();
     }
   }, [query]);
-
-  // useEffect(() => {
-  //   // bindEvent();
-  //   // console.log('--', list);
-  // }, [list]);
 
   useEffect(() => {
     if (pathname === '/latest/follow') {
@@ -170,7 +157,12 @@ const PostList: React.FC<Props> = (props) => {
           disabled={!isMobile()}
         >
           {list.map((item) => (
-            <div key={item.id} className={styles.postItem}>
+            <div
+              key={item.id}
+              className={`${
+                item.type === 0 || item.type === 1 ? styles.postItem : ''
+              }`}
+            >
               {item.type === 0 ? (
                 <GraphicMessage
                   post={item}
