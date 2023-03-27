@@ -98,7 +98,7 @@ const DaoList: React.FC<Props> = (props) => {
               </>
             )}
             <div className={styles.underLine}></div>
-            <PostList key={daoId} daoId={daoId} name={'Dao'} />
+            <PostList key={daoId} daoId={daoId} />
           </>
         ) : (
           <div className={styles.createPage}>

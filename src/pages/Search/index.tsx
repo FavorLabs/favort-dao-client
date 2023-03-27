@@ -66,7 +66,17 @@ const Search: React.FC<Props> = (props) => {
         {/*) : (*/}
         {/*  <div className={styles.nobody}></div>*/}
         {/*)}*/}
-        {queryValue ? <PostList query={queryValue} name={'Search'} /> : <></>}
+        {type === 'latest' ? (
+          queryValue ? (
+            <PostList query={queryValue} type={'post'} />
+          ) : (
+            <></>
+          )
+        ) : queryValue ? (
+          <PostList query={queryValue} type={-1} />
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

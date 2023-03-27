@@ -33,6 +33,7 @@ const CommentArea: React.FC<Props> = (props) => {
   const [like, setLike] = useState<boolean>(false);
   const [watchCount, setWatchCount] = useState<number>(watchNum);
   const [likeCount, setLikeCount] = useState<number>(likeNum);
+  const [commentOnCount, setCommentOnCount] = useState<number>(commentOnNum);
 
   const getPostLikeStatus = async () => {
     const { data } = await PostApi.checkPostLike(url, postId);
@@ -58,8 +59,10 @@ const CommentArea: React.FC<Props> = (props) => {
   };
 
   const postView = async () => {
-    const { data } = await PostApi.addPostView(url, postId);
-    if (data.data.status) setWatchCount(watchCount + 1);
+    try {
+      const { data } = await PostApi.addPostView(url, postId);
+      if (data.data.status) setWatchCount(watchCount + 1);
+    } catch (e) {}
   };
 
   const toDetail = () => {
@@ -82,6 +85,12 @@ const CommentArea: React.FC<Props> = (props) => {
     }
   }, [postId]);
 
+  useEffect(() => {
+    setLikeCount(likeNum);
+    setWatchCount(watchNum);
+    setCommentOnCount(commentOnNum);
+  }, [likeNum, watchNum, commentOnNum]);
+
   return (
     <>
       <div className={styles.operate}>
@@ -95,7 +104,7 @@ const CommentArea: React.FC<Props> = (props) => {
           <div className={styles.operateIcon}>
             <img src={commentOnImg} alt="" className={styles.img} />
           </div>
-          <span className={styles.operateText}>{commentOnNum}</span>
+          <span className={styles.operateText}>{commentOnCount}</span>
         </div>
         <div
           className={styles.operateDiv}

@@ -24,7 +24,7 @@ export type Pagination = {
 };
 
 export type Page = Pagination & {
-  type?: number;
+  type?: number | string;
   query?: string;
 };
 
