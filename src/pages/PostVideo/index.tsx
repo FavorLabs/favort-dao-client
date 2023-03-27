@@ -55,15 +55,19 @@ const PostVideo: React.FC<Props> = (props) => {
   );
   const { userInfo } = useSelector((state: Models) => state.dao);
 
-  const uploadImage = async (file: File) => {
+  const uploadImage = async (option: any) => {
+    const { file, onProgress, onError, onSuccess } = option;
     setVideoCoverLoading(true);
+    onProgress({ percent: 50 });
     try {
       let fmData = new FormData();
       fmData.append('videoCover', file);
       const { data } = await ImageApi.upload(imagesResUrl, fmData);
       setVideoCover(data.id);
+      onSuccess();
     } catch (e) {
       if (e instanceof Error) message.error(e.message);
+      onError();
     } finally {
       setVideoCoverLoading(false);
     }
@@ -263,7 +267,9 @@ const PostVideo: React.FC<Props> = (props) => {
     }
     if (config?.videoLimitSize && file.size / 1024 > config.videoLimitSize) {
       setShowVideoList(false);
-      message.warning(`Video needs to be less than ${getSize(307200, 1)}`);
+      message.warning(
+        `Video needs to be less than ${getSize(config.videoLimitSize, 1)}`,
+      );
       return false;
     } else {
       setShowVideoList(true);
@@ -396,7 +402,7 @@ const PostVideo: React.FC<Props> = (props) => {
             }}
             action={uploadImage}
           />
-          {videoCoverLoading && <Spin indicator={loadIcon} size="small" />}
+          {/*{videoCoverLoading && <Spin indicator={loadIcon} size="small" />}*/}
         </div>
       ),
     },

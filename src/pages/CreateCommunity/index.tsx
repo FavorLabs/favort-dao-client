@@ -45,30 +45,37 @@ const CreateCommunity: React.FC<Props> = (props) => {
 
   let animTimer = useRef<null | NodeJS.Timer>(null);
 
-  const uploadAvatar = async (file: File) => {
+  const uploadAvatar = async (option: any) => {
+    const { file, onProgress, onError, onSuccess } = option;
     setCAvatarLoading(true);
+    onProgress({ percent: 50 });
     try {
       let fmData = new FormData();
       fmData.append('avatar', file);
       const { data } = await ImageApi.upload(avatarsResUrl, fmData);
       setCommunityAvatar(data.id);
+      onSuccess();
     } catch (e) {
       if (e instanceof Error) message.error(e.message);
+      onError();
     } finally {
       setCAvatarLoading(false);
     }
   };
 
-  const uploadBanner = async (file: File) => {
-    console.log('fileType---', file.type);
+  const uploadBanner = async (option: any) => {
+    const { file, onProgress, onError, onSuccess } = option;
     setCBannerLoading(true);
+    onProgress({ percent: 50 });
     try {
       let fmData = new FormData();
       fmData.append('banner', file);
       const { data } = await ImageApi.upload(imagesResUrl, fmData);
       setCommunityBanner(data.id);
+      onSuccess();
     } catch (e) {
       if (e instanceof Error) message.error(e.message);
+      onError();
     } finally {
       setCBannerLoading(false);
     }
@@ -170,7 +177,7 @@ const CreateCommunity: React.FC<Props> = (props) => {
             }}
             action={uploadAvatar}
           />
-          {cAvatarLoading && <Spin indicator={loadIcon} size="small" />}
+          {/*{cAvatarLoading && <Spin indicator={loadIcon} size="small" />}*/}
         </div>
       ),
     },
@@ -187,7 +194,7 @@ const CreateCommunity: React.FC<Props> = (props) => {
             }}
             action={uploadBanner}
           />
-          {cBannerLoading && <Spin indicator={loadIcon} size="small" />}
+          {/*{cBannerLoading && <Spin indicator={loadIcon} size="small" />}*/}
         </div>
       ),
     },
