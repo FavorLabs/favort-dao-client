@@ -39,7 +39,7 @@ const PostList: React.FC<Props> = (props) => {
     query,
   });
   const [hasMore, setHasMore] = useState(true);
-  const [list, setList] = useState<PostInfoAndLike[]>([]);
+  const [list, setList] = useState<PostInfo[]>([]);
   const [errored, setErrored] = useState<boolean>(false);
 
   const pathname = history.location.pathname;
@@ -53,9 +53,10 @@ const PostList: React.FC<Props> = (props) => {
         : (params: Page) => PostApi.getPostListByType(url, params);
       const { data } = await request(pageData);
       setErrored(false);
-      const listArr: PostInfoAndLike[] = data.data.list.map((item) => {
-        return { ...item, likeStatus: false };
-      });
+      // const listArr: PostInfoAndLike[] = data.data.list.map((item) => {
+      //   return { ...item, likeStatus: false };
+      // });
+      const listArr: PostInfo[] = data.data.list;
       setList((list) => [...list, ...listArr]);
       setHasMore(
         data.data.pager.total_rows > pageData.page * pageData.page_size,
@@ -77,10 +78,11 @@ const PostList: React.FC<Props> = (props) => {
         : (params: Page) => PostApi.getPostListByType(url, params);
       const { data } = await request(pageInfo);
       setErrored(false);
-      const listArr: PostInfoAndLike[] = data.data.list.map((item) => {
-        return { ...item, likeStatus: false };
-      });
-      setList((list) => [...list, ...listArr]);
+      // const listArr: PostInfoAndLike[] = data.data.list.map((item) => {
+      //   return { ...item, likeStatus: false };
+      // });
+      const listArr: PostInfo[] = data.data.list;
+      setList((list) => [...listArr]);
       setPageData((pageData) => ({ ...pageData, page: 1 }));
       setHasMore(data.data.pager.total_rows > pageData.page_size);
     } catch (e) {
@@ -139,10 +141,10 @@ const PostList: React.FC<Props> = (props) => {
     }
   }, [query]);
 
-  useEffect(() => {
-    bindEvent();
-    // console.log('--', list);
-  }, [list]);
+  // useEffect(() => {
+  //   // bindEvent();
+  //   // console.log('--', list);
+  // }, [list]);
 
   useEffect(() => {
     if (pathname === '/latest/follow') {

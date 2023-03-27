@@ -33,7 +33,7 @@ const CommunityIntro: React.FC<Props> = (props) => {
           background: dao.banner
             ? `url(${imagesResUrl}/${dao.banner + ImageMaxSize})`
             : `rgba(240, 240, 240, 1)`,
-          backgroundSize: `100%`,
+          // backgroundSize: `100%`,
           backgroundPosition: `center center`,
           backgroundRepeat: `no-repeat`,
         }}
@@ -82,6 +82,7 @@ const CommunityIntro: React.FC<Props> = (props) => {
                 backgroundImage: `url(${imagesResUrl}/${dao.banner})`,
                 backgroundSize: `100%`,
                 backgroundPosition: `center center`,
+                backgroundRepeat: `no-repeat`,
               }}
             />
             <div className={styles.foot}>

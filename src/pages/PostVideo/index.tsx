@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ReactNode, useMemo, useState } from 'react';
+import { ReactNode, useMemo, useRef, useState } from 'react';
 import styles from './index.less';
 import { useHistory, useSelector } from 'umi';
 import { message, Spin, Upload } from 'antd';
@@ -11,7 +11,13 @@ import ImageCrop from '@/components/ImageCrop';
 import SvgIcon from '@/components/SvgIcon';
 import ImageApi from '@/services/tube/Image';
 import { useResourceUrl, useUrl } from '@/utils/hooks';
-import { getProgress, getSize, stringToBinary } from '@/utils/util';
+import {
+  eventEmitter,
+  getProgress,
+  getSize,
+  sleep,
+  stringToBinary,
+} from '@/utils/util';
 import addSvg from '@/assets/icon/add.svg';
 import Api from '@/services/Api';
 import { Models } from '@/declare/modelType';
@@ -32,6 +38,11 @@ type downloadWsResItem = {
   };
   Overlay: string;
   RootCid: string;
+};
+type AnimConfig = {
+  visible: boolean;
+  tips: string;
+  percent: number;
 };
 
 const PostVideo: React.FC<Props> = (props) => {
@@ -54,6 +65,21 @@ const PostVideo: React.FC<Props> = (props) => {
     (state: Models) => state.global,
   );
   const { userInfo } = useSelector((state: Models) => state.dao);
+
+  let animTimer = useRef<null | NodeJS.Timer>(null);
+  const [animConfig, setAnimConfig] = useState<AnimConfig>({
+    visible: false,
+    tips: 'In progress...',
+    percent: 0,
+  });
+
+  const disposePercent = (v: AnimConfig): number => {
+    if (v.percent < 98) return v.percent + 33;
+    else {
+      clearInterval(animTimer.current as NodeJS.Timer);
+      return v.percent;
+    }
+  };
 
   const uploadImage = async (file: File) => {
     setVideoCoverLoading(true);
@@ -327,11 +353,23 @@ const PostVideo: React.FC<Props> = (props) => {
       };
       const { data } = await PostApi.createPost(url, postData);
       if (data.data) {
+        setAnimConfig({ ...animConfig, visible: true });
+        if (animTimer.current) clearInterval(animTimer.current);
+        animTimer.current = setInterval(() => {
+          setAnimConfig((v) => ({
+            ...v,
+            percent: disposePercent(v),
+          }));
+        }, 200);
+        await sleep(2000);
         message.success('Post successfully');
-        history.goBack();
+        eventEmitter.emit('menuRefreshRecommend');
+        setAnimConfig({ ...animConfig, percent: 100, visible: false });
+        history.push('/latest/recommend');
       }
     } catch (e) {
       if (e instanceof Error) message.error(e.message);
+      setAnimConfig({ ...animConfig, visible: false });
       setPostLoading(false);
     }
   };
@@ -454,6 +492,19 @@ const PostVideo: React.FC<Props> = (props) => {
             </ProgressCircle>
           </div>
           <p className={styles.tips}>{statusTip}</p>
+        </div>
+      )}
+      {animConfig.visible && (
+        <div className={styles.createOverlay}>
+          <div className={styles.circleBox}>
+            <ProgressCircle
+              percent={animConfig.percent}
+              className={styles.circle}
+            >
+              <span className={styles.percent}>{animConfig.percent}%</span>
+            </ProgressCircle>
+          </div>
+          <p className={styles.tips}>{animConfig.tips}</p>
         </div>
       )}
     </div>

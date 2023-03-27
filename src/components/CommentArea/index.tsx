@@ -10,12 +10,13 @@ import { useUrl } from '@/utils/hooks';
 import { checkLogin, eventEmitter } from '@/utils/util';
 import { history } from 'umi';
 import { message } from 'antd';
+import { useActivate, useUnactivate } from 'react-activation';
 
 export type Props = {
   watchNum: number;
   commentOnNum: number;
   likeNum: number;
-  likeStatus: boolean;
+  // likeStatus: boolean;
   postId: string;
   postType: number;
 };
@@ -26,14 +27,23 @@ export type Option = {
 };
 
 const CommentArea: React.FC<Props> = (props) => {
-  const { watchNum, commentOnNum, likeNum, postId, postType, likeStatus } =
-    props;
+  const { watchNum, commentOnNum, likeNum, postId, postType } = props;
   const url = useUrl();
   const pathname = history.location.pathname.split('/')[1];
 
-  const [like, setLike] = useState<boolean>(likeStatus);
+  const [like, setLike] = useState<boolean>(false);
   const [watchCount, setWatchCount] = useState<number>(watchNum);
   const [likeCount, setLikeCount] = useState<number>(likeNum);
+
+  // useActivate(() => {
+  //   setLike(likeStatus);
+  //   console.log(likeStatus,'1')
+  //   setLikeCount(likeStatus ? (likeCount + 1) : (likeCount - 1));
+  // });
+  //
+  // useUnactivate(() => {
+  //   setLikeCount(likeStatus ? (likeCount - 1) : (likeCount + 1));
+  // });
 
   const getPostLikeStatus = async () => {
     const { data } = await PostApi.checkPostLike(url, postId);
@@ -77,8 +87,10 @@ const CommentArea: React.FC<Props> = (props) => {
   };
 
   useEffect(() => {
-    if (postId && checkLogin()) getPostLikeStatus();
-    // if (postId) postView();
+    if (postId && checkLogin()) {
+      getPostLikeStatus();
+      postView();
+    }
   }, [postId]);
 
   return (
