@@ -224,7 +224,10 @@ const Main: React.FC<Props> = (props) => {
           onChange={(key: string) => {
             if (key === '/addBtn') {
               if (userInfo) setPostPopupVisibility(true);
-              else message.info('Please create a DAO first!');
+              else {
+                message.info('Please create a DAO first!');
+                history.push('/createCommunity');
+              }
             } else {
               history.push(key);
               setRouteKey(key);

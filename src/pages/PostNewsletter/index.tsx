@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { ReactNode, useMemo, useState } from 'react';
+import { ReactNode, useMemo, useRef, useState } from 'react';
 import styles from './index.less';
 import { useHistory, useSelector } from 'umi';
-import { Input, NavBar, TextArea } from 'antd-mobile';
+import { Input, NavBar, ProgressCircle, TextArea } from 'antd-mobile';
 import { CloseOutline } from 'antd-mobile-icons';
 import { LoadingOutlined } from '@ant-design/icons';
 import ImageCrop from '@/components/ImageCrop';
@@ -13,8 +13,16 @@ import { CreatePost, Post } from '@/declare/tubeApiType';
 import { Models } from '@/declare/modelType';
 import PostApi from '@/services/tube/PostApi';
 import { UploadImgType } from '@/config/constants';
+import { eventEmitter, sleep } from '@/utils/util';
 
 export type Props = {};
+
+type AnimConfig = {
+  visible: boolean;
+  tips: string;
+  percent: number;
+};
+
 type OptionsItem = {
   name: string;
   content: ReactNode;
@@ -36,6 +44,13 @@ const PostNewsletter: React.FC<Props> = (props) => {
 
   const { userInfo } = useSelector((state: Models) => state.dao);
 
+  let animTimer = useRef<null | NodeJS.Timer>(null);
+  const [animConfig, setAnimConfig] = useState<AnimConfig>({
+    visible: false,
+    tips: 'In progress...',
+    percent: 0,
+  });
+
   const uploadImage = async (option: any) => {
     const { file, onProgress, onError, onSuccess } = option;
     setImageListLoading(true);
@@ -51,6 +66,14 @@ const PostNewsletter: React.FC<Props> = (props) => {
       onError();
     } finally {
       // setImageListLoading(false);
+    }
+  };
+
+  const disposePercent = (v: AnimConfig): number => {
+    if (v.percent < 98) return v.percent + 33;
+    else {
+      clearInterval(animTimer.current as NodeJS.Timer);
+      return v.percent;
     }
   };
 
@@ -74,11 +97,23 @@ const PostNewsletter: React.FC<Props> = (props) => {
       };
       const { data } = await PostApi.createPost(url, postData);
       if (data.data) {
+        setAnimConfig({ ...animConfig, visible: true });
+        if (animTimer.current) clearInterval(animTimer.current);
+        animTimer.current = setInterval(() => {
+          setAnimConfig((v) => ({
+            ...v,
+            percent: disposePercent(v),
+          }));
+        }, 200);
+        await sleep(2000);
         message.success('Post successfully');
-        history.goBack();
+        eventEmitter.emit('menuRefreshRecommend');
+        setAnimConfig({ ...animConfig, percent: 100, visible: false });
+        history.push('/latest/recommend');
       }
     } catch (e) {
       if (e instanceof Error) message.error(e.message);
+      setAnimConfig({ ...animConfig, visible: false });
       setPostLoading(false);
     }
   };
@@ -168,6 +203,19 @@ const PostNewsletter: React.FC<Props> = (props) => {
           &nbsp;Publish
         </div>
       </div>
+      {animConfig.visible && (
+        <div className={styles.createOverlay}>
+          <div className={styles.circleBox}>
+            <ProgressCircle
+              percent={animConfig.percent}
+              className={styles.circle}
+            >
+              <span className={styles.percent}>{animConfig.percent}%</span>
+            </ProgressCircle>
+          </div>
+          <p className={styles.tips}>{animConfig.tips}</p>
+        </div>
+      )}
     </div>
   );
 };

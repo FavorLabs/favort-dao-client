@@ -111,6 +111,38 @@
       margin-top: 20px;
     }
   }
+  .createOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: rgba(0, 0, 0, 0.5);
+    .circleBox {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .circle {
+        --size: 122px;
+        --fill-color: rgba(255, 166, 0, 1);
+        --track-color: #fff;
+        --track-width: 10px;
+        .percent {
+          color: rgba(255, 166, 0, 1);
+          font-size: 20px;
+          font-weight: 700;
+        }
+      }
+    }
+    .tips {
+      color: rgba(255, 255, 255, 1);
+      margin-top: 20px;
+    }
+  }
 }
 
 @keyframes loading {
