@@ -81,15 +81,19 @@ const PostVideo: React.FC<Props> = (props) => {
     }
   };
 
-  const uploadImage = async (file: File) => {
+  const uploadImage = async (option: any) => {
+    const { file, onProgress, onError, onSuccess } = option;
     setVideoCoverLoading(true);
+    onProgress({ percent: 50 });
     try {
       let fmData = new FormData();
       fmData.append('videoCover', file);
       const { data } = await ImageApi.upload(imagesResUrl, fmData);
       setVideoCover(data.id);
+      onSuccess();
     } catch (e) {
       if (e instanceof Error) message.error(e.message);
+      onError();
     } finally {
       setVideoCoverLoading(false);
     }

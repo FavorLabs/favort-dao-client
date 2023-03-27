@@ -17,7 +17,9 @@ export type Props = {
   url?: string;
   maxCount?: number;
   setImgBase64?: (imgBase64: string) => void;
-  removeImage: () => void;
+  removeImage?: () => void;
+  removeImageByUid?: (uid: string) => void;
+  changeImgListLoading?: (imageList: UploadFile<any>[]) => void;
   fileType: string;
   shape?: 'rect' | 'round';
   aspect?: number;
@@ -32,6 +34,8 @@ const Index: React.FC<Props> = (props) => {
     maxCount,
     setImgBase64,
     removeImage,
+    removeImageByUid,
+    changeImgListLoading,
     fileType,
     shape,
     aspect,
@@ -57,9 +61,10 @@ const Index: React.FC<Props> = (props) => {
     return file;
   };
 
-  const onRemove = () => {
+  const onRemove = (file: UploadFile) => {
     setImgBase64?.('');
-    removeImage();
+    removeImage?.();
+    removeImageByUid?.(file.uid);
     setUpload(false);
   };
 
@@ -81,6 +86,7 @@ const Index: React.FC<Props> = (props) => {
   const onChange = (info: UploadChangeParam) => {
     const { file, fileList } = info;
     setFileCount(fileList.length);
+    changeImgListLoading?.(fileList);
   };
 
   const uploadDOM = (
@@ -92,7 +98,8 @@ const Index: React.FC<Props> = (props) => {
       onRemove={onRemove}
       onChange={onChange}
       maxCount={multiple ? undefined : 1}
-      action={action || undefined}
+      // action={action || undefined}
+      customRequest={action}
       defaultFileList={defaultFileList}
     >
       {multiple

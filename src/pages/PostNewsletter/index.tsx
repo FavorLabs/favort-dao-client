@@ -27,6 +27,10 @@ type OptionsItem = {
   name: string;
   content: ReactNode;
 };
+type ImageList = {
+  uid: string;
+  value: string;
+};
 const PostNewsletter: React.FC<Props> = (props) => {
   const history = useHistory();
   const url = useUrl();
@@ -34,7 +38,7 @@ const PostNewsletter: React.FC<Props> = (props) => {
 
   // const [title, setTitle] = useState<string>('');
   const [mainText, setMainText] = useState<string>('');
-  const [imageList, setImageList] = useState<string[]>([]);
+  const [imageList, setImageList] = useState<ImageList[]>([]);
   const [imageListLoading, setImageListLoading] = useState<boolean>(false);
   const [postLoading, setPostLoading] = useState<boolean>(false);
 
@@ -47,17 +51,21 @@ const PostNewsletter: React.FC<Props> = (props) => {
     percent: 0,
   });
 
-  const uploadImage = async (file: File) => {
+  const uploadImage = async (option: any) => {
+    const { file, onProgress, onError, onSuccess } = option;
     setImageListLoading(true);
+    onProgress({ percent: 50 });
     try {
       let fmData = new FormData();
       fmData.append('newsletterImage', file);
       const { data } = await ImageApi.upload(imagesResUrl, fmData);
-      setImageList([...imageList, data.id]);
+      setImageList([...imageList, { uid: file.uid, value: data.id }]);
+      onSuccess();
     } catch (e) {
       if (e instanceof Error) message.error(e.message);
+      onError();
     } finally {
-      setImageListLoading(false);
+      // setImageListLoading(false);
     }
   };
 
@@ -77,7 +85,7 @@ const PostNewsletter: React.FC<Props> = (props) => {
       const contents: Post[] = [];
       contents.push({ content: mainText, type: 2, sort: 0 });
       imageList.forEach((item, index) => {
-        contents.push({ content: item, type: 3, sort: index });
+        contents.push({ content: item.value, type: 3, sort: index });
       });
       const postData: CreatePost = {
         contents: contents,
@@ -111,8 +119,8 @@ const PostNewsletter: React.FC<Props> = (props) => {
   };
 
   const postDisable = useMemo(() => {
-    return !mainText;
-  }, [mainText]);
+    return imageListLoading || !mainText;
+  }, [mainText, imageListLoading]);
 
   const loadIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
@@ -149,13 +157,19 @@ const PostNewsletter: React.FC<Props> = (props) => {
             fileType={UploadImgType}
             shape="rect"
             maxCount={9}
-            removeImage={() => {
-              // setCommunityAvatar('');
+            removeImageByUid={(uid) => {
+              const res = imageList.filter((item) => item.uid !== uid);
+              setImageList(res);
+            }}
+            changeImgListLoading={(fileList) => {
+              setImageListLoading(
+                fileList.some((item) => item.status === 'uploading'),
+              );
             }}
             multiple={true}
             action={uploadImage}
           />
-          {imageListLoading && <Spin indicator={loadIcon} size="small" />}
+          {/*{imageListLoading && <Spin indicator={loadIcon} size="small" />}*/}
         </div>
       ),
     },
