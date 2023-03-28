@@ -59,27 +59,27 @@ export default [
       },
       {
         path: '/pluginForDAOs',
-        component: '@/pages/PluginForDAOs',
+        component: '@/pages/Main/Mine/PluginForDAOs',
         wrappers: ['@/wrappers/auth'],
       },
       {
         path: '/promotionTaskList',
-        component: '@/pages/PromotionTaskList',
+        component: '@/pages/Main/Mine/PromotionTaskList',
         wrappers: ['@/wrappers/auth'],
       },
       {
         path: '/setting',
-        component: '@/pages/Setting',
+        component: '@/pages/Main/Mine/Setting',
         wrappers: ['@/wrappers/auth'],
       },
       {
         path: '/web3Airdrop',
-        component: '@/pages/Web3Airdrop',
+        component: '@/pages/Main/Mine/Web3Airdrop',
         wrappers: ['@/wrappers/auth'],
       },
       {
         path: '/dAOAirdrop',
-        component: '@/pages/DAOAirdrop',
+        component: '@/pages/Main/Mine/DAOAirdrop',
         wrappers: ['@/wrappers/auth'],
       },
       {
