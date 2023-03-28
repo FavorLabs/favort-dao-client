@@ -35,6 +35,7 @@ import langSvg from '@/assets/icon/language.svg';
 import darkSvg from '@/assets/icon/dark.svg';
 import aboutSvg from '@/assets/icon/about.svg';
 import logoutSvg from '@/assets/icon/logout.svg';
+import CustomSwiper from '@/components/CustomSwiper';
 
 export type Props = {};
 type SettingItem = {
@@ -258,6 +259,53 @@ const Mine: React.FC<Props> = (props) => {
     },
   ];
 
+  // const swiperItems: {key: number, content: ReactNode}[] = [
+  //   {
+  //     key: 1,
+  //     content: <div
+  //       style={{ height: '200px' }}
+  //       onClick={() => {
+  //         console.log(`click item 1`);
+  //       }}
+  //     >
+  //       1
+  //     </div>
+  //   },
+  //   {
+  //     key: 2,
+  //     content: <div
+  //       style={{ height: '200px' }}
+  //       onClick={() => {
+  //         console.log(`click item 2`);
+  //       }}
+  //     >
+  //       2
+  //     </div>
+  //   },
+  //   {
+  //     key: 3,
+  //     content: <div
+  //       style={{ height: '200px' }}
+  //       onClick={() => {
+  //         console.log(`click item 3`);
+  //       }}
+  //     >
+  //       3
+  //     </div>
+  //   },
+  //   {
+  //     key: 4,
+  //     content: <div
+  //       style={{ height: '200px' }}
+  //       onClick={() => {
+  //         console.log(`click item 4`);
+  //       }}
+  //     >
+  //       4
+  //     </div>
+  //   },
+  // ];
+
   const getBalance = async () => {
     if (!web3) return;
     const b = await web3.eth.getBalance(address);
@@ -435,6 +483,7 @@ const Mine: React.FC<Props> = (props) => {
             </div>
           ))}
         </div>
+        {/*<CustomSwiper items={swiperItems} spacing={10} />*/}
         <Dialog
           visible={logoutDialog}
           content={
