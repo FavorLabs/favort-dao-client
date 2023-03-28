@@ -23,7 +23,7 @@ const Recommend: React.FC<Props> = (props) => {
 
   return (
     <div className={styles.recommend}>
-      <PostList name={'Recommend'} />
+      <PostList type={'post'} />
       {!loginStatus && (
         <div
           className={styles.mask}
