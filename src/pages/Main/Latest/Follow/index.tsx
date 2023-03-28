@@ -7,7 +7,7 @@ export type Props = {};
 const Follow: React.FC<Props> = (props) => {
   return (
     <div className={styles.page}>
-      <PostList focus />
+      <PostList focus type={'post'} />
     </div>
   );
 };
