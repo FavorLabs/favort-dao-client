@@ -10,8 +10,7 @@ import { Models } from '@/declare/modelType';
 import CommunityCard from '@/components/CommunityCard';
 import FavorDaoCard from '@/components/FavorDaoCard';
 import MyCommunity from '@/components/MyCommunity';
-import SvgIcon from '@/components/SvgIcon';
-import newsImg from '@/assets/icon/daoNews.svg';
+import newsImg from '@/assets/icon/daoNews-icon.svg';
 import videoImg from '@/assets/icon/daoVideo.svg';
 import chatImg from '@/assets/icon/daoChat.svg';
 import { getChatHash, getContent, getTime, toChat } from '@/utils/util';
@@ -307,7 +306,7 @@ const DaoCommunity: React.FC<Props> = (props) => {
                         <div className={styles.information}>
                           <div className={styles.title}>
                             <div className={styles.disc} />
-                            <span className={styles.text}>channel</span>
+                            <span className={styles.text}>Channel</span>
                           </div>
                           <div
                             className={styles.contentBox}
