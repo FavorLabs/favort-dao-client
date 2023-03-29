@@ -406,8 +406,8 @@ const Mine: React.FC<Props> = (props) => {
         <div
           className={styles.operate}
           style={{
-            // @ts-ignore
             height: `calc(${isMobile() ? '100vh' : '80vh'} - 3.75rem - ${
+              // @ts-ignore
               userInfoRef?.current?.clientHeight / 16 + 'rem'
             } - 2rem)`,
             // @ts-ignore
@@ -415,7 +415,7 @@ const Mine: React.FC<Props> = (props) => {
             overflowY: 'scroll',
           }}
         >
-          {NETWORK_ID === '19' && (
+          {(NETWORK_ID === '18' || NETWORK_ID === '19') && (
             <>
               <div className={`${styles.cryptoAssets} ${styles.block}`}>
                 <p className={styles.title}>Crypto Assets</p>
