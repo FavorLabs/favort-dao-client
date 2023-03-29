@@ -8,6 +8,7 @@ import EventEmitter from 'eventemitter3';
 import { debounce } from 'lodash';
 import Flutter from '@/utils/flutter';
 import moment from 'moment';
+import { message } from 'antd';
 
 export const splitUrl = (url: string): [string, string, string] => {
   let i = new URL(url);
@@ -112,23 +113,20 @@ export const toChat = (
   name: string | undefined,
   api: string,
   proxyGroup: string | undefined,
+  guid: string = '3',
 ) => {
   const token = localStorage.getItem(getTokenKey());
   if (isFavorApp()) {
     toFlutterChat();
   } else {
-    toWebPageChat();
+    message.info('Not open at this time!');
+    // toWebPageChat();
   }
 
   function toFlutterChat() {
     if (window?.flutter_inappwebview) {
       const hash = WebUtils.keccak256(`server_${name}_channel_General`);
-      Flutter.openChat(
-        token as string,
-        hash.slice(2),
-        name as string,
-        proxyGroup as string,
-      );
+      Flutter.chatMessage(proxyGroup as string, guid);
     } else {
       toWebPageChat();
     }

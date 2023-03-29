@@ -11,6 +11,9 @@ interface FlutterMethodsRes {
   transaction1: { res: any };
   transaction2: { res: any };
   chat: { res: any };
+  chat_login: { res: any };
+  chat_message: { res: any };
+  chat_logout: { res: any };
 }
 
 type FlutterMethods = keyof FlutterMethodsRes;
@@ -47,7 +50,16 @@ export default {
   // uniPassContractTransaction(caAddress: string, abiString: string) {
   //   return flutterAsyncFn('transaction2', caAddress, abiString);
   // },
-  openChat(token: string, hash: string, name: string, proxyGroup: string) {
-    return flutterAsyncFn('chat', token, hash, name, proxyGroup);
+  chatLogin(token: string) {
+    return flutterAsyncFn('chat_login', token);
+  },
+  chatMessage(proxyGroup: string, guid: string) {
+    return flutterAsyncFn('chat_message', proxyGroup, guid);
+  },
+  clickChat(proxyGroup: string) {
+    return flutterAsyncFn('chat', proxyGroup);
+  },
+  chatLogout() {
+    return flutterAsyncFn('chat_logout');
   },
 };

@@ -24,6 +24,7 @@ import { Models } from '@/declare/modelType';
 import { Config } from '@/config/config';
 import SvgIcon from '@/components/SvgIcon';
 import homeSvg from '@/assets/icon/home.svg';
+import Flutter from '@/utils/flutter';
 
 const ConnectWallet: React.FC = (props) => {
   const dispatch = useDispatch();
@@ -116,6 +117,7 @@ const ConnectWallet: React.FC = (props) => {
         wallet_addr: address,
         type: typeData[cType],
       });
+      if (isFavorApp()) Flutter.chatLogin(data.data.token);
       localStorage.setItem(getTokenKey(), data.data.token);
       const info = await UserApi.getInfo(url);
       dispatch({

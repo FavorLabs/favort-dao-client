@@ -226,7 +226,7 @@ const PostVideo: React.FC<Props> = (props) => {
           clearTimeout(downloadTimer);
           downloadTimer = setTimeout(() => {
             downloadFailed();
-          }, 1000 * 10);
+          }, 1000 * 20);
           const p = getProgress(
             stringToBinary(
               downloadData.Bitvector.b,
@@ -327,6 +327,7 @@ const PostVideo: React.FC<Props> = (props) => {
     } catch (e) {
       if (e instanceof Error) message.error(e.message);
       else message.error(e);
+      setVideo('');
     } finally {
       setProgressValue(0);
       setUploading(false);

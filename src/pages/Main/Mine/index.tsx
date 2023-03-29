@@ -13,7 +13,7 @@ import {
 import { message } from 'antd';
 import { Dialog } from 'antd-mobile';
 import { Models } from '@/declare/modelType';
-import { getTokenKey, omitAddress } from '@/utils/util';
+import { getTokenKey, isFavorApp, isMobile, omitAddress } from '@/utils/util';
 import UserAvatar from '@/components/UserAvatar';
 import { useResourceUrl, useUrl } from '@/utils/hooks';
 import { switchTheme } from '@/utils/util';
@@ -35,6 +35,8 @@ import langSvg from '@/assets/icon/language.svg';
 import darkSvg from '@/assets/icon/dark.svg';
 import aboutSvg from '@/assets/icon/about.svg';
 import logoutSvg from '@/assets/icon/logout.svg';
+import CustomSwiper from '@/components/CustomSwiper';
+import Flutter from '@/utils/flutter';
 
 export type Props = {};
 type SettingItem = {
@@ -122,7 +124,7 @@ const Mine: React.FC<Props> = (props) => {
     {
       name: 'Token',
       icon: <img src={tokenSvg} alt={''} />,
-      path: '',
+      path: '/token',
     },
     {
       name: 'NFT',
@@ -258,6 +260,53 @@ const Mine: React.FC<Props> = (props) => {
     },
   ];
 
+  // const swiperItems: {key: number, content: ReactNode}[] = [
+  //   {
+  //     key: 1,
+  //     content: <div
+  //       style={{ height: '200px' }}
+  //       onClick={() => {
+  //         console.log(`click item 1`);
+  //       }}
+  //     >
+  //       1
+  //     </div>
+  //   },
+  //   {
+  //     key: 2,
+  //     content: <div
+  //       style={{ height: '200px' }}
+  //       onClick={() => {
+  //         console.log(`click item 2`);
+  //       }}
+  //     >
+  //       2
+  //     </div>
+  //   },
+  //   {
+  //     key: 3,
+  //     content: <div
+  //       style={{ height: '200px' }}
+  //       onClick={() => {
+  //         console.log(`click item 3`);
+  //       }}
+  //     >
+  //       3
+  //     </div>
+  //   },
+  //   {
+  //     key: 4,
+  //     content: <div
+  //       style={{ height: '200px' }}
+  //       onClick={() => {
+  //         console.log(`click item 4`);
+  //       }}
+  //     >
+  //       4
+  //     </div>
+  //   },
+  // ];
+
   const getBalance = async () => {
     if (!web3) return;
     const b = await web3.eth.getBalance(address);
@@ -274,6 +323,7 @@ const Mine: React.FC<Props> = (props) => {
   };
 
   const logout = () => {
+    if (isFavorApp()) Flutter.chatLogout();
     localStorage.removeItem(getTokenKey());
     localStorage.removeItem(ConnectType);
     const connectType = localStorage.getItem(ConnectType);
@@ -321,10 +371,6 @@ const Mine: React.FC<Props> = (props) => {
     <>
       <div
         className={styles.content}
-        style={{
-          // @ts-ignore
-          paddingTop: userInfoRef?.current?.clientHeight,
-        }}
         onClick={() => {
           setLangMenuVisibility(false);
         }}
@@ -357,84 +403,98 @@ const Mine: React.FC<Props> = (props) => {
             ))}
           </div>
         </div>
-        {NETWORK_ID === '19' && (
-          <>
-            <div className={`${styles.cryptoAssets} ${styles.block}`}>
-              <p className={styles.title}>Crypto Assets</p>
-              <div className={styles.itemsList}>
-                {cryptoAssetsItems.map((item) => (
-                  <div
-                    key={item.name}
-                    className={styles.item}
-                    onClick={() => {
-                      item.path && history.push(item.path);
-                    }}
-                  >
-                    <div className={styles.icon}>{item.icon}</div>
-                    <p className={styles.name}>{item.name}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-            {userInfo && (
-              <>
-                <div className={`${styles.daoManagement} ${styles.block}`}>
-                  <p className={styles.title}>DAO Management</p>
-                  <div className={styles.itemsList}>
-                    {daoManagementItems.map((item) => (
-                      <div
-                        key={item.name}
-                        className={styles.item}
-                        onClick={() => {
-                          item.path && history.push(item.path);
-                        }}
-                      >
-                        <div className={styles.icon}>{item.icon}</div>
-                        <p className={styles.name}>{item.name}</p>
-                      </div>
-                    ))}
-                  </div>
+        <div
+          className={styles.operate}
+          style={{
+            // @ts-ignore
+            height: `calc(${isMobile() ? '100vh' : '80vh'} - 3.75rem - ${
+              userInfoRef?.current?.clientHeight / 16 + 'rem'
+            } - 2rem)`,
+            // @ts-ignore
+            marginTop: `${userInfoRef?.current?.clientHeight / 16 + 'rem'}`,
+            overflowY: 'scroll',
+          }}
+        >
+          {NETWORK_ID === '19' && (
+            <>
+              <div className={`${styles.cryptoAssets} ${styles.block}`}>
+                <p className={styles.title}>Crypto Assets</p>
+                <div className={styles.itemsList}>
+                  {cryptoAssetsItems.map((item) => (
+                    <div
+                      key={item.name}
+                      className={styles.item}
+                      onClick={() => {
+                        item.path && history.push(item.path);
+                      }}
+                    >
+                      <div className={styles.icon}>{item.icon}</div>
+                      <p className={styles.name}>{item.name}</p>
+                    </div>
+                  ))}
                 </div>
-                <div className={`${styles.services} ${styles.block}`}>
-                  <p className={styles.title}>Services</p>
-                  <div className={styles.itemsList}>
-                    {servicesItems.map((item) => (
-                      <div
-                        key={item.name}
-                        className={styles.item}
-                        onClick={() => {
-                          item.path && history.push(item.path);
-                        }}
-                      >
-                        <div className={styles.icon}>{item.icon}</div>
-                        <p className={styles.name}>{item.name}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </>
-            )}
-          </>
-        )}
-        <div className={`${styles.setting} ${styles.block}`}>
-          {settingItems.map((item) => (
-            <div
-              className={styles.settingItem}
-              key={item.name}
-              onClick={() => {
-                if (item.key === 4) {
-                  setLogoutDialog(true);
-                }
-              }}
-            >
-              <div className={styles.iconName}>
-                {item.icon}
-                <div className={styles.name}>{item.name}</div>
               </div>
-              <div className={styles.action}>{item.content}</div>
-            </div>
-          ))}
+              {userInfo && (
+                <>
+                  <div className={`${styles.daoManagement} ${styles.block}`}>
+                    <p className={styles.title}>DAO Management</p>
+                    <div className={styles.itemsList}>
+                      {daoManagementItems.map((item) => (
+                        <div
+                          key={item.name}
+                          className={styles.item}
+                          onClick={() => {
+                            item.path && history.push(item.path);
+                          }}
+                        >
+                          <div className={styles.icon}>{item.icon}</div>
+                          <p className={styles.name}>{item.name}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className={`${styles.services} ${styles.block}`}>
+                    <p className={styles.title}>Services</p>
+                    <div className={styles.itemsList}>
+                      {servicesItems.map((item) => (
+                        <div
+                          key={item.name}
+                          className={styles.item}
+                          onClick={() => {
+                            item.path && history.push(item.path);
+                          }}
+                        >
+                          <div className={styles.icon}>{item.icon}</div>
+                          <p className={styles.name}>{item.name}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              )}
+            </>
+          )}
+          <div className={`${styles.setting} ${styles.block}`}>
+            {settingItems.map((item) => (
+              <div
+                className={styles.settingItem}
+                key={item.name}
+                onClick={() => {
+                  if (item.key === 4) {
+                    setLogoutDialog(true);
+                  }
+                }}
+              >
+                <div className={styles.iconName}>
+                  {item.icon}
+                  <div className={styles.name}>{item.name}</div>
+                </div>
+                <div className={styles.action}>{item.content}</div>
+              </div>
+            ))}
+          </div>
         </div>
+        {/*<CustomSwiper items={swiperItems} spacing={10} />*/}
         <Dialog
           visible={logoutDialog}
           content={

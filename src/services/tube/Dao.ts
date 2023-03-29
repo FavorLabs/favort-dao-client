@@ -22,7 +22,7 @@ export default {
   },
   create(url: string, data: DaoParams): ResData<DaoInfo> {
     return request({
-      url: url + '/dao_server',
+      url: url + '/dao',
       method: 'post',
       data,
     });
@@ -41,7 +41,7 @@ export default {
   bookmark(url: string, id: string): ResData<Status> {
     return request({
       method: 'post',
-      url: url + '/dao/bookmark_server',
+      url: url + '/dao/bookmark',
       data: { dao_id: id },
     });
   },
