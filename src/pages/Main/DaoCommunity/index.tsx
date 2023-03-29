@@ -71,7 +71,7 @@ const DaoCommunity: React.FC<Props> = (props) => {
     if (data.data) {
       setHaveDaoInfo(true);
       setDaoInfo(data.data);
-      getMsgIdByName(data.data);
+      // getMsgIdByName(data.data);
       processMessage(data.data);
     }
   };

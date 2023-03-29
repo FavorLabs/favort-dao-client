@@ -1,0 +1,28 @@
+.qrCode {
+  background: rgba(247, 247, 247, 1);
+  min-height: 100vh;
+  .qrCodeWrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 3.125rem 1.25rem 0;
+    padding: 3.125rem 0;
+    background: rgba(255, 255, 255, 1);
+    .address {
+      font-weight: 700;
+    }
+    .QRCode {
+      margin: 1.875rem 0;
+      .code {
+        color: #1890ff;
+        width: 48vw !important;
+        height: 48vw !important;
+      }
+    }
+    .tips {
+      color: rgba(99, 99, 99, 1);
+      font-size: 0.75rem;
+    }
+  }
+}

@@ -79,33 +79,37 @@ const Layout: React.FC = (props) => {
   };
 
   const getConfig = async () => {
-    // let nodeConfig = sessionStorage.getItem(NodeConfig);
-    // if (nodeConfig) {
-    //   let config = JSON.parse(nodeConfig);
-    //   dispatch({
-    //     type: 'global/updateState',
-    //     payload: {
-    //       config,
-    //     },
-    //   });
-    //   // setConfig(config);
-    //   setConfigLoading(false);
-    //   return;
-    // }
-    const data = await Api.getAddresses(debugApi);
-    localStorage.setItem('network_id', JSON.stringify(data.data.network_id));
-    const config = await FavorlabsApi.getConfig(
-      data.data.network_id,
-      appName ?? undefined,
-    );
-    dispatch({
-      type: 'global/updateState',
-      payload: {
-        config: config.data.data,
-      },
-    });
-    sessionStorage.setItem(NodeConfig, JSON.stringify(config.data.data));
-    setConfigLoading(false);
+    try {
+      // let nodeConfig = sessionStorage.getItem(NodeConfig);
+      // if (nodeConfig) {
+      //   let config = JSON.parse(nodeConfig);
+      //   dispatch({
+      //     type: 'global/updateState',
+      //     payload: {
+      //       config,
+      //     },
+      //   });
+      //   // setConfig(config);
+      //   setConfigLoading(false);
+      //   return;
+      // }
+      const data = await Api.getAddresses(debugApi);
+      localStorage.setItem('network_id', JSON.stringify(data.data.network_id));
+      const config = await FavorlabsApi.getConfig(
+        data.data.network_id,
+        appName ?? undefined,
+      );
+      dispatch({
+        type: 'global/updateState',
+        payload: {
+          config: config.data.data,
+        },
+      });
+      sessionStorage.setItem(NodeConfig, JSON.stringify(config.data.data));
+      setConfigLoading(false);
+    } catch (e) {
+      //
+    }
   };
 
   const connectNode = async () => {

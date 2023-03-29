@@ -83,6 +83,16 @@ export default [
         wrappers: ['@/wrappers/auth'],
       },
       {
+        path: '/token',
+        component: '@/pages/Main/Mine/Token',
+        wrappers: ['@/wrappers/auth'],
+      },
+      {
+        path: '/qrcode',
+        component: '@/pages/Main/Mine/Token/QrCode',
+        wrappers: ['@/wrappers/auth'],
+      },
+      {
         path: '/',
         component: '@/pages/Main',
         routes: [

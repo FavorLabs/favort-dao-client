@@ -31,7 +31,12 @@ import {
 import { Models } from '@/declare/modelType';
 import { useUrl, useResourceUrl, useClick } from '@/utils/hooks';
 import { Tabs, TabBarItemProps, Popup } from 'antd-mobile';
-import { eventEmitter, isFavorApp, switchTheme } from '@/utils/util';
+import {
+  checkLogin,
+  eventEmitter,
+  isFavorApp,
+  switchTheme,
+} from '@/utils/util';
 import DaoApi from '@/services/tube/Dao';
 import UserAvatar from '@/components/UserAvatar';
 import Flutter from '@/utils/flutter';
@@ -50,7 +55,7 @@ const Main: React.FC<Props> = (props) => {
   const intl = useIntl();
   const dispatch = useDispatch();
   const pathname = history.location.pathname;
-  const { user } = useSelector((state: Models) => state.global);
+  const { user, config } = useSelector((state: Models) => state.global);
   const { userInfo } = useSelector((state: Models) => state.dao);
   const route = pathname.split('/')[1];
   const [routeKey, setRouteKey] = useState(`/${route}`);
@@ -227,6 +232,12 @@ const Main: React.FC<Props> = (props) => {
               else {
                 message.info('Please create a DAO first!');
                 history.push('/createCommunity');
+              }
+            } else if (key === '/chat') {
+              if (isFavorApp() && checkLogin())
+                Flutter.clickChat(config?.proxyGroup as string);
+              else {
+                message.info('Not open at this time!');
               }
             } else {
               history.push(key);
