@@ -113,7 +113,8 @@ export const toChat = (
   name: string | undefined,
   api: string,
   proxyGroup: string | undefined,
-  guid: string = '3',
+  guid: string,
+  bucket: string,
 ) => {
   const token = localStorage.getItem(getTokenKey());
   if (isFavorApp()) {
@@ -126,7 +127,7 @@ export const toChat = (
   function toFlutterChat() {
     if (window?.flutter_inappwebview) {
       const hash = WebUtils.keccak256(`server_${name}_channel_General`);
-      Flutter.chatMessage(proxyGroup as string, guid);
+      Flutter.chatMessage(proxyGroup as string, guid, bucket);
     } else {
       toWebPageChat();
     }

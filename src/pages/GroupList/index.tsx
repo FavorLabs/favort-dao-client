@@ -47,7 +47,7 @@ const GroupList: React.FC<Props> = (props) => {
           className={styles.groupListItem}
           key={item.id}
           onClick={() => {
-            toChat(item.name, api, config?.proxyGroup);
+            // toChat(item.name, api, config?.proxyGroup);
           }}
         >
           <UserAvatar

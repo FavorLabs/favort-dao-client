@@ -6,7 +6,7 @@ export type Props = {
   items: LaminatedCard[];
   spacing: number;
 };
-type LaminatedCard = {
+export type LaminatedCard = {
   key: number;
   content: ReactNode;
 };
@@ -64,7 +64,7 @@ const CustomSwiper: React.FC<Props> = (props) => {
                   if (startX === 0 || endX === 0 || res === 0) return;
                   const arr = [...list];
                   if (res < 0) {
-                    console.log('to left', startX, endX);
+                    // console.log('to left', startX, endX);
                     // childRefs.forEach((item, index) => {
                     //   console.log('--', item.current);
                     //   if (item.current) {
@@ -74,7 +74,7 @@ const CustomSwiper: React.FC<Props> = (props) => {
                     const i = arr.shift();
                     arr.push(i as LaminatedCard);
                   } else {
-                    console.log('to right', startX, endX);
+                    // console.log('to right', startX, endX);
                     const i = arr.pop();
                     arr.unshift(i as LaminatedCard);
                   }

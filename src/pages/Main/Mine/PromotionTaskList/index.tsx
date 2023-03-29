@@ -7,12 +7,28 @@ import ByMeCard from '@/components/ByMeCard';
 import addTaskIcon from '@/assets/icon/addTask-icon.svg';
 import { useState } from 'react';
 import { useHistory } from 'umi';
+import CustomSwiper, { LaminatedCard } from '@/components/CustomSwiper';
 
 export type Props = {};
 
 const PromotionTaskList: React.FC<Props> = (props) => {
   const history = useHistory();
   const [isByMe, setIsByMe] = useState<boolean>(false);
+
+  const byMeList: LaminatedCard[] = [
+    {
+      key: 1,
+      content: <ByMeCard />,
+    },
+    {
+      key: 2,
+      content: <ByMeCard />,
+    },
+    {
+      key: 3,
+      content: <ByMeCard />,
+    },
+  ];
 
   const handle = (key: string) => {
     if (key === 'ByMe') setIsByMe(true);
@@ -33,7 +49,7 @@ const PromotionTaskList: React.FC<Props> = (props) => {
           <PromotionTask status={'Finished'} />
         </JumboTabs.Tab>
         <JumboTabs.Tab title="ByMe" key="ByMe">
-          <ByMeCard />
+          <CustomSwiper items={byMeList} spacing={10} />
         </JumboTabs.Tab>
       </JumboTabs>
       {isByMe ? (

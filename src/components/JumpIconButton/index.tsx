@@ -25,7 +25,7 @@ const JumpIconButton: React.FC<Props> = (props) => {
     } else if (type === 1) {
       history.push(`/videoList/${daoId}`);
     } else {
-      toChat(daoName, api, config?.proxyGroup);
+      // toChat(daoName, api, config?.proxyGroup);
     }
   };
 

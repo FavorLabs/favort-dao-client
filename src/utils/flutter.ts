@@ -53,11 +53,11 @@ export default {
   chatLogin(token: string) {
     return flutterAsyncFn('chat_login', token);
   },
-  chatMessage(proxyGroup: string, guid: string) {
-    return flutterAsyncFn('chat_message', proxyGroup, guid);
+  chatMessage(proxyGroup: string, guid: string, bucket: string) {
+    return flutterAsyncFn('chat_message', proxyGroup, guid, bucket);
   },
-  clickChat(proxyGroup: string) {
-    return flutterAsyncFn('chat', proxyGroup);
+  clickChat(proxyGroup: string, bucket: string) {
+    return flutterAsyncFn('chat', proxyGroup, bucket);
   },
   chatLogout() {
     return flutterAsyncFn('chat_logout');

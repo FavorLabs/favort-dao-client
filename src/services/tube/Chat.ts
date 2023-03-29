@@ -1,6 +1,12 @@
 import type { AxiosResponse } from 'axios';
 import request from '@/services';
-import { GetMsgIdRes, GetMsgRes } from '@/declare/tubeApiType';
+import {
+  ChatInfo,
+  GetMsgIdRes,
+  GetMsgRes,
+  ListData,
+  ResData,
+} from '@/declare/tubeApiType';
 
 export default {
   getMsgIdByName(
@@ -18,6 +24,14 @@ export default {
   ): Promise<AxiosResponse<GetMsgRes>> {
     return request({
       url: url + `/channels/${hash}/messages/${messageId}`,
+    });
+  },
+  getGroupId(url: string, daoId: string): Promise<ResData<ListData<ChatInfo>>> {
+    return request({
+      url: url + `/chat/groups`,
+      params: {
+        dao_id: daoId,
+      },
     });
   },
 };
