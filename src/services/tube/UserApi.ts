@@ -13,7 +13,7 @@ export default {
   ) {
     return request({
       method: 'post',
-      url: url + '/auth/login_hello',
+      url: url + '/auth/login',
       data,
     });
   },
