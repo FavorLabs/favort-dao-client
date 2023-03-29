@@ -1,12 +1,13 @@
 .promotionTasks {
-  margin-top: 20px;
+  margin-top: 1.25rem;
+  padding: 0.625rem;
   border-radius: 0.625rem;
   background: rgba(255, 255, 255, 1);
 
   .taskTop {
     display: flex;
     flex-direction: column;
-    padding: 0.625rem;
+    padding: 0.625rem 0;
 
     .taskInfo {
       display: flex;
@@ -67,7 +68,8 @@
           text-overflow: ellipsis;
         }
 
-        .amount {
+        .amount,
+        .orangeNum {
           max-width: 100%;
           font-size: 1rem;
           font-weight: 700;
@@ -76,23 +78,51 @@
           white-space: nowrap;
           text-overflow: ellipsis;
         }
+
+        .orangeNum {
+          color: rgba(255, 166, 0, 1);
+        }
+      }
+    }
+  }
+
+  .share {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.625rem 0;
+    border-top: 0.5px solid rgba(229, 229, 229, 1);
+    border-bottom: 0.5px solid rgba(229, 229, 229, 1);
+
+    .left {
+      font-size: 1rem;
+      font-weight: 700;
+      color: rgba(33, 33, 33, 1);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-wrap: normal;
+    }
+
+    .right {
+      width: 60%;
+      .input {
+        padding-left: 1.0625rem;
       }
     }
   }
 
   .taskBottom {
-    padding: 0.9375rem 0.625rem;
+    padding: 0.9375rem 0 0.3125rem 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-top: 0.5px solid rgba(229, 229, 229, 1);
 
     .left {
       display: flex;
       .image {
         width: 1.25rem;
         height: 1.25rem;
-        margin-right: 0.3125rem;
+        margin-right: 0.375rem;
       }
     }
 
@@ -100,13 +130,64 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 3.25rem;
+      padding: 0 0.4375rem;
       height: 1.25rem;
       border-radius: 0.59375rem;
       border: 0.0625rem solid rgba(255, 166, 0, 1);
       font-size: 0.75rem;
       font-weight: 500;
       color: rgba(255, 166, 0, 1);
+    }
+  }
+}
+
+.popup {
+  .popupContent {
+    .title {
+      display: flex;
+      justify-content: center;
+      padding: 0.625rem 0;
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: rgba(33, 33, 33, 1);
+    }
+
+    .inputRow {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 1.25rem;
+
+      .left {
+        font-size: 1rem;
+        font-weight: 700;
+        color: rgba(33, 33, 33, 1);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-wrap: normal;
+      }
+
+      .right {
+        width: 70%;
+        .input {
+          padding-left: 1.0625rem;
+        }
+      }
+    }
+
+    .button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 2.75rem;
+      margin-top: 3.125rem;
+      border-radius: 0.125rem;
+      background: rgba(255, 166, 0, 1);
+      font-size: 1rem;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 1);
+      cursor: pointer;
     }
   }
 }

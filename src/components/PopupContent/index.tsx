@@ -37,24 +37,19 @@ const PopupContent: React.FC<Props> = (props) => {
   };
 
   const confirmHandle = async () => {
+    setDialogVisible(false);
     try {
       const { data } = await PostApi.deletePost(url, post.id);
       if (data.msg === 'success') {
-        // dispatch({
-        //   type: 'dao/updateState',
-        //   payLoad: {
-        //     refreshPostList: !refreshPostList,
-        //   },
-        // });
-        // refreshPage();
         message.success('Delete successfully');
         delPost?.(post.id);
       }
     } catch (e) {
       if (e instanceof Error) message.error(e.message);
-    } finally {
-      setDialogVisible(false);
     }
+    // finally {
+    //   setDialogVisible(false);
+    // }
   };
 
   const moreClick = () => {

@@ -1,0 +1,110 @@
+.byMeList {
+  .list:last-child {
+    border-bottom: none;
+  }
+  .list {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.9375rem 0;
+    border-bottom: 0.5px solid rgba(229, 229, 229, 1);
+
+    .title {
+      max-width: 60%;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: rgba(0, 0, 0, 1);
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .right {
+      max-width: 50%;
+      display: flex;
+      align-items: center;
+
+      .text {
+        font-size: 0.75rem;
+        font-weight: 500;
+        color: rgba(181, 181, 181, 1);
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      .rightImg {
+        width: 0.5rem;
+        height: 0.75rem;
+        margin-left: 0.625rem;
+      }
+    }
+  }
+}
+
+.popup {
+  .popupContent {
+    .title {
+      display: flex;
+      justify-content: center;
+      padding: 0.625rem 0;
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: rgba(33, 33, 33, 1);
+    }
+
+    .inputRow {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 1.25rem;
+
+      .left {
+        font-size: 1rem;
+        font-weight: 700;
+        color: rgba(33, 33, 33, 1);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-wrap: normal;
+      }
+
+      .right {
+        width: 70%;
+        .input {
+          padding-left: 1.0625rem;
+        }
+      }
+    }
+
+    .buttonRow {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      margin-top: 3.125rem;
+
+      .reject,
+      .confirm {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 9.8125rem;
+        height: 2.75rem;
+        border-radius: 0.125rem;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+      }
+
+      .reject {
+        color: rgba(33, 33, 33, 1);
+        background: rgba(240, 240, 240, 1);
+      }
+
+      .confirm {
+        color: rgba(255, 255, 255, 1);
+        background: rgba(255, 166, 0, 1);
+      }
+    }
+  }
+}

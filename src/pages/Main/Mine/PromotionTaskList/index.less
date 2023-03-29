@@ -2,8 +2,28 @@
   background: rgba(247, 247, 247, 1);
 
   .content {
+    position: relative;
     height: calc(100vh - 3.75rem);
     overflow-y: auto;
     padding: 0 1.25rem;
+  }
+
+  .addButton {
+    position: fixed;
+    right: 1.875rem;
+    bottom: 0.625rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.75rem;
+    height: 3.75rem;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0px 0.125rem 0.9375rem 0.3125rem rgba(0, 0, 0, 0.05);
+
+    .image {
+      width: 1.625rem;
+      height: 1.625rem;
+    }
   }
 }

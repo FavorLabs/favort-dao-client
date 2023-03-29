@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styles from './index.less';
 import { ReactNode, useEffect, useState, useMemo } from 'react';
-import { Avatar, message } from 'antd';
+import { message } from 'antd';
 import SvgIcon from '@/components/SvgIcon';
 import TopBar from '@/components/ThreeStageLayout/TopBar';
 import Children from '@/components/ThreeStageLayout/Children';
@@ -123,6 +123,7 @@ const Main: React.FC<Props> = (props) => {
   const [topBarVisibility, setTopBarVisibility] = useState<boolean>(true);
   const [postPopupVisibility, setPostPopupVisibility] =
     useState<boolean>(false);
+  const login = checkLogin();
 
   const FeedsClick = useClick(
     () => {
@@ -230,7 +231,7 @@ const Main: React.FC<Props> = (props) => {
             if (key === '/addBtn') {
               if (userInfo) setPostPopupVisibility(true);
               else {
-                message.info('Please create a DAO first!');
+                if (login) message.info('Please create a DAO first!');
                 history.push('/createCommunity');
               }
             } else if (key === '/chat') {

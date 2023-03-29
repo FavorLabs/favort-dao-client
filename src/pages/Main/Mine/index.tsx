@@ -150,12 +150,12 @@ const Mine: React.FC<Props> = (props) => {
     {
       name: 'Web3 Airdops',
       icon: <img src={web3AirdopsSvg} alt={''} />,
-      path: '/web3Airdrop',
+      path: '/web3Page',
     },
     {
       name: 'DAO Airdops',
       icon: <img src={daoAirdopsSvg} alt={''} />,
-      path: '/dAOAirdrop',
+      path: '/dAOPage',
     },
     {
       name: 'Promotion',
@@ -246,7 +246,7 @@ const Mine: React.FC<Props> = (props) => {
       key: 3,
       name: intl.formatMessage({ id: 'main.mine.setting.about' }),
       icon: <img src={aboutSvg} alt={''} />,
-      content: <div className={styles.aboutAction}>version 1.0.0327</div>,
+      content: <div className={styles.aboutAction}>version 1.0.0329</div>,
     },
     {
       key: 4,

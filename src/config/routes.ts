@@ -93,6 +93,21 @@ export default [
         wrappers: ['@/wrappers/auth'],
       },
       {
+        path: '/taskCreate',
+        component: '@/pages/Main/Mine/TaskCreate',
+        wrappers: ['@/wrappers/auth'],
+      },
+      {
+        path: '/web3Page',
+        component: '@/pages/Main/Mine/Web3Page',
+        wrappers: ['@/wrappers/auth'],
+      },
+      {
+        path: '/dAOPage',
+        component: '@/pages/Main/Mine/DAOPage',
+        wrappers: ['@/wrappers/auth'],
+      },
+      {
         path: '/',
         component: '@/pages/Main',
         routes: [
