@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styles from './index.less';
 import { ReactNode, useEffect, useState, useMemo } from 'react';
-import { Avatar, message } from 'antd';
+import { message } from 'antd';
 import SvgIcon from '@/components/SvgIcon';
 import TopBar from '@/components/ThreeStageLayout/TopBar';
 import Children from '@/components/ThreeStageLayout/Children';
@@ -31,7 +31,12 @@ import {
 import { Models } from '@/declare/modelType';
 import { useUrl, useResourceUrl, useClick } from '@/utils/hooks';
 import { Tabs, TabBarItemProps, Popup } from 'antd-mobile';
-import { eventEmitter, isFavorApp, switchTheme } from '@/utils/util';
+import {
+  checkLogin,
+  eventEmitter,
+  isFavorApp,
+  switchTheme,
+} from '@/utils/util';
 import DaoApi from '@/services/tube/Dao';
 import UserAvatar from '@/components/UserAvatar';
 import Flutter from '@/utils/flutter';
@@ -118,6 +123,7 @@ const Main: React.FC<Props> = (props) => {
   const [topBarVisibility, setTopBarVisibility] = useState<boolean>(true);
   const [postPopupVisibility, setPostPopupVisibility] =
     useState<boolean>(false);
+  const login = checkLogin();
 
   const FeedsClick = useClick(
     () => {
@@ -225,7 +231,7 @@ const Main: React.FC<Props> = (props) => {
             if (key === '/addBtn') {
               if (userInfo) setPostPopupVisibility(true);
               else {
-                message.info('Please create a DAO first!');
+                if (login) message.info('Please create a DAO first!');
                 history.push('/createCommunity');
               }
             } else {

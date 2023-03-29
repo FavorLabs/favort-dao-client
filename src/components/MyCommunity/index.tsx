@@ -37,10 +37,14 @@ const MyCommunity: React.FC<Props> = (props) => {
     <div className={styles.page}>
       <div className={styles.my}>
         {user ? (
-          <div className={styles.block}>
+          <div
+            className={`${styles.block} ${
+              activeId === user.id ? styles.boxActive : styles.boxNoActive
+            }`}
+          >
             <div
               className={`${styles.imgActive} ${
-                activeId === user.id ? styles.boxActive : styles.boxNoActive
+                activeId === user.id ? styles.whiteBorder : styles.noBorder
               }`}
             >
               <UserAvatar
@@ -76,10 +80,15 @@ const MyCommunity: React.FC<Props> = (props) => {
         {joinedList.length ? (
           joinedList.map((item, index) => {
             return (
-              <div key={index} className={styles.block}>
+              <div
+                key={index}
+                className={`${styles.block} ${
+                  activeId === item.id ? styles.boxActive : styles.boxNoActive
+                }`}
+              >
                 <div
                   className={`${styles.imgActive} ${
-                    activeId === item.id ? styles.boxActive : styles.boxNoActive
+                    activeId === item.id ? styles.whiteBorder : styles.noBorder
                   }`}
                 >
                   <UserAvatar
