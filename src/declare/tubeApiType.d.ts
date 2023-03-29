@@ -189,3 +189,19 @@ export type LastMsg = {
   content: string;
   created_on: number;
 };
+
+export type ChatInfo = {
+  guid: string;
+  name: string;
+  type: string;
+  icon: string;
+  description: string;
+  scope: string;
+  owner: string;
+  membersCount: number;
+  joinedAt: number;
+  hasJoined: boolean;
+  createdAt: number;
+  updatedAt: number;
+  conversationlc: string;
+};

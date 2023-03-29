@@ -22,12 +22,13 @@ import ErrorOccurred from '@/components/ErrorOccurred';
 import { decodeTime } from 'ulid';
 import DaoCardSkeleton from '@/components/CustomSkeleton/DaoDetailSkeleton/DaoCardSkeleton';
 import DaoDetailSkeleton from '@/components/CustomSkeleton/DaoDetailSkeleton';
+import _ from 'lodash';
 
 export type Props = {};
 
 const DaoCommunity: React.FC<Props> = (props) => {
   const params: { daoId?: string } = useParams();
-  const { api, config } = useSelector((state: Models) => state.global);
+  const { api, config, bucket } = useSelector((state: Models) => state.global);
   const url = useUrl();
   const reviteUrl = useReviteUrl();
 
@@ -62,6 +63,14 @@ const DaoCommunity: React.FC<Props> = (props) => {
   const [errored, setErrored] = useState<boolean>(false);
   const [firstLoad, setFirstLoad] = useState<boolean>(true);
   const daoId = params.daoId;
+  const [guid, setGuid] = useState<string>('');
+
+  const getGroupId = async (daoId: string) => {
+    try {
+      const { data } = await ChatApi.getGroupId(url, daoId);
+      setGuid(data.data.list[0].guid);
+    } catch (e) {}
+  };
 
   const getDaoInfo = async () => {
     if (!daoId) return;
@@ -71,6 +80,7 @@ const DaoCommunity: React.FC<Props> = (props) => {
       setHaveDaoInfo(true);
       setDaoInfo(data.data);
       // getMsgIdByName(data.data);
+      getGroupId(daoId);
       processMessage(data.data);
     }
   };
@@ -130,9 +140,9 @@ const DaoCommunity: React.FC<Props> = (props) => {
     const { data } = await DaoApi.getBookmarkList(url);
     let followList: React.SetStateAction<DaoInfo[]> = [];
     if (data.data.list?.length) {
-      followList = data.data.list;
+      followList = _.filter(data.data.list, (v) => v.id !== userInfo?.id);
+      setBookmarkList(followList);
     }
-    setBookmarkList(followList);
   };
 
   const bookmarkHandle = async () => {
@@ -160,7 +170,7 @@ const DaoCommunity: React.FC<Props> = (props) => {
       const request = (params: Page) => PostApi.getPostListByType(url, params);
       const { data } = await request(pageData);
       setErrored(false);
-      if (data.data.list) {
+      if (data.data.list?.length) {
         setAllDao(data.data.list);
       }
     } catch (e) {
@@ -311,7 +321,18 @@ const DaoCommunity: React.FC<Props> = (props) => {
                           <div
                             className={styles.contentBox}
                             onClick={() => {
-                              toChat(daoInfo.name, api, config?.proxyGroup);
+                              if (guid)
+                                toChat(
+                                  daoInfo.name,
+                                  api,
+                                  config?.proxyGroup,
+                                  guid,
+                                  bucket,
+                                );
+                              else
+                                message.error(
+                                  'Failed to obtain group chat information. Procedure',
+                                );
                             }}
                           >
                             <div className={styles.img}>

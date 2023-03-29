@@ -357,7 +357,7 @@ const Mine: React.FC<Props> = (props) => {
 
   useEffect(() => {
     if (web3) {
-      getBalance();
+      // getBalance();
     }
   }, [web3]);
 
