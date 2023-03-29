@@ -206,7 +206,7 @@ const Web3Page: React.FC<Props> = (props) => {
             </div>
           </div>
           <div className={styles.profile}>
-            <p className={styles.left}>Task Description</p>
+            <p className={styles.left}>Description</p>
             <div className={styles.right}>
               <TextArea
                 className={styles.textArea}

@@ -3,9 +3,10 @@
   background-color: rgba(255, 255, 255, 1);
   box-shadow: 0px 2px 15px 5px rgba(0, 0, 0, 0.05);
   margin-top: 1.25rem;
+  padding: 0 0.625rem;
 
   .taskStatus {
-    padding: 0.625rem;
+    padding: 0.625rem 0;
 
     .title {
       font-size: 0.75rem;
@@ -95,7 +96,7 @@
 
   .taskAmount {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     border-top: 0.5px solid rgba(229, 229, 229, 1);
     border-bottom: 0.5px solid rgba(229, 229, 229, 1);
 
@@ -129,7 +130,7 @@
   }
 
   .pendingText {
-    padding: 1.25rem 0.625rem 0.625rem 0.625rem;
+    padding: 1.25rem 0 0.625rem 0;
     border-bottom: 0.5px solid rgba(229, 229, 229, 1);
 
     .title {
@@ -137,8 +138,5 @@
       font-weight: 700;
       color: rgba(255, 166, 0, 1);
     }
-  }
-
-  .tab {
   }
 }
