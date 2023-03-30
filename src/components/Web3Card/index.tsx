@@ -84,7 +84,7 @@ const Web3Card: React.FC<Props> = (props) => {
         </div>
 
         <div className={styles.jumboTabs}>
-          <JumboTabs>
+          <JumboTabs className={'leftJumboTabs'}>
             <JumboTabs.Tab title="Chain" key="Chain">
               <div className={styles.row}>
                 <p className={styles.left}>Contract Address</p>

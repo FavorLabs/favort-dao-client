@@ -73,7 +73,13 @@ const MyCommunity: React.FC<Props> = (props) => {
         }`}
         onClick={() => onFocusCommunity(allId)}
       >
-        <img src={allCommunityIcon} alt="" className={styles.allImg} />
+        <div
+          className={`${styles.allPadding} ${
+            activeId === allId ? styles.noBorder : styles.whiteBorder
+          }`}
+        >
+          <img src={allCommunityIcon} alt="" className={styles.allImg} />
+        </div>
       </div>
 
       <div className={styles.joinedList}>

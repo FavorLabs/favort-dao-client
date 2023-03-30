@@ -88,8 +88,9 @@ const PostVideo: React.FC<Props> = (props) => {
       setVideoCover(data.id);
       onSuccess();
     } catch (e) {
-      if (e instanceof Error) message.error(e.message);
-      onError();
+      if (e instanceof Error)
+        // message.error(e.message);
+        onError();
     } finally {
       setVideoCoverLoading(false);
     }
@@ -328,6 +329,7 @@ const PostVideo: React.FC<Props> = (props) => {
       if (e instanceof Error) message.error(e.message);
       else message.error(e);
       setVideo('');
+      setShowVideoList(false);
     } finally {
       setProgressValue(0);
       setUploading(false);

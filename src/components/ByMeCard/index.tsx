@@ -108,7 +108,7 @@ const ByMeCard: React.FC<Props> = (props) => {
       </div>
 
       <div className={styles.tab}>
-        <JumboTabs>
+        <JumboTabs className={'byJumboTabs'}>
           <JumboTabs.Tab title="Accepted" key="Accepted">
             <ByMeList list={acceptedList} />
           </JumboTabs.Tab>

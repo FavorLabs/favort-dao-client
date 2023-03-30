@@ -177,16 +177,16 @@ const Main: React.FC<Props> = (props) => {
           <TopBar
             content={
               <div className={styles.header}>
-                {isFavorApp() && (
-                  <span
-                    className={styles.toHome}
-                    onClick={() => {
-                      Flutter.closeWebview();
-                    }}
-                  >
-                    <SvgIcon svg={toHomeIcon} />
-                  </span>
-                )}
+                {/*{isFavorApp() && (*/}
+                {/*  <span*/}
+                {/*    className={styles.toHome}*/}
+                {/*    onClick={() => {*/}
+                {/*      Flutter.closeWebview();*/}
+                {/*    }}*/}
+                {/*  >*/}
+                {/*    <SvgIcon svg={toHomeIcon} />*/}
+                {/*  </span>*/}
+                {/*)}*/}
                 {latestNavVisibility && (
                   <div className={styles.latestNav}>
                     <NavLink

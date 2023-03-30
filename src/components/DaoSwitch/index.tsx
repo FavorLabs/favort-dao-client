@@ -25,7 +25,7 @@ const DaoSwitch: React.FC<Props> = (props) => {
             '--height': '1.375rem',
             '--width': '2.75rem',
           }}
-          className={styles.switchButton}
+          className={`${styles.switchButton} switchButton`}
           onChange={() => setStatus(!status)}
         />
         <p className={`${!status ? styles.select : styles.unSelect}`}>

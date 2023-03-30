@@ -6,11 +6,13 @@ import type {
   UploadFile,
 } from 'antd/es/upload/interface';
 import ImgCrop from 'antd-img-crop';
-import { Upload } from 'antd';
+import { message, Upload } from 'antd';
 import { useState } from 'react';
 import addSvg from '@/assets/icon/add.svg';
 import SvgIcon from '@/components/SvgIcon';
 import { UploadListType } from 'antd/es/upload/interface';
+import { UploadImgType } from '@/config/constants';
+import _ from 'lodash';
 
 export type Props = {
   crop?: boolean;
@@ -58,6 +60,10 @@ const Index: React.FC<Props> = (props) => {
     };
     render.readAsDataURL(file);
     setUpload(true);
+    if (_.indexOf(UploadImgType.split(', '), file.type) !== -1) {
+    } else {
+      message.warning('Please select the correct image file!');
+    }
     return file;
   };
 

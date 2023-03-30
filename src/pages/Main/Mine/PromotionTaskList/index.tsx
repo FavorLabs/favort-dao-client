@@ -5,14 +5,15 @@ import PromotionTask from '@/components/PromotionTask';
 import TopNavBar from '@/components/TopNavBar';
 import ByMeCard from '@/components/ByMeCard';
 import addTaskIcon from '@/assets/icon/addTask-icon.svg';
-import { useState } from 'react';
-import { useHistory } from 'umi';
+import { useEffect, useState } from 'react';
+import { useHistory, useParams } from 'umi';
 import CustomSwiper, { LaminatedCard } from '@/components/CustomSwiper';
 
 export type Props = {};
 
 const PromotionTaskList: React.FC<Props> = (props) => {
   const history = useHistory();
+  const params: { keyValue?: string } = useParams();
   const [isByMe, setIsByMe] = useState<boolean>(false);
 
   const byMeList: LaminatedCard[] = [
@@ -34,11 +35,23 @@ const PromotionTaskList: React.FC<Props> = (props) => {
     if (key === 'ByMe') setIsByMe(true);
     else setIsByMe(false);
   };
+
+  useEffect(() => {
+    if (params.keyValue === 'ByMe') setIsByMe(true);
+    else setIsByMe(false);
+  }, [params.keyValue]);
+
   return (
     <div className={styles.pluginForDAOs}>
       <TopNavBar title={'Promotion Tasks'} />
-      <JumboTabs className={styles.content} onChange={(key) => handle(key)}>
+      <JumboTabs
+        className={`${styles.content} jumboTabsContent`}
+        onChange={(key) => handle(key)}
+        defaultActiveKey={params.keyValue}
+      >
         <JumboTabs.Tab title="Pending" key="Pending">
+          <PromotionTask status={'Pending'} />
+          <PromotionTask status={'Pending'} />
           <PromotionTask status={'Pending'} />
           <PromotionTask status={'Pending'} />
         </JumboTabs.Tab>
