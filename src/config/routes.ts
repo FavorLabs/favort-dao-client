@@ -63,7 +63,7 @@ export default [
         wrappers: ['@/wrappers/auth'],
       },
       {
-        path: '/promotionTaskList',
+        path: '/promotionTaskList/:keyValue?',
         component: '@/pages/Main/Mine/PromotionTaskList',
         wrappers: ['@/wrappers/auth'],
       },

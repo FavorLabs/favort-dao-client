@@ -35,7 +35,10 @@ import langSvg from '@/assets/icon/language.svg';
 import darkSvg from '@/assets/icon/dark.svg';
 import aboutSvg from '@/assets/icon/about.svg';
 import logoutSvg from '@/assets/icon/logout.svg';
-import CustomSwiper from '@/components/CustomSwiper';
+import pendingSvg from '@/assets/icon/pending.svg';
+import onGoingSvg from '@/assets/icon/ongoimg.svg';
+import finishedSvg from '@/assets/icon/finished.svg';
+import byMeSvg from '@/assets/icon/byme.svg';
 import Flutter from '@/utils/flutter';
 
 export type Props = {};
@@ -53,6 +56,7 @@ type OptionItems = {
   name: string;
   icon: ReactNode;
   path: string;
+  key?: string;
 };
 
 const Mine: React.FC<Props> = (props) => {
@@ -157,10 +161,37 @@ const Mine: React.FC<Props> = (props) => {
       icon: <img src={daoAirdopsSvg} alt={''} />,
       path: '/dAOPage',
     },
+    // {
+    //   name: 'Promotion',
+    //   icon: <img src={promotionSvg} alt={''} />,
+    //   path: '/promotionTaskList',
+    // },
+  ];
+
+  const promotionItems: OptionItems[] = [
     {
-      name: 'Promotion',
-      icon: <img src={promotionSvg} alt={''} />,
+      name: 'Pending',
+      icon: <img src={pendingSvg} alt={''} />,
       path: '/promotionTaskList',
+      key: 'Pending',
+    },
+    {
+      name: 'OnGoing',
+      icon: <img src={onGoingSvg} alt={''} />,
+      path: '/promotionTaskList',
+      key: 'OnGoing',
+    },
+    {
+      name: 'Finished',
+      icon: <img src={finishedSvg} alt={''} />,
+      path: '/promotionTaskList',
+      key: 'Finished',
+    },
+    {
+      name: 'ByMe',
+      icon: <img src={byMeSvg} alt={''} />,
+      path: '/promotionTaskList',
+      key: 'ByMe',
     },
   ];
 
@@ -462,6 +493,24 @@ const Mine: React.FC<Props> = (props) => {
                           className={styles.item}
                           onClick={() => {
                             item.path && history.push(item.path);
+                          }}
+                        >
+                          <div className={styles.icon}>{item.icon}</div>
+                          <p className={styles.name}>{item.name}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className={`${styles.services} ${styles.block}`}>
+                    <p className={styles.title}>Promotion</p>
+                    <div className={styles.itemsList}>
+                      {promotionItems.map((item) => (
+                        <div
+                          key={item.name}
+                          className={styles.item}
+                          onClick={() => {
+                            item.path &&
+                              history.push(`${item.path}/${item.key}`);
                           }}
                         >
                           <div className={styles.icon}>{item.icon}</div>
