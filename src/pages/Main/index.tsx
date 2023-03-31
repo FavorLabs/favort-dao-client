@@ -125,7 +125,6 @@ const Main: React.FC<Props> = (props) => {
   const [topBarVisibility, setTopBarVisibility] = useState<boolean>(true);
   const [postPopupVisibility, setPostPopupVisibility] =
     useState<boolean>(false);
-  const login = checkLogin();
 
   const FeedsClick = useClick(
     () => {
