@@ -150,8 +150,8 @@ const DaoCommunity: React.FC<Props> = (props) => {
   const bookmarkHandle = async () => {
     if (!daoId) return;
     const { data } = await DaoApi.bookmark(url, daoId);
-    setIsBookmark(data.data.status);
     await getBookmarkList();
+    setIsBookmark(data.data.status);
   };
 
   const checkBookmark = async () => {

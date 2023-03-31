@@ -23,7 +23,7 @@ const Recommend: React.FC<Props> = (props) => {
 export default () => {
   return (
     // @ts-ignore
-    <KeepAlive when={true} saveScrollPosition={'screen'} autoFreeze={true}>
+    <KeepAlive when={true} saveScrollPosition={'screen'}>
       <Recommend />
     </KeepAlive>
   );

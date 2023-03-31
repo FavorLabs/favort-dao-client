@@ -9,8 +9,7 @@ import { message } from 'antd';
 import { DotLoading, InfiniteScroll, PullToRefresh } from 'antd-mobile';
 import CommunityIntro from '@/components/CommunityIntro';
 import ErrorOccurred from '@/components/ErrorOccurred';
-import { useSelector, history } from 'umi';
-import { Models } from '@/declare/modelType';
+import { useHistory } from 'umi';
 import { isMobile, sleep, eventEmitter } from '@/utils/util';
 import _ from 'lodash';
 import DetailSkeleton from '@/components/CustomSkeleton/PostSkeleton/DetailSkeleton';
@@ -25,8 +24,9 @@ export type Props = {
 
 const PostList: React.FC<Props> = (props) => {
   const url = useUrl();
+  const history = useHistory();
+  const pathname = history.location.pathname;
   const { type, daoId, focus = false, query } = props;
-  const { refreshPostList } = useSelector((state: Models) => state.manage);
   const [pageData, setPageData] = useState<Page>({
     page: 1,
     page_size: 10,
@@ -36,8 +36,6 @@ const PostList: React.FC<Props> = (props) => {
   const [hasMore, setHasMore] = useState(true);
   const [list, setList] = useState<PostInfo[]>([]);
   const [errored, setErrored] = useState<boolean>(false);
-
-  const pathname = history.location.pathname;
 
   const loadMore = async () => {
     try {

@@ -2,7 +2,7 @@ import * as React from 'react';
 import styles from './index.less';
 import Prompt from '@/components/Prompt';
 import { NavBar } from 'antd-mobile';
-import { useHistory } from 'umi';
+import { history, useHistory } from 'umi';
 
 type Props = {
   title: string;
