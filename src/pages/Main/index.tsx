@@ -233,17 +233,19 @@ const Main: React.FC<Props> = (props) => {
             if (key === '/addBtn') {
               if (userInfo) setPostPopupVisibility(true);
               else {
-                if (login) message.info('Please create a DAO first!');
+                if (checkLogin()) message.info('Please create a DAO first!');
                 history.push('/createCommunity');
               }
             } else if (key === '/chat') {
-              if (isFavorApp() && checkLogin())
+              if (isFavorApp())
                 Flutter.clickChat(
                   config?.proxyGroup as string,
                   settings?.Bucket as string,
                 );
-              else {
-                message.info('Not open at this time!');
+              else if (checkLogin()) {
+                message.warning('Not open at this time!');
+              } else {
+                history.push('/mine');
               }
             } else {
               history.push(key);
