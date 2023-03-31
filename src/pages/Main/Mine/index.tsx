@@ -277,7 +277,7 @@ const Mine: React.FC<Props> = (props) => {
       key: 3,
       name: intl.formatMessage({ id: 'main.mine.setting.about' }),
       icon: <img src={aboutSvg} alt={''} />,
-      content: <div className={styles.aboutAction}>version 1.0.0330</div>,
+      content: <div className={styles.aboutAction}>version 1.0.0331</div>,
     },
     {
       key: 4,
