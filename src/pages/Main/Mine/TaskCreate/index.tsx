@@ -9,6 +9,7 @@ import youTubeIcon from '@/assets/icon/youtube-icon.svg';
 import metaIcon from '@/assets/icon/meta-icon.svg';
 import { ReactNode } from 'react';
 import { useHistory } from 'umi';
+import Prompt from '@/components/Prompt';
 
 type Props = {};
 
@@ -42,7 +43,7 @@ const TaskCreate: React.FC<Props> = (props) => {
 
   return (
     <div className={styles.taskCreate}>
-      <TopNavBar title={'Tasks Create'} />
+      <TopNavBar title={'Tasks Create'} right={<Prompt />} />
       <div className={styles.content}>
         <div className={styles.info}>
           <div className={styles.profile}>

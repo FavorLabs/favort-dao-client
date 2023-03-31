@@ -38,7 +38,7 @@ const NewsletterDetail: React.FC<Props> = (props) => {
 
   return (
     <div className={styles.content}>
-      <TopNavBar title={'Main text'} noRight={true} />
+      <TopNavBar title={'Main text'} right={null} />
       <div className={styles.detailsWrap}>
         <div className={styles.details}>
           {postInfo ? (

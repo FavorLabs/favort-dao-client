@@ -111,7 +111,7 @@ const Token: React.FC<Props> = (props) => {
 
   return (
     <div className={styles.token}>
-      <TopNavBar title={'Token'} noRight={true} />
+      <TopNavBar title={'Token'} right={null} />
       <div className={styles.userInfo} ref={userInfoRef}>
         <div className={styles.info}>
           {user && (

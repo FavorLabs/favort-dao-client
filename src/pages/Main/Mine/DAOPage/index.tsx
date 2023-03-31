@@ -6,6 +6,7 @@ import addTaskIcon from '@/assets/icon/addTask-icon.svg';
 import CustomSwiper, { LaminatedCard } from '@/components/CustomSwiper';
 import Web3Card from '@/components/Web3Card';
 import DaoCard from '@/components/DaoCard';
+import Prompt from '@/components/Prompt';
 
 type Props = {};
 
@@ -29,7 +30,7 @@ const DAOPage: React.FC<Props> = (props) => {
 
   return (
     <div className={styles.web3Page}>
-      <TopNavBar title={'DAO Airdrop'} />
+      <TopNavBar title={'DAO Airdrop'} right={<Prompt />} />
       <div className={styles.content}>
         <CustomSwiper items={daoList} spacing={10} />
       </div>

@@ -13,7 +13,7 @@ const QrCode: React.FC<Props> = (props) => {
 
   return (
     <div className={styles.qrCode}>
-      <TopNavBar title={'QR Code'} noRight={true} />
+      <TopNavBar title={'QR Code'} right={null} />
       {address && (
         <div className={styles.qrCodeWrap}>
           <div className={styles.address}>{omitAddress(address, 6, 14)}</div>

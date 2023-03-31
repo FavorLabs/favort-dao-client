@@ -8,6 +8,7 @@ import strawPoll5 from '@/assets/icon/strawPoll-5-icon.svg';
 import gameWorld from '@/assets/icon/gameWorld-icon.svg';
 import shopeeIcon from '@/assets/icon/shopee-icon.svg';
 import TopNavBar from '@/components/TopNavBar';
+import Prompt from '@/components/Prompt';
 
 type Props = {};
 
@@ -48,7 +49,7 @@ const PluginForDAOs: React.FC<Props> = (props) => {
 
   return (
     <div className={styles.pluginForDAOs}>
-      <TopNavBar title={'Plugin for DAOs'} />
+      <TopNavBar title={'Plugin for DAOs'} right={<Prompt />} />
       <div className={styles.content}>
         {listItems.map((item: any, index: number) => {
           return (

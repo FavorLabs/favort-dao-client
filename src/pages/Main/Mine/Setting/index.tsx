@@ -10,6 +10,7 @@ import { Select, Input } from 'antd';
 import type { SelectProps } from 'antd';
 import { useHistory } from 'umi';
 import DaoSwitch from '@/components/DaoSwitch';
+import Prompt from '@/components/Prompt';
 
 export type Props = {};
 
@@ -67,7 +68,7 @@ const Setting: React.FC<Props> = (props) => {
 
   return (
     <div className={styles.setting}>
-      <TopNavBar title={'Setting'} />
+      <TopNavBar title={'Setting'} right={<Prompt />} />
       <div className={styles.content}>
         {/*userInfo*/}
         <div className={styles.userInfo}>

@@ -62,6 +62,16 @@ const ChunkSourceInfoPopup: React.FC<Props> = (props) => {
     };
     const re = await Api.getPyramidSize(api, query(queryData));
     if (re.status !== 200 || re.data.list.length === 0) return;
+    const hashInfo = re.data.list[0];
+    const videoHashInfo: FileInfo = {
+      ...hashInfo,
+      bitVector: {
+        ...hashInfo.bitVector,
+        b: stringToBinary(hashInfo.bitVector.b, hashInfo.bitVector.len),
+      },
+    };
+    setCurrentVideoInfo(videoHashInfo);
+
     const { data } = await Api.getChunkSource(debugApi, videoHash);
     if (!data) return;
     let arr: ChunkInfo[] = [];
@@ -92,15 +102,6 @@ const ChunkSourceInfoPopup: React.FC<Props> = (props) => {
     arr.forEach((item) => {
       allDownLen += item.downloadLen;
     });
-    const hashInfo = re.data.list[0];
-    const videoHashInfo: FileInfo = {
-      ...hashInfo,
-      bitVector: {
-        ...hashInfo.bitVector,
-        b: stringToBinary(hashInfo.bitVector.b, hashInfo.bitVector.len),
-      },
-    };
-    setCurrentVideoInfo(videoHashInfo);
     setTotalPercent((allDownLen / videoHashInfo.bitVector.len) * 100);
     setChunkArr(arr);
     setLoading(false);
@@ -160,9 +161,17 @@ const ChunkSourceInfoPopup: React.FC<Props> = (props) => {
         }}
       >
         <div className={styles.popupContent}>
+          {currentVideoInfo && (
+            <div className={styles.rootCidWrap}>
+              RCID:{' '}
+              <span className={styles.rootCid}>{currentVideoInfo.rootCid}</span>
+            </div>
+          )}
           <div className={styles.titleWrap}>
             <span className={styles.title}>Chunk Source Info</span>
-            <span className={styles.totalPercent}>{totalPercent}%</span>
+            <span className={styles.totalPercent}>
+              {totalPercent.toFixed(2)}%
+            </span>
           </div>
           {loading ? (
             <p className={styles.loading}>loading...</p>

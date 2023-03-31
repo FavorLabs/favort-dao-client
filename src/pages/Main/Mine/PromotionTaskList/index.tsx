@@ -8,6 +8,7 @@ import addTaskIcon from '@/assets/icon/addTask-icon.svg';
 import { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'umi';
 import CustomSwiper, { LaminatedCard } from '@/components/CustomSwiper';
+import Prompt from '@/components/Prompt';
 
 export type Props = {};
 
@@ -43,7 +44,7 @@ const PromotionTaskList: React.FC<Props> = (props) => {
 
   return (
     <div className={styles.pluginForDAOs}>
-      <TopNavBar title={'Promotion Tasks'} />
+      <TopNavBar title={'Promotion Tasks'} right={<Prompt />} />
       <JumboTabs
         className={`${styles.content} jumboTabsContent`}
         onChange={(key) => handle(key)}
