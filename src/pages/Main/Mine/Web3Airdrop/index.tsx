@@ -7,6 +7,7 @@ import { Select, Input } from 'antd';
 import type { SelectProps } from 'antd';
 import { useHistory } from 'umi';
 import DaoSwitch from '@/components/DaoSwitch';
+import Prompt from '@/components/Prompt';
 
 export type Props = {};
 
@@ -58,7 +59,7 @@ const Web3Airdrop: React.FC<Props> = (props) => {
 
   return (
     <div className={styles.web3Airdrop}>
-      <TopNavBar title={'Web3 Airdrop'} />
+      <TopNavBar title={'Web3 Airdrop'} right={<Prompt />} />
       <div className={styles.content}>
         {/*userAttributeSelect*/}
         <div className={styles.userAttributeSelect}>

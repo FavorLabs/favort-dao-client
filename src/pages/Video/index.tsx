@@ -17,8 +17,9 @@ import ExitCommunityDialog from '@/components/ExitCommunityDialog';
 import Comment from '@/components/Comment';
 import DetailSkeleton from '@/components/CustomSkeleton/PostSkeleton/DetailSkeleton';
 import CommentSkeleton from '@/components/CustomSkeleton/CommentSkeleton';
-import aboutSvg from '@/assets/icon/about.svg';
 import ChunkSourceInfoPopup from '@/components/ChunkSourceInfoPopup';
+import TopNavBar from '@/components/TopNavBar';
+import resourceSvg from '@/assets/icon/resource.svg';
 
 export type Props = {
   match: {
@@ -146,24 +147,18 @@ const Video: React.FC<Props> = (props) => {
   return (
     <>
       <div className={styles.content}>
-        <div className={styles.topBar}>
-          <span
-            className={styles.goBack}
-            onClick={() => {
-              history.goBack();
-            }}
-          >
-            <ArrowLeftOutlined />
-          </span>
-          <div
-            className={styles.logo}
-            onClick={() => {
-              // path('');
-            }}
-          >
-            {/*FavorDao*/}
-          </div>
-        </div>
+        <TopNavBar
+          title={''}
+          right={
+            <img
+              src={resourceSvg}
+              alt={''}
+              onClick={() => {
+                setChunkVisible(true);
+              }}
+            />
+          }
+        />
         <main className={styles.VideoMain}>
           <Row
             gutter={[30, 20]}
@@ -222,14 +217,6 @@ const Video: React.FC<Props> = (props) => {
                                   {videoData.dao.follow_count} followers
                                 </div>
                               </div>
-                            </div>
-                            <div
-                              className={styles.leftR}
-                              onClick={() => {
-                                setChunkVisible(true);
-                              }}
-                            >
-                              <img src={aboutSvg} alt="" />
                             </div>
                           </div>
                           {!isSelf && (

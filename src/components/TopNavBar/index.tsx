@@ -1,45 +1,29 @@
 import * as React from 'react';
 import styles from './index.less';
-import Prompt from '@/components/Prompt';
 import { NavBar } from 'antd-mobile';
-import { history, useHistory } from 'umi';
+import { useHistory } from 'umi';
+import { ReactNode } from 'react';
 
 type Props = {
   title: string;
-  promptText?: string;
-  noRight?: boolean;
+  right: ReactNode;
 };
 
 const TopNavBar: React.FC<Props> = (props) => {
-  const { title, promptText, noRight } = props;
+  const { title, right } = props;
   const history = useHistory();
 
   return (
     <>
-      {noRight ? (
-        <NavBar
-          className={styles.navBar}
-          onBack={() => {
-            history.goBack();
-          }}
-        >
-          {title}
-        </NavBar>
-      ) : (
-        <NavBar
-          className={styles.navBar}
-          onBack={() => {
-            history.goBack();
-          }}
-          right={
-            <div className={styles.navRight}>
-              <Prompt />
-            </div>
-          }
-        >
-          {title}
-        </NavBar>
-      )}
+      <NavBar
+        className={styles.navBar}
+        onBack={() => {
+          history.goBack();
+        }}
+        right={<div className={styles.navRight}>{right}</div>}
+      >
+        {title}
+      </NavBar>
     </>
   );
 };

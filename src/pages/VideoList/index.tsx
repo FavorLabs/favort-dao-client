@@ -21,7 +21,7 @@ const VideoList: React.FC<Props> = (props) => {
   const { api } = useSelector((state: Models) => state.global);
   return (
     <div className={styles.content}>
-      <TopNavBar title={'Videos'} noRight={true} />
+      <TopNavBar title={'Videos'} right={null} />
 
       <div className={styles.list}>
         <div>

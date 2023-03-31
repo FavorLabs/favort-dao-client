@@ -6,6 +6,7 @@ import addTaskIcon from '@/assets/icon/addTask-icon.svg';
 import Web3Card from '@/components/Web3Card';
 import CustomSwiper, { LaminatedCard } from '@/components/CustomSwiper';
 import ByMeCard from '@/components/ByMeCard';
+import Prompt from '@/components/Prompt';
 
 type Props = {};
 
@@ -29,7 +30,7 @@ const Web3Page: React.FC<Props> = (props) => {
 
   return (
     <div className={styles.web3Page}>
-      <TopNavBar title={'Web3 Airdrop'} />
+      <TopNavBar title={'Web3 Airdrop'} right={<Prompt />} />
       <div className={styles.content}>
         <CustomSwiper items={web3List} spacing={10} />
       </div>

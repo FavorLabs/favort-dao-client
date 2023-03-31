@@ -157,7 +157,7 @@ export const getChatHash = (name: string) => {
 export const checkLogin = () => {
   const token = localStorage.getItem(getKeyByName('token'));
   const connectType = localStorage.getItem(getKeyByName('connectType'));
-  return !!(token || connectType);
+  return !!(token && connectType);
 };
 
 export const switchTheme = () => {
@@ -272,10 +272,12 @@ export const query = (params: any) => {
     sort: JSON.stringify(params.sort || {}),
     filter: JSON.stringify(params.filter || []),
   };
-  // @ts-ignore
-  return Object.keys(newParams)
-    .map((key) => [key, newParams[key]].map(encodeURIComponent).join('='))
-    .join('&');
+  return (
+    Object.keys(newParams)
+      // @ts-ignore
+      .map((key) => [key, newParams[key]].map(encodeURIComponent).join('='))
+      .join('&')
+  );
 };
 
 export const randomHex = () => {

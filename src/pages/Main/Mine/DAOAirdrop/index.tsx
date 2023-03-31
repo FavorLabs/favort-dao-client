@@ -7,6 +7,7 @@ import { Select, Input } from 'antd';
 import type { SelectProps } from 'antd';
 import { useHistory } from 'umi';
 import DaoSwitch from '@/components/DaoSwitch';
+import Prompt from '@/components/Prompt';
 
 export type Props = {};
 
@@ -38,7 +39,7 @@ const DAOAirdrop: React.FC<Props> = (props) => {
 
   return (
     <div className={styles.dAOAirdrop}>
-      <TopNavBar title={'In DAO Airdrop'} />
+      <TopNavBar title={'In DAO Airdrop'} right={<Prompt />} />
       <div className={styles.content}>
         {/*userAttributeSelect*/}
         <div className={styles.userAttributeSelect}>

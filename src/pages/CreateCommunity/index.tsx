@@ -205,7 +205,7 @@ const CreateCommunity: React.FC<Props> = (props) => {
 
   return (
     <div className={styles.content}>
-      <TopNavBar title={'Create DAO'} noRight={true} />
+      <TopNavBar title={'Create DAO'} right={null} />
       <div className={styles.createOptions}>
         {optionsItems.map((item) => (
           <div className={styles.option} key={item.name}>
