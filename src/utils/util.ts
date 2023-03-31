@@ -27,9 +27,14 @@ export const getEndPoint = (): boolean | string => {
 
 export const appName = new URLSearchParams(location.search).get('name');
 
-export const getTokenKey = () => {
+export const getKeyByName = (type: 'token' | 'connectType') => {
   const networkId = localStorage.getItem('network_id');
-  const arr = ['token', networkId, appName];
+  let arr = [];
+  if (type === 'token') {
+    arr = ['token', networkId, appName];
+  } else {
+    arr = ['connectType', networkId, appName];
+  }
   return arr
     .filter((item) => {
       if (item) return item;
@@ -115,8 +120,10 @@ export const toChat = (
   proxyGroup: string | undefined,
   guid: string,
   bucket: string,
+  region: string,
+  network: string,
 ) => {
-  const token = localStorage.getItem(getTokenKey());
+  const token = localStorage.getItem(getKeyByName('token'));
   if (isFavorApp()) {
     toFlutterChat();
   } else {
@@ -127,7 +134,7 @@ export const toChat = (
   function toFlutterChat() {
     if (window?.flutter_inappwebview) {
       const hash = WebUtils.keccak256(`server_${name}_channel_General`);
-      Flutter.chatMessage(proxyGroup as string, guid, bucket);
+      Flutter.chatMessage(proxyGroup as string, guid, bucket, region, network);
     } else {
       toWebPageChat();
     }
@@ -148,8 +155,8 @@ export const getChatHash = (name: string) => {
 };
 
 export const checkLogin = () => {
-  const token = localStorage.getItem(getTokenKey());
-  const connectType = localStorage.getItem(ConnectType);
+  const token = localStorage.getItem(getKeyByName('token'));
+  const connectType = localStorage.getItem(getKeyByName('connectType'));
   return !!(token || connectType);
 };
 
@@ -257,4 +264,26 @@ export const flexible = (window: Window, document: Document) => {
   //   testElement.style.borderconsole.log("pc device");
   //   docEl.removeChild(fakeBody);
   // }
+};
+
+export const query = (params: any) => {
+  let newParams = {
+    page: JSON.stringify(params.page || {}),
+    sort: JSON.stringify(params.sort || {}),
+    filter: JSON.stringify(params.filter || []),
+  };
+  // @ts-ignore
+  return Object.keys(newParams)
+    .map((key) => [key, newParams[key]].map(encodeURIComponent).join('='))
+    .join('&');
+};
+
+export const randomHex = () => {
+  return `#${Math.floor(Math.random() * 0xffffff)
+    .toString(16)
+    .padEnd(6, '0')}`;
+};
+
+export const getDownloadNumber = (b: string) => {
+  return b.match(/1/g)?.length || 0;
 };

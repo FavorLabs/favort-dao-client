@@ -1,0 +1,71 @@
+.chunkSourceInfoPopup {
+}
+
+.popup {
+  .popupContent {
+    .titleWrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 700;
+      margin: 1.875rem 0 1.25rem;
+      .totalPercent {
+        color: rgba(255, 166, 0, 1);
+      }
+    }
+    .loading {
+      text-align: center;
+    }
+    .sourceWrap {
+      max-height: 12.5rem;
+      overflow-y: auto;
+      .sourceItem {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 1.875rem;
+        margin-bottom: 0.9375rem;
+        padding: 0 0.9375rem;
+        box-sizing: border-box;
+        border-radius: 1.25rem;
+        font-size: 0.75rem;
+        background: rgba(240, 240, 240, 1);
+        .left {
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          .block {
+            width: 0.625rem;
+            height: 0.625rem;
+            margin-right: 0.625rem;
+          }
+          .address {
+            width: 50vw;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            -o-text-overflow: ellipsis;
+          }
+        }
+        .percent {
+          font-weight: 700;
+        }
+      }
+    }
+    .blockList {
+      margin-top: 0.3125rem;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      background: rgba(240, 240, 240, 1);
+    }
+    .button {
+      color: rgba(255, 255, 255, 1);
+      height: 2.75rem;
+      line-height: 2.75rem;
+      text-align: center;
+      margin: 3rem 0 1.25rem;
+      border-radius: 0.125rem;
+      background: rgba(255, 166, 0, 1);
+    }
+  }
+}

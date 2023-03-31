@@ -21,6 +21,7 @@ const CustomSwiper: React.FC<Props> = (props) => {
     touchStartX: 0,
     touchEndX: 0,
   });
+  const dragRange = 50;
   // const childRefs = useMemo(() => {
   //   return items.map((item, index) => {
   //     return createRef();
@@ -63,7 +64,7 @@ const CustomSwiper: React.FC<Props> = (props) => {
                   let res = endX - startX;
                   if (startX === 0 || endX === 0 || res === 0) return;
                   const arr = [...list];
-                  if (res < 0) {
+                  if (res < 0 && Math.abs(res) >= dragRange) {
                     // console.log('to left', startX, endX);
                     // childRefs.forEach((item, index) => {
                     //   console.log('--', item.current);
@@ -74,9 +75,11 @@ const CustomSwiper: React.FC<Props> = (props) => {
                     const i = arr.shift();
                     arr.push(i as LaminatedCard);
                   } else {
-                    // console.log('to right', startX, endX);
-                    const i = arr.pop();
-                    arr.unshift(i as LaminatedCard);
+                    if (Math.abs(res) >= dragRange) {
+                      // console.log('to right', startX, endX);
+                      const i = arr.pop();
+                      arr.unshift(i as LaminatedCard);
+                    }
                   }
                   setList(arr);
                   setCurrentCard(arr[0]);
@@ -91,7 +94,7 @@ const CustomSwiper: React.FC<Props> = (props) => {
           <div
             className={styles.count}
             style={{
-              width: 'calc(100% - 20px)',
+              width: `calc(100% - ${spacing * 2}px)`,
               marginTop: `${spacing * 3}px`,
             }}
           >

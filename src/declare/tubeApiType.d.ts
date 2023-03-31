@@ -164,9 +164,13 @@ export type BucketRes = {
     Sum: string;
     BuildDate: string;
   };
-  Settings: {
-    Bucket: string;
-  };
+  Settings: Settings;
+};
+
+export type Settings = {
+  Bucket: string;
+  TagNetwork: string;
+  TagRegion: string;
 };
 
 export type GetMsgIdRes = {

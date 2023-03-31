@@ -28,7 +28,9 @@ export type Props = {};
 
 const DaoCommunity: React.FC<Props> = (props) => {
   const params: { daoId?: string } = useParams();
-  const { api, config, bucket } = useSelector((state: Models) => state.global);
+  const { api, config, settings } = useSelector(
+    (state: Models) => state.global,
+  );
   const url = useUrl();
   const reviteUrl = useReviteUrl();
 
@@ -47,7 +49,7 @@ const DaoCommunity: React.FC<Props> = (props) => {
     createTime: '',
   });
   const [lastChat, setLastChat] = useState({
-    text: 'no chat',
+    text: '',
     createTime: '',
   });
   const [pageData, setPageData] = useState<Page>({
@@ -322,13 +324,16 @@ const DaoCommunity: React.FC<Props> = (props) => {
                             className={styles.contentBox}
                             onClick={() => {
                               if (isBookmark) {
+                                if (!settings) return;
                                 if (guid)
                                   toChat(
                                     daoInfo.name,
                                     api,
                                     config?.proxyGroup,
                                     guid,
-                                    bucket,
+                                    settings.Bucket,
+                                    settings.TagRegion,
+                                    settings.TagNetwork,
                                   );
                                 else {
                                   message.error(

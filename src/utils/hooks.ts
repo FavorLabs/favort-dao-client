@@ -29,8 +29,8 @@ export const useReviteUrl = () => {
 };
 
 export const useResourceUrl = (type: BucketsPath) => {
-  let { api, config, bucket } = useSelector((state: Models) => state.global);
-  if (!config) return '';
+  let { api, config, settings } = useSelector((state: Models) => state.global);
+  if (!config || !settings) return '';
   return (
     api +
     '/group/http/' +
@@ -38,7 +38,7 @@ export const useResourceUrl = (type: BucketsPath) => {
     '/' +
     AutumnDomainName +
     '/' +
-    bucket +
+    settings.Bucket +
     '/' +
     type
   );

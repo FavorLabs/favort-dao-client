@@ -55,7 +55,9 @@ const Main: React.FC<Props> = (props) => {
   const intl = useIntl();
   const dispatch = useDispatch();
   const pathname = history.location.pathname;
-  const { user, config, bucket } = useSelector((state: Models) => state.global);
+  const { user, config, settings } = useSelector(
+    (state: Models) => state.global,
+  );
   const { userInfo } = useSelector((state: Models) => state.dao);
   const route = pathname.split('/')[1];
   const [routeKey, setRouteKey] = useState(`/${route}`);
@@ -236,7 +238,10 @@ const Main: React.FC<Props> = (props) => {
               }
             } else if (key === '/chat') {
               if (isFavorApp() && checkLogin())
-                Flutter.clickChat(config?.proxyGroup as string, bucket);
+                Flutter.clickChat(
+                  config?.proxyGroup as string,
+                  settings?.Bucket as string,
+                );
               else {
                 message.info('Not open at this time!');
               }

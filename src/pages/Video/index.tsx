@@ -17,6 +17,8 @@ import ExitCommunityDialog from '@/components/ExitCommunityDialog';
 import Comment from '@/components/Comment';
 import DetailSkeleton from '@/components/CustomSkeleton/PostSkeleton/DetailSkeleton';
 import CommentSkeleton from '@/components/CustomSkeleton/CommentSkeleton';
+import aboutSvg from '@/assets/icon/about.svg';
+import ChunkSourceInfoPopup from '@/components/ChunkSourceInfoPopup';
 
 export type Props = {
   match: {
@@ -41,6 +43,9 @@ const Video: React.FC<Props> = (props) => {
   const [joined, setJoined] = useState<boolean>(false);
   const [isSelf, setIsSelf] = useState<boolean>(true);
   const [focusDialog, setFocusDialog] = useState<boolean>(false);
+  const [chunkVisible, setChunkVisible] = useState<boolean>(false);
+  const [videoHash, setVideoHash] = useState<string>('');
+  const [oracleArr, setOracleArr] = useState<string[]>([]);
 
   const { api } = useSelector((state: Models) => state.global);
   const { userInfo } = useSelector((state: Models) => state.dao);
@@ -128,6 +133,16 @@ const Video: React.FC<Props> = (props) => {
     }
   }, [videoData]);
 
+  useEffect(() => {
+    if (vSrc) {
+      if (vSrc.includes('?')) {
+        const temp = vSrc.split('?');
+        setVideoHash(temp[0]);
+        setOracleArr([temp[1].split('=')[1]]);
+      }
+    }
+  }, [vSrc]);
+
   return (
     <>
       <div className={styles.content}>
@@ -185,24 +200,36 @@ const Video: React.FC<Props> = (props) => {
                       )}
                       <figcaption className={styles.detail}>
                         <div className={styles.info}>
-                          <div
-                            className={styles.left}
-                            onClick={() => {
-                              history.push(`/daoCommunity/${videoData.dao.id}`);
-                            }}
-                          >
-                            <UserAvatar
-                              prefix={avatarsResUrl}
-                              name={videoData.dao.name}
-                              identifier={videoData.dao.avatar}
-                            />
-                            <div className={styles.text}>
-                              <div className={styles.daoName}>
-                                {videoData.dao.name}
+                          <div className={styles.left}>
+                            <div
+                              className={styles.leftL}
+                              onClick={() => {
+                                history.push(
+                                  `/daoCommunity/${videoData.dao.id}`,
+                                );
+                              }}
+                            >
+                              <UserAvatar
+                                prefix={avatarsResUrl}
+                                name={videoData.dao.name}
+                                identifier={videoData.dao.avatar}
+                              />
+                              <div className={styles.text}>
+                                <div className={styles.daoName}>
+                                  {videoData.dao.name}
+                                </div>
+                                <div className={styles.subscribe}>
+                                  {videoData.dao.follow_count} followers
+                                </div>
                               </div>
-                              <div className={styles.subscribe}>
-                                {videoData.dao.follow_count} followers
-                              </div>
+                            </div>
+                            <div
+                              className={styles.leftR}
+                              onClick={() => {
+                                setChunkVisible(true);
+                              }}
+                            >
+                              <img src={aboutSvg} alt="" />
                             </div>
                           </div>
                           {!isSelf && (
@@ -276,6 +303,16 @@ const Video: React.FC<Props> = (props) => {
           }}
           confirmHandle={confirmFocus}
         />
+        {chunkVisible && (
+          <ChunkSourceInfoPopup
+            visible={chunkVisible}
+            close={() => {
+              setChunkVisible(false);
+            }}
+            videoHash={videoHash}
+            oracleArr={oracleArr}
+          />
+        )}
       </div>
     </>
   );

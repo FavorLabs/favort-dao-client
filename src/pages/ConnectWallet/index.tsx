@@ -19,7 +19,7 @@ import { WalletType } from '@/declare/global';
 import UserApi from '@/services/tube/UserApi';
 import { useUrl } from '@/utils/hooks';
 import Web3 from 'web3';
-import { getTokenKey, isFavorApp, isMobile } from '@/utils/util';
+import { getKeyByName, isFavorApp, isMobile } from '@/utils/util';
 import { Models } from '@/declare/modelType';
 import { Config } from '@/config/config';
 import SvgIcon from '@/components/SvgIcon';
@@ -118,7 +118,7 @@ const ConnectWallet: React.FC = (props) => {
         type: typeData[cType],
       });
       if (isFavorApp()) Flutter.chatLogin(data.data.token);
-      localStorage.setItem(getTokenKey(), data.data.token);
+      localStorage.setItem(getKeyByName('token'), data.data.token);
       const info = await UserApi.getInfo(url);
       dispatch({
         type: 'web3/updateState',
@@ -133,7 +133,7 @@ const ConnectWallet: React.FC = (props) => {
           user: info.data.data,
         },
       });
-      localStorage.setItem(ConnectType, cType);
+      localStorage.setItem(getKeyByName('connectType'), cType);
       history.replace('/');
     } catch (e) {
       setLoading(false);
