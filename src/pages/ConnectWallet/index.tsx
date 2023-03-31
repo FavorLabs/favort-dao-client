@@ -24,6 +24,9 @@ import { Models } from '@/declare/modelType';
 import { Config } from '@/config/config';
 import SvgIcon from '@/components/SvgIcon';
 import homeSvg from '@/assets/icon/home.svg';
+import leftArrow from '@/assets/icon/left-arrow.svg';
+import loginLog from '@/assets/icon/loginLog.svg';
+import rightArrow from '@/assets/icon/rightArrow.svg';
 import Flutter from '@/utils/flutter';
 
 const ConnectWallet: React.FC = (props) => {
@@ -52,26 +55,35 @@ const ConnectWallet: React.FC = (props) => {
       });
   };
 
-  const walletList: { name: WalletType; icon: string; show: boolean }[] = [
+  const walletList: {
+    name: WalletType;
+    icon: string;
+    show: boolean;
+    introduction: string;
+  }[] = [
     {
       icon: unipass_png,
       name: UniPass,
       show: true,
+      introduction: 'To connect to the Unipass wallet',
     },
     {
       icon: walletConnect_png,
       name: WalletConnect,
       show: true,
+      introduction: 'To connect to other wallets',
     },
     {
       icon: metamask_png,
       name: MetaMask,
       show: !isMobile(),
+      introduction: 'To connect to the MetaMask',
     },
     {
       icon: okx_png,
       name: OKX,
       show: !isMobile(),
+      introduction: 'To connect to the OKX',
     },
   ];
 
@@ -143,45 +155,52 @@ const ConnectWallet: React.FC = (props) => {
 
   return (
     <div className={styles.box}>
-      <span
+      <div
         className={styles.toHome}
         onClick={() => {
           history.push('/');
         }}
       >
-        <SvgIcon svg={homeSvg} />
-      </span>
-      <h1 className={styles.title}>Connect Wallet</h1>
-      {walletList.map((item) => (
-        <div key={item.name}>
-          {item.show && (!cType || cType === item.name) && (
-            <div
-              className={styles.wallet}
-              onClick={() => connectWallet(item.name)}
-            >
-              <div className={styles.icon}>
-                <img src={item.icon} alt={item.name} />
+        <SvgIcon svg={leftArrow} />
+      </div>
+      <div className={styles.content}>
+        <img src={loginLog} alt="" className={styles.loginImg} />
+        <p className={styles.title}>Sign In</p>
+        {walletList.map((item) => (
+          <div key={item.name} className={styles.block}>
+            {item.show && (!cType || cType === item.name) && (
+              <div
+                className={styles.wallet}
+                onClick={() => connectWallet(item.name)}
+              >
+                <div className={styles.icon}>
+                  <img src={item.icon} alt={item.name} />
+                </div>
+                <div className={styles.text}>
+                  <p className={styles.name}>{item.name.toUpperCase()}</p>
+                  <p className={styles.introduction}>{item.introduction}</p>
+                </div>
+                <img src={rightArrow} alt="" className={styles.rightArrow} />
               </div>
-              <div className={styles.name}>{item.name.toUpperCase()}</div>
-            </div>
-          )}
-        </div>
-      ))}
-      {cType && (
-        <div className={styles.reset} onClick={reset}>
-          RESET
-        </div>
-      )}
-      {cType && (
-        <Button
-          className={styles.signIn}
-          type="primary"
-          loading={loading}
-          onClick={signIn}
-        >
-          SIGN IN
-        </Button>
-      )}
+            )}
+          </div>
+        ))}
+        {cType && (
+          <div className={styles.reset} onClick={reset}>
+            RESET
+          </div>
+        )}
+        {cType && (
+          <Button
+            className={styles.signIn}
+            type="primary"
+            loading={loading}
+            onClick={signIn}
+          >
+            SIGN IN
+          </Button>
+        )}
+      </div>
     </div>
   );
 };
