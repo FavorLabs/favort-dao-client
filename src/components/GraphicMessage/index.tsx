@@ -6,7 +6,7 @@ import { PostInfo } from '@/declare/tubeApiType';
 import { getContent } from '@/utils/util';
 import PopupContent from '@/components/PopupContent';
 import ImageCut from '@/components/ImageCut';
-import { useHistory } from 'umi';
+import { history, useHistory } from 'umi';
 
 export type Props = {
   // post: PostInfoAndLike;

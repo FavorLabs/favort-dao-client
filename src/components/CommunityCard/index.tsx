@@ -23,14 +23,25 @@ const CommunityCard: React.FC<Props> = (props) => {
   const imagesResUrl = useResourceUrl('images');
   const [isUnfold, setIsUnfold] = useState<boolean>(false);
   const [dialogVisible, setDialogVisible] = useState<boolean>(false);
+  const [isClick, setIsClick] = useState<boolean>(true);
 
   const confirmHandle = async () => {
     try {
+      setIsClick(false);
       handle();
     } catch (e) {
       if (e instanceof Error) message.error(e.message);
     } finally {
       setDialogVisible(false);
+    }
+  };
+
+  const joinCommunity = () => {
+    if (isClick) {
+      setIsClick(false);
+      handle();
+    } else {
+      message.warning('Sending a request!');
     }
   };
 
@@ -74,13 +85,15 @@ const CommunityCard: React.FC<Props> = (props) => {
                 <div
                   className={styles.joined}
                   onClick={() => {
-                    setDialogVisible(true);
+                    isClick
+                      ? setDialogVisible(true)
+                      : message.warning('Sending a request!');
                   }}
                 >
                   joined
                 </div>
               ) : (
-                <div className={styles.join} onClick={handle}>
+                <div className={styles.join} onClick={joinCommunity}>
                   join
                 </div>
               ))}
