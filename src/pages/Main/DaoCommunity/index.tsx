@@ -323,21 +323,26 @@ const DaoCommunity: React.FC<Props> = (props) => {
                           <div
                             className={styles.contentBox}
                             onClick={() => {
-                              if (!settings) return;
-                              if (guid)
-                                toChat(
-                                  daoInfo.name,
-                                  api,
-                                  config?.proxyGroup,
-                                  guid,
-                                  settings.Bucket,
-                                  settings.TagRegion,
-                                  settings.TagNetwork,
-                                );
-                              else
-                                message.error(
-                                  'Failed to obtain group chat information. Procedure',
-                                );
+                              if (isBookmark) {
+                                if (!settings) return;
+                                if (guid)
+                                  toChat(
+                                    daoInfo.name,
+                                    api,
+                                    config?.proxyGroup,
+                                    guid,
+                                    settings.Bucket,
+                                    settings.TagRegion,
+                                    settings.TagNetwork,
+                                  );
+                                else {
+                                  message.error(
+                                    'Failed to obtain group chat information. Procedure',
+                                  );
+                                }
+                              } else {
+                                message.warning('Please join this community');
+                              }
                             }}
                           >
                             <div className={styles.img}>

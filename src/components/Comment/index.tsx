@@ -91,11 +91,11 @@ const Comment: React.FC<Props> = (props) => {
   const resetPopup = () => {
     setComment('');
     setCurrentReply({ id: '', idx: 0 });
-    setCommentPopup(false);
   };
 
   const sendComment = async () => {
     if (sendDisable) return message.info('Please enter your comment!');
+    setCommentPopup(false);
     try {
       const { data } = await PostApi.addPostComment(url, {
         post_id: postId,
@@ -152,6 +152,7 @@ const Comment: React.FC<Props> = (props) => {
 
   const sendReply = async () => {
     if (sendDisable) return message.info('Please enter your reply!');
+    setCommentPopup(false);
     try {
       const { data } = await PostApi.addCommentReply(url, {
         comment_id: currentReply.id,

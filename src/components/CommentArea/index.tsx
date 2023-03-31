@@ -80,15 +80,17 @@ const CommentArea: React.FC<Props> = (props) => {
 
   useEffect(() => {
     if (postId && checkLogin()) {
-      getPostLikeStatus();
       postView();
     }
   }, [postId]);
 
   useEffect(() => {
-    setLikeCount(likeNum);
-    setWatchCount(watchNum);
-    setCommentOnCount(commentOnNum);
+    if (postId && checkLogin()) {
+      setLikeCount(likeNum);
+      setWatchCount(watchNum);
+      setCommentOnCount(commentOnNum);
+      getPostLikeStatus();
+    }
   }, [likeNum, watchNum, commentOnNum]);
 
   return (
