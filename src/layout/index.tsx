@@ -20,7 +20,7 @@ import {
   appName,
   checkLogin,
   flexible,
-  getTokenKey,
+  getKeyByName,
   isFavorApp,
 } from '@/utils/util';
 import { setTheme, ThemeType } from '@/utils/setTheme';
@@ -30,6 +30,7 @@ import Bucket from '@/services/tube/Global';
 import moment from 'moment';
 const currentLang = getLocale();
 import VConsole from 'vconsole';
+import Flutter from '@/utils/flutter';
 if (!NETWORK_ID || (NETWORK_ID && NETWORK_ID === '19')) new VConsole();
 
 const Layout: React.FC = (props) => {
@@ -39,7 +40,8 @@ const Layout: React.FC = (props) => {
   const { api, debugApi, ws, status, requestLoading, config, user } =
     useSelector((state: Models) => state.global);
 
-  const { web3 } = useSelector((state: Models) => state.web3);
+  const { web3, address } = useSelector((state: Models) => state.web3);
+  const { userInfo } = useSelector((state: Models) => state.dao);
   const proxyResult = useRef<string | number | null>(null);
   const [configLoading, setConfigLoading] = useState<boolean>(true);
   const [connected, setConnected] = useState<boolean>(false);
@@ -176,14 +178,14 @@ const Layout: React.FC = (props) => {
       dispatch({
         type: 'global/updateState',
         payload: {
-          bucket: data.data.Settings.Bucket,
+          settings: data.data.Settings,
         },
       });
     }
   };
 
   const getLoginStatus = async () => {
-    const connectType = localStorage.getItem(ConnectType);
+    const connectType = localStorage.getItem(getKeyByName('connectType'));
     if (!checkLogin()) return history.push('/');
     try {
       const info = await UserApi.getInfo(url);
@@ -209,8 +211,8 @@ const Layout: React.FC = (props) => {
       if (e instanceof Error) {
         if (e.message.includes('timeout')) return;
         else {
-          localStorage.removeItem(ConnectType);
-          localStorage.removeItem(getTokenKey());
+          localStorage.removeItem(getKeyByName('connectType'));
+          localStorage.removeItem(getKeyByName('token'));
           history.push('/login');
         }
       }
@@ -228,6 +230,11 @@ const Layout: React.FC = (props) => {
         api,
       },
     });
+
+    const token = localStorage.getItem(getKeyByName('token'));
+    if (token) {
+      if (isFavorApp()) Flutter.chatLogin(token);
+    }
   }, []);
 
   useEffect(() => {
@@ -254,7 +261,7 @@ const Layout: React.FC = (props) => {
     web3?.currentProvider?.once('disconnect', () => {
       if (isFavorApp()) return;
       localStorage.removeItem('walletconnect');
-      localStorage.removeItem(ConnectType);
+      localStorage.removeItem(getKeyByName('connectType'));
       location.reload();
     });
   }, [web3]);

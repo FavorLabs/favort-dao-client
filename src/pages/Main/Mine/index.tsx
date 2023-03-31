@@ -13,7 +13,7 @@ import {
 import { message } from 'antd';
 import { Dialog } from 'antd-mobile';
 import { Models } from '@/declare/modelType';
-import { getTokenKey, isFavorApp, isMobile, omitAddress } from '@/utils/util';
+import { getKeyByName, isFavorApp, isMobile, omitAddress } from '@/utils/util';
 import UserAvatar from '@/components/UserAvatar';
 import { useResourceUrl, useUrl } from '@/utils/hooks';
 import { switchTheme } from '@/utils/util';
@@ -324,12 +324,12 @@ const Mine: React.FC<Props> = (props) => {
 
   const logout = () => {
     if (isFavorApp()) Flutter.chatLogout();
-    localStorage.removeItem(getTokenKey());
-    localStorage.removeItem(ConnectType);
-    const connectType = localStorage.getItem(ConnectType);
+    const connectType = localStorage.getItem(getKeyByName('connectType'));
     if (connectType && connectType === WalletConnect) {
       localStorage.removeItem('walletconnect');
     }
+    localStorage.removeItem(getKeyByName('token'));
+    localStorage.removeItem(getKeyByName('connectType'));
     dispatch({
       type: 'web3/updateState',
       payload: {

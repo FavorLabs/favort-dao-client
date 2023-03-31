@@ -51,21 +51,34 @@
               display: flex;
               justify-content: flex-start;
               align-items: center;
-              .text {
+              .leftL {
                 display: flex;
                 justify-content: flex-start;
-                align-items: flex-start;
-                flex-direction: column;
-                margin-left: 0.625rem;
-                .daoName {
-                  color: rgba(33, 33, 33, 1);
-                  font-size: 1rem;
-                  font-weight: 700;
+                align-items: center;
+                .text {
+                  display: flex;
+                  justify-content: flex-start;
+                  align-items: flex-start;
+                  flex-direction: column;
+                  margin-left: 0.625rem;
+                  .daoName {
+                    color: rgba(33, 33, 33, 1);
+                    font-size: 1rem;
+                    font-weight: 700;
+                  }
+                  .subscribe {
+                    color: rgba(181, 181, 181, 1);
+                    font-size: 0.75rem;
+                    margin-top: 0.25rem;
+                  }
                 }
-                .subscribe {
-                  color: rgba(181, 181, 181, 1);
-                  font-size: 0.75rem;
-                  margin-top: 0.25rem;
+              }
+              .leftR {
+                margin-left: 0.625rem;
+                line-height: 0;
+                img {
+                  width: 1.25rem;
+                  height: 1.25rem;
                 }
               }
             }

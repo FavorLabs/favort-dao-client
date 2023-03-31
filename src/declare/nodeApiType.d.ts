@@ -41,3 +41,16 @@ export type FileList = {
   list: FileInfo[];
   total: number;
 };
+
+export declare type Chunk = {
+  overlay: string;
+  chunkBit: {
+    len: number;
+    b: string;
+  };
+};
+
+export declare type ChunkSource = {
+  len: number;
+  chunkSource: Chunk[];
+};

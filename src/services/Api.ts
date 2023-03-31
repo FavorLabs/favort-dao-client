@@ -8,6 +8,7 @@ import type {
   Addresses,
   FileList,
 } from '@/declare/nodeApiType';
+import { ChunkSource } from '@/declare/nodeApiType';
 
 export default {
   // Api
@@ -86,6 +87,11 @@ export default {
       { timeout: 30 * 1000 },
     );
   },
+  getPyramidSize(api: string, data: any): Promise<AxiosResponse<FileList>> {
+    return request({
+      url: api + '/file?' + data,
+    });
+  },
 
   // DebugApi
   connect(debugApi: string, overlay: string): Promise<AxiosResponse<Message>> {
@@ -96,5 +102,13 @@ export default {
   },
   getAddresses(debugApi: string): Promise<AxiosResponse<Addresses>> {
     return request.get(debugApi + '/addresses');
+  },
+  getChunkSource(
+    debugApi: string,
+    hash: string,
+  ): Promise<AxiosResponse<ChunkSource>> {
+    return request({
+      url: debugApi + '/chunk/source/' + hash,
+    });
   },
 };
