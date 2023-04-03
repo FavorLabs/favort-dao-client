@@ -11,7 +11,7 @@ import {
   useDispatch,
 } from 'umi';
 import { message } from 'antd';
-import { Dialog } from 'antd-mobile';
+import { Dialog, Input } from 'antd-mobile';
 import { Models } from '@/declare/modelType';
 import { getKeyByName, isFavorApp, isMobile, omitAddress } from '@/utils/util';
 import UserAvatar from '@/components/UserAvatar';
@@ -39,6 +39,7 @@ import pendingSvg from '@/assets/icon/pending.svg';
 import onGoingSvg from '@/assets/icon/ongoimg.svg';
 import finishedSvg from '@/assets/icon/finished.svg';
 import byMeSvg from '@/assets/icon/byme.svg';
+import editIcon from '@/assets/icon/edit-icon.svg';
 import Flutter from '@/utils/flutter';
 
 export type Props = {};
@@ -80,10 +81,16 @@ const Mine: React.FC<Props> = (props) => {
     (theme as ThemeType) || (defaultTheme as ThemeType),
   );
   const [logoutDialog, setLogoutDialog] = useState<boolean>(false);
+  const [changeNameDialog, setChangeNameDialog] = useState<boolean>(false);
 
   const { user } = useSelector((state: Models) => state.global);
   const { userInfo } = useSelector((state: Models) => state.dao);
   const { address, web3 } = useSelector((state: Models) => state.web3);
+
+  const [nameValue, setNameValue] = useState<string | undefined>(
+    user?.nickname,
+  );
+  const [nickName, setNickName] = useState<string | undefined>(user?.nickname);
 
   const localeLang = getLocale();
   const isLight = themeType === 'light';
@@ -111,17 +118,21 @@ const Mine: React.FC<Props> = (props) => {
       count: userStatistic.dao_count,
     },
     {
-      name: 'Likes',
-      count: userStatistic.upvote_count,
-    },
-    {
-      name: 'Comments',
-      count: userStatistic.comment_count,
-    },
-    {
-      name: 'Friends',
+      name: 'Level',
       count: 0,
     },
+    // {
+    //   name: 'Likes',
+    //   count: userStatistic.upvote_count,
+    // },
+    // {
+    //   name: 'Comments',
+    //   count: userStatistic.comment_count,
+    // },
+    // {
+    //   name: 'Friends',
+    //   count: 0,
+    // },
   ];
 
   const cryptoAssetsItems: OptionItems[] = [
@@ -277,7 +288,7 @@ const Mine: React.FC<Props> = (props) => {
       key: 3,
       name: intl.formatMessage({ id: 'main.mine.setting.about' }),
       icon: <img src={aboutSvg} alt={''} />,
-      content: <div className={styles.aboutAction}>version 1.0.0331</div>,
+      content: <div className={styles.aboutAction}>version 1.0.0403</div>,
     },
     {
       key: 4,
@@ -382,6 +393,36 @@ const Mine: React.FC<Props> = (props) => {
     });
   };
 
+  const changeName = async () => {
+    setChangeNameDialog(false);
+    try {
+      const { data } = await UserApi.changeNickName(url, nameValue);
+      if (data.msg === 'success') {
+        setNickName(nameValue);
+        dispatch({
+          type: 'global/updateState',
+          payload: {
+            user: { ...user, nickname: nameValue },
+          },
+        });
+        message.success('Modified successfully');
+      } else {
+        message.error('Failed to change name！');
+      }
+    } catch (e) {
+      if (e instanceof Error) message.error(e.message);
+      setNameValue(nickName);
+    }
+  };
+
+  const settingClick = (key: number) => {
+    switch (key) {
+      case 4:
+        setLogoutDialog(true);
+        break;
+    }
+  };
+
   useEffect(() => {
     getStatistic();
   }, []);
@@ -418,7 +459,15 @@ const Mine: React.FC<Props> = (props) => {
               />
             )}
             <div className={styles.details}>
-              <p className={styles.name}>{user?.nickname}</p>
+              <div className={styles.nameRow}>
+                <p className={styles.name}>{nickName}</p>
+                <img
+                  src={editIcon}
+                  alt=""
+                  className={styles.image}
+                  onClick={() => setChangeNameDialog(true)}
+                />
+              </div>
               <span className={styles.address}>
                 {omitAddress(address, 6, 14)}
               </span>
@@ -529,9 +578,7 @@ const Mine: React.FC<Props> = (props) => {
                 className={styles.settingItem}
                 key={item.name}
                 onClick={() => {
-                  if (item.key === 4) {
-                    setLogoutDialog(true);
-                  }
+                  settingClick(item.key);
                 }}
               >
                 <div className={styles.iconName}>
@@ -559,6 +606,37 @@ const Mine: React.FC<Props> = (props) => {
                   cancel
                 </span>
                 <span className={styles.confirm} onClick={logout}>
+                  confirm
+                </span>
+              </div>
+            </div>
+          }
+        />
+        <Dialog
+          visible={changeNameDialog}
+          content={
+            <div className={styles.changeNameDialog}>
+              <p className={styles.title}>Change the name</p>
+              <Input
+                placeholder="Please enter name"
+                value={nameValue}
+                defaultValue={nickName}
+                onChange={(val) => {
+                  setNameValue(val);
+                }}
+                className={styles.input}
+              />
+              <div className={styles.actions}>
+                <span
+                  className={styles.cancel}
+                  onClick={() => {
+                    setChangeNameDialog(false);
+                    setNameValue(nickName);
+                  }}
+                >
+                  cancel
+                </span>
+                <span className={styles.confirm} onClick={changeName}>
                   confirm
                 </span>
               </div>

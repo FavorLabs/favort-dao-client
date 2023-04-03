@@ -12,12 +12,14 @@ import Comment from '@/components/Comment';
 import CommentSkeleton from '@/components/CustomSkeleton/CommentSkeleton';
 import DetailSkeleton from '@/components/CustomSkeleton/PostSkeleton/DetailSkeleton';
 import TopNavBar from '@/components/TopNavBar';
+import { useIntl } from '@@/plugin-locale/localeExports';
 
 export type Props = {};
 
 const NewsletterDetail: React.FC<Props> = (props) => {
   const { postId } = useParams<{ postId: string }>();
   const url = useUrl();
+  const intl = useIntl();
 
   const [postInfo, setPostInfo] = useState<PostInfo | null>(null);
 
@@ -38,7 +40,12 @@ const NewsletterDetail: React.FC<Props> = (props) => {
 
   return (
     <div className={styles.content}>
-      <TopNavBar title={'Main text'} right={null} />
+      <TopNavBar
+        title={`${intl.formatMessage({
+          id: 'newsLetterDetail.navbar.text',
+        })}`}
+        right={null}
+      />
       <div className={styles.detailsWrap}>
         <div className={styles.details}>
           {postInfo ? (

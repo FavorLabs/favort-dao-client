@@ -13,6 +13,7 @@ import ExitCommunityDialog from '@/components/ExitCommunityDialog';
 import DaoApi from '@/services/tube/Dao';
 import { message } from 'antd';
 import { history } from 'umi';
+import { useIntl } from '@@/plugin-locale/localeExports';
 
 export type Props = {
   post: PostInfo;
@@ -22,6 +23,7 @@ export type Props = {
 
 const PopupContent: React.FC<Props> = (props) => {
   const { post, refreshPage, delPost } = props;
+  const intl = useIntl();
   const { userInfo } = useSelector((state: Models) => state.dao);
   const { refreshPostList } = useSelector((state: Models) => state.manage);
   const [visible, setVisible] = useState(false);
@@ -98,18 +100,26 @@ const PopupContent: React.FC<Props> = (props) => {
           {userInfo?.id === post.dao.id ? (
             <div className={styles.row} onClick={deleteFun}>
               <img src={deleteIcon} alt="" className={styles.img} />
-              <span className={styles.redText}>Delete</span>
+              <span className={styles.redText}>
+                {intl.formatMessage({
+                  id: 'popupContent.delete',
+                })}
+              </span>
             </div>
           ) : (
             <></>
           )}
           <div className={styles.cancel} onClick={moreClick}>
-            Cancel
+            {intl.formatMessage({
+              id: 'popupContent.cancel',
+            })}
           </div>
         </div>
       </Popup>
       <ExitCommunityDialog
-        text={'Are you sure you want to delete this News?'}
+        text={`${intl.formatMessage({
+          id: 'popupContent.exitCommunityDialog.text',
+        })}`}
         visible={dialogVisible}
         closeDialog={() => {
           setDialogVisible(false);

@@ -4,6 +4,7 @@ import { useHistory } from 'umi';
 import { NavBar, SearchBar } from 'antd-mobile';
 import { useState } from 'react';
 import PostList from '@/components/PostList';
+import { useIntl } from '@@/plugin-locale/localeExports';
 
 type Props = {
   match: {
@@ -14,6 +15,7 @@ type Props = {
 };
 
 const Search: React.FC<Props> = (props) => {
+  const intl = useIntl();
   const history = useHistory();
   const { type } = props.match.params;
   const [searchValue, setSearchValue] = useState<string>('');
@@ -33,7 +35,9 @@ const Search: React.FC<Props> = (props) => {
       >
         <div className={styles.row}>
           <SearchBar
-            placeholder="Popular group chats"
+            placeholder={`${intl.formatMessage({
+              id: 'search.searchBar.searchInput',
+            })}`}
             style={{
               '--border-radius': '20px',
               '--background': 'rgba(240,240,240,1)',
@@ -45,7 +49,9 @@ const Search: React.FC<Props> = (props) => {
             }}
           />
           <div className={styles.search} onClick={getSearch}>
-            Search
+            {intl.formatMessage({
+              id: 'search.searchBar.text',
+            })}
           </div>
         </div>
       </NavBar>

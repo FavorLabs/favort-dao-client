@@ -178,16 +178,16 @@ const Main: React.FC<Props> = (props) => {
           <TopBar
             content={
               <div className={styles.header}>
-                {/*{isFavorApp() && (*/}
-                {/*  <span*/}
-                {/*    className={styles.toHome}*/}
-                {/*    onClick={() => {*/}
-                {/*      Flutter.closeWebview();*/}
-                {/*    }}*/}
-                {/*  >*/}
-                {/*    <SvgIcon svg={toHomeIcon} />*/}
-                {/*  </span>*/}
-                {/*)}*/}
+                {isFavorApp(true) && (
+                  <span
+                    className={styles.toHome}
+                    onClick={() => {
+                      Flutter.closeWebview();
+                    }}
+                  >
+                    <SvgIcon svg={toHomeIcon} />
+                  </span>
+                )}
                 {latestNavVisibility && (
                   <div className={styles.latestNav}>
                     <NavLink
@@ -195,7 +195,9 @@ const Main: React.FC<Props> = (props) => {
                       to="/latest/recommend"
                       activeClassName="navSelected"
                     >
-                      Recommend
+                      {intl.formatMessage({
+                        id: 'main.latest.header.nav.recommend',
+                      })}
                     </NavLink>
                     <NavLink
                       className={styles.navItem}

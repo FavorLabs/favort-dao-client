@@ -9,6 +9,7 @@ import { ImageMaxSize } from '@/config/constants';
 import SvgIcon from '@/components/SvgIcon';
 import joinedImg from '@/assets/icon/joinedNumber.svg';
 import { Popup } from 'antd-mobile';
+import { useIntl } from '@@/plugin-locale/localeExports';
 
 export type Props = {
   post: PostInfo;
@@ -17,6 +18,7 @@ export type Props = {
 const CommunityIntro: React.FC<Props> = (props) => {
   const { dao } = props.post;
   if (!dao) return <></>;
+  const intl = useIntl();
   const avatarsResUrl = useResourceUrl('avatars');
   const imagesResUrl = useResourceUrl('images');
   const [visible, setVisible] = useState(false);
@@ -106,11 +108,17 @@ const CommunityIntro: React.FC<Props> = (props) => {
             </div>
           </div>
           <div className={styles.introduction}>
-            <div className={styles.title}>Introduction</div>
+            <div className={styles.title}>
+              {intl.formatMessage({
+                id: 'dao.communityIntro.introduction',
+              })}
+            </div>
             <span className={styles.text}>{dao.introduction}</span>
           </div>
           <div className={styles.button} onClick={() => handleClick(dao.id)}>
-            View
+            {intl.formatMessage({
+              id: 'dao.communityIntro.button.text',
+            })}
           </div>
         </div>
       </Popup>
