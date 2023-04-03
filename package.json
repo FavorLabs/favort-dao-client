@@ -28,7 +28,7 @@
     "@iconfu/svg-inject": "^1.2.3",
     "@unipasswallet/ethereum-provider": "^1.1.0",
     "@uniswap/widgets": "2.20.1",
-    "@walletconnect/web3-provider": "^1.8.0",
+    "@walletconnect/ethereum-provider": "1.7.8",
     "ahooks": "^3.7.4",
     "antd": "^5.2.1",
     "antd-img-crop": "^4.9.0",

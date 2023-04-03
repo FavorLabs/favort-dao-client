@@ -9,6 +9,9 @@ export default defineConfig({
   nodeModulesTransform: {
     type: 'none',
   },
+  // devServer: {
+  //   https: true
+  // },
   plugins: ['./src/plugins/modifyHtml.ts'],
   history: {
     type: 'hash',
