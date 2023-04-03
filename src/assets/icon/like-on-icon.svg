@@ -1,14 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="16px" height="17px" viewBox="0 0 16 17" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>like（active）</title>
-    <g id="effect（light--English）" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="like" transform="translate(-256.000000, -65.000000)">
-            <g id="group-13" transform="translate(256.000000, 65.000000)">
-                <g id="like（active）" transform="translate(0.000000, 0.500000)">
-                    <path d="M13.4932089,3.00831427 C15.0032089,4.51831427 15.0532089,6.92831427 13.6532089,8.49831427 L8.00320892,14.1583143 L2.34320892,8.49831427 C0.943208915,6.92831427 0.993208915,4.51831427 2.50320892,3.00831427 C4.01320892,1.49831427 6.43320892,1.44831427 8.00320892,2.85831427 C9.56320892,1.44831427 11.9832089,1.49831427 13.4932089,3.00831427 Z" id="union" fill="#FFA600"></path>
-                    <path d="M0,0 L16,0 L16,16 L0,16 L0,0 Z" id="rectangle-4"></path>
-                </g>
-            </g>
-        </g>
-    </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="14" height="13" viewBox="0 0 14 13" fill="none"><path id="路径 2" fill-rule="evenodd" style="fill:#FFA600" transform="translate(0.002642509234192403 0.0012781392559872984)  rotate(0 6.666791084515815 6.161659963436929)" opacity="1" d="M1.17,1.17C-0.34,2.68 -0.39,5.09 1.01,6.66L6.67,12.32L12.32,6.66C13.72,5.09 13.67,2.68 12.16,1.17C10.65,-0.34 8.23,-0.39 6.67,1.02C5.1,-0.39 2.68,-0.34 1.17,1.17Z " /></svg>

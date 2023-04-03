@@ -13,6 +13,7 @@ import {
 } from '@/utils/util';
 import { Chunk, FileInfo } from '@/declare/nodeApiType';
 import ChunkTooltip from '@/components/ChunkTooltip';
+import { useIntl } from '@@/plugin-locale/localeExports';
 
 export type Props = {
   visible: boolean;
@@ -47,6 +48,7 @@ const ChunkSourceInfoPopup: React.FC<Props> = (props) => {
   const [len, setLen] = useState<number>(0);
 
   const { api, debugApi } = useSelector((state: Models) => state.global);
+  const intl = useIntl();
 
   const getChunkSource = async () => {
     setLoading(true);
@@ -168,7 +170,11 @@ const ChunkSourceInfoPopup: React.FC<Props> = (props) => {
             </div>
           )}
           <div className={styles.titleWrap}>
-            <span className={styles.title}>Chunk Source Info</span>
+            <span className={styles.title}>
+              {intl.formatMessage({
+                id: 'video.chunkSourceInfoPopup.titleWrap',
+              })}
+            </span>
             <span className={styles.totalPercent}>
               {totalPercent.toFixed(2)}%
             </span>
@@ -214,7 +220,9 @@ const ChunkSourceInfoPopup: React.FC<Props> = (props) => {
             </>
           )}
           <div className={styles.button} onClick={() => close()}>
-            Close
+            {intl.formatMessage({
+              id: 'video.chunkSourceInfoPopup.close',
+            })}
           </div>
         </div>
       </Popup>

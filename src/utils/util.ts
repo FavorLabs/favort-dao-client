@@ -62,8 +62,12 @@ export const isMobile = () => {
   );
 };
 
-export const isFavorApp = () => {
-  return navigator.userAgent.match(/favor/i);
+export const isFavorApp = (isJudgment?: boolean) => {
+  if (isJudgment) {
+    return !navigator.userAgent.match(/FavorDao/i);
+  } else {
+    return navigator.userAgent.match(/favor/i);
+  }
 };
 
 export const getProgress = (b: string, len: number) => {

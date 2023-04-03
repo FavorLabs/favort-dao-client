@@ -14,6 +14,7 @@ import { isMobile, sleep, eventEmitter } from '@/utils/util';
 import _ from 'lodash';
 import DetailSkeleton from '@/components/CustomSkeleton/PostSkeleton/DetailSkeleton';
 import { Option } from '@/components/CommentArea';
+import { useIntl } from '@@/plugin-locale/localeExports';
 
 export type Props = {
   type?: number | string;
@@ -26,10 +27,11 @@ const PostList: React.FC<Props> = (props) => {
   const url = useUrl();
   const history = useHistory();
   const pathname = history.location.pathname;
+  const intl = useIntl();
   const { type, daoId, focus = false, query } = props;
   const [pageData, setPageData] = useState<Page>({
     page: 1,
-    page_size: 10,
+    page_size: 5,
     type,
     query,
   });
@@ -116,10 +118,18 @@ const PostList: React.FC<Props> = (props) => {
         <ErrorOccurred retryFn={refreshPage} />
       ) : (
         <PullToRefresh
-          canReleaseText={'Release to refresh immediately'}
-          completeText={'Refresh successful'}
-          refreshingText={'Loading ......'}
-          pullingText={'Pull down to refresh'}
+          canReleaseText={`${intl.formatMessage({
+            id: 'postList.pullToRefresh.canReleaseText',
+          })}`}
+          completeText={`${intl.formatMessage({
+            id: 'postList.pullToRefresh.completeText',
+          })}`}
+          refreshingText={`${intl.formatMessage({
+            id: 'postList.pullToRefresh.refreshingText',
+          })}`}
+          pullingText={`${intl.formatMessage({
+            id: 'postList.pullToRefresh.pullingText',
+          })}`}
           onRefresh={refresh}
           disabled={!isMobile()}
         >
@@ -142,10 +152,9 @@ const PostList: React.FC<Props> = (props) => {
                   refreshPage={refreshPage}
                   delPost={delPost}
                 />
+              ) : item.type === -1 ? (
+                <CommunityIntro post={item} />
               ) : (
-                //   : item.type === -1 ? (
-                //   <CommunityIntro post={item} />
-                // )
                 <></>
               )}
             </div>
@@ -158,7 +167,12 @@ const PostList: React.FC<Props> = (props) => {
                   <DetailSkeleton />
                 </div>
               ) : (
-                <span>Already at the bottom</span>
+                <span>
+                  {intl.formatMessage({
+                    id: 'postList.infiniteScroll.bottom',
+                  })}
+                  {/*Already at the bottom*/}
+                </span>
               )}
             </>
           </InfiniteScroll>
