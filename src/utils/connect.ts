@@ -1,4 +1,4 @@
-import WalletConnectProvider from '@walletconnect/web3-provider';
+import EthereumProvider from '@walletconnect/ethereum-provider';
 import Web3 from 'web3';
 import { UniPassProvider } from '@unipasswallet/ethereum-provider';
 import { MetaMask, OKX, UniPass, WalletConnect } from '@/config/constants';
@@ -34,7 +34,7 @@ const connectOkx = async (config: Config) => {
 };
 
 const connectWalletConnect = async (refresh: boolean, config: Config) => {
-  const provider = new WalletConnectProvider({
+  const provider = new EthereumProvider({
     rpc: {
       [config.chainId]: config.chainEndpoint,
     },
