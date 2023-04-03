@@ -23,6 +23,7 @@ import {
 import { Models } from '@/declare/modelType';
 import commentOnImg from '@/assets/icon/comment-on.svg';
 import ItemSkeleton from '@/components/CustomSkeleton/CommentSkeleton/ItemSkeleton';
+import { useIntl } from '@@/plugin-locale/localeExports';
 
 export type Props = {
   postId: string;
@@ -40,6 +41,7 @@ type CurrentReply = {
 const Comment: React.FC<Props> = (props) => {
   const { postId, postType, postCommentCount } = props;
   const url = useUrl();
+  const intl = useIntl();
   const avatarsResUrl = useResourceUrl('avatars');
   const textInput = useRef(null);
 
@@ -94,7 +96,12 @@ const Comment: React.FC<Props> = (props) => {
   };
 
   const sendComment = async () => {
-    if (sendDisable) return message.info('Please enter your comment!');
+    if (sendDisable)
+      return message.info(
+        `${intl.formatMessage({
+          id: 'comment.comment.message',
+        })}`,
+      );
     setCommentPopup(false);
     try {
       const { data } = await PostApi.addPostComment(url, {
@@ -151,7 +158,12 @@ const Comment: React.FC<Props> = (props) => {
   };
 
   const sendReply = async () => {
-    if (sendDisable) return message.info('Please enter your reply!');
+    if (sendDisable)
+      return message.info(
+        `${intl.formatMessage({
+          id: 'comment.reply.message',
+        })}`,
+      );
     setCommentPopup(false);
     try {
       const { data } = await PostApi.addCommentReply(url, {
@@ -192,7 +204,12 @@ const Comment: React.FC<Props> = (props) => {
       <div className={styles.commentList}>
         <div className={styles.countWrap}>
           {postCommentCount != undefined ? (
-            <p className={styles.count}>{commentCount} comments</p>
+            <p className={styles.count}>
+              {commentCount}{' '}
+              {intl.formatMessage({
+                id: 'comment.commentCount.text',
+              })}
+            </p>
           ) : (
             <Skeleton animated className={styles.skeleton} />
           )}
@@ -251,7 +268,11 @@ const Comment: React.FC<Props> = (props) => {
                               });
                             }}
                           >
-                            {item.replies.length - 2} more replies {'>'}
+                            {item.replies.length - 2}
+                            {intl.formatMessage({
+                              id: 'comment.moreReplies',
+                            })}{' '}
+                            {'>'}
                           </p>
                         )}
                       </div>
@@ -266,7 +287,11 @@ const Comment: React.FC<Props> = (props) => {
                         }}
                       >
                         <img src={commentOnImg} alt="" />
-                        <span>reply</span>
+                        <span>
+                          {intl.formatMessage({
+                            id: 'comment.action.reply.text',
+                          })}
+                        </span>
                       </div>
                       {/*<div className={styles.likeBtn}>*/}
                       {/*  <img src={supportImg} alt=""/>*/}
@@ -292,7 +317,9 @@ const Comment: React.FC<Props> = (props) => {
             </div>
           ) : (
             <p style={{ width: '100%', textAlign: 'center' }}>
-              Already at the bottom
+              {intl.formatMessage({
+                id: 'comment.infiniteScroll.bottom',
+              })}
             </p>
           )}
         </>
@@ -300,7 +327,9 @@ const Comment: React.FC<Props> = (props) => {
       <div className={styles.createComment}>
         <Input
           className={'newsCommentInput'}
-          placeholder="Say something..."
+          placeholder={`${intl.formatMessage({
+            id: 'comment.createComment.placeholder',
+          })}`}
           value={''}
           disabled={postType == undefined}
           onClick={() => {
@@ -326,8 +355,16 @@ const Comment: React.FC<Props> = (props) => {
         <TextArea
           ref={textInput}
           className={'newsCommentInput'}
-          placeholder={`Please enter a ${
-            currentReply.id ? 'reply' : 'comment'
+          placeholder={`${intl.formatMessage({
+            id: 'comment.popup.textarea.placeholder',
+          })}${
+            currentReply.id
+              ? `${intl.formatMessage({
+                  id: 'comment.action.reply.text',
+                })}`
+              : `${intl.formatMessage({
+                  id: 'comment.comment',
+                })}`
           }`}
           autoSize={{ minRows: 5, maxRows: 7 }}
           maxLength={100}
@@ -342,7 +379,9 @@ const Comment: React.FC<Props> = (props) => {
             else sendComment();
           }}
         >
-          Send
+          {intl.formatMessage({
+            id: 'comment.popup.sendBtn',
+          })}
         </div>
       </Popup>
     </div>

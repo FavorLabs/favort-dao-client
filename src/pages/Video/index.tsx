@@ -20,6 +20,7 @@ import CommentSkeleton from '@/components/CustomSkeleton/CommentSkeleton';
 import ChunkSourceInfoPopup from '@/components/ChunkSourceInfoPopup';
 import TopNavBar from '@/components/TopNavBar';
 import resourceSvg from '@/assets/icon/resource.svg';
+import { useIntl } from '@@/plugin-locale/localeExports';
 
 export type Props = {
   match: {
@@ -32,6 +33,7 @@ const Video: React.FC<Props> = (props) => {
   const url = useUrl();
   const avatarsResUrl = useResourceUrl('avatars');
   const history = useHistory();
+  const intl = useIntl();
 
   const { vid } = props.match.params;
 
@@ -214,7 +216,10 @@ const Video: React.FC<Props> = (props) => {
                                   {videoData.dao.name}
                                 </div>
                                 <div className={styles.subscribe}>
-                                  {videoData.dao.follow_count} followers
+                                  {videoData.dao.follow_count}
+                                  {intl.formatMessage({
+                                    id: 'video.followCount',
+                                  })}
                                 </div>
                               </div>
                             </div>
@@ -226,7 +231,13 @@ const Video: React.FC<Props> = (props) => {
                               }`}
                               onClick={joinDao}
                             >
-                              {joined ? 'joined' : 'join'}
+                              {joined
+                                ? `${intl.formatMessage({
+                                    id: 'video.joined',
+                                  })}`
+                                : `${intl.formatMessage({
+                                    id: 'video.join',
+                                  })}`}
                             </div>
                           )}
                         </div>
@@ -283,7 +294,9 @@ const Video: React.FC<Props> = (props) => {
           </Row>
         </main>
         <ExitCommunityDialog
-          text={'Confirm your withdrawal from this DAO?'}
+          text={`${intl.formatMessage({
+            id: 'video.exitCommunityDialog.text',
+          })}`}
           visible={focusDialog}
           closeDialog={() => {
             setFocusDialog(false);

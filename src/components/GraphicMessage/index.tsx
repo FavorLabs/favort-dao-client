@@ -7,6 +7,7 @@ import { getContent } from '@/utils/util';
 import PopupContent from '@/components/PopupContent';
 import ImageCut from '@/components/ImageCut';
 import { history, useHistory } from 'umi';
+import { useIntl } from '@@/plugin-locale/localeExports';
 
 export type Props = {
   // post: PostInfoAndLike;
@@ -19,6 +20,7 @@ const GraphicMessage: React.FC<Props> = (props) => {
   const history = useHistory();
   const pathname = history.location.pathname;
   const route = pathname.split('/')[1];
+  const intl = useIntl();
   const {
     dao,
     contents,
@@ -47,7 +49,6 @@ const GraphicMessage: React.FC<Props> = (props) => {
         </div>
 
         <div
-          title="unfold and fold"
           className={`${
             route !== 'newsletterDetail' && info[2]?.[0]?.content?.length > 116
               ? styles.textInfo
@@ -61,7 +62,9 @@ const GraphicMessage: React.FC<Props> = (props) => {
               className={styles.toMore}
               onClick={() => history.push(`/newsletterDetail/${id}`)}
             >
-              More
+              {intl.formatMessage({
+                id: 'graphicMessage.more',
+              })}
             </div>
           ) : (
             <></>

@@ -10,6 +10,7 @@ import joinedImg from '@/assets/icon/joinedNumber.svg';
 import ExitCommunityDialog from '@/components/ExitCommunityDialog';
 import { message } from 'antd';
 import { ImageMaxSize } from '@/config/constants';
+import { useIntl } from '@@/plugin-locale/localeExports';
 
 export type Props = {
   status: boolean;
@@ -24,6 +25,7 @@ const CommunityCard: React.FC<Props> = (props) => {
   const [isUnfold, setIsUnfold] = useState<boolean>(false);
   const [dialogVisible, setDialogVisible] = useState<boolean>(false);
   const [isClick, setIsClick] = useState<boolean>(true);
+  const intl = useIntl();
 
   const confirmHandle = async () => {
     try {
@@ -39,9 +41,18 @@ const CommunityCard: React.FC<Props> = (props) => {
   const joinCommunity = () => {
     if (isClick) {
       setIsClick(false);
-      handle();
+      try {
+        handle();
+      } catch (e) {
+        if (e instanceof Error) message.error(e.message);
+      } finally {
+      }
     } else {
-      message.warning('Sending a request!');
+      message.warning(
+        `${intl.formatMessage({
+          id: 'dao.communityCard.message.warning',
+        })}`,
+      );
     }
   };
 
@@ -83,25 +94,38 @@ const CommunityCard: React.FC<Props> = (props) => {
             {daoInfo?.id !== userInfo?.id &&
               (status ? (
                 <div
-                  className={styles.joined}
+                  className={`${!isClick ? styles.joining : styles.joined}`}
                   onClick={() => {
                     isClick
                       ? setDialogVisible(true)
-                      : message.warning('Sending a request!');
+                      : message.warning(
+                          `${intl.formatMessage({
+                            id: 'dao.communityCard.message.warning',
+                          })}`,
+                        );
                   }}
                 >
-                  joined
+                  {intl.formatMessage({
+                    id: 'dao.communityCard.joined',
+                  })}
                 </div>
               ) : (
-                <div className={styles.join} onClick={joinCommunity}>
-                  join
+                <div
+                  className={`${!isClick ? styles.joining : styles.join}`}
+                  onClick={joinCommunity}
+                >
+                  {intl.formatMessage({
+                    id: 'dao.communityCard.join',
+                  })}
                 </div>
               ))}
           </div>
         </div>
       </div>
       <ExitCommunityDialog
-        text={'Confirm your withdrawal from this DAO?'}
+        text={`${intl.formatMessage({
+          id: 'dao.communityCard.exitCommunityDialog.text',
+        })}`}
         visible={dialogVisible}
         closeDialog={() => {
           setDialogVisible(false);

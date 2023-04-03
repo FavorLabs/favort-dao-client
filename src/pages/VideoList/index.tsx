@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { Models } from '@/declare/modelType';
 import PostList from '@/components/PostList';
 import TopNavBar from '@/components/TopNavBar';
+import { useIntl } from '@@/plugin-locale/localeExports';
 
 type Props = {
   match: {
@@ -17,11 +18,17 @@ type Props = {
 
 const VideoList: React.FC<Props> = (props) => {
   const { daoId } = props.match.params;
+  const intl = useIntl();
   const [vSrc, setVSrc] = useState('');
   const { api } = useSelector((state: Models) => state.global);
   return (
     <div className={styles.content}>
-      <TopNavBar title={'Videos'} right={null} />
+      <TopNavBar
+        title={`${intl.formatMessage({
+          id: 'videoList.navBar.title',
+        })}`}
+        right={null}
+      />
 
       <div className={styles.list}>
         <div>

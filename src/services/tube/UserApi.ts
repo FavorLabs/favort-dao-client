@@ -27,4 +27,11 @@ export default {
       url: url + '/user/statistic',
     });
   },
+  changeNickName(url: string, nickname: string | undefined): ResData<any> {
+    return request({
+      method: 'post',
+      url: url + '/user/nickname',
+      data: { nickname },
+    });
+  },
 };

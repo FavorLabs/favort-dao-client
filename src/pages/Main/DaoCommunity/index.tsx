@@ -4,6 +4,7 @@ import { history, useParams, useSelector } from 'umi';
 import styles from './index.less';
 import DaoApi from '@/services/tube/Dao';
 import ChatApi from '@/services/tube/Chat';
+import { InfiniteScroll } from 'antd-mobile';
 import { useUrl, useReviteUrl } from '@/utils/hooks';
 import { DaoInfo, LastMsg, Page, Post, PostInfo } from '@/declare/tubeApiType';
 import { Models } from '@/declare/modelType';
@@ -23,6 +24,8 @@ import { decodeTime } from 'ulid';
 import DaoCardSkeleton from '@/components/CustomSkeleton/DaoDetailSkeleton/DaoCardSkeleton';
 import DaoDetailSkeleton from '@/components/CustomSkeleton/DaoDetailSkeleton';
 import _ from 'lodash';
+import DetailSkeleton from '@/components/CustomSkeleton/PostSkeleton/DetailSkeleton';
+import { useIntl } from '@@/plugin-locale/localeExports';
 
 export type Props = {};
 
@@ -33,6 +36,7 @@ const DaoCommunity: React.FC<Props> = (props) => {
   );
   const url = useUrl();
   const reviteUrl = useReviteUrl();
+  const intl = useIntl();
 
   const [bookmarkList, setBookmarkList] = useState<DaoInfo[]>([]);
   const [isBookmark, setIsBookmark] = useState(false);
@@ -54,7 +58,7 @@ const DaoCommunity: React.FC<Props> = (props) => {
   });
   const [pageData, setPageData] = useState<Page>({
     page: 1,
-    page_size: 10,
+    page_size: 5,
     type: -1,
   });
   const [allDao, setAllDao] = useState<PostInfo[]>([]);
@@ -66,6 +70,7 @@ const DaoCommunity: React.FC<Props> = (props) => {
   const [firstLoad, setFirstLoad] = useState<boolean>(true);
   const daoId = params.daoId;
   const [guid, setGuid] = useState<string>('');
+  const [hasMore, setHasMore] = useState(true);
 
   const getGroupId = async (daoId: string) => {
     try {
@@ -173,7 +178,11 @@ const DaoCommunity: React.FC<Props> = (props) => {
       const { data } = await request(pageData);
       setErrored(false);
       if (data.data.list?.length) {
-        setAllDao(data.data.list);
+        setAllDao(() => [...allDao, ...data.data.list]);
+        setHasMore(
+          data.data.pager.total_rows > pageData.page * pageData.page_size,
+        );
+        setPageData((pageData) => ({ ...pageData, page: ++pageData.page }));
       }
     } catch (e) {
       if (e instanceof Error) message.error(e.message);
@@ -261,7 +270,11 @@ const DaoCommunity: React.FC<Props> = (props) => {
                         <div className={styles.information}>
                           <div className={styles.title}>
                             <div className={styles.disc} />
-                            <span className={styles.text}>Information</span>
+                            <span className={styles.text}>
+                              {intl.formatMessage({
+                                id: 'daoCommunity.Information.title',
+                              })}
+                            </span>
                           </div>
                           <div
                             className={styles.contentBox}
@@ -278,7 +291,11 @@ const DaoCommunity: React.FC<Props> = (props) => {
                             </div>
                             <div className={styles.right}>
                               <div className={styles.leftText}>
-                                <div className={styles.name}>News</div>
+                                <div className={styles.name}>
+                                  {intl.formatMessage({
+                                    id: 'daoCommunity.Information.news',
+                                  })}
+                                </div>
                                 <div className={styles.message}>
                                   {lastPostNews.text}
                                 </div>
@@ -303,7 +320,11 @@ const DaoCommunity: React.FC<Props> = (props) => {
                             </div>
                             <div className={styles.right}>
                               <div className={styles.leftText}>
-                                <div className={styles.name}>Video</div>
+                                <div className={styles.name}>
+                                  {intl.formatMessage({
+                                    id: 'daoCommunity.Information.video',
+                                  })}
+                                </div>
                                 <div className={styles.message}>
                                   {lastPostVideo.text}
                                 </div>
@@ -337,11 +358,17 @@ const DaoCommunity: React.FC<Props> = (props) => {
                                   );
                                 else {
                                   message.error(
-                                    'Failed to obtain group chat information. Procedure',
+                                    `${intl.formatMessage({
+                                      id: 'daoCommunity.message.general.error',
+                                    })}`,
                                   );
                                 }
                               } else {
-                                message.warning('Please join this community');
+                                message.warning(
+                                  `${intl.formatMessage({
+                                    id: 'daoCommunity.message.general.warning',
+                                  })}`,
+                                );
                               }
                             }}
                           >
@@ -378,7 +405,9 @@ const DaoCommunity: React.FC<Props> = (props) => {
               <div className={styles.createPage}>
                 <div className={styles.noCreateBackGround}></div>
                 <p className={styles.noCreateText}>
-                  Nothing. Go create or join a community!
+                  {intl.formatMessage({
+                    id: 'daoCommunity.createPage.noCreateText',
+                  })}
                 </p>
               </div>
             )
@@ -405,6 +434,22 @@ const DaoCommunity: React.FC<Props> = (props) => {
                           </div>
                         );
                       })}
+                      <InfiniteScroll loadMore={getDaoList} hasMore={hasMore}>
+                        <>
+                          {hasMore ? (
+                            <div className={styles.loading}>
+                              <DetailSkeleton />
+                              <DetailSkeleton />
+                            </div>
+                          ) : (
+                            <span>
+                              {intl.formatMessage({
+                                id: 'daoCommunity.infiniteScroll.bottom',
+                              })}
+                            </span>
+                          )}
+                        </>
+                      </InfiniteScroll>
                     </>
                   )}
                 </>
