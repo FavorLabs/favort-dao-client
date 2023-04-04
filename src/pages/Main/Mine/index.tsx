@@ -11,7 +11,7 @@ import {
   useDispatch,
 } from 'umi';
 import { message } from 'antd';
-import { Dialog, Input } from 'antd-mobile';
+import { Dialog, Input, Switch } from 'antd-mobile';
 import { Models } from '@/declare/modelType';
 import { getKeyByName, isFavorApp, isMobile, omitAddress } from '@/utils/util';
 import UserAvatar from '@/components/UserAvatar';
@@ -19,7 +19,7 @@ import { useResourceUrl, useUrl } from '@/utils/hooks';
 import { switchTheme } from '@/utils/util';
 import { Statistic } from '@/declare/tubeApiType';
 import { Popover } from 'antd-mobile';
-import { ThemeType } from '@/utils/setTheme';
+import { setTheme, ThemeType } from '@/utils/setTheme';
 import { defaultTheme } from '@/config/themeConfig';
 import { ConnectType, WalletConnect } from '@/config/constants';
 import UserApi from '@/services/tube/UserApi';
@@ -29,7 +29,6 @@ import SettingSvg from '@/assets/icon/setting.svg';
 import pluginMarketSvg from '@/assets/icon/plugin.svg';
 import web3AirdopsSvg from '@/assets/icon/web3.svg';
 import daoAirdopsSvg from '@/assets/icon/dao_s.svg';
-import promotionSvg from '@/assets/icon/promotion.svg';
 import rightArrowSvg from '@/assets/icon/rightArrow.svg';
 import langSvg from '@/assets/icon/language.svg';
 import darkSvg from '@/assets/icon/dark.svg';
@@ -40,6 +39,16 @@ import onGoingSvg from '@/assets/icon/ongoimg.svg';
 import finishedSvg from '@/assets/icon/finished.svg';
 import byMeSvg from '@/assets/icon/byme.svg';
 import editIcon from '@/assets/icon/edit-icon.svg';
+import noToken from '@/assets/icon/noDevelop/token.svg';
+import noNft from '@/assets/icon/noDevelop/NFT.svg';
+import noSetting from '@/assets/icon/noDevelop/setting.svg';
+import noPluginMarket from '@/assets/icon/noDevelop/plugin.svg';
+import noWeb3Airdops from '@/assets/icon/noDevelop/web3.svg';
+import noDaoAirdops from '@/assets/icon/noDevelop/dao.svg';
+import noPending from '@/assets/icon/noDevelop/pending.svg';
+import noOnGoing from '@/assets/icon/noDevelop/ongoimg.svg';
+import noFinished from '@/assets/icon/noDevelop/finished.svg';
+import noByMe from '@/assets/icon/noDevelop/byme.svg';
 import Flutter from '@/utils/flutter';
 
 export type Props = {};
@@ -91,10 +100,23 @@ const Mine: React.FC<Props> = (props) => {
     user?.nickname,
   );
   const [nickName, setNickName] = useState<string | undefined>(user?.nickname);
+  const [isDevelop, setIsDevelop] = useState<boolean>(false);
+  const [isTheme, setIsTheme] = useState<boolean>(true);
 
   const localeLang = getLocale();
   const isLight = themeType === 'light';
   const isDark = themeType === 'dark';
+
+  const getTheme = () => {
+    let theme = localStorage.getItem('theme');
+    switch (theme) {
+      case 'light':
+        setIsTheme(true);
+        break;
+      case 'dark':
+        setIsTheme(false);
+    }
+  };
 
   const switchLang = (lang: string) => {
     setLocale(lang, false);
@@ -114,11 +136,11 @@ const Mine: React.FC<Props> = (props) => {
 
   const userStatisticItems: UserDataItems[] = [
     {
-      name: 'Joined',
+      name: intl.formatMessage({ id: 'main.mine.userStatistic.joined' }),
       count: userStatistic.dao_count,
     },
     {
-      name: 'Level',
+      name: intl.formatMessage({ id: 'main.mine.userStatistic.level' }),
       count: 0,
     },
     // {
@@ -138,38 +160,38 @@ const Mine: React.FC<Props> = (props) => {
   const cryptoAssetsItems: OptionItems[] = [
     {
       name: 'Token',
-      icon: <img src={tokenSvg} alt={''} />,
+      icon: <img src={isDevelop ? tokenSvg : noToken} alt={''} />,
       path: '/token',
     },
     {
       name: 'NFT',
-      icon: <img src={nftSvg} alt={''} />,
+      icon: <img src={isDevelop ? nftSvg : noNft} alt={''} />,
       path: '',
     },
   ];
 
   const daoManagementItems: OptionItems[] = [
     {
-      name: 'Setting',
-      icon: <img src={SettingSvg} alt={''} />,
+      name: intl.formatMessage({ id: 'main.mine.daoManagement.setting' }),
+      icon: <img src={isDevelop ? SettingSvg : noSetting} alt={''} />,
       path: '/setting',
     },
     {
-      name: 'Plugin Market',
-      icon: <img src={pluginMarketSvg} alt={''} />,
+      name: intl.formatMessage({ id: 'main.mine.daoManagement.pluginMarket' }),
+      icon: <img src={isDevelop ? pluginMarketSvg : noPluginMarket} alt={''} />,
       path: '/pluginForDAOs',
     },
   ];
 
   const servicesItems: OptionItems[] = [
     {
-      name: 'Web3 Airdops',
-      icon: <img src={web3AirdopsSvg} alt={''} />,
+      name: intl.formatMessage({ id: 'main.mine.services.web3Airdops' }),
+      icon: <img src={isDevelop ? web3AirdopsSvg : noWeb3Airdops} alt={''} />,
       path: '/web3Page',
     },
     {
-      name: 'DAO Airdops',
-      icon: <img src={daoAirdopsSvg} alt={''} />,
+      name: intl.formatMessage({ id: 'main.mine.services.DAOAirdops' }),
+      icon: <img src={isDevelop ? daoAirdopsSvg : noDaoAirdops} alt={''} />,
       path: '/dAOPage',
     },
     // {
@@ -181,26 +203,26 @@ const Mine: React.FC<Props> = (props) => {
 
   const promotionItems: OptionItems[] = [
     {
-      name: 'Pending',
-      icon: <img src={pendingSvg} alt={''} />,
+      name: intl.formatMessage({ id: 'main.mine.promotion.pending' }),
+      icon: <img src={isDevelop ? pendingSvg : noPending} alt={''} />,
       path: '/promotionTaskList',
       key: 'Pending',
     },
     {
-      name: 'OnGoing',
-      icon: <img src={onGoingSvg} alt={''} />,
+      name: intl.formatMessage({ id: 'main.mine.promotion.onGoing' }),
+      icon: <img src={isDevelop ? onGoingSvg : noOnGoing} alt={''} />,
       path: '/promotionTaskList',
       key: 'OnGoing',
     },
     {
-      name: 'Finished',
-      icon: <img src={finishedSvg} alt={''} />,
+      name: intl.formatMessage({ id: 'main.mine.promotion.finished' }),
+      icon: <img src={isDevelop ? finishedSvg : noFinished} alt={''} />,
       path: '/promotionTaskList',
       key: 'Finished',
     },
     {
-      name: 'ByMe',
-      icon: <img src={byMeSvg} alt={''} />,
+      name: intl.formatMessage({ id: 'main.mine.promotion.byMe' }),
+      icon: <img src={isDevelop ? byMeSvg : noByMe} alt={''} />,
       path: '/promotionTaskList',
       key: 'ByMe',
     },
@@ -237,7 +259,9 @@ const Mine: React.FC<Props> = (props) => {
               className={styles.lang}
               onClick={(e) => {
                 e.stopPropagation();
-                // setLangMenuVisibility(true);
+                if (NETWORK_ID === '19') {
+                  setLangMenuVisibility(true);
+                }
               }}
             >
               {intl.formatMessage({ id: 'main.mine.setting.language-value' })}
@@ -253,34 +277,18 @@ const Mine: React.FC<Props> = (props) => {
       icon: <img src={darkSvg} alt={''} />,
       content: (
         <div className={styles.themeAction}>
-          <div
-            className={styles.switchBtn}
-            onClick={() => {
-              // switchTheme();
-              // if (isLight) {
-              //   setThemeType('dark');
-              // } else {
-              //   setThemeType('light');
-              // }
+          <Switch
+            checked={isTheme}
+            style={{
+              '--checked-color': 'rgba(255, 166, 0, 1)',
+              '--height': '1.375rem',
+              '--width': '2.75rem',
             }}
-          >
-            <div
-              className={`${styles.option} ${isLight && 'themeBtnActive'}`}
-              onClick={(e) => {
-                isLight && e.stopPropagation();
-              }}
-            >
-              {intl.formatMessage({ id: 'main.mine.setting.theme-light' })}
-            </div>
-            <div
-              className={`${styles.option} ${isDark && 'themeBtnActive'}`}
-              onClick={(e) => {
-                isDark && e.stopPropagation();
-              }}
-            >
-              {intl.formatMessage({ id: 'main.mine.setting.theme-dark' })}
-            </div>
-          </div>
+            onChange={() => {
+              // switchTheme();
+              // getTheme();
+            }}
+          />
         </div>
       ),
     },
@@ -288,7 +296,7 @@ const Mine: React.FC<Props> = (props) => {
       key: 3,
       name: intl.formatMessage({ id: 'main.mine.setting.about' }),
       icon: <img src={aboutSvg} alt={''} />,
-      content: <div className={styles.aboutAction}>version 1.0.0403</div>,
+      content: <div className={styles.aboutAction}>version 1.0.0404</div>,
     },
     {
       key: 4,
@@ -405,9 +413,17 @@ const Mine: React.FC<Props> = (props) => {
             user: { ...user, nickname: nameValue },
           },
         });
-        message.success('Modified successfully');
+        message.success(
+          `${intl.formatMessage({
+            id: 'mine.dialog.changeName.messageSuccess',
+          })}`,
+        );
       } else {
-        message.error('Failed to change name！');
+        message.error(
+          `${intl.formatMessage({
+            id: 'mine.dialog.changeName.messageError',
+          })}`,
+        );
       }
     } catch (e) {
       if (e instanceof Error) message.error(e.message);
@@ -425,6 +441,7 @@ const Mine: React.FC<Props> = (props) => {
 
   useEffect(() => {
     getStatistic();
+    getTheme();
   }, []);
 
   useEffect(() => {
@@ -498,7 +515,9 @@ const Mine: React.FC<Props> = (props) => {
           {(NETWORK_ID === '18' || NETWORK_ID === '19') && (
             <>
               <div className={`${styles.cryptoAssets} ${styles.block}`}>
-                <p className={styles.title}>Crypto Assets</p>
+                <p className={styles.title}>
+                  {intl.formatMessage({ id: 'main.mine.crypto.title' })}
+                </p>
                 <div className={styles.itemsList}>
                   {cryptoAssetsItems.map((item) => (
                     <div
@@ -509,7 +528,13 @@ const Mine: React.FC<Props> = (props) => {
                       }}
                     >
                       <div className={styles.icon}>{item.icon}</div>
-                      <p className={styles.name}>{item.name}</p>
+                      <p
+                        className={`${
+                          isDevelop ? styles.name : styles.noDevelop
+                        }`}
+                      >
+                        {item.name}
+                      </p>
                     </div>
                   ))}
                 </div>
@@ -517,7 +542,11 @@ const Mine: React.FC<Props> = (props) => {
               {userInfo && (
                 <>
                   <div className={`${styles.daoManagement} ${styles.block}`}>
-                    <p className={styles.title}>DAO Management</p>
+                    <p className={styles.title}>
+                      {intl.formatMessage({
+                        id: 'main.mine.DAOManagement.title',
+                      })}
+                    </p>
                     <div className={styles.itemsList}>
                       {daoManagementItems.map((item) => (
                         <div
@@ -528,13 +557,21 @@ const Mine: React.FC<Props> = (props) => {
                           }}
                         >
                           <div className={styles.icon}>{item.icon}</div>
-                          <p className={styles.name}>{item.name}</p>
+                          <p
+                            className={`${
+                              isDevelop ? styles.name : styles.noDevelop
+                            }`}
+                          >
+                            {item.name}
+                          </p>
                         </div>
                       ))}
                     </div>
                   </div>
                   <div className={`${styles.services} ${styles.block}`}>
-                    <p className={styles.title}>Services</p>
+                    <p className={styles.title}>
+                      {intl.formatMessage({ id: 'main.mine.services.title' })}
+                    </p>
                     <div className={styles.itemsList}>
                       {servicesItems.map((item) => (
                         <div
@@ -545,13 +582,21 @@ const Mine: React.FC<Props> = (props) => {
                           }}
                         >
                           <div className={styles.icon}>{item.icon}</div>
-                          <p className={styles.name}>{item.name}</p>
+                          <p
+                            className={`${
+                              isDevelop ? styles.name : styles.noDevelop
+                            }`}
+                          >
+                            {item.name}
+                          </p>
                         </div>
                       ))}
                     </div>
                   </div>
                   <div className={`${styles.services} ${styles.block}`}>
-                    <p className={styles.title}>Promotion</p>
+                    <p className={styles.title}>
+                      {intl.formatMessage({ id: 'main.mine.promotion.title' })}
+                    </p>
                     <div className={styles.itemsList}>
                       {promotionItems.map((item) => (
                         <div
@@ -563,7 +608,13 @@ const Mine: React.FC<Props> = (props) => {
                           }}
                         >
                           <div className={styles.icon}>{item.icon}</div>
-                          <p className={styles.name}>{item.name}</p>
+                          <p
+                            className={`${
+                              isDevelop ? styles.name : styles.noDevelop
+                            }`}
+                          >
+                            {item.name}
+                          </p>
                         </div>
                       ))}
                     </div>
@@ -595,7 +646,9 @@ const Mine: React.FC<Props> = (props) => {
           visible={logoutDialog}
           content={
             <div className={styles.dialog}>
-              <div className={styles.text}>Sure you want to log out?</div>
+              <div className={styles.text}>
+                {intl.formatMessage({ id: 'mine.dialog.logout.title' })}
+              </div>
               <div className={styles.actions}>
                 <span
                   className={styles.cancel}
@@ -603,10 +656,10 @@ const Mine: React.FC<Props> = (props) => {
                     setLogoutDialog(false);
                   }}
                 >
-                  cancel
+                  {intl.formatMessage({ id: 'mine.dialog.cancel' })}
                 </span>
                 <span className={styles.confirm} onClick={logout}>
-                  confirm
+                  {intl.formatMessage({ id: 'mine.dialog.confirm' })}
                 </span>
               </div>
             </div>
@@ -616,9 +669,13 @@ const Mine: React.FC<Props> = (props) => {
           visible={changeNameDialog}
           content={
             <div className={styles.changeNameDialog}>
-              <p className={styles.title}>Change the name</p>
+              <p className={styles.title}>
+                {intl.formatMessage({ id: 'mine.dialog.changeName.title' })}
+              </p>
               <Input
-                placeholder="Please enter name"
+                placeholder={`${intl.formatMessage({
+                  id: 'mine.dialog.changeName.input.placeholder',
+                })}`}
                 value={nameValue}
                 defaultValue={nickName}
                 onChange={(val) => {
@@ -634,10 +691,10 @@ const Mine: React.FC<Props> = (props) => {
                     setNameValue(nickName);
                   }}
                 >
-                  cancel
+                  {intl.formatMessage({ id: 'mine.dialog.cancel' })}
                 </span>
                 <span className={styles.confirm} onClick={changeName}>
-                  confirm
+                  {intl.formatMessage({ id: 'mine.dialog.confirm' })}
                 </span>
               </div>
             </div>

@@ -43,7 +43,11 @@ const PopupContent: React.FC<Props> = (props) => {
     try {
       const { data } = await PostApi.deletePost(url, post.id);
       if (data.msg === 'success') {
-        message.success('Delete successfully');
+        message.success(
+          `${intl.formatMessage({
+            id: 'popupContent.delete.messageSuccess',
+          })}`,
+        );
         delPost?.(post.id);
       }
     } catch (e) {

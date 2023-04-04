@@ -15,6 +15,7 @@ import PostApi from '@/services/tube/PostApi';
 import { UploadImgType } from '@/config/constants';
 import { eventEmitter, sleep } from '@/utils/util';
 import { AnimConfig } from '@/declare/global';
+import { useIntl } from '@@/plugin-locale/localeExports';
 
 export type Props = {};
 
@@ -30,6 +31,7 @@ const PostNewsletter: React.FC<Props> = (props) => {
   const history = useHistory();
   const url = useUrl();
   const imagesResUrl = useResourceUrl('images');
+  const intl = useIntl();
 
   // const [title, setTitle] = useState<string>('');
   const [mainText, setMainText] = useState<string>('');
@@ -42,7 +44,9 @@ const PostNewsletter: React.FC<Props> = (props) => {
   let animTimer = useRef<null | NodeJS.Timer>(null);
   const [animConfig, setAnimConfig] = useState<AnimConfig>({
     visible: false,
-    tips: 'In progress...',
+    tips: `${intl.formatMessage({
+      id: 'postNewsletter.animConfig.tips',
+    })}`,
     percent: 0,
   });
 
@@ -74,7 +78,12 @@ const PostNewsletter: React.FC<Props> = (props) => {
 
   const postHandle = async () => {
     if (postLoading) return;
-    if (postDisable) return message.info('Please complete the required fields');
+    if (postDisable)
+      return message.warning(
+        `${intl.formatMessage({
+          id: 'postNewsletter.postBtn.messageWarning',
+        })}`,
+      );
     setPostLoading(true);
     try {
       const contents: Post[] = [];
@@ -101,7 +110,11 @@ const PostNewsletter: React.FC<Props> = (props) => {
           }));
         }, 200);
         await sleep(2000);
-        message.success('Post successfully');
+        message.success(
+          `${intl.formatMessage({
+            id: 'postNewsletter.postBtn.messageSuccess',
+          })}`,
+        );
         eventEmitter.emit('menuRefreshRecommend');
         setAnimConfig({ ...animConfig, percent: 100, visible: false });
         history.push('/latest/recommend');
@@ -132,10 +145,14 @@ const PostNewsletter: React.FC<Props> = (props) => {
     //   ),
     // },
     {
-      name: 'Text',
+      name: `${intl.formatMessage({
+        id: 'postNewsletter.option.text',
+      })}`,
       content: (
         <TextArea
-          placeholder="Please enter main text"
+          placeholder={`${intl.formatMessage({
+            id: 'postNewsletter.option.text.placeholder',
+          })}`}
           autoSize={{ minRows: 1, maxRows: 4 }}
           maxLength={1000}
           onChange={(val) => {
@@ -145,7 +162,9 @@ const PostNewsletter: React.FC<Props> = (props) => {
       ),
     },
     {
-      name: 'Images',
+      name: `${intl.formatMessage({
+        id: 'postNewsletter.option.images',
+      })}`,
       content: (
         <div className={styles.imageUpload}>
           <ImageCrop
@@ -179,7 +198,9 @@ const PostNewsletter: React.FC<Props> = (props) => {
           history.goBack();
         }}
       >
-        News
+        {intl.formatMessage({
+          id: 'postNewsletter.navBar.title',
+        })}
       </NavBar>
       <div className={styles.postOptions}>
         {optionsItems.map((item) => (
@@ -195,7 +216,10 @@ const PostNewsletter: React.FC<Props> = (props) => {
           onClick={postHandle}
         >
           {postLoading && <span className={styles.loading} />}
-          &nbsp;Publish
+          &nbsp;
+          {intl.formatMessage({
+            id: 'postNewsletter.postBtn.text',
+          })}
         </div>
       </div>
       {animConfig.visible && (
