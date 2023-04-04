@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="25px" height="28px" viewBox="0 0 25 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>web3</title>
+    <g id="page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="web3" transform="translate(1.800000, 1.000000)">
+            <line x1="1.2" y1="10" x2="5.2" y2="17.84" id="line-1" stroke="#B5B5B5" stroke-width="2" stroke-dasharray="0"></line>
+            <line x1="7.2" y1="11.4275614" x2="9.2" y2="16.9975614" id="line-1" stroke="#B5B5B5" stroke-width="2" stroke-dasharray="0"></line>
+            <line x1="15.2" y1="11" x2="13.2" y2="17" id="line-1" stroke="#B5B5B5" stroke-width="2" stroke-dasharray="0"></line>
+            <line x1="21.2" y1="10" x2="16.2" y2="18" id="line-1" stroke="#B5B5B5" stroke-width="2" stroke-dasharray="0"></line>
+            <path d="M22,9.95 L22,9.87 C22,7.21 20.86,4.73 18.78,2.87 C16.7,1.02 13.94,0 11,0 C8.06,0 5.3,1.02 3.22,2.87 C1.15,4.73 0,7.21 0,9.87 L0,9.95 C0,10.17 0.16,10.37 0.39,10.45 C0.62,10.52 0.88,10.45 1.03,10.28 C1.75,9.45 2.19,9.16 3.2,9.16 C4.62,9.16 5.89,9.77 6.43,10.72 C6.53,10.89 6.73,11 6.95,11 C7.16,11 7.36,10.89 7.46,10.72 C7.9,9.94 9.26,9.16 11,9.16 C12.74,9.16 14.1,9.94 14.54,10.72 C14.64,10.89 14.84,11 15.05,11 C15.27,11 15.47,10.89 15.57,10.72 C16.11,9.77 17.38,9.16 18.81,9.16 C19.81,9.16 20.25,9.45 20.97,10.28 C21.12,10.45 21.38,10.52 21.61,10.45 C21.84,10.37 22,10.17 22,9.95 Z" id="path-2" stroke="#B5B5B5" stroke-width="2" stroke-dasharray="0"></path>
+            <path d="M6.2,26 L16.2,26 C16.75,26 17.2,25.55 17.2,25 L17.2,18 C17.2,17.45 16.75,17 16.2,17 L6.2,17 C5.65,17 5.2,17.45 5.2,18 L5.2,25 C5.2,25.55 5.65,26 6.2,26 Z" id="rectangle-1" fill="#FFFFFF"></path>
+            <path d="M5.7,17 L15.7,17 C16.2522847,17 16.7,17.4477153 16.7,18 L16.7,25 C16.7,25.5522847 16.2522847,26 15.7,26 L5.7,26 C5.14771525,26 4.7,25.5522847 4.7,25 L4.7,18 C4.7,17.4477153 5.14771525,17 5.7,17 Z" id="rectangle-1" stroke="#B5B5B5" stroke-width="2" stroke-dasharray="0"></path>
+            <g id="group" transform="translate(6.500000, 15.800000)" fill="#B5B5B5" fill-rule="nonzero" font-family="Helvetica" font-size="9" font-weight="normal">
+                <g id="W">
+                    <text>
+                        <tspan x="0" y="9">W</tspan>
+                    </text>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

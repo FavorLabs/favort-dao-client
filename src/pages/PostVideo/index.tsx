@@ -25,6 +25,7 @@ import { CreatePost, Post } from '@/declare/tubeApiType';
 import PostApi from '@/services/tube/PostApi';
 import { UploadImgType } from '@/config/constants';
 import { AnimConfig } from '@/declare/global';
+import { useIntl } from '@@/plugin-locale/localeExports';
 
 export type Props = {};
 type OptionsItem = {
@@ -45,6 +46,7 @@ const PostVideo: React.FC<Props> = (props) => {
   const history = useHistory();
   const url = useUrl();
   const imagesResUrl = useResourceUrl('images');
+  const intl = useIntl();
 
   const [title, setTitle] = useState<string>('');
   const [desc, setDesc] = useState<string>('');
@@ -65,7 +67,9 @@ const PostVideo: React.FC<Props> = (props) => {
   let animTimer = useRef<null | NodeJS.Timer>(null);
   const [animConfig, setAnimConfig] = useState<AnimConfig>({
     visible: false,
-    tips: 'In progress...',
+    tips: `${intl.formatMessage({
+      id: 'postVideo.animConfig.tips',
+    })}`,
     percent: 0,
   });
 
@@ -106,7 +110,12 @@ const PostVideo: React.FC<Props> = (props) => {
 
     let storageTimer: NodeJS.Timer | null = null;
     let downloadTimer: NodeJS.Timer | null = null;
-    if (!ws) throw new Error('Websocket not connected');
+    if (!ws)
+      throw new Error(
+        `${intl.formatMessage({
+          id: 'postVideo.uploadToStorageNode.error',
+        })}`,
+      );
 
     return new Promise((resolve: UploadResolve, reject) => {
       const downloadFailed = () => {
@@ -126,12 +135,20 @@ const PostVideo: React.FC<Props> = (props) => {
               return reject(err || res?.error?.message);
             }
             if (!res) {
-              return reject('JsonPpcResponse is undefined');
+              return reject(
+                `${intl.formatMessage({
+                  id: 'postVideo.groupSubscribe.error',
+                })}`,
+              );
             }
             storageResult = res.result;
             console.log('storageResult', storageResult);
             storageTimer = setTimeout(() => {
-              reject('Failed to connect to the P2P network');
+              reject(
+                `${intl.formatMessage({
+                  id: 'postVideo.reject.p2pFailed',
+                })}`,
+              );
             }, 1000 * 20);
             ws.on(storageResult, async (res: any) => {
               console.log('storageArr', res);
@@ -157,10 +174,19 @@ const PostVideo: React.FC<Props> = (props) => {
         overlay = connected.filter((item) => bad[item] < 2 || !bad[item])[0];
         console.log('overlay', overlay);
         if (!overlay) {
-          reject('Failed to connect to the P2P network');
+          reject(
+            `${intl.formatMessage({
+              id: 'postVideo.reject.p2pFailed',
+            })}`,
+          );
           return;
         }
-        if (downloadResult) setStatusTip('Switching nodes for upload');
+        if (downloadResult)
+          setStatusTip(
+            `${intl.formatMessage({
+              id: 'postVideo.choiceOverlay.statusTip',
+            })}`,
+          );
         let res = null;
         try {
           res = await Api.sendMessage(
@@ -185,7 +211,9 @@ const PostVideo: React.FC<Props> = (props) => {
         console.log('progress', p);
         if (p === 100) {
           resolve({
-            text: 'Upload successful',
+            text: `${intl.formatMessage({
+              id: 'postVideo.download.resolve',
+            })}`,
             overlay,
           });
           return;
@@ -222,7 +250,11 @@ const PostVideo: React.FC<Props> = (props) => {
           console.log('download', res);
           let downloadData = res.find((item) => item.Overlay === overlay);
           if (!downloadData) return;
-          setStatusTip('Uploading the file to the P2P storage node');
+          setStatusTip(
+            `${intl.formatMessage({
+              id: 'postVideo.download.statusTip',
+            })}`,
+          );
           // @ts-ignore
           clearTimeout(downloadTimer);
           downloadTimer = setTimeout(() => {
@@ -239,7 +271,9 @@ const PostVideo: React.FC<Props> = (props) => {
           console.log('progress', p);
           if (p === 100) {
             resolve({
-              text: 'Upload successful',
+              text: `${intl.formatMessage({
+                id: 'postVideo.download.resolve',
+              })}`,
               overlay,
             });
           }
@@ -249,7 +283,11 @@ const PostVideo: React.FC<Props> = (props) => {
       ws.on('choiceOverlay', choiceOverlay);
       ws.on('chunkInfoSubscribe', chunkInfoSubscribe);
       ws.on('download', download);
-      setStatusTip('Uploading the file to the P2P storage node');
+      setStatusTip(
+        `${intl.formatMessage({
+          id: 'postVideo.download.statusTip',
+        })}`,
+      );
       ws.emit('groupSubscribe');
     }).finally(() => {
       if (storageResult) {
@@ -284,13 +322,21 @@ const PostVideo: React.FC<Props> = (props) => {
   const checkVideoSize = (file: RcFile, fileList: RcFile) => {
     console.log('checkVideoSize', file);
     if (file.type !== 'video/mp4') {
-      message.warning('Please select mp4 file!');
+      message.warning(
+        `${intl.formatMessage({
+          id: 'postVideo.videoType.messageWarning',
+        })}`,
+      );
       setShowVideoList(false);
       return false;
     }
     if (config?.videoLimitSize && file.size / 1024 > config.videoLimitSize) {
       setShowVideoList(false);
-      message.warning(`Video needs to be less than ${getSize(307200, 1)}`);
+      message.warning(
+        `${intl.formatMessage({
+          id: 'postVideo.videoSize.messageWarning',
+        })} ${getSize(307200, 1)}`,
+      );
       return false;
     } else {
       setShowVideoList(true);
@@ -302,7 +348,11 @@ const PostVideo: React.FC<Props> = (props) => {
     if (!config) return;
     try {
       setUploading(true);
-      setStatusTip('Uploading the file to local node');
+      setStatusTip(
+        `${intl.formatMessage({
+          id: 'postVideo.uploadVideo.statusTip',
+        })}`,
+      );
       await Api.observeStorageGroup(api, config.storeGroup, config.storeNodes);
       let data = await Api.uploadFile(api, option.file);
       let hash: string = data.data.reference;
@@ -322,7 +372,11 @@ const PostVideo: React.FC<Props> = (props) => {
         uploadedList[hash] = overlay;
         sessionStorage.setItem('uploaded_list', JSON.stringify(uploadedList));
       } else {
-        message.success('Upload successful');
+        message.success(
+          `${intl.formatMessage({
+            id: 'postVideo.uploadVideo.messageSuccess',
+          })}`,
+        );
       }
       setVideo(`${hash}?oracles=${uploadOverlay}`);
     } catch (e) {
@@ -338,7 +392,12 @@ const PostVideo: React.FC<Props> = (props) => {
 
   const postHandle = async () => {
     if (postLoading) return;
-    if (postDisable) return message.info('Please complete the required fields');
+    if (postDisable)
+      return message.warning(
+        `${intl.formatMessage({
+          id: 'postVideo.postBtn.messageWarning',
+        })}`,
+      );
     setPostLoading(true);
     try {
       const contents: Post[] = [];
@@ -365,7 +424,11 @@ const PostVideo: React.FC<Props> = (props) => {
           }));
         }, 200);
         await sleep(2000);
-        message.success('Post successfully');
+        message.success(
+          `${intl.formatMessage({
+            id: 'postVideo.postBtn.messageSuccess',
+          })}`,
+        );
         eventEmitter.emit('menuRefreshRecommend');
         setAnimConfig({ ...animConfig, percent: 100, visible: false });
         history.push('/latest/recommend');
@@ -399,22 +462,30 @@ const PostVideo: React.FC<Props> = (props) => {
 
   const optionsItems: OptionsItem[] = [
     {
-      name: 'Title',
+      name: `${intl.formatMessage({
+        id: 'postVideo.option.title',
+      })}`,
       content: (
         <Input
           onChange={(val) => {
             setTitle(val.trim());
           }}
           maxLength={100}
-          placeholder="Please enter title"
+          placeholder={`${intl.formatMessage({
+            id: 'postVideo.option.title.placeholder',
+          })}`}
         />
       ),
     },
     {
-      name: 'Description',
+      name: `${intl.formatMessage({
+        id: 'postVideo.option.description',
+      })}`,
       content: (
         <TextArea
-          placeholder="Please enter description"
+          placeholder={`${intl.formatMessage({
+            id: 'postVideo.option.description.placeholder',
+          })}`}
           autoSize={{ minRows: 1, maxRows: 4 }}
           maxLength={300}
           onChange={(val) => {
@@ -424,7 +495,9 @@ const PostVideo: React.FC<Props> = (props) => {
       ),
     },
     {
-      name: 'Thumbnail',
+      name: `${intl.formatMessage({
+        id: 'postVideo.option.thumbnail',
+      })}`,
       content: (
         <div className={styles.coverUpload}>
           <ImageCrop
@@ -442,7 +515,9 @@ const PostVideo: React.FC<Props> = (props) => {
       ),
     },
     {
-      name: 'Video',
+      name: `${intl.formatMessage({
+        id: 'postVideo.option.video',
+      })}`,
       content: (
         <div className={`${styles.videoUpload} videoUpload`}>
           <Upload {...uploadVideoProps} className={styles.uploadContainer}>
@@ -466,7 +541,9 @@ const PostVideo: React.FC<Props> = (props) => {
           history.goBack();
         }}
       >
-        Post Video
+        {intl.formatMessage({
+          id: 'postVideo.navBar.title',
+        })}
       </NavBar>
       <div className={styles.postOptions}>
         {optionsItems.map((item) => (
@@ -482,7 +559,10 @@ const PostVideo: React.FC<Props> = (props) => {
           onClick={postHandle}
         >
           {postLoading && <span className={styles.loading} />}
-          &nbsp;Publish
+          &nbsp;
+          {intl.formatMessage({
+            id: 'postVideo.postBtn.text',
+          })}
         </div>
       </div>
       {uploading && (

@@ -65,7 +65,9 @@ const Main: React.FC<Props> = (props) => {
   const menuItems: MenuItem[] = [
     {
       key: '/latest',
-      title: 'Feeds',
+      title: `${intl.formatMessage({
+        id: 'main.menuBar.feeds.text',
+      })}`,
       icon: (
         <div className={`${styles.latest}`}>
           <img
@@ -77,7 +79,9 @@ const Main: React.FC<Props> = (props) => {
     },
     {
       key: `/daoCommunity`,
-      title: 'DAO',
+      title: `${intl.formatMessage({
+        id: 'main.menuBar.dao.text',
+      })}`,
       icon: (
         <div className={`${styles.dao}`}>
           <img
@@ -102,7 +106,9 @@ const Main: React.FC<Props> = (props) => {
     },
     {
       key: '/chat',
-      title: 'Chats',
+      title: `${intl.formatMessage({
+        id: 'main.menuBar.chats.text',
+      })}`,
       icon: (
         <div className={`${styles.chat}`}>
           <img src={routeKey === '/chat' ? chatOnIcon : chatIcon} alt={''} />
@@ -111,7 +117,9 @@ const Main: React.FC<Props> = (props) => {
     },
     {
       key: '/mine',
-      title: 'My',
+      title: `${intl.formatMessage({
+        id: 'main.menuBar.my.text',
+      })}`,
       icon: (
         <div className={`${styles.mine}`}>
           <img src={routeKey === '/mine' ? myOnIcon : myIcon} alt={''} />
@@ -234,7 +242,12 @@ const Main: React.FC<Props> = (props) => {
             if (key === '/addBtn') {
               if (userInfo) setPostPopupVisibility(true);
               else {
-                if (checkLogin()) message.info('Please create a DAO first!');
+                if (checkLogin())
+                  message.info(
+                    `${intl.formatMessage({
+                      id: 'main.menuBar.addBtn.messageInfo',
+                    })}`,
+                  );
                 history.push('/createCommunity');
               }
             } else if (key === '/chat') {
@@ -244,7 +257,11 @@ const Main: React.FC<Props> = (props) => {
                   settings?.Bucket as string,
                 );
               else if (checkLogin()) {
-                message.warning('Not open at this time!');
+                message.warning(
+                  `${intl.formatMessage({
+                    id: 'main.menuBar.chat.messageWaring',
+                  })}`,
+                );
               } else {
                 history.push('/mine');
               }
@@ -277,7 +294,11 @@ const Main: React.FC<Props> = (props) => {
           >
             <div className={styles.row}>
               <img src={postNews} alt="" className={styles.img} />
-              <span className={styles.text}>News</span>
+              <span className={styles.text}>
+                {intl.formatMessage({
+                  id: 'main.menuBar.addBtn.news',
+                })}
+              </span>
             </div>
           </div>
           <div
@@ -289,7 +310,11 @@ const Main: React.FC<Props> = (props) => {
           >
             <div className={styles.row}>
               <img src={postVideo} alt="" className={styles.img} />
-              <span className={styles.text}>Video</span>
+              <span className={styles.text}>
+                {intl.formatMessage({
+                  id: 'main.menuBar.addBtn.video',
+                })}
+              </span>
             </div>
           </div>
           <div
@@ -298,7 +323,9 @@ const Main: React.FC<Props> = (props) => {
               setPostPopupVisibility(false);
             }}
           >
-            Cancel
+            {intl.formatMessage({
+              id: 'main.menuBar.addBtn.cancel',
+            })}
           </div>
         </Popup>
       </div>

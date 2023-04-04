@@ -21,6 +21,10 @@
       .name {
         font-size: 0.75rem;
       }
+      .noDevelop {
+        font-size: 0.75rem;
+        color: rgba(181, 181, 181, 1);
+      }
     }
   }
   .userInfo {
@@ -98,6 +102,7 @@
     }
     .setting {
       padding-top: 0;
+      padding-bottom: 0;
       font-weight: 500;
       .settingItem:last-child {
         border-bottom: none;
@@ -133,19 +138,6 @@
             }
           }
           .themeAction {
-            .switchBtn {
-              display: flex;
-              justify-content: flex-start;
-              align-items: center;
-              font-size: 0.75rem;
-              border-radius: 0.9375rem;
-              background-color: rgba(240, 240, 240, 1);
-              .option {
-                padding: 0.375rem 0.75rem;
-                border-radius: 0.9375rem;
-                transition: all 0.2s ease-in-out;
-              }
-            }
           }
         }
       }
@@ -201,7 +193,6 @@
   justify-content: flex-start;
   align-items: center;
   flex-direction: column;
-  padding: 20px;
   box-sizing: border-box;
   background-color: rgba(255, 255, 255, 1);
   span {

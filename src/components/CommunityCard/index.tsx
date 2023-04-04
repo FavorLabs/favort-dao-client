@@ -45,7 +45,6 @@ const CommunityCard: React.FC<Props> = (props) => {
         handle();
       } catch (e) {
         if (e instanceof Error) message.error(e.message);
-      } finally {
       }
     } else {
       message.warning(
