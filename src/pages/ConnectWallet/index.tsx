@@ -29,9 +29,55 @@ import loginLog from '@/assets/icon/loginLog.svg';
 import rightArrow from '@/assets/icon/rightArrow.svg';
 import Flutter from '@/utils/flutter';
 
+import {
+  EthereumClient,
+  w3mConnectors,
+  w3mProvider,
+} from '@web3modal/ethereum';
+import { Web3Modal, useWeb3Modal } from '@web3modal/react';
+import {
+  configureChains,
+  createClient,
+  WagmiConfig,
+  useSignMessage,
+  useAccount,
+  useDisconnect,
+} from 'wagmi';
+import { polygon, polygonMumbai } from 'wagmi/chains';
+
+const chains = [polygon, polygonMumbai];
+const projectId = 'cac0cdbe058e4c8851437fa8fd272e7f';
+
+const { provider } = configureChains(chains, [w3mProvider({ projectId })]);
+const wagmiClient = createClient({
+  autoConnect: false,
+  connectors: w3mConnectors({ projectId, version: 1, chains }),
+  provider,
+});
+const ethereumClient = new EthereumClient(wagmiClient, chains);
+
+interface Options {
+  route?: 'Account' | 'ConnectWallet' | 'Help' | 'SelectNetwork';
+}
+
 const ConnectWallet: React.FC = (props) => {
   const dispatch = useDispatch();
   const url = useUrl();
+  const { isOpen, open, close, setDefaultChain } = useWeb3Modal();
+  const { data, isError, isLoading, isSuccess, signMessage } = useSignMessage({
+    onError(error) {
+      // console.log('walletConnect V2 sign error', error);
+    },
+    onSuccess(data) {
+      // console.log('walletConnect V2 sign success', data);
+    },
+  });
+  const { disconnect, disconnectAsync } = useDisconnect();
+  const useAccountRes = useAccount();
+  const WCV2Address = useAccountRes.address;
+  const WCV2Connected = useAccountRes.isConnected;
+  const [WCV2Timestamp, setWCV2Timestamp] = useState<number>(0);
+
   const [address, setAddress] = useState('');
   const [web3, setWeb3] = useState<Web3 | null>(null);
   const [cType, setCType] = useState('');
@@ -153,6 +199,70 @@ const ConnectWallet: React.FC = (props) => {
     }
   };
 
+  const openWalletConnect = async () => {
+    const options: Options = {};
+    await open(options);
+  };
+
+  const walletConnectSign = () => {
+    if (loading) return;
+    setLoading(true);
+    const timestamp = Date.parse(new Date().toUTCString());
+    setWCV2Timestamp(timestamp);
+    const msg = `${address} login FavorDAO at ${timestamp}`;
+    signMessage({ message: msg });
+  };
+
+  const walletConnectSignIn = async (signature: `0x${string}`) => {
+    try {
+      const { data } = await UserApi.signIn(url, {
+        timestamp: WCV2Timestamp,
+        signature,
+        wallet_addr: address,
+        type: 'wallet_connect',
+      });
+      if (isFavorApp()) Flutter.chatLogin(data.data.token);
+      localStorage.setItem(getKeyByName('token'), data.data.token);
+      const info = await UserApi.getInfo(url);
+      dispatch({
+        type: 'web3/updateState',
+        payload: {
+          address,
+        },
+      });
+      dispatch({
+        type: 'global/updateState',
+        payload: {
+          user: info.data.data,
+        },
+      });
+      localStorage.setItem(getKeyByName('connectType'), cType);
+      history.replace('/');
+    } catch (e) {
+      setLoading(false);
+      if (e instanceof Error) message.error(e.message);
+    }
+  };
+
+  useEffect(() => {
+    init();
+  }, []);
+
+  useEffect(() => {
+    if (WCV2Connected) {
+      setCType(WalletConnect);
+      setAddress(WCV2Address?.toLowerCase() as string);
+    } else {
+      disconnect();
+    }
+  }, [WCV2Connected]);
+
+  useEffect(() => {
+    if (data && WCV2Connected) {
+      walletConnectSignIn(data);
+    }
+  }, [data, WCV2Connected]);
+
   return (
     <div className={styles.box}>
       <div
@@ -171,7 +281,13 @@ const ConnectWallet: React.FC = (props) => {
             {item.show && (!cType || cType === item.name) && (
               <div
                 className={styles.wallet}
-                onClick={() => connectWallet(item.name)}
+                onClick={() => {
+                  if (item.name === WalletConnect) {
+                    openWalletConnect();
+                  } else {
+                    connectWallet(item.name);
+                  }
+                }}
               >
                 <div className={styles.icon}>
                   <img src={item.icon} alt={item.name} />
@@ -195,11 +311,19 @@ const ConnectWallet: React.FC = (props) => {
             className={styles.signIn}
             type="primary"
             loading={loading}
-            onClick={signIn}
+            onClick={() => {
+              if (cType === WalletConnect) {
+                walletConnectSign();
+              } else {
+                signIn();
+              }
+            }}
           >
             SIGN IN
           </Button>
         )}
+
+        <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
       </div>
     </div>
   );

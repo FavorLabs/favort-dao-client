@@ -30,8 +30,21 @@ import Bucket from '@/services/tube/Global';
 import moment from 'moment';
 const currentLang = getLocale();
 import VConsole from 'vconsole';
+import { WagmiConfig, createClient, configureChains } from 'wagmi';
+import { polygon } from 'wagmi/chains';
+import { publicProvider } from 'wagmi/providers/public';
 import Flutter from '@/utils/flutter';
 if (!NETWORK_ID || (NETWORK_ID && NETWORK_ID === '19')) new VConsole();
+const { chains, provider, webSocketProvider } = configureChains(
+  [polygon],
+  [publicProvider()],
+);
+
+const client = createClient({
+  autoConnect: true,
+  provider,
+  webSocketProvider,
+});
 
 const Layout: React.FC = (props) => {
   const dispatch = useDispatch();
@@ -277,25 +290,29 @@ const Layout: React.FC = (props) => {
   }, [currentLang]);
 
   return (
-    // @ts-ignore
-    <AliveScope>
-      <div className={styles.main}>
-        {status ? (
-          configLoading ? (
-            <Loading text={'Loading Config !!!'} status={configLoading} />
-          ) : requestLoading ? (
-            <Loading
-              text={'Connecting to a p2p network'}
-              status={requestLoading}
-            />
-          ) : (
-            <div className={styles.box}>{props.children}</div>
-          )
-        ) : (
-          <SettingApi />
-        )}
-      </div>
-    </AliveScope>
+    <WagmiConfig client={client}>
+      {
+        // @ts-ignore
+        <AliveScope>
+          <div className={styles.main}>
+            {status ? (
+              configLoading ? (
+                <Loading text={'Loading Config !!!'} status={configLoading} />
+              ) : requestLoading ? (
+                <Loading
+                  text={'Connecting to a p2p network'}
+                  status={requestLoading}
+                />
+              ) : (
+                <div className={styles.box}>{props.children}</div>
+              )
+            ) : (
+              <SettingApi />
+            )}
+          </div>
+        </AliveScope>
+      }
+    </WagmiConfig>
   );
 };
 

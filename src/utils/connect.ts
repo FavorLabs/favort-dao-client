@@ -1,10 +1,9 @@
-import EthereumProvider from '@walletconnect/ethereum-provider';
 import Web3 from 'web3';
 import { UniPassProvider } from '@unipasswallet/ethereum-provider';
 import { MetaMask, OKX, UniPass, WalletConnect } from '@/config/constants';
 import { WalletType } from '@/declare/global';
 import { isFavorApp } from '@/utils/util';
-import FlutterMethod, { flutterAsyncFn } from '@/utils/flutter';
+import FlutterMethod from '@/utils/flutter';
 import { Config } from '@/config/config';
 
 const connectMetaMask = async (refresh: boolean, config: Config) => {
@@ -30,27 +29,6 @@ const connectOkx = async (config: Config) => {
   const chainId = Number(provider.chainId);
   if (chainId !== config.chainId)
     throw new Error('The network connected is not correct');
-  return { web3, address: accounts[0] };
-};
-
-const connectWalletConnect = async (refresh: boolean, config: Config) => {
-  const provider = new EthereumProvider({
-    rpc: {
-      [config.chainId]: config.chainEndpoint,
-    },
-  });
-  await provider.enable();
-  if (refresh && !provider.connected) {
-    await provider.connector.killSession();
-    throw new Error('Connection interruption');
-  }
-  const { chainId, accounts } = provider;
-  if (chainId !== config.chainId) {
-    await provider.disconnect();
-    throw new Error('The network connected is not correct');
-  }
-  // @ts-ignore
-  const web3 = new Web3(provider);
   return { web3, address: accounts[0] };
 };
 
@@ -93,7 +71,5 @@ export const connect = (
     ? isFavorApp()
       ? connectUniPassFlutter()
       : connectUnipass(config)
-    : connectType === WalletConnect
-    ? connectWalletConnect(refresh, config)
     : Promise.reject();
 };

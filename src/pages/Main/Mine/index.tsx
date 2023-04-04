@@ -50,6 +50,7 @@ import noOnGoing from '@/assets/icon/noDevelop/ongoimg.svg';
 import noFinished from '@/assets/icon/noDevelop/finished.svg';
 import noByMe from '@/assets/icon/noDevelop/byme.svg';
 import Flutter from '@/utils/flutter';
+import { useDisconnect } from 'wagmi';
 
 export type Props = {};
 type SettingItem = {
@@ -78,6 +79,8 @@ const Mine: React.FC<Props> = (props) => {
   const userInfoRef = useRef(null);
 
   const theme = localStorage.getItem('theme');
+
+  const { disconnect } = useDisconnect();
 
   const [balance, setBalance] = useState('0');
   const [userStatistic, setUserStatistic] = useState<Statistic>({
@@ -376,7 +379,18 @@ const Mine: React.FC<Props> = (props) => {
     if (isFavorApp()) Flutter.chatLogout();
     const connectType = localStorage.getItem(getKeyByName('connectType'));
     if (connectType && connectType === WalletConnect) {
+      disconnect();
       localStorage.removeItem('walletconnect');
+      localStorage.removeItem('wagmi.connected');
+      localStorage.setItem(
+        'wagmi.store',
+        JSON.stringify({
+          state: { data: {} },
+          version: 2,
+        }),
+      );
+      localStorage.removeItem('wagmi.cache');
+      localStorage.removeItem('wagmi.wallet');
     }
     localStorage.removeItem(getKeyByName('token'));
     localStorage.removeItem(getKeyByName('connectType'));
