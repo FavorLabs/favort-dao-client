@@ -253,7 +253,7 @@ const Mine: React.FC<Props> = (props) => {
             trigger="click"
             visible={langMenuVisibility}
             placement="bottom"
-            className={styles.popover}
+            className={'popover'}
           >
             <span
               className={styles.lang}
