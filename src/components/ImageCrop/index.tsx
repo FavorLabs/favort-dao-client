@@ -13,6 +13,7 @@ import SvgIcon from '@/components/SvgIcon';
 import { UploadListType } from 'antd/es/upload/interface';
 import { UploadImgType } from '@/config/constants';
 import _ from 'lodash';
+import { useIntl } from '@@/plugin-locale/localeExports';
 
 export type Props = {
   crop?: boolean;
@@ -45,6 +46,7 @@ const Index: React.FC<Props> = (props) => {
     listType,
     action,
   } = props;
+  const intl = useIntl();
 
   const defaultFileList: UploadFile[] = url
     ? [{ uid: '1', name: '', status: 'done', url: url }]
@@ -62,7 +64,11 @@ const Index: React.FC<Props> = (props) => {
     setUpload(true);
     if (_.indexOf(UploadImgType.split(', '), file.type) !== -1) {
     } else {
-      message.warning('Please select the correct image file!');
+      message.warning(
+        `${intl.formatMessage({
+          id: 'imageCrop.cropError.messageWaring',
+        })}`,
+      );
     }
     return file;
   };
@@ -118,10 +124,18 @@ const Index: React.FC<Props> = (props) => {
     <>
       {crop ? (
         <ImgCrop
+          modalOk={`${intl.formatMessage({
+            id: 'imageCrop.modalOk',
+          })}`}
+          modalCancel={`${intl.formatMessage({
+            id: 'imageCrop.modalCancel',
+          })}`}
           rotationSlider={true}
           cropShape={shape}
           aspect={aspect}
-          modalTitle={'Edit image'}
+          modalTitle={`${intl.formatMessage({
+            id: 'imageCrop.modalTitle',
+          })}`}
           key={url}
         >
           {uploadDOM}

@@ -13,6 +13,7 @@ import { sleep } from '@/utils/util';
 import TopNavBar from '@/components/TopNavBar';
 import { UploadImgType } from '@/config/constants';
 import { AnimConfig } from '@/declare/global';
+import { useIntl } from '@@/plugin-locale/localeExports';
 
 export type Props = {};
 
@@ -27,6 +28,7 @@ const CreateCommunity: React.FC<Props> = (props) => {
   const url = useUrl();
   const avatarsResUrl = useResourceUrl('avatars');
   const imagesResUrl = useResourceUrl('images');
+  const intl = useIntl();
 
   const [communityName, setCommunityName] = useState<string>('');
   const [communityDesc, setCommunityDesc] = useState<string>('');
@@ -36,7 +38,9 @@ const CreateCommunity: React.FC<Props> = (props) => {
   const [cBannerLoading, setCBannerLoading] = useState<boolean>(false);
   const [animConfig, setAnimConfig] = useState<AnimConfig>({
     visible: false,
-    tips: 'In progress...',
+    tips: `${intl.formatMessage({
+      id: 'createCommunity.animConfig.tips',
+    })}`,
     percent: 0,
   });
 
@@ -87,7 +91,12 @@ const CreateCommunity: React.FC<Props> = (props) => {
   };
 
   const createHandle = async () => {
-    if (createDisable) return message.info('Please complete all options');
+    if (createDisable)
+      return message.warning(
+        `${intl.formatMessage({
+          id: 'createCommunity.create.messageWarning',
+        })}`,
+      );
     setAnimConfig({ ...animConfig, visible: true });
     if (animTimer.current) clearInterval(animTimer.current);
     animTimer.current = setInterval(() => {
@@ -134,7 +143,9 @@ const CreateCommunity: React.FC<Props> = (props) => {
 
   const optionsItems: OptionsItem[] = [
     {
-      name: 'Name',
+      name: `${intl.formatMessage({
+        id: 'createCommunity.option.name',
+      })}`,
       content: (
         <Input
           className={styles.input}
@@ -142,12 +153,16 @@ const CreateCommunity: React.FC<Props> = (props) => {
           onChange={(val) => {
             setCommunityName(val.trim());
           }}
-          placeholder="Please enter DAO name"
+          placeholder={`${intl.formatMessage({
+            id: 'createCommunity.option.name.placeholder',
+          })}`}
         />
       ),
     },
     {
-      name: 'Description',
+      name: `${intl.formatMessage({
+        id: 'createCommunity.option.description',
+      })}`,
       content: (
         <TextArea
           className={styles.textArea}
@@ -156,12 +171,16 @@ const CreateCommunity: React.FC<Props> = (props) => {
           onChange={(val) => {
             setCommunityDesc(val.trim());
           }}
-          placeholder="Please enter DAO description"
+          placeholder={`${intl.formatMessage({
+            id: 'createCommunity.option.description.placeholder',
+          })}`}
         />
       ),
     },
     {
-      name: 'Avatar',
+      name: `${intl.formatMessage({
+        id: 'createCommunity.option.avatar',
+      })}`,
       content: (
         <div className={styles.avatarUpload}>
           <ImageCrop
@@ -179,7 +198,9 @@ const CreateCommunity: React.FC<Props> = (props) => {
       ),
     },
     {
-      name: 'Banner',
+      name: `${intl.formatMessage({
+        id: 'createCommunity.option.banner',
+      })}`,
       content: (
         <div className={styles.bannerUpload}>
           <ImageCrop
@@ -205,7 +226,12 @@ const CreateCommunity: React.FC<Props> = (props) => {
 
   return (
     <div className={styles.content}>
-      <TopNavBar title={'Create DAO'} right={null} />
+      <TopNavBar
+        title={`${intl.formatMessage({
+          id: 'createCommunity.navBar.title',
+        })}`}
+        right={null}
+      />
       <div className={styles.createOptions}>
         {optionsItems.map((item) => (
           <div className={styles.option} key={item.name}>
@@ -218,7 +244,9 @@ const CreateCommunity: React.FC<Props> = (props) => {
         className={`${styles.createBtn} ${createDisable && styles.disabled}`}
         onClick={createHandle}
       >
-        Create Now
+        {intl.formatMessage({
+          id: 'createCommunity.button',
+        })}
       </div>
       {animConfig.visible && (
         <div className={styles.createOverlay}>
