@@ -4,7 +4,7 @@ import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch, history, getLocale } from 'umi';
 import { AliveScope } from 'react-activation';
-import { ConnectType, NodeConfig } from '@/config/constants';
+import { ConnectType, NodeConfig, WalletConnect } from '@/config/constants';
 import { connect } from '@/utils/connect';
 import { WalletType } from '@/declare/global';
 import SettingApi from '@/components/SettingApi';
@@ -202,11 +202,19 @@ const Layout: React.FC = (props) => {
     if (!checkLogin()) return history.push('/');
     try {
       const info = await UserApi.getInfo(url);
-      const { address, web3 } = await connect(
-        connectType as WalletType,
-        true,
-        config as Config,
-      );
+      let address = '';
+      let web3 = null;
+      if (connectType === WalletConnect) {
+        address = info.data.data.address;
+      } else {
+        const result = await connect(
+          connectType as WalletType,
+          true,
+          config as Config,
+        );
+        address = result.address;
+        web3 = result.web3;
+      }
       dispatch({
         type: 'global/updateState',
         payload: {
