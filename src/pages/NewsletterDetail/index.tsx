@@ -51,7 +51,11 @@ const NewsletterDetail: React.FC<Props> = (props) => {
           {postInfo ? (
             <>
               <div className={styles.postCard}>
-                <GraphicMessage post={postInfo} refreshPage={() => {}} />
+                <GraphicMessage
+                  post={postInfo}
+                  refreshPage={() => {}}
+                  isNewsDetail={true}
+                />
               </div>
               <Comment
                 postId={postId}
