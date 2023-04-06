@@ -4,6 +4,7 @@ import {
   DaoInfo,
   DaoParams,
   ListData,
+  Page,
   ResData,
   Status,
 } from '@/declare/tubeApiType';
@@ -27,9 +28,10 @@ export default {
       data,
     });
   },
-  getBookmarkList(url: string): ResData<ListData<DaoInfo>> {
+  getBookmarkList(url: string, params: Page): ResData<ListData<DaoInfo>> {
     return request({
       url: url + '/daos',
+      params,
     });
   },
   checkBookmark(url: string, id: string): ResData<Status> {

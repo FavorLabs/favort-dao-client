@@ -7,7 +7,7 @@ import likeOnIcon from '@/assets/icon/like-on-icon.svg';
 import { useEffect, useState } from 'react';
 import PostApi from '@/services/tube/PostApi';
 import { useUrl } from '@/utils/hooks';
-import { checkLogin, eventEmitter } from '@/utils/util';
+import { checkLogin, eventEmitter, getDebounce } from '@/utils/util';
 import { history } from 'umi';
 import { message } from 'antd';
 import { useActivate, useUnactivate } from 'react-activation';
@@ -46,13 +46,6 @@ const CommentArea: React.FC<Props> = (props) => {
     const { data } = await PostApi.postLike(url, postId);
     if (data.data) {
       setLike(data.data.status);
-      // if (pathname === 'newsletterDetail' || pathname === 'video') {
-      //   const option: Option = {
-      //     id: postId,
-      //     status: data.data.status,
-      //   };
-      //   eventEmitter.emit('refreshLikeStatus', option);
-      // }
       if (data.data.status) setLikeCount(likeCount + 1);
       else setLikeCount(likeCount - 1);
     }
@@ -108,12 +101,7 @@ const CommentArea: React.FC<Props> = (props) => {
           </div>
           <span className={styles.operateText}>{commentOnCount}</span>
         </div>
-        <div
-          className={styles.operateDiv}
-          onClick={() => {
-            postLike();
-          }}
-        >
+        <div className={styles.operateDiv} onClick={getDebounce(postLike)}>
           <div className={styles.operateIcon}>
             <img src={like ? likeOnIcon : likeIcon} className={styles.img} />
           </div>
