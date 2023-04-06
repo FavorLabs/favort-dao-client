@@ -5,6 +5,7 @@ import { NavBar, SearchBar } from 'antd-mobile';
 import { useState } from 'react';
 import PostList from '@/components/PostList';
 import { useIntl } from '@@/plugin-locale/localeExports';
+import { getDebounce } from '@/utils/util';
 
 type Props = {
   match: {
@@ -48,7 +49,7 @@ const Search: React.FC<Props> = (props) => {
               setSearchValue(val);
             }}
           />
-          <div className={styles.search} onClick={getSearch}>
+          <div className={styles.search} onClick={getDebounce(getSearch)}>
             {intl.formatMessage({
               id: 'search.searchBar.text',
             })}

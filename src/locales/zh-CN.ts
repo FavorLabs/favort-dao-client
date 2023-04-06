@@ -2,7 +2,7 @@ export default {
   // main
   'main.menuBar.addBtn.messageInfo': '请先创建一个DAO社区!',
   'main.menuBar.chat.messageWaring': '现在还没有打开!',
-  'main.menuBar.addBtn.news': '推文',
+  'main.menuBar.addBtn.news': '新闻',
   'main.menuBar.addBtn.video': '视频',
   'main.menuBar.addBtn.cancel': '取消',
   'main.menuBar.feeds.text': '首页',
@@ -57,7 +57,7 @@ export default {
   // popupContent
   'popupContent.delete': '删除',
   'popupContent.cancel': '取消',
-  'popupContent.exitCommunityDialog.text': '您确定要删除此推文吗?',
+  'popupContent.exitCommunityDialog.text': '您确定要删除此新闻吗?',
   'popupContent.delete.messageSuccess': '删除成功!',
   // exitCommunityDialog
   'exitCommunityDialog.cancel': '取消',
@@ -87,23 +87,23 @@ export default {
   'video.chunkSourceInfoPopup.close': '关闭',
   // daoCommunity
   'daoCommunity.Information.title': '信息',
-  'daoCommunity.Information.news': '推文',
+  'daoCommunity.Information.news': '新闻',
   'daoCommunity.Information.video': '视频',
   'daoCommunity.message.general.error': '获取群聊信息失败!',
   'daoCommunity.message.general.warning': '请加入该社区!',
   'daoCommunity.createPage.noCreateText':
     '什么都没有，去创建或者加入一个社区吧!',
   'daoCommunity.infiniteScroll.bottom': '已经到底了',
-  // dao communityCard
-  'dao.communityCard.joined': '已加入',
-  'dao.communityCard.join': '加入',
-  'dao.communityCard.exitCommunityDialog.text': '您确定退出该DAO社区吗?',
-  'dao.communityCard.message.warning': '发送请求中!',
+  // joinButton
+  'joinButton.joined': '已加入',
+  'joinButton.join': '加入',
+  'joinButton.exitCommunityDialog.text': '您确定退出该DAO社区吗?',
+  'joinButton.message.warning': '发送请求中!',
   // dao communityIntro
   'dao.communityIntro.introduction': '信息',
   'dao.communityIntro.button.text': '查看',
   // newsLetterList
-  'newsLetterList.navBar.title': '推文',
+  'newsLetterList.navBar.title': '新闻',
   // videoList
   'videoList.navBar.title': '视频',
   // createCommunity
@@ -123,11 +123,11 @@ export default {
   'imageCrop.modalOk': '确定',
   'imageCrop.modalCancel': '取消',
   // postNewsletter
-  'postNewsletter.navBar.title': '发布推文',
+  'postNewsletter.navBar.title': '发布新闻',
   'postNewsletter.postBtn.text': '发布',
   'postNewsletter.option.text': '内容',
   'postNewsletter.option.images': '图片',
-  'postNewsletter.option.text.placeholder': '请输入推文内容',
+  'postNewsletter.option.text.placeholder': '请输入新闻内容',
   'postNewsletter.postBtn.messageWarning': '请填写必填项',
   'postNewsletter.postBtn.messageSuccess': '发布成功',
   'postNewsletter.animConfig.tips': '发布中...',

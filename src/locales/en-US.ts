@@ -96,12 +96,12 @@ export default {
   'daoCommunity.createPage.noCreateText':
     'Nothing. Go create or join a community!',
   'daoCommunity.infiniteScroll.bottom': 'Already at the bottom',
-  // dao communityCard
-  'dao.communityCard.joined': 'joined',
-  'dao.communityCard.join': 'join',
-  'dao.communityCard.exitCommunityDialog.text':
+  // joinButton
+  'joinButton.joined': 'joined',
+  'joinButton.join': 'join',
+  'joinButton.exitCommunityDialog.text':
     'Confirm your withdrawal from this DAO?',
-  'dao.communityCard.message.warning': 'Sending a request!',
+  'joinButton.message.warning': 'Sending a request!',
   // dao communityIntro
   'dao.communityIntro.introduction': 'Introduction',
   'dao.communityIntro.button.text': 'View',

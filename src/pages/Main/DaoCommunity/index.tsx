@@ -61,6 +61,10 @@ const DaoCommunity: React.FC<Props> = (props) => {
     page_size: 5,
     type: -1,
   });
+  const [daoPageData, setDaoPageData] = useState<Page>({
+    page: 1,
+    page_size: 1000,
+  });
   const [allDao, setAllDao] = useState<PostInfo[]>([]);
   const allId = '12345';
   const [activeId, setActiveId] = useState<string | undefined>(
@@ -144,7 +148,7 @@ const DaoCommunity: React.FC<Props> = (props) => {
   };
 
   const getBookmarkList = async () => {
-    const { data } = await DaoApi.getBookmarkList(url);
+    const { data } = await DaoApi.getBookmarkList(url, daoPageData);
     let followList: React.SetStateAction<DaoInfo[]> = [];
     if (data.data.list?.length) {
       followList = _.filter(data.data.list, (v) => v.id !== userInfo?.id);

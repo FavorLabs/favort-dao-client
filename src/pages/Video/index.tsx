@@ -21,6 +21,7 @@ import ChunkSourceInfoPopup from '@/components/ChunkSourceInfoPopup';
 import TopNavBar from '@/components/TopNavBar';
 import resourceSvg from '@/assets/icon/resource.svg';
 import { useIntl } from '@@/plugin-locale/localeExports';
+import JoinButton from '@/components/JoinButton';
 
 export type Props = {
   match: {
@@ -43,9 +44,7 @@ const Video: React.FC<Props> = (props) => {
   const [description, setDescription] = useState('');
   const [thumbnail, setThumbnail] = useState('');
   const [vSrc, setVSrc] = useState('');
-  const [joined, setJoined] = useState<boolean>(false);
   const [isSelf, setIsSelf] = useState<boolean>(true);
-  const [focusDialog, setFocusDialog] = useState<boolean>(false);
   const [chunkVisible, setChunkVisible] = useState<boolean>(false);
   const [videoHash, setVideoHash] = useState<string>('');
   const [oracleArr, setOracleArr] = useState<string[]>([]);
@@ -61,7 +60,7 @@ const Video: React.FC<Props> = (props) => {
         const isSelf = daoId === userInfo?.id;
         setVideoData(data.data);
         setIsSelf(isSelf);
-        !isSelf && checkJoinStatus(daoId);
+        // !isSelf && checkJoinStatus(daoId);
         // getVideoList(daoId);
       }
     } catch (e) {
@@ -86,42 +85,6 @@ const Video: React.FC<Props> = (props) => {
     setDescription(obj[2][0]?.content);
     setThumbnail(obj[3][0]?.content);
     setVSrc(obj[4][0]?.content);
-  };
-
-  const joinDao = async () => {
-    if (joined) {
-      setFocusDialog(true);
-    } else {
-      try {
-        const { data } = await DaoApi.bookmark(
-          url,
-          videoData?.dao?.id as string,
-        );
-        if (data.data) {
-          setJoined(data.data.status);
-        }
-      } catch (e) {
-        if (e instanceof Error) message.error(e.message);
-      }
-    }
-  };
-
-  const confirmFocus = async () => {
-    try {
-      const { data } = await DaoApi.bookmark(url, videoData?.dao?.id as string);
-      setJoined(data.data.status);
-    } catch (e) {
-      if (e instanceof Error) message.error(e.message);
-    } finally {
-      setFocusDialog(false);
-    }
-  };
-
-  const checkJoinStatus = async (id: string) => {
-    const { data } = await DaoApi.checkBookmark(url, id);
-    if (data.data) {
-      setJoined(data.data.status);
-    }
   };
 
   useEffect(() => {
@@ -225,20 +188,10 @@ const Video: React.FC<Props> = (props) => {
                             </div>
                           </div>
                           {!isSelf && (
-                            <div
-                              className={`${
-                                joined ? styles.joined : styles.join
-                              }`}
-                              onClick={joinDao}
-                            >
-                              {joined
-                                ? `${intl.formatMessage({
-                                    id: 'video.joined',
-                                  })}`
-                                : `${intl.formatMessage({
-                                    id: 'video.join',
-                                  })}`}
-                            </div>
+                            <JoinButton
+                              isRefresh={true}
+                              daoId={videoData?.dao?.id}
+                            />
                           )}
                         </div>
                         <div className={styles.title}>{title}</div>
@@ -293,16 +246,7 @@ const Video: React.FC<Props> = (props) => {
             {/*</Col>*/}
           </Row>
         </main>
-        <ExitCommunityDialog
-          text={`${intl.formatMessage({
-            id: 'video.exitCommunityDialog.text',
-          })}`}
-          visible={focusDialog}
-          closeDialog={() => {
-            setFocusDialog(false);
-          }}
-          confirmHandle={confirmFocus}
-        />
+
         {chunkVisible && (
           <ChunkSourceInfoPopup
             visible={chunkVisible}

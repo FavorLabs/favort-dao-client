@@ -9,6 +9,7 @@ import { debounce } from 'lodash';
 import Flutter from '@/utils/flutter';
 import moment from 'moment';
 import { message } from 'antd';
+import { useRef } from 'react';
 
 export const splitUrl = (url: string): [string, string, string] => {
   let i = new URL(url);
@@ -292,4 +293,18 @@ export const randomHex = () => {
 
 export const getDownloadNumber = (b: string) => {
   return b.match(/1/g)?.length || 0;
+};
+
+export const getDebounce = (fn: Function, delay: number = 500) => {
+  const refTimer = useRef<number>();
+
+  return function f(...args: any) {
+    if (refTimer.current) {
+      clearTimeout(refTimer.current);
+    }
+    // @ts-ignore
+    refTimer.current = setTimeout(() => {
+      fn(args);
+    }, delay);
+  };
 };
