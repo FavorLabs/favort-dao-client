@@ -80,7 +80,7 @@ const Mine: React.FC<Props> = (props) => {
 
   const theme = localStorage.getItem('theme');
 
-  const { disconnect } = useDisconnect();
+  const { disconnectAsync } = useDisconnect();
 
   const [balance, setBalance] = useState('0');
   const [userStatistic, setUserStatistic] = useState<Statistic>({
@@ -299,7 +299,7 @@ const Mine: React.FC<Props> = (props) => {
       key: 3,
       name: intl.formatMessage({ id: 'main.mine.setting.about' }),
       icon: <img src={aboutSvg} alt={''} />,
-      content: <div className={styles.aboutAction}>version 1.0.0404</div>,
+      content: <div className={styles.aboutAction}>version 1.0.0406</div>,
     },
     {
       key: 4,
@@ -312,53 +312,6 @@ const Mine: React.FC<Props> = (props) => {
       ),
     },
   ];
-
-  // const swiperItems: {key: number, content: ReactNode}[] = [
-  //   {
-  //     key: 1,
-  //     content: <div
-  //       style={{ height: '200px' }}
-  //       onClick={() => {
-  //         console.log(`click item 1`);
-  //       }}
-  //     >
-  //       1
-  //     </div>
-  //   },
-  //   {
-  //     key: 2,
-  //     content: <div
-  //       style={{ height: '200px' }}
-  //       onClick={() => {
-  //         console.log(`click item 2`);
-  //       }}
-  //     >
-  //       2
-  //     </div>
-  //   },
-  //   {
-  //     key: 3,
-  //     content: <div
-  //       style={{ height: '200px' }}
-  //       onClick={() => {
-  //         console.log(`click item 3`);
-  //       }}
-  //     >
-  //       3
-  //     </div>
-  //   },
-  //   {
-  //     key: 4,
-  //     content: <div
-  //       style={{ height: '200px' }}
-  //       onClick={() => {
-  //         console.log(`click item 4`);
-  //       }}
-  //     >
-  //       4
-  //     </div>
-  //   },
-  // ];
 
   const getBalance = async () => {
     if (!web3) return;
@@ -375,22 +328,12 @@ const Mine: React.FC<Props> = (props) => {
     }
   };
 
-  const logout = () => {
+  const logout = async () => {
     if (isFavorApp()) Flutter.chatLogout();
     const connectType = localStorage.getItem(getKeyByName('connectType'));
     if (connectType && connectType === WalletConnect) {
-      disconnect();
+      await disconnectAsync();
       localStorage.removeItem('walletconnect');
-      localStorage.removeItem('wagmi.connected');
-      localStorage.setItem(
-        'wagmi.store',
-        JSON.stringify({
-          state: { data: {} },
-          version: 2,
-        }),
-      );
-      localStorage.removeItem('wagmi.cache');
-      localStorage.removeItem('wagmi.wallet');
     }
     localStorage.removeItem(getKeyByName('token'));
     localStorage.removeItem(getKeyByName('connectType'));
