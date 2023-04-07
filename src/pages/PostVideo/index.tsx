@@ -13,6 +13,7 @@ import ImageApi from '@/services/tube/Image';
 import { useResourceUrl, useUrl } from '@/utils/hooks';
 import {
   eventEmitter,
+  getDebounce,
   getProgress,
   getSize,
   sleep,
@@ -335,7 +336,7 @@ const PostVideo: React.FC<Props> = (props) => {
       message.warning(
         `${intl.formatMessage({
           id: 'postVideo.videoSize.messageWarning',
-        })} ${getSize(307200, 1)}`,
+        })} ${getSize(file.size, 1)}`,
       );
       return false;
     } else {
@@ -556,7 +557,7 @@ const PostVideo: React.FC<Props> = (props) => {
       <div className={styles.bottom}>
         <div
           className={`${styles.postBtn} ${postDisable && styles.disabled}`}
-          onClick={postHandle}
+          onClick={getDebounce(postHandle)}
         >
           {postLoading && <span className={styles.loading} />}
           &nbsp;
