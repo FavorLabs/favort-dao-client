@@ -262,9 +262,7 @@ const Mine: React.FC<Props> = (props) => {
               className={styles.lang}
               onClick={(e) => {
                 e.stopPropagation();
-                if (NETWORK_ID === '19') {
-                  setLangMenuVisibility(true);
-                }
+                setLangMenuVisibility(true);
               }}
             >
               {intl.formatMessage({ id: 'main.mine.setting.language-value' })}

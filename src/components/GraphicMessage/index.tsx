@@ -72,14 +72,12 @@ const GraphicMessage: React.FC<Props> = (props) => {
               ? styles.textInfo
               : styles.detail
           }`}
+          onClick={() => history.push(`/newsletterDetail/${id}`)}
         >
           {info[2]?.[0]?.content}
           {info[2]?.[0]?.content?.length > 116 &&
           route !== 'newsletterDetail' ? (
-            <div
-              className={styles.toMore}
-              onClick={() => history.push(`/newsletterDetail/${id}`)}
-            >
+            <div className={styles.toMore}>
               {intl.formatMessage({
                 id: 'graphicMessage.more',
               })}
