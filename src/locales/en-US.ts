@@ -32,7 +32,7 @@ export default {
   'main.mine.setting.language-value': 'English',
   'main.mine.setting.language-english': 'English',
   'main.mine.setting.language-chinese': 'Chinese',
-  'main.mine.setting.theme': 'Theme',
+  'main.mine.setting.theme': 'Dark Mode',
   'main.mine.setting.theme-light': 'light',
   'main.mine.setting.theme-dark': 'dark',
   'main.mine.setting.about': 'About',

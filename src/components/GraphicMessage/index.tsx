@@ -91,6 +91,9 @@ const GraphicMessage: React.FC<Props> = (props) => {
           className={`${
             info[3]?.length !== 2 ? styles.mediumInfo : styles.twoImage
           }`}
+          onClick={() => {
+            history.push(`/newsletterDetail/${id}`);
+          }}
         >
           {info[3]?.map((item: any, index: number) => (
             <div key={index} className={styles.block}>
