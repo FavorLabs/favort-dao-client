@@ -1,26 +1,30 @@
 .content {
   .navBar {
-    padding: 20px;
-    height: 60px;
+    padding: 1.25rem;
+    height: 3.75rem;
     box-sizing: border-box;
     border: 0.5px solid rgba(229, 229, 229, 1);
     svg {
-      width: 16px;
+      width: 1rem;
     }
   }
+  .closeIcon {
+    width: 0.9375rem;
+    height: 0.9375rem;
+  }
   .postOptions {
-    height: calc(100vh - 150px);
+    height: calc(100vh - 9.375rem);
     overflow-y: auto;
-    padding: 0 20px;
+    padding: 0 1.25rem;
     .option {
       display: flex;
       justify-content: flex-start;
       align-items: center;
-      padding: 20px 0;
+      padding: 1.25rem 0;
       border-bottom: 0.5px solid rgba(229, 229, 229, 1);
       .key {
         flex-wrap: nowrap;
-        margin-right: 20px;
+        margin-right: 1.25rem;
         color: rgba(33, 33, 0, 1);
         font-weight: 700;
       }
@@ -32,9 +36,9 @@
         }
         .videoUpload {
           display: inline-block;
-          min-width: 105px;
-          height: 80px;
-          border-radius: 2px;
+          min-width: 6.5625rem;
+          height: 5rem;
+          border-radius: 0.125rem;
           background: rgba(240, 240, 240, 1);
           .uploadContainer {
             display: flex;
@@ -56,18 +60,18 @@
   .bottom {
     .postBtn {
       position: absolute;
-      bottom: 34px;
+      bottom: 2.125rem;
       left: 0;
       right: 0;
-      margin: 0 20px;
-      padding: 10px 0;
+      margin: 0 1.25rem;
+      padding: 0.625rem 0;
       text-align: center;
       background: rgba(255, 166, 0, 1);
       .loading {
         display: inline-block;
-        width: 16px;
-        height: 16px;
-        border: 3px solid #ccc;
+        width: 1rem;
+        height: 1rem;
+        border: 0.1875rem solid #ccc;
         border-radius: 50%;
         border-bottom-color: transparent;
         animation: loading 1s linear infinite;
@@ -95,20 +99,20 @@
       justify-content: center;
       align-items: center;
       .circle {
-        --size: 122px;
+        --size: 7.625rem;
         --fill-color: rgba(255, 166, 0, 1);
         --track-color: #fff;
-        --track-width: 10px;
+        --track-width: 0.625rem;
         .percent {
           color: rgba(255, 166, 0, 1);
-          font-size: 20px;
+          font-size: 1.25rem;
           font-weight: 700;
         }
       }
     }
     .tips {
       color: rgba(255, 255, 255, 1);
-      margin-top: 20px;
+      margin-top: 1.25rem;
     }
   }
   .createOverlay {
@@ -127,20 +131,20 @@
       justify-content: center;
       align-items: center;
       .circle {
-        --size: 122px;
+        --size: 7.625rem;
         --fill-color: rgba(255, 166, 0, 1);
         --track-color: #fff;
-        --track-width: 10px;
+        --track-width: 0.625rem;
         .percent {
           color: rgba(255, 166, 0, 1);
-          font-size: 20px;
+          font-size: 1.25rem;
           font-weight: 700;
         }
       }
     }
     .tips {
       color: rgba(255, 255, 255, 1);
-      margin-top: 20px;
+      margin-top: 1.25rem;
     }
   }
 }

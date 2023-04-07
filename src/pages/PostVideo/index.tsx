@@ -13,6 +13,7 @@ import ImageApi from '@/services/tube/Image';
 import { useResourceUrl, useUrl } from '@/utils/hooks';
 import {
   eventEmitter,
+  getDebounce,
   getProgress,
   getSize,
   sleep,
@@ -26,6 +27,7 @@ import PostApi from '@/services/tube/PostApi';
 import { UploadImgType } from '@/config/constants';
 import { AnimConfig } from '@/declare/global';
 import { useIntl } from '@@/plugin-locale/localeExports';
+import closeIcon from '@/assets/icon/close-icon.svg';
 
 export type Props = {};
 type OptionsItem = {
@@ -335,7 +337,7 @@ const PostVideo: React.FC<Props> = (props) => {
       message.warning(
         `${intl.formatMessage({
           id: 'postVideo.videoSize.messageWarning',
-        })} ${getSize(307200, 1)}`,
+        })} ${getSize(file.size, 1)}`,
       );
       return false;
     } else {
@@ -536,7 +538,9 @@ const PostVideo: React.FC<Props> = (props) => {
     <div className={styles.content}>
       <NavBar
         className={styles.navBar}
-        backArrow={<CloseOutline />}
+        backArrow={
+          <img src={closeIcon} alt={'closeIcon'} className={styles.closeIcon} />
+        }
         onBack={() => {
           history.goBack();
         }}
@@ -556,7 +560,7 @@ const PostVideo: React.FC<Props> = (props) => {
       <div className={styles.bottom}>
         <div
           className={`${styles.postBtn} ${postDisable && styles.disabled}`}
-          onClick={postHandle}
+          onClick={getDebounce(postHandle)}
         >
           {postLoading && <span className={styles.loading} />}
           &nbsp;

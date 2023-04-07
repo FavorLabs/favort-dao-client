@@ -59,12 +59,12 @@ const Token: React.FC<Props> = (props) => {
     {
       chainName: 'ETH',
       icon: <img className={styles.chainIcon} src={ethCoinSvg} alt={''} />,
-      balance: 100000,
+      balance: 0,
     },
     {
       chainName: 'BTC',
       icon: <img className={styles.chainIcon} src={btcCoinSvg} alt={''} />,
-      balance: 100000,
+      balance: 0,
     },
   ];
 
@@ -82,7 +82,7 @@ const Token: React.FC<Props> = (props) => {
               </div>
               <div className={styles.right}>
                 <span className={styles.balance}>{item.balance}</span>
-                <span className={styles.value}>$23000</span>
+                <span className={styles.value}>$0</span>
               </div>
             </div>
           ))}

@@ -13,9 +13,10 @@ import { CreatePost, Post } from '@/declare/tubeApiType';
 import { Models } from '@/declare/modelType';
 import PostApi from '@/services/tube/PostApi';
 import { UploadImgType } from '@/config/constants';
-import { eventEmitter, sleep } from '@/utils/util';
+import { eventEmitter, getDebounce, sleep } from '@/utils/util';
 import { AnimConfig } from '@/declare/global';
 import { useIntl } from '@@/plugin-locale/localeExports';
+import closeIcon from '@/assets/icon/close-icon.svg';
 
 export type Props = {};
 
@@ -193,7 +194,9 @@ const PostNewsletter: React.FC<Props> = (props) => {
     <div className={styles.content}>
       <NavBar
         className={styles.navBar}
-        backArrow={<CloseOutline />}
+        backArrow={
+          <img src={closeIcon} alt={'closeIcon'} className={styles.closeIcon} />
+        }
         onBack={() => {
           history.goBack();
         }}
@@ -213,7 +216,7 @@ const PostNewsletter: React.FC<Props> = (props) => {
       <div className={styles.bottom}>
         <div
           className={`${styles.postBtn} ${postDisable && styles.disabled}`}
-          onClick={postHandle}
+          onClick={getDebounce(postHandle)}
         >
           {postLoading && <span className={styles.loading} />}
           &nbsp;

@@ -262,9 +262,7 @@ const Mine: React.FC<Props> = (props) => {
               className={styles.lang}
               onClick={(e) => {
                 e.stopPropagation();
-                if (NETWORK_ID === '19') {
-                  setLangMenuVisibility(true);
-                }
+                setLangMenuVisibility(true);
               }}
             >
               {intl.formatMessage({ id: 'main.mine.setting.language-value' })}
@@ -299,7 +297,7 @@ const Mine: React.FC<Props> = (props) => {
       key: 3,
       name: intl.formatMessage({ id: 'main.mine.setting.about' }),
       icon: <img src={aboutSvg} alt={''} />,
-      content: <div className={styles.aboutAction}>version 1.0.0406</div>,
+      content: <div className={styles.aboutAction}>version 1.0.0407</div>,
     },
     {
       key: 4,

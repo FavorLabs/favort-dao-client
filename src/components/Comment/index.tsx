@@ -13,7 +13,7 @@ import {
 } from 'antd-mobile';
 import UserAvatar from '@/components/UserAvatar';
 import { useUrl, useResourceUrl } from '@/utils/hooks';
-import { getTime } from '@/utils/util';
+import { getDebounce, getTime } from '@/utils/util';
 import PostApi from '@/services/tube/PostApi';
 import {
   CommentInfo,
@@ -199,6 +199,11 @@ const Comment: React.FC<Props> = (props) => {
     }
   };
 
+  const sendJudgment = () => {
+    if (currentReply.id) sendReply();
+    else sendComment();
+  };
+
   return (
     <div className={styles.comment}>
       <div className={styles.commentList}>
@@ -374,10 +379,7 @@ const Comment: React.FC<Props> = (props) => {
         />
         <div
           className={`${styles.sendBtn} ${!sendDisable && styles.active}`}
-          onClick={() => {
-            if (currentReply.id) sendReply();
-            else sendComment();
-          }}
+          onClick={getDebounce(sendJudgment)}
         >
           {intl.formatMessage({
             id: 'comment.popup.sendBtn',

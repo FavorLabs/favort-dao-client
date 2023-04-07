@@ -14,7 +14,13 @@ import MyCommunity from '@/components/MyCommunity';
 import newsImg from '@/assets/icon/daoNews-icon.svg';
 import videoImg from '@/assets/icon/daoVideo.svg';
 import chatImg from '@/assets/icon/daoChat.svg';
-import { getChatHash, getContent, getTime, toChat } from '@/utils/util';
+import {
+  getChatHash,
+  getContent,
+  getDebounce,
+  getTime,
+  toChat,
+} from '@/utils/util';
 import PostApi from '@/services/tube/PostApi';
 import CommunityIntro from '@/components/CommunityIntro';
 import KeepAlive from 'react-activation';
