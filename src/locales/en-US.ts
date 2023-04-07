@@ -158,4 +158,7 @@ export default {
   'postVideo.choiceOverlay.statusTip': 'Switching nodes for upload',
   'postVideo.uploadToStorageNode.error': 'Websocket not connected',
   'postVideo.groupSubscribe.error': 'JsonPpcResponse is undefined',
+  // connectWallet
+  'connectWallet.connect.walletConnect.errorTips':
+    'WalletConnect failed to connect, please retry!',
 };

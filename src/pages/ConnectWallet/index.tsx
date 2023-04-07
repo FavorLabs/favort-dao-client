@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './index.less';
 import metamask_png from '@/assets/img/metamask.png';
 import walletConnect_png from '@/assets/img/walletconnect.png';
@@ -14,12 +14,13 @@ import {
 } from '@/config/constants';
 import { connect } from '@/utils/connect';
 import { Button, message } from 'antd';
-import { history, useDispatch, useSelector } from 'umi';
+import { DotLoading } from 'antd-mobile';
+import { history, useDispatch, useIntl, useSelector } from 'umi';
 import { WalletType } from '@/declare/global';
 import UserApi from '@/services/tube/UserApi';
 import { useUrl } from '@/utils/hooks';
 import Web3 from 'web3';
-import { getKeyByName, isFavorApp, isMobile } from '@/utils/util';
+import { getDebounce, getKeyByName, isFavorApp, isMobile } from '@/utils/util';
 import { Models } from '@/declare/modelType';
 import { Config } from '@/config/config';
 import SvgIcon from '@/components/SvgIcon';
@@ -63,6 +64,8 @@ interface Options {
 const ConnectWallet: React.FC = (props) => {
   const dispatch = useDispatch();
   const url = useUrl();
+  const intl = useIntl();
+  const WCTimer = useRef<NodeJS.Timer | null>(null);
   const { isOpen, open, close, setDefaultChain } = useWeb3Modal();
   const { data, isError, isLoading, isSuccess, signMessage } = useSignMessage({
     onError(error) {
@@ -81,6 +84,7 @@ const ConnectWallet: React.FC = (props) => {
   const [address, setAddress] = useState('');
   const [web3, setWeb3] = useState<Web3 | null>(null);
   const [cType, setCType] = useState('');
+  const [clickedWCWallet, setClickedWCWallet] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
 
   const { config } = useSelector((state: Models) => state.global);
@@ -200,7 +204,17 @@ const ConnectWallet: React.FC = (props) => {
   };
 
   const openWalletConnect = async () => {
+    setClickedWCWallet(true);
     const options: Options = {};
+    WCTimer.current = setTimeout(() => {
+      close();
+      setClickedWCWallet(false);
+      message.error(
+        intl.formatMessage({
+          id: 'connectWallet.connect.walletConnect.errorTips',
+        }),
+      );
+    }, 10e3);
     await open(options);
   };
 
@@ -247,6 +261,13 @@ const ConnectWallet: React.FC = (props) => {
   useEffect(() => {
     init();
   }, []);
+
+  useEffect(() => {
+    if (isOpen) {
+      if (WCTimer.current) clearTimeout(WCTimer.current);
+      setClickedWCWallet(false);
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     if (WCV2Connected) {
@@ -296,7 +317,19 @@ const ConnectWallet: React.FC = (props) => {
                   <p className={styles.name}>{item.name.toUpperCase()}</p>
                   <p className={styles.introduction}>{item.introduction}</p>
                 </div>
-                <img src={rightArrow} alt="" className={styles.rightArrow} />
+                {item.name === WalletConnect ? (
+                  clickedWCWallet ? (
+                    <DotLoading />
+                  ) : (
+                    <img
+                      src={rightArrow}
+                      alt=""
+                      className={styles.rightArrow}
+                    />
+                  )
+                ) : (
+                  <img src={rightArrow} alt="" className={styles.rightArrow} />
+                )}
               </div>
             )}
           </div>

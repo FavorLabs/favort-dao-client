@@ -2,26 +2,21 @@ import * as React from 'react';
 import styles from './index.less';
 import KeepAlive, { useActivate, useUnactivate } from 'react-activation';
 import PostList from '@/components/PostList';
-import { useEffect } from 'react';
+import { useSelector } from 'umi';
+import { Models } from '@/declare/modelType';
 
 export type Props = {};
 const Recommend: React.FC<Props> = (props) => {
+  const { scrollPosition } = useSelector((state: Models) => state.manage);
+  const childrenDOM = document.querySelector('#TSL_children') as Element;
+
   useActivate(() => {
-    // console.log('recommend activate');
+    childrenDOM.scrollTo(0, scrollPosition.recommend);
   });
 
   useUnactivate(() => {
     // console.log('recommend unActivate');
   });
-
-  // useEffect(() => {
-  //   window.addEventListener('scroll', (e) => {
-  //     e = e || window.event;
-  //     if (e.wheelDelta) {
-  //       //
-  //     }
-  //   });
-  // }, []);
 
   return (
     <div className={styles.recommend}>

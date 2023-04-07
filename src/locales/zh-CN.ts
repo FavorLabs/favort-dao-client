@@ -153,4 +153,7 @@ export default {
   'postVideo.choiceOverlay.statusTip': '上传交换节点',
   'postVideo.uploadToStorageNode.error': 'Websocket未连接',
   'postVideo.groupSubscribe.error': 'JsonPpcResponse未定义',
+  // connectWallet
+  'connectWallet.connect.walletConnect.errorTips':
+    'WalletConnect连接失败，请重试!',
 };
