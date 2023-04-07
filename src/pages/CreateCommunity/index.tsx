@@ -9,7 +9,7 @@ import ImageApi from '@/services/tube/Image';
 import { useResourceUrl, useUrl } from '@/utils/hooks';
 import { message, Spin } from 'antd';
 import DaoApi from '@/services/tube/Dao';
-import { sleep } from '@/utils/util';
+import { getDebounce, sleep } from '@/utils/util';
 import TopNavBar from '@/components/TopNavBar';
 import { UploadImgType } from '@/config/constants';
 import { AnimConfig } from '@/declare/global';
@@ -242,7 +242,7 @@ const CreateCommunity: React.FC<Props> = (props) => {
       </div>
       <div
         className={`${styles.createBtn} ${createDisable && styles.disabled}`}
-        onClick={createHandle}
+        onClick={getDebounce(createHandle)}
       >
         {intl.formatMessage({
           id: 'createCommunity.button',

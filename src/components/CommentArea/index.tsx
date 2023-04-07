@@ -31,6 +31,7 @@ const CommentArea: React.FC<Props> = (props) => {
   const pathname = history.location.pathname.split('/')[1];
 
   const [like, setLike] = useState<boolean>(false);
+  const [isPostLike, setIsPostLike] = useState<boolean>(true);
   const [watchCount, setWatchCount] = useState<number>(watchNum);
   const [likeCount, setLikeCount] = useState<number>(likeNum);
   const [commentOnCount, setCommentOnCount] = useState<number>(commentOnNum);
@@ -43,11 +44,18 @@ const CommentArea: React.FC<Props> = (props) => {
   };
 
   const postLike = async () => {
-    const { data } = await PostApi.postLike(url, postId);
-    if (data.data) {
-      setLike(data.data.status);
-      if (data.data.status) setLikeCount(likeCount + 1);
-      else setLikeCount(likeCount - 1);
+    if (isPostLike) {
+      try {
+        setIsPostLike(false);
+        const { data } = await PostApi.postLike(url, postId);
+        if (data.data) {
+          setLike(data.data.status);
+          if (data.data.status) setLikeCount(likeCount + 1);
+          else setLikeCount(likeCount - 1);
+        }
+      } catch (e) {
+        setIsPostLike(true);
+      }
     }
   };
 
@@ -85,6 +93,10 @@ const CommentArea: React.FC<Props> = (props) => {
       getPostLikeStatus();
     }
   }, [likeNum, watchNum, commentOnNum]);
+
+  useEffect(() => {
+    setIsPostLike(true);
+  }, [like]);
 
   return (
     <>
