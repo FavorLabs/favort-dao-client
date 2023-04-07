@@ -251,18 +251,18 @@ const Main: React.FC<Props> = (props) => {
                 history.push('/createCommunity');
               }
             } else if (key === '/chat') {
-              if (isFavorApp())
-                Flutter.clickChat(
-                  config?.proxyGroup as string,
-                  settings?.Bucket as string,
-                );
-              else if (checkLogin()) {
+              if (checkLogin()) {
                 message.warning(
                   `${intl.formatMessage({
                     id: 'main.menuBar.chat.messageWaring',
                   })}`,
                 );
-              } else {
+              } else if (isFavorApp())
+                Flutter.clickChat(
+                  config?.proxyGroup as string,
+                  settings?.Bucket as string,
+                );
+              else {
                 history.push('/mine');
               }
             } else {
