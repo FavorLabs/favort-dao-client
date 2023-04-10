@@ -237,7 +237,8 @@ export const flexible = (window: Window, document: Document) => {
   // set 1rem = viewWidth / 10
   function setRemUnit() {
     getTargetWidth();
-    if (!isMobile()) {
+    // const isIPad = navigator.userAgent.indexOf('iPad') !== -1;
+    if (targetWidth >= 768 || !isMobile()) {
       docEl.style.fontSize = `16px`;
       bodyEl.style.fontSize = '16px';
       // docEl.style.fontSize = `${(pcDefaultFontSize / pcDesignSize) * targetWidth}px`;

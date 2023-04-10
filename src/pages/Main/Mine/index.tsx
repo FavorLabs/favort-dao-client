@@ -458,7 +458,7 @@ const Mine: React.FC<Props> = (props) => {
         <div
           className={styles.operate}
           style={{
-            height: `calc(${isMobile() ? '100vh' : '80vh'} - 3.75rem - ${
+            height: `calc(100vh - 3.75rem - ${
               // @ts-ignore
               userInfoRef?.current?.clientHeight / 16 + 'rem'
             } - 2rem)`,
