@@ -89,6 +89,10 @@ const ConnectWallet: React.FC = (props) => {
 
   const { config } = useSelector((state: Models) => state.global);
 
+  const w3mModalDOM = document
+    .getElementsByTagName('w3m-modal')?.[0]
+    ?.shadowRoot?.querySelector('#w3m-modal') as HTMLElement;
+
   const connectWallet = (connectType: WalletType) => {
     init();
     connect(connectType, false, config as Config)
@@ -261,6 +265,15 @@ const ConnectWallet: React.FC = (props) => {
   useEffect(() => {
     init();
   }, []);
+
+  useEffect(() => {
+    if (w3mModalDOM) {
+      w3mModalDOM.style.top = '0';
+      w3mModalDOM.style.bottom = '0';
+      w3mModalDOM.style.left = '0';
+      w3mModalDOM.style.right = '0';
+    }
+  }, [w3mModalDOM]);
 
   useEffect(() => {
     if (isOpen) {

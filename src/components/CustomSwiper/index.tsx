@@ -21,7 +21,7 @@ const CustomSwiper: React.FC<Props> = (props) => {
     touchStartX: 0,
     touchEndX: 0,
   });
-  const dragRange = 50;
+  const dragRange = 120;
   // const childRefs = useMemo(() => {
   //   return items.map((item, index) => {
   //     return createRef();
@@ -31,6 +31,15 @@ const CustomSwiper: React.FC<Props> = (props) => {
 
   const getSpacing = (idx: number) => {
     return idx < 3 ? idx * spacing + 'px' : 2 * spacing + 'px';
+  };
+
+  const rebound = (index: number) => {
+    const topCardItemDOM = document.querySelector(
+      '#topCardItem-0',
+    ) as HTMLElement;
+    topCardItemDOM.style.transform = `translate(calc(${
+      -100 * index + '%'
+    } + ${getSpacing(index)}), ${getSpacing(index)})`;
   };
 
   return (
@@ -43,6 +52,7 @@ const CustomSwiper: React.FC<Props> = (props) => {
                 key={index}
                 // @ts-ignore
                 // ref={childRefs[index]}
+                id={`topCardItem-${index}`}
                 className={styles.item}
                 style={{
                   width: `calc(100% - ${spacing * 2}px)`,
@@ -56,7 +66,16 @@ const CustomSwiper: React.FC<Props> = (props) => {
                   touchData.current.touchStartX = e.touches[0].clientX;
                 }}
                 onTouchMove={(e) => {
+                  // console.log('e', topCardItem.current, e, e.touches[0].clientX);
                   touchData.current.touchEndX = e.touches[0].clientX;
+                  const res =
+                    touchData.current.touchEndX - touchData.current.touchStartX;
+                  const topCardItemDOM = document.querySelector(
+                    '#topCardItem-0',
+                  ) as HTMLElement;
+                  topCardItemDOM.style.transform = `translate(calc(${
+                    -100 * index + '%'
+                  } + ${getSpacing(index)} + ${res}px), ${getSpacing(index)})`;
                 }}
                 onTouchEnd={() => {
                   const startX = touchData.current.touchStartX;
@@ -64,21 +83,23 @@ const CustomSwiper: React.FC<Props> = (props) => {
                   let res = endX - startX;
                   if (startX === 0 || endX === 0 || res === 0) return;
                   const arr = [...list];
-                  if (res < 0 && Math.abs(res) >= dragRange) {
-                    // console.log('to left', startX, endX);
-                    // childRefs.forEach((item, index) => {
-                    //   console.log('--', item.current);
-                    //   if (item.current) {
-                    //     //
-                    //   }
-                    // })
-                    const i = arr.shift();
-                    arr.push(i as LaminatedCard);
-                  } else {
+                  if (res < 0) {
+                    // console.log('to left');
                     if (Math.abs(res) >= dragRange) {
-                      // console.log('to right', startX, endX);
+                      rebound(index);
+                      const i = arr.shift();
+                      arr.push(i as LaminatedCard);
+                    } else {
+                      rebound(index);
+                    }
+                  } else {
+                    // console.log('to right');
+                    if (Math.abs(res) >= dragRange) {
+                      rebound(index);
                       const i = arr.pop();
                       arr.unshift(i as LaminatedCard);
+                    } else {
+                      rebound(index);
                     }
                   }
                   setList(arr);
