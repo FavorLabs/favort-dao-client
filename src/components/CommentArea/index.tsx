@@ -91,29 +91,33 @@ const CommentArea: React.FC<Props> = (props) => {
 
   const reTransferFun = async () => {
     setVisible(false);
-    try {
-      const postData: ReTransferPost = {
-        dao_id: userInfo?.id as string,
-        type: 2,
-        ref_id: post.id,
-        ref_type: 0,
-        visibility: 1,
-      };
-      const { data } = await PostApi.reTransferPost(url, postData);
-      if (data.data) {
-        message.success(
+    if (userInfo) {
+      try {
+        const postData: ReTransferPost = {
+          dao_id: userInfo?.id as string,
+          type: 2,
+          ref_id: post.id,
+          ref_type: 0,
+          visibility: 1,
+        };
+        const { data } = await PostApi.reTransferPost(url, postData);
+        if (data.data) {
+          message.success(
+            `${intl.formatMessage({
+              id: 'commentArea.reTransfer.messageSuccess',
+            })}`,
+          );
+          // eventEmitter.emit('menuRefreshRecommend');
+        }
+      } catch (e) {
+        message.error(
           `${intl.formatMessage({
-            id: 'commentArea.reTransfer.messageSuccess',
+            id: 'commentArea.reTransfer.messageError',
           })}`,
         );
-        // eventEmitter.emit('menuRefreshRecommend');
       }
-    } catch (e) {
-      message.error(
-        `${intl.formatMessage({
-          id: 'commentArea.reTransfer.messageError',
-        })}`,
-      );
+    } else {
+      message.warning('Please create a DAO first!');
     }
   };
 
