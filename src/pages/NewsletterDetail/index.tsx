@@ -22,11 +22,15 @@ const NewsletterDetail: React.FC<Props> = (props) => {
   const intl = useIntl();
 
   const [postInfo, setPostInfo] = useState<PostInfo | null>(null);
+  const [isReTransfer, setIsReTransfer] = useState<boolean>(false);
 
   const getPostInfo = async () => {
     try {
       const { data } = await PostApi.getPostById(url, postId);
-      if (data.data) setPostInfo(data.data);
+      if (data.data) {
+        setPostInfo(data.data);
+        if (data.data.author_dao.id) setIsReTransfer(true);
+      }
     } catch (e) {
       if (e instanceof Error) message.error(e.message);
     }
@@ -55,6 +59,7 @@ const NewsletterDetail: React.FC<Props> = (props) => {
                   post={postInfo}
                   refreshPage={() => {}}
                   isNewsDetail={true}
+                  isReTransfer={isReTransfer}
                 />
               </div>
               <Comment

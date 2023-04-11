@@ -4,7 +4,6 @@ import { DaoInfo, Page } from '@/declare/tubeApiType';
 import { useResourceUrl, useUrl } from '@/utils/hooks';
 import UserAvatar from '@/components/UserAvatar';
 import { history, useSelector } from 'umi';
-import { InfiniteScroll } from 'antd-mobile';
 import addImg from '@/assets/icon/addCommunityIcon.svg';
 import allCommunityIcon from '@/assets/icon/home.svg';
 import { useEffect, useState } from 'react';
@@ -21,9 +20,6 @@ const MyCommunity: React.FC<Props> = (props) => {
   const { user, joinedList = [], daoId, activeId } = props;
   const avatarsResUrl = useResourceUrl('avatars');
   const allId = '12345';
-  const [hasMore, setHasMore] = useState<boolean>(false);
-  const url = useUrl();
-  const { userInfo } = useSelector((state: Models) => state.dao);
 
   const setDaoId = (id: string) => {
     if (id === allId) {
@@ -38,32 +34,6 @@ const MyCommunity: React.FC<Props> = (props) => {
       setDaoId(id);
     }
   };
-
-  // const loadMore = async () => {
-  //   await getBookmarkList();
-  // }
-
-  // const getBookmarkList = async () => {
-  //   try {
-  //     const { data } = await DaoApi.getBookmarkList(url,daoPageData);
-  //     let followList: React.SetStateAction<DaoInfo[]> = [];
-  //     if (data.data.list?.length) {
-  //       followList = _.filter(data.data.list, (v) => v.id !== userInfo?.id);
-  //       // @ts-ignore
-  //       setBookmarkList(()=>[...bookmarkList, ...followList]);
-  //       setHasMore(
-  //         data.data.pager.total_rows > daoPageData.page * daoPageData.page_size,
-  //       );
-  //       setDaoPageData((pageData) => ({ ...pageData, page: ++pageData.page }));
-  //     }
-  //   } catch (e) {
-  //     if (e instanceof Error) message.error(e.message);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getBookmarkList();
-  // }, []);
 
   return (
     <div className={styles.page}>
@@ -145,16 +115,6 @@ const MyCommunity: React.FC<Props> = (props) => {
           <></>
         )}
       </div>
-
-      {/*<InfiniteScroll loadMore={loadMore} hasMore={hasMore}>*/}
-      {/*  <>*/}
-      {/*    {hasMore ? (*/}
-      {/*      <></>*/}
-      {/*    ) : (*/}
-      {/*      <></>*/}
-      {/*    )}*/}
-      {/*  </>*/}
-      {/*</InfiniteScroll>*/}
     </div>
   );
 };

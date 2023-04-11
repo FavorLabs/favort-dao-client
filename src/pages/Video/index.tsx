@@ -48,6 +48,7 @@ const Video: React.FC<Props> = (props) => {
   const [chunkVisible, setChunkVisible] = useState<boolean>(false);
   const [videoHash, setVideoHash] = useState<string>('');
   const [oracleArr, setOracleArr] = useState<string[]>([]);
+  const [isReTransfer, setIsReTransfer] = useState<boolean>(false);
 
   const { api } = useSelector((state: Models) => state.global);
   const { userInfo } = useSelector((state: Models) => state.dao);
@@ -59,6 +60,7 @@ const Video: React.FC<Props> = (props) => {
         const daoId = data.data.dao.id;
         const isSelf = daoId === userInfo?.id;
         setVideoData(data.data);
+        if (data.data.author_dao.id) setIsReTransfer(true);
         setIsSelf(isSelf);
         // !isSelf && checkJoinStatus(daoId);
         // getVideoList(daoId);
@@ -171,21 +173,45 @@ const Video: React.FC<Props> = (props) => {
                             >
                               <UserAvatar
                                 prefix={avatarsResUrl}
-                                name={videoData.dao.name}
-                                identifier={videoData.dao.avatar}
+                                name={
+                                  isReTransfer
+                                    ? videoData.author_dao.name
+                                    : videoData.dao.name
+                                }
+                                identifier={
+                                  isReTransfer
+                                    ? videoData.author_dao.avatar
+                                    : videoData.dao.avatar
+                                }
                               />
                               <div className={styles.text}>
                                 <div className={styles.daoName}>
-                                  {videoData.dao.name}
+                                  {isReTransfer
+                                    ? videoData.author_dao.name
+                                    : videoData.dao.name}
                                 </div>
                                 <div className={styles.subscribe}>
-                                  {videoData.dao.follow_count}
+                                  {isReTransfer
+                                    ? videoData.author_dao.follow_count
+                                    : videoData.dao.follow_count}
                                   {intl.formatMessage({
                                     id: 'video.followCount',
                                   })}
                                 </div>
                               </div>
                             </div>
+                            {(videoData.type === 2 || videoData.type === 3) && (
+                              <div className={styles.ref}>
+                                <span className={styles.text}>
+                                  was retransferde by
+                                </span>
+                                <div className={styles.nickName}>
+                                  {userInfo?.id === videoData.dao.id
+                                    ? 'Me'
+                                    : `${videoData.dao.name}`}
+                                </div>
+                              </div>
+                            )}
                           </div>
                           {!isSelf && (
                             <JoinButton
@@ -203,6 +229,7 @@ const Video: React.FC<Props> = (props) => {
                             likeNum={videoData.upvote_count}
                             postId={videoData.id}
                             postType={videoData.type}
+                            post={videoData}
                           />
                         </div>
                       </figcaption>
