@@ -10,6 +10,7 @@ import CommunityInfo from '@/components/CommunityInfo';
 import playImg from '@/assets/icon/play-icon.svg';
 import { ImageMaxSize } from '@/config/constants';
 import { Models } from '@/declare/modelType';
+import { useIntl } from '@@/plugin-locale/localeExports';
 
 export type Props = {
   post: PostInfo;
@@ -31,6 +32,7 @@ const LongVideo: React.FC<Props> = (props) => {
     type,
   } = props.post;
   if (!dao) return <></>;
+  const intl = useIntl();
   const history = useHistory();
   const videosResUrl = useResourceUrl('images');
   const info = getContent(contents);
@@ -52,9 +54,15 @@ const LongVideo: React.FC<Props> = (props) => {
             />
             {(type === 2 || type === 3) && (
               <div className={styles.ref}>
-                <span className={styles.text}>was retransferde by</span>
+                <span className={styles.text}>
+                  {intl.formatMessage({
+                    id: 'reTransfer.text',
+                  })}
+                </span>
                 <div className={styles.nickName}>
-                  {userInfo?.id === dao.id ? 'Me' : `${dao.name}`}
+                  {userInfo?.id === dao.id
+                    ? `${intl.formatMessage({ id: 'reTransfer.daoName' })}`
+                    : `${dao.name}`}
                 </div>
               </div>
             )}
