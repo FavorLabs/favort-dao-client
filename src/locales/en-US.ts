@@ -60,11 +60,19 @@ export default {
   'popupContent.exitCommunityDialog.text':
     'Are you sure you want to delete this News?',
   'popupContent.delete.messageSuccess': 'Delete successfully',
+  // commentArea
+  'commentArea.reTransfer': 'ReTransfer',
+  'commentArea.quote': 'Quote',
+  'commentArea.reTransfer.messageSuccess': 'ReTransfer success',
+  'commentArea.reTransfer.messageError': 'ReTransfer failure',
   // exitCommunityDialog
   'exitCommunityDialog.cancel': 'cancel',
   'exitCommunityDialog.confirm': 'confirm',
   // graphicMessage
   'graphicMessage.more': 'More',
+  // reTransfer
+  'reTransfer.text': 'was retransferde by',
+  'reTransfer.daoName': 'Me',
   // newsLetterDetail
   'newsLetterDetail.navbar.text': 'Main text',
   // comment

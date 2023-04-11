@@ -26,8 +26,53 @@
 
       .img {
         width: 1.0625rem;
-        height: 0.6875rem;
+        max-height: 0.8rem;
       }
+    }
+  }
+}
+
+.popup {
+  .popupPage {
+    .row {
+      display: flex;
+      align-items: center;
+
+      .img {
+        width: 1.125rem;
+        height: 1.125rem;
+      }
+
+      .text,
+      .redText {
+        flex: 1;
+        margin-left: 1.125rem;
+        padding: 1.25rem 0;
+        font-size: 1rem;
+        font-weight: 500;
+      }
+
+      .text {
+        color: rgba(33, 33, 33, 1);
+        border-bottom: 0.5px solid rgba(229, 229, 229, 1);
+      }
+
+      .redText {
+        color: rgba(219, 0, 0, 1);
+      }
+    }
+
+    .cancel {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 2.75rem;
+      border-radius: 0.125rem;
+      background: rgba(240, 240, 240, 1);
+      font-size: 1rem;
+      font-weight: 500;
+      color: rgba(33, 33, 33, 1);
     }
   }
 }

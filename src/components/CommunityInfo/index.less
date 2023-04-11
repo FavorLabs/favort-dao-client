@@ -12,17 +12,24 @@
     display: flex;
     flex-direction: column;
     margin-left: 0.625rem;
+    overflow: hidden;
 
     .userName {
       font-size: 1rem;
       font-weight: 700;
       color: var(--latest-follow-graphicMessage-userInfo-userName-color);
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
 
     .releaseTime {
       font-size: 0.75rem;
       font-weight: 500;
       color: rgba(181, 181, 181, 1);
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
   }
 }

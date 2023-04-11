@@ -21,9 +21,6 @@ const ImageCut: React.FC<Props> = (props) => {
           <Image
             src={`${imagesResUrl}/${imgUrl + ImageMaxSize}`}
             className={styles.imgMaxUrl}
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
           />
         </div>
       ) : (
@@ -31,9 +28,6 @@ const ImageCut: React.FC<Props> = (props) => {
           <Image
             src={`${imagesResUrl}/${imgUrl + ImageMidSize}`}
             className={styles.imgUrl}
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
           />
         </div>
       )}

@@ -4,6 +4,7 @@ export type User = {
   address: string;
   avatar: string;
   nickname: string;
+  id: string;
 };
 
 export type Statistic = {
@@ -37,6 +38,16 @@ export type CreatePost = {
   visibility: number;
 };
 
+export type ReTransferPost = {
+  contents?: Post[];
+  dao_id: string;
+  tags?: string[];
+  type: number;
+  visibility: number;
+  ref_id: string;
+  ref_type: number;
+};
+
 export type PostInfo = {
   address: string;
   collection_count: number;
@@ -52,6 +63,11 @@ export type PostInfo = {
   comment_count: number;
   visibility: number;
   user: User;
+  ref_id: string;
+  ref_type: number;
+  author: User;
+  author_dao: DaoInfo;
+  orig_type: number;
 };
 
 export type Comment = {

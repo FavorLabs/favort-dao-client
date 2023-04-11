@@ -59,11 +59,19 @@ export default {
   'popupContent.cancel': '取消',
   'popupContent.exitCommunityDialog.text': '您确定要删除此新闻吗?',
   'popupContent.delete.messageSuccess': '删除成功!',
+  // commentArea
+  'commentArea.reTransfer': '转发',
+  'commentArea.quote': '引用',
+  'commentArea.reTransfer.messageSuccess': '转发成功',
+  'commentArea.reTransfer.messageError': '转发失败',
   // exitCommunityDialog
   'exitCommunityDialog.cancel': '取消',
   'exitCommunityDialog.confirm': '确认',
   // graphicMessage
   'graphicMessage.more': '更多',
+  // reTransfer
+  'reTransfer.text': '转发到',
+  'reTransfer.daoName': '我',
   // newsLetterDetail
   'newsLetterDetail.navbar.text': '主要内容',
   // comment

@@ -15,6 +15,7 @@ import _ from 'lodash';
 import DetailSkeleton from '@/components/CustomSkeleton/PostSkeleton/DetailSkeleton';
 import { Option } from '@/components/CommentArea';
 import { useIntl } from '@@/plugin-locale/localeExports';
+import ReTransfer from '@/components/ReTransfer';
 
 export type Props = {
   type?: number | string;
@@ -62,7 +63,7 @@ const PostList: React.FC<Props> = (props) => {
 
   const refreshPage = async () => {
     try {
-      const pageInfo = { page: 1, page_size: 10, type, query };
+      const pageInfo = { page: 1, page_size: 5, type, query };
       const request = focus
         ? (params: Page) => PostApi.getFollow(url, params)
         : daoId
@@ -85,7 +86,7 @@ const PostList: React.FC<Props> = (props) => {
     await refreshPage();
     setPageData({
       page: 2,
-      page_size: 10,
+      page_size: 5,
       type,
       query,
     });
@@ -154,6 +155,12 @@ const PostList: React.FC<Props> = (props) => {
                 />
               ) : item.type === -1 ? (
                 <CommunityIntro post={item} />
+              ) : item.type === 2 ? (
+                <ReTransfer
+                  post={item}
+                  refreshPage={refreshPage}
+                  delPost={delPost}
+                />
               ) : (
                 <></>
               )}

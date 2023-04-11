@@ -100,7 +100,11 @@ const Main: React.FC<Props> = (props) => {
             userInfo && 'haveCommunity'
           }`}
         >
-          <img src={userInfo ? addCommunitySvg : unAddCommunityIcon} alt={''} />
+          <img
+            src={userInfo ? addCommunitySvg : unAddCommunityIcon}
+            alt={''}
+            className={styles.addImg}
+          />
         </div>
       ),
     },

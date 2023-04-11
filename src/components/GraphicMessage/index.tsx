@@ -13,15 +13,14 @@ import JoinButton from '@/components/JoinButton';
 import DaoApi from '@/services/tube/Dao';
 import { message } from 'antd';
 import { useUrl } from '@/utils/hooks';
-import { useEffect, useState } from 'react';
 
 export type Props = {
   // post: PostInfoAndLike;
   post: PostInfo;
   refreshPage: () => void;
   delPost?: (post: string) => void;
-
   isNewsDetail?: boolean;
+  isReTransfer?: boolean;
 };
 
 const GraphicMessage: React.FC<Props> = (props) => {
@@ -30,7 +29,9 @@ const GraphicMessage: React.FC<Props> = (props) => {
   const pathname = history.location.pathname;
   const route = pathname.split('/')[1];
   const intl = useIntl();
+  const { isReTransfer } = props;
   const {
+    author_dao,
     dao,
     contents,
     view_count,
@@ -48,7 +49,27 @@ const GraphicMessage: React.FC<Props> = (props) => {
     <div className={styles.container}>
       <div className={styles.inContent}>
         <div className={styles.top}>
-          <CommunityInfo daoInfo={dao} createTime={created_on} />
+          <div className={styles.left}>
+            <CommunityInfo
+              daoInfo={isReTransfer ? author_dao : dao}
+              createTime={created_on}
+            />
+            {(type === 2 || type === 3) && (
+              <div className={styles.ref}>
+                <span className={styles.text}>
+                  {intl.formatMessage({
+                    id: 'reTransfer.text',
+                  })}
+                </span>
+                <div className={styles.nickName}>
+                  {userInfo?.id === dao.id
+                    ? `${intl.formatMessage({ id: 'reTransfer.daoName' })}`
+                    : `${dao.name}`}
+                </div>
+              </div>
+            )}
+          </div>
+
           {props.isNewsDetail ? (
             dao.id !== userInfo?.id ? (
               <JoinButton isRefresh={true} daoId={dao.id} />
@@ -57,11 +78,13 @@ const GraphicMessage: React.FC<Props> = (props) => {
             )
           ) : (
             <div className={styles.more}>
-              <PopupContent
-                post={props.post}
-                refreshPage={props.refreshPage}
-                delPost={props?.delPost}
-              />
+              {userInfo?.id === props.post.dao.id && (
+                <PopupContent
+                  post={props.post}
+                  refreshPage={props.refreshPage}
+                  delPost={props?.delPost}
+                />
+              )}
             </div>
           )}
         </div>
@@ -90,9 +113,14 @@ const GraphicMessage: React.FC<Props> = (props) => {
         <div
           className={`${
             info[3]?.length !== 2 ? styles.mediumInfo : styles.twoImage
-          }`}
-          onClick={() => {
-            history.push(`/newsletterDetail/${id}`);
+          } mediumInfo`}
+          onClick={(e) => {
+            const element = e.target;
+            if (element instanceof HTMLElement) {
+              if (element.className.includes('mediumInfo')) {
+                history.push(`/newsletterDetail/${id}`);
+              }
+            }
           }}
         >
           {info[3]?.map((item: any, index: number) => (
@@ -112,6 +140,7 @@ const GraphicMessage: React.FC<Props> = (props) => {
           likeNum={upvote_count}
           postId={id}
           postType={type}
+          post={props.post}
         />
       </div>
     </div>

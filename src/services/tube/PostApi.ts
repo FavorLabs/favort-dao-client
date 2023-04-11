@@ -13,6 +13,7 @@ import {
   PostInfo,
   ResData,
   Status,
+  ReTransferPost,
 } from '@/declare/tubeApiType';
 
 export default {
@@ -118,6 +119,13 @@ export default {
       method: 'delete',
       url: url + '/post/comment/reply',
       data: { id },
+    });
+  },
+  reTransferPost(url: string, data: ReTransferPost): ResData<PostInfo> {
+    return request({
+      method: 'post',
+      url: url + '/post',
+      data,
     });
   },
 };
