@@ -84,6 +84,13 @@ const CommentArea: React.FC<Props> = (props) => {
       case 1:
         history.push(`/video/${postId}`);
         break;
+      case 2:
+        if (post.orig_type === 0) {
+          history.push(`/newsletterDetail/${postId}`);
+        } else {
+          history.push(`/video/${postId}`);
+        }
+        break;
       default:
         message.warning('Post type error!');
     }
