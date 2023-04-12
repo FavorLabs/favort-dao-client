@@ -166,4 +166,8 @@ export default {
   // connectWallet
   'connectWallet.connect.walletConnect.errorTips':
     'WalletConnect连接失败，请重试!',
+  // quote
+  'quote.navBar.title': '引用编辑',
+  'quote.textArea.pleaseHolder': '添加评论...',
+  'quote.postBtn.text': '发送',
 };

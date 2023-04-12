@@ -69,6 +69,7 @@ export type PostInfo = {
   author_dao: DaoInfo;
   orig_type: number;
   orig_contents: Post[];
+  ref_count: number;
 };
 
 export type Comment = {

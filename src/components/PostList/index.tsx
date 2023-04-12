@@ -16,6 +16,7 @@ import DetailSkeleton from '@/components/CustomSkeleton/PostSkeleton/DetailSkele
 import { Option } from '@/components/CommentArea';
 import { useIntl } from '@@/plugin-locale/localeExports';
 import ReTransfer from '@/components/ReTransfer';
+import QuoteNews from '@/components/QuoteNews';
 
 export type Props = {
   type?: number | string;
@@ -137,9 +138,7 @@ const PostList: React.FC<Props> = (props) => {
           {list.map((item) => (
             <div
               key={item.id}
-              className={`${
-                item.type === 0 || item.type === 1 ? styles.postItem : ''
-              }`}
+              className={`${item.type !== -1 ? styles.postItem : ''}`}
             >
               {item.type === 0 ? (
                 <GraphicMessage
@@ -157,6 +156,12 @@ const PostList: React.FC<Props> = (props) => {
                 <CommunityIntro post={item} />
               ) : item.type === 2 ? (
                 <ReTransfer
+                  post={item}
+                  refreshPage={refreshPage}
+                  delPost={delPost}
+                />
+              ) : item.type === 3 ? (
+                <QuoteNews
                   post={item}
                   refreshPage={refreshPage}
                   delPost={delPost}

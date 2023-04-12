@@ -11,6 +11,7 @@ import playImg from '@/assets/icon/play-icon.svg';
 import { ImageMaxSize } from '@/config/constants';
 import { Models } from '@/declare/modelType';
 import { useIntl } from '@@/plugin-locale/localeExports';
+import VideoDetailBlock from '@/components/VideoDetailBlock';
 
 export type Props = {
   post: PostInfo;
@@ -65,23 +66,24 @@ const LongVideo: React.FC<Props> = (props) => {
           )}
         </div>
 
-        <div className={styles.bottom} onClick={toVideo}>
-          <div className={styles.title}>{info?.[1]?.[0]?.content}</div>
+        {/*<div className={styles.bottom} onClick={toVideo}>*/}
+        {/*  <div className={styles.title}>{info?.[1]?.[0]?.content}</div>*/}
 
-          <div
-            className={styles.bg}
-            style={{
-              backgroundImage: `url(${imagesResUrl}/${
-                info?.[3]?.[0]?.content + ImageMaxSize
-              })`,
-              backgroundSize: `100%`,
-              backgroundPosition: `center center`,
-              backgroundRepeat: 'no-repeat',
-            }}
-          >
-            <img src={playImg} className={styles.play} />
-          </div>
-        </div>
+        {/*  <div*/}
+        {/*    className={styles.bg}*/}
+        {/*    style={{*/}
+        {/*      backgroundImage: `url(${imagesResUrl}/${*/}
+        {/*        info?.[3]?.[0]?.content + ImageMaxSize*/}
+        {/*      })`,*/}
+        {/*      backgroundSize: `100%`,*/}
+        {/*      backgroundPosition: `center center`,*/}
+        {/*      backgroundRepeat: 'no-repeat',*/}
+        {/*    }}*/}
+        {/*  >*/}
+        {/*    <img src={playImg} className={styles.play} />*/}
+        {/*  </div>*/}
+        {/*</div>*/}
+        <VideoDetailBlock post={props.post} isReTransfer={isReTransfer} />
       </div>
 
       <CommentArea

@@ -13,6 +13,7 @@ import JoinButton from '@/components/JoinButton';
 import DaoApi from '@/services/tube/Dao';
 import { message } from 'antd';
 import { useUrl } from '@/utils/hooks';
+import NewsDetailBlock from '@/components/NewsDetailBlock';
 
 export type Props = {
   // post: PostInfoAndLike;
@@ -78,50 +79,7 @@ const GraphicMessage: React.FC<Props> = (props) => {
           )}
         </div>
 
-        <div
-          className={`${
-            route !== 'newsletterDetail' && info[2]?.[0]?.content?.length > 116
-              ? styles.textInfo
-              : styles.detail
-          }`}
-          onClick={() => history.push(`/newsletterDetail/${id}`)}
-        >
-          {info[2]?.[0]?.content}
-          {info[2]?.[0]?.content?.length > 116 &&
-          route !== 'newsletterDetail' ? (
-            <div className={styles.toMore}>
-              {intl.formatMessage({
-                id: 'graphicMessage.more',
-              })}
-            </div>
-          ) : (
-            <></>
-          )}
-        </div>
-
-        <div
-          className={`${
-            info[3]?.length !== 2 ? styles.mediumInfo : styles.twoImage
-          } mediumInfo`}
-          onClick={(e) => {
-            const element = e.target;
-            if (element instanceof HTMLElement) {
-              if (element.className.includes('mediumInfo')) {
-                history.push(`/newsletterDetail/${id}`);
-              }
-            }
-          }}
-        >
-          {info[3]?.map((item: any, index: number) => (
-            <div key={index} className={styles.block}>
-              {info[3]?.length === 1 ? (
-                <ImageCut imgUrl={item.content} isOneImg={true} />
-              ) : (
-                <ImageCut imgUrl={item.content} isOneImg={false} />
-              )}
-            </div>
-          ))}
-        </div>
+        <NewsDetailBlock post={props.post} isReTransfer={isReTransfer} />
 
         <CommentArea
           watchNum={view_count}
