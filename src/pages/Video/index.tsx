@@ -82,7 +82,11 @@ const Video: React.FC<Props> = (props) => {
   };
 
   const getInfo = () => {
-    const obj = getContent(videoData?.contents as Post[]);
+    const obj = getContent(
+      videoData?.type === 2
+        ? (videoData.orig_contents as Post[])
+        : (videoData?.contents as Post[]),
+    );
     setTitle(obj[1][0]?.content);
     setDescription(obj[2][0]?.content);
     setThumbnail(obj[3][0]?.content);
@@ -163,14 +167,7 @@ const Video: React.FC<Props> = (props) => {
                       <figcaption className={styles.detail}>
                         <div className={styles.info}>
                           <div className={styles.left}>
-                            <div
-                              className={styles.leftL}
-                              onClick={() => {
-                                history.push(
-                                  `/daoCommunity/${videoData.dao.id}`,
-                                );
-                              }}
-                            >
+                            <div className={styles.leftL}>
                               <UserAvatar
                                 prefix={avatarsResUrl}
                                 name={
@@ -183,12 +180,49 @@ const Video: React.FC<Props> = (props) => {
                                     ? videoData.author_dao.avatar
                                     : videoData.dao.avatar
                                 }
+                                onClick={() => {
+                                  history.push(
+                                    `/daoCommunity/${videoData.author_dao.id}`,
+                                  );
+                                }}
                               />
                               <div className={styles.text}>
                                 <div className={styles.daoName}>
-                                  {isReTransfer
-                                    ? videoData.author_dao.name
-                                    : videoData.dao.name}
+                                  <div
+                                    onClick={() => {
+                                      history.push(
+                                        `/daoCommunity/${videoData.author_dao.id}`,
+                                      );
+                                    }}
+                                  >
+                                    {isReTransfer
+                                      ? videoData.author_dao.name
+                                      : videoData.dao.name}
+                                  </div>
+                                  {(videoData.type === 2 ||
+                                    videoData.type === 3) && (
+                                    <div
+                                      className={styles.ref}
+                                      onClick={() => {
+                                        history.push(
+                                          `/daoCommunity/${videoData.dao.id}`,
+                                        );
+                                      }}
+                                    >
+                                      <span className={styles.text}>
+                                        {intl.formatMessage({
+                                          id: 'reTransfer.text',
+                                        })}
+                                      </span>
+                                      <div className={styles.nickName}>
+                                        {userInfo?.id === videoData.dao.id
+                                          ? `${intl.formatMessage({
+                                              id: 'reTransfer.daoName',
+                                            })}`
+                                          : `${videoData.dao.name}`}
+                                      </div>
+                                    </div>
+                                  )}
                                 </div>
                                 <div className={styles.subscribe}>
                                   {isReTransfer
@@ -200,18 +234,6 @@ const Video: React.FC<Props> = (props) => {
                                 </div>
                               </div>
                             </div>
-                            {(videoData.type === 2 || videoData.type === 3) && (
-                              <div className={styles.ref}>
-                                <span className={styles.text}>
-                                  was retransferde by
-                                </span>
-                                <div className={styles.nickName}>
-                                  {userInfo?.id === videoData.dao.id
-                                    ? 'Me'
-                                    : `${videoData.dao.name}`}
-                                </div>
-                              </div>
-                            )}
                           </div>
                           {!isSelf && (
                             <JoinButton

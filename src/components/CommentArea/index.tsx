@@ -92,7 +92,11 @@ const CommentArea: React.FC<Props> = (props) => {
         }
         break;
       default:
-        message.warning('Post type error!');
+        message.warning(
+          `${intl.formatMessage({
+            id: 'commentArea.toDetail.messageWaring',
+          })}`,
+        );
     }
   };
 
@@ -124,7 +128,11 @@ const CommentArea: React.FC<Props> = (props) => {
         );
       }
     } else {
-      message.warning('Please create a DAO first!');
+      message.warning(
+        `${intl.formatMessage({
+          id: 'commentArea.reTransferFun.messageWaring',
+        })}`,
+      );
     }
   };
 
