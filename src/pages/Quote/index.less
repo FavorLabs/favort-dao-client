@@ -1,0 +1,137 @@
+.quote {
+  .navBar {
+    padding: 1.25rem;
+    height: 3.75rem;
+    box-sizing: border-box;
+    border: 0.5px solid rgba(229, 229, 229, 1);
+    svg {
+      width: 1rem;
+    }
+  }
+  .closeIcon {
+    width: 0.9375rem;
+    height: 0.9375rem;
+  }
+
+  .postContent {
+    height: calc(100vh - 9.375rem);
+    overflow-y: auto;
+    padding: 1.25rem 1.25rem 0 1.25rem;
+
+    .textAreaRow {
+      margin-bottom: 3.75rem;
+    }
+
+    .quoteContent {
+      display: flex;
+      border-radius: 2px;
+      background: rgba(247, 247, 247, 1);
+
+      .quoteImg {
+        width: 6.5625rem;
+        height: 6.5625rem;
+
+        .image {
+          width: 6.5625rem;
+          height: 6.5625rem;
+        }
+      }
+
+      .quoteText {
+        padding: 0.625rem;
+
+        .daoName {
+          font-size: 1rem;
+          color: rgba(33, 33, 33, 1);
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+
+        .tags,
+        .infoTitle {
+          margin-top: 0.625rem;
+          font-size: 0.75rem;
+          color: rgba(99, 99, 99, 1);
+        }
+
+        .infoTitle {
+          overflow: hidden;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+        }
+      }
+    }
+  }
+
+  .bottom {
+    left: 0;
+    right: 0;
+
+    .postBtn {
+      left: 0;
+      right: 0;
+      margin: 0 1.25rem;
+      padding: 0.625rem 0;
+      text-align: center;
+      background: rgba(255, 166, 0, 1);
+      color: rgba(255, 255, 255, 1);
+      .loading {
+        display: inline-block;
+        width: 1rem;
+        height: 1rem;
+        border: 0.1875rem solid #ccc;
+        border-radius: 50%;
+        border-bottom-color: transparent;
+        animation: loading 1s linear infinite;
+        vertical-align: middle;
+      }
+    }
+    .postBtn.disabled {
+      color: rgba(33, 33, 33, 1);
+      background: rgba(240, 240, 240, 1);
+    }
+  }
+  .createOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: rgba(0, 0, 0, 0.5);
+    .circleBox {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .circle {
+        --size: 122px;
+        --fill-color: rgba(255, 166, 0, 1);
+        --track-color: #fff;
+        --track-width: 10px;
+        .percent {
+          color: rgba(255, 166, 0, 1);
+          font-size: 20px;
+          font-weight: 700;
+        }
+      }
+    }
+    .tips {
+      color: rgba(255, 255, 255, 1);
+      margin-top: 20px;
+    }
+  }
+}
+
+@keyframes loading {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

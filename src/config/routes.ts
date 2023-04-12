@@ -108,6 +108,11 @@ export default [
         wrappers: ['@/wrappers/auth'],
       },
       {
+        path: '/quote/:postId',
+        component: '@/pages/Quote',
+        wrappers: ['@/wrappers/auth'],
+      },
+      {
         path: '/',
         component: '@/pages/Main',
         routes: [

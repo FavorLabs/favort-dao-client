@@ -43,6 +43,7 @@ const CommentArea: React.FC<Props> = (props) => {
   const [isPostLike, setIsPostLike] = useState<boolean>(true);
   const [watchCount, setWatchCount] = useState<number>(watchNum);
   const [likeCount, setLikeCount] = useState<number>(likeNum);
+  const [refCount, setRefCount] = useState<number>(props.post.ref_count);
   const [commentOnCount, setCommentOnCount] = useState<number>(commentOnNum);
   const [visible, setVisible] = useState(false);
 
@@ -91,6 +92,9 @@ const CommentArea: React.FC<Props> = (props) => {
           history.push(`/video/${postId}`);
         }
         break;
+      case 3:
+        history.push(`/newsletterDetail/${postId}`);
+        break;
       default:
         message.warning(
           `${intl.formatMessage({
@@ -102,38 +106,35 @@ const CommentArea: React.FC<Props> = (props) => {
 
   const reTransferFun = async () => {
     setVisible(false);
-    if (userInfo) {
-      try {
-        const postData: ReTransferPost = {
-          dao_id: userInfo?.id as string,
-          type: 2,
-          ref_id: post.id,
-          ref_type: 0,
-          visibility: 1,
-        };
-        const { data } = await PostApi.reTransferPost(url, postData);
-        if (data.data) {
-          message.success(
-            `${intl.formatMessage({
-              id: 'commentArea.reTransfer.messageSuccess',
-            })}`,
-          );
-          // eventEmitter.emit('menuRefreshRecommend');
-        }
-      } catch (e) {
-        message.error(
+    try {
+      const postData: ReTransferPost = {
+        dao_id: userInfo?.id as string,
+        type: 2,
+        ref_id: post.id,
+        ref_type: 0,
+        visibility: 1,
+      };
+      const { data } = await PostApi.reTransferPost(url, postData);
+      if (data.data) {
+        message.success(
           `${intl.formatMessage({
-            id: 'commentArea.reTransfer.messageError',
+            id: 'commentArea.reTransfer.messageSuccess',
           })}`,
         );
+        // eventEmitter.emit('menuRefreshRecommend');
       }
-    } else {
-      message.warning(
+    } catch (e) {
+      message.error(
         `${intl.formatMessage({
-          id: 'commentArea.reTransferFun.messageWaring',
+          id: 'commentArea.reTransfer.messageError',
         })}`,
       );
     }
+  };
+
+  const jumpQuote = () => {
+    setVisible(false);
+    history.push(`/quote/${postId}`);
   };
 
   useEffect(() => {
@@ -147,9 +148,10 @@ const CommentArea: React.FC<Props> = (props) => {
       setLikeCount(likeNum);
       setWatchCount(watchNum);
       setCommentOnCount(commentOnNum);
+      setRefCount(props.post.ref_count);
       getPostLikeStatus();
     }
-  }, [likeNum, watchNum, commentOnNum]);
+  }, [likeNum, watchNum, commentOnNum, refCount]);
 
   useEffect(() => {
     setIsPostLike(true);
@@ -164,11 +166,24 @@ const CommentArea: React.FC<Props> = (props) => {
           </div>
           <span className={styles.operateText}>{watchCount}</span>
         </div>
-        <div className={styles.operateDiv} onClick={() => setVisible(true)}>
+        <div
+          className={styles.operateDiv}
+          onClick={() => {
+            if (userInfo) {
+              setVisible(true);
+            } else {
+              message.warning(
+                `${intl.formatMessage({
+                  id: 'commentArea.reTransferFun.messageWaring',
+                })}`,
+              );
+            }
+          }}
+        >
           <div className={styles.operateIcon}>
             <img src={reTransfer} className={styles.img} />
           </div>
-          <span className={styles.operateText}>0</span>
+          <span className={styles.operateText}>{refCount}</span>
         </div>
         <div className={styles.operateDiv} onClick={toDetail}>
           <div className={styles.operateIcon}>
@@ -206,14 +221,14 @@ const CommentArea: React.FC<Props> = (props) => {
               })}
             </span>
           </div>
-          {/*<div className={styles.row}>*/}
-          {/*  <img src={quoteIcon} alt="" className={styles.img} />*/}
-          {/*  <span className={styles.text}>*/}
-          {/*    {intl.formatMessage({*/}
-          {/*      id: 'commentArea.quote',*/}
-          {/*    })}*/}
-          {/*  </span>*/}
-          {/*</div>*/}
+          <div className={styles.row} onClick={jumpQuote}>
+            <img src={quoteIcon} alt="" className={styles.img} />
+            <span className={styles.text}>
+              {intl.formatMessage({
+                id: 'commentArea.quote',
+              })}
+            </span>
+          </div>
           <div className={styles.cancel} onClick={() => setVisible(false)}>
             {intl.formatMessage({
               id: 'popupContent.cancel',

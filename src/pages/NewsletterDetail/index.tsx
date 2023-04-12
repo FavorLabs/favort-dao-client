@@ -13,6 +13,7 @@ import CommentSkeleton from '@/components/CustomSkeleton/CommentSkeleton';
 import DetailSkeleton from '@/components/CustomSkeleton/PostSkeleton/DetailSkeleton';
 import TopNavBar from '@/components/TopNavBar';
 import { useIntl } from '@@/plugin-locale/localeExports';
+import QuoteNews from '@/components/QuoteNews';
 
 export type Props = {};
 
@@ -55,12 +56,20 @@ const NewsletterDetail: React.FC<Props> = (props) => {
           {postInfo ? (
             <>
               <div className={styles.postCard}>
-                <GraphicMessage
-                  post={postInfo}
-                  refreshPage={() => {}}
-                  isNewsDetail={true}
-                  isReTransfer={isReTransfer}
-                />
+                {postInfo.type === 0 ? (
+                  <GraphicMessage
+                    post={postInfo}
+                    refreshPage={() => {}}
+                    isNewsDetail={true}
+                    isReTransfer={isReTransfer}
+                  />
+                ) : (
+                  <QuoteNews
+                    post={postInfo}
+                    refreshPage={() => {}}
+                    isNewsDetail={true}
+                  />
+                )}
               </div>
               <Comment
                 postId={postId}

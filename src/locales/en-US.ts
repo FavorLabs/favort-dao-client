@@ -171,4 +171,8 @@ export default {
   // connectWallet
   'connectWallet.connect.walletConnect.errorTips':
     'WalletConnect failed to connect, please retry!',
+  // quote
+  'quote.navBar.title': 'Quote Edit',
+  'quote.textArea.pleaseHolder': 'Add a comment...',
+  'quote.postBtn.text': 'Send',
 };
