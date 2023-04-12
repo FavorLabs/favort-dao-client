@@ -64,13 +64,15 @@ export default {
   'commentArea.quote': '引用',
   'commentArea.reTransfer.messageSuccess': '转发成功',
   'commentArea.reTransfer.messageError': '转发失败',
+  'commentArea.toDetail.messageWaring': '请求失败!',
+  'commentArea.reTransferFun.messageWaring': '请先创建一个DAO社区!',
   // exitCommunityDialog
   'exitCommunityDialog.cancel': '取消',
   'exitCommunityDialog.confirm': '确认',
   // graphicMessage
   'graphicMessage.more': '更多',
   // reTransfer
-  'reTransfer.text': '转发到',
+  'reTransfer.text': '被转发到',
   'reTransfer.daoName': '我',
   // newsLetterDetail
   'newsLetterDetail.navbar.text': '主要内容',

@@ -2,6 +2,8 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  max-width: 100%;
+  overflow: hidden;
 
   .userImg {
     width: 2.375rem;
@@ -15,12 +17,36 @@
     overflow: hidden;
 
     .userName {
+      display: flex;
       font-size: 1rem;
       font-weight: 700;
       color: var(--latest-follow-graphicMessage-userInfo-userName-color);
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
+
+      .ref {
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+
+        .text {
+          margin: 0 0.3125rem;
+          font-size: 0.75rem;
+          color: rgba(181, 181, 181, 1);
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+
+        .nickName {
+          font-size: 1rem;
+          color: rgba(33, 33, 33, 1);
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+      }
     }
 
     .releaseTime {

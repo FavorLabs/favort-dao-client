@@ -40,9 +40,10 @@ const GraphicMessage: React.FC<Props> = (props) => {
     created_on,
     id,
     type,
+    orig_contents,
   } = props.post;
   if (!dao) return <></>;
-  const info = getContent(contents);
+  const info = getContent(isReTransfer ? orig_contents : contents);
   const { userInfo } = useSelector((state: Models) => state.dao);
 
   return (
@@ -53,21 +54,9 @@ const GraphicMessage: React.FC<Props> = (props) => {
             <CommunityInfo
               daoInfo={isReTransfer ? author_dao : dao}
               createTime={created_on}
+              type={type}
+              dao={dao}
             />
-            {(type === 2 || type === 3) && (
-              <div className={styles.ref}>
-                <span className={styles.text}>
-                  {intl.formatMessage({
-                    id: 'reTransfer.text',
-                  })}
-                </span>
-                <div className={styles.nickName}>
-                  {userInfo?.id === dao.id
-                    ? `${intl.formatMessage({ id: 'reTransfer.daoName' })}`
-                    : `${dao.name}`}
-                </div>
-              </div>
-            )}
           </div>
 
           {props.isNewsDetail ? (

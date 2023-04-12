@@ -44,10 +44,12 @@
         .detail {
           padding: 1.25rem 1.25rem 0.625rem;
           .info {
+            //max-width: 100%;
             display: flex;
             justify-content: space-between;
             align-items: center;
             .left {
+              max-width: 80%;
               display: flex;
               justify-content: flex-start;
               align-items: center;
@@ -55,6 +57,7 @@
                 display: flex;
                 justify-content: flex-start;
                 align-items: center;
+                overflow: hidden;
                 .text {
                   display: flex;
                   justify-content: flex-start;
@@ -62,37 +65,44 @@
                   flex-direction: column;
                   margin-left: 0.625rem;
                   .daoName {
+                    flex: 1;
+                    display: flex;
                     color: rgba(33, 33, 33, 1);
                     font-size: 1rem;
                     font-weight: 700;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+
+                    .ref {
+                      align-self: flex-start;
+                      display: flex;
+                      align-items: center;
+                      //overflow: hidden;
+
+                      .text {
+                        margin: 0 0.3125rem;
+                        font-size: 0.75rem;
+                        color: rgba(181, 181, 181, 1);
+                        //white-space: nowrap;
+                        //text-overflow: ellipsis;
+                        //overflow: hidden;
+                      }
+
+                      .nickName {
+                        font-size: 1rem;
+                        color: rgba(33, 33, 33, 1);
+                        //overflow: hidden;
+                        //white-space: nowrap;
+                        //text-overflow: ellipsis;
+                      }
+                    }
                   }
                   .subscribe {
                     color: rgba(181, 181, 181, 1);
                     font-size: 0.75rem;
                     margin-top: 0.25rem;
                   }
-                }
-              }
-
-              .ref {
-                align-self: flex-start;
-                display: flex;
-                overflow: hidden;
-
-                .text {
-                  margin: 0 0.3125rem;
-                  font-size: 1rem;
-                  color: rgba(181, 181, 181, 1);
-                  white-space: nowrap;
-                  text-overflow: ellipsis;
-                }
-
-                .nickName {
-                  font-size: 1rem;
-                  color: rgba(33, 33, 33, 1);
-                  overflow: hidden;
-                  white-space: nowrap;
-                  text-overflow: ellipsis;
                 }
               }
             }

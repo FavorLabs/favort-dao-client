@@ -30,12 +30,13 @@ const LongVideo: React.FC<Props> = (props) => {
     created_on,
     id,
     type,
+    orig_contents,
   } = props.post;
   if (!dao) return <></>;
   const intl = useIntl();
   const history = useHistory();
   const videosResUrl = useResourceUrl('images');
-  const info = getContent(contents);
+  const info = getContent(isReTransfer ? orig_contents : contents);
   const time = getTime(created_on);
   const imagesResUrl = useResourceUrl('images');
   const { userInfo } = useSelector((state: Models) => state.dao);
@@ -51,21 +52,9 @@ const LongVideo: React.FC<Props> = (props) => {
             <CommunityInfo
               daoInfo={isReTransfer ? author_dao : dao}
               createTime={created_on}
+              type={type}
+              dao={dao}
             />
-            {(type === 2 || type === 3) && (
-              <div className={styles.ref}>
-                <span className={styles.text}>
-                  {intl.formatMessage({
-                    id: 'reTransfer.text',
-                  })}
-                </span>
-                <div className={styles.nickName}>
-                  {userInfo?.id === dao.id
-                    ? `${intl.formatMessage({ id: 'reTransfer.daoName' })}`
-                    : `${dao.name}`}
-                </div>
-              </div>
-            )}
           </div>
           {userInfo?.id === props.post.dao.id && (
             <PopupContent

@@ -65,6 +65,8 @@ export default {
   'commentArea.quote': 'Quote',
   'commentArea.reTransfer.messageSuccess': 'ReTransfer success',
   'commentArea.reTransfer.messageError': 'ReTransfer failure',
+  'commentArea.toDetail.messageWaring': 'Post type error!',
+  'commentArea.reTransferFun.messageWaring': 'Please create a DAO first!',
   // exitCommunityDialog
   'exitCommunityDialog.cancel': 'cancel',
   'exitCommunityDialog.confirm': 'confirm',
