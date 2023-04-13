@@ -56,7 +56,7 @@ const NewsletterDetail: React.FC<Props> = (props) => {
           {postInfo ? (
             <>
               <div className={styles.postCard}>
-                {postInfo.type === 0 ? (
+                {postInfo.type === 0 || postInfo.type === 2 ? (
                   <GraphicMessage
                     post={postInfo}
                     refreshPage={() => {}}

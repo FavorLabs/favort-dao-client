@@ -3,7 +3,7 @@ import styles from './index.less';
 import CommunityInfo from '@/components/CommunityInfo';
 import CommentArea from '@/components/CommentArea';
 import { PostInfo } from '@/declare/tubeApiType';
-import { getContent } from '@/utils/util';
+import { checkLogin, getContent } from '@/utils/util';
 import PopupContent from '@/components/PopupContent';
 import ImageCut from '@/components/ImageCut';
 import { history, useHistory, useSelector } from 'umi';
@@ -46,6 +46,7 @@ const GraphicMessage: React.FC<Props> = (props) => {
   if (!dao) return <></>;
   const info = getContent(isReTransfer ? orig_contents : contents);
   const { userInfo } = useSelector((state: Models) => state.dao);
+  const loginStatus = checkLogin();
 
   return (
     <div className={styles.container}>
@@ -60,7 +61,7 @@ const GraphicMessage: React.FC<Props> = (props) => {
             />
           </div>
 
-          {props.isNewsDetail ? (
+          {props.isNewsDetail && loginStatus ? (
             dao.id !== userInfo?.id ? (
               <JoinButton isRefresh={true} daoId={dao.id} />
             ) : (

@@ -18,6 +18,7 @@ import { PostInfo, ReTransferPost } from '@/declare/tubeApiType';
 import { Popup } from 'antd-mobile';
 import { Models } from '@/declare/modelType';
 import { useIntl } from '@@/plugin-locale/localeExports';
+import LogoutDialog from '@/components/LogoutDialog';
 
 export type Props = {
   watchNum: number;
@@ -39,6 +40,8 @@ const CommentArea: React.FC<Props> = (props) => {
   const { userInfo } = useSelector((state: Models) => state.dao);
   const intl = useIntl();
 
+  const loginStatus = checkLogin();
+
   const [like, setLike] = useState<boolean>(false);
   const [isPostLike, setIsPostLike] = useState<boolean>(true);
   const [watchCount, setWatchCount] = useState<number>(watchNum);
@@ -46,6 +49,7 @@ const CommentArea: React.FC<Props> = (props) => {
   const [refCount, setRefCount] = useState<number>(props.post.ref_count);
   const [commentOnCount, setCommentOnCount] = useState<number>(commentOnNum);
   const [visible, setVisible] = useState(false);
+  const [logoutDialog, setLogoutDialog] = useState<boolean>(false);
 
   const getPostLikeStatus = async () => {
     const { data } = await PostApi.checkPostLike(url, postId);
@@ -160,6 +164,15 @@ const CommentArea: React.FC<Props> = (props) => {
   return (
     <>
       <div className={styles.operate}>
+        {!loginStatus && (
+          <div
+            className={styles.mask}
+            onClick={() => {
+              setLogoutDialog(true);
+            }}
+          />
+        )}
+
         <div className={styles.operateDiv}>
           <div className={styles.operateIcon}>
             <img src={lookOverImg} className={styles.img} />
@@ -197,6 +210,15 @@ const CommentArea: React.FC<Props> = (props) => {
           </div>
           <span className={styles.operateText}>{likeCount}</span>
         </div>
+      </div>
+
+      <div className="logoutDialog">
+        <LogoutDialog
+          visible={logoutDialog}
+          closeDialog={() => {
+            setLogoutDialog(false);
+          }}
+        />
       </div>
 
       <Popup

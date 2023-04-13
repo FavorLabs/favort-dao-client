@@ -35,7 +35,7 @@ export default [
       {
         path: '/video/:vid',
         component: '@/pages/Video',
-        wrappers: ['@/wrappers/auth'],
+        // wrappers: ['@/wrappers/auth'],
       },
       {
         path: '/newsletterList/:daoId',
@@ -50,7 +50,7 @@ export default [
       {
         path: '/newsletterDetail/:postId',
         component: '@/pages/NewsletterDetail',
-        wrappers: ['@/wrappers/auth'],
+        // wrappers: ['@/wrappers/auth'],
       },
       {
         path: '/search/:type',
@@ -111,6 +111,15 @@ export default [
         path: '/quote/:postId',
         component: '@/pages/Quote',
         wrappers: ['@/wrappers/auth'],
+      },
+      {
+        path: '/accountCancellation',
+        component: '@/pages/Main/Mine/AccountCancellation',
+        wrappers: ['@/wrappers/auth'],
+      },
+      {
+        path: '/cancellation/:state',
+        component: '@/pages/Main/Mine/Cancellation',
       },
       {
         path: '/',

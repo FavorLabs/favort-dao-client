@@ -337,7 +337,7 @@ const PostVideo: React.FC<Props> = (props) => {
       message.warning(
         `${intl.formatMessage({
           id: 'postVideo.videoSize.messageWarning',
-        })} ${getSize(file.size, 1)}`,
+        })} ${getSize(config.videoLimitSize, 1)}`,
       );
       return false;
     } else {

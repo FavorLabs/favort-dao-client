@@ -8,7 +8,7 @@ import { message } from 'antd';
 import ExitCommunityDialog from '@/components/ExitCommunityDialog';
 import DaoApi from '@/services/tube/Dao';
 import { useUrl } from '@/utils/hooks';
-import { getDebounce } from '@/utils/util';
+import { checkLogin, getDebounce } from '@/utils/util';
 
 type Props = {
   status?: boolean;
@@ -24,6 +24,7 @@ const JoinButton: React.FC<Props> = (props) => {
   const [dialogVisible, setDialogVisible] = useState<boolean>(false);
   const [isClick, setIsClick] = useState<boolean>(true);
   const [joined, setJoined] = useState<boolean>(false);
+  const loginStatus = checkLogin();
 
   const joinCommunity = () => {
     if (isClick) {
@@ -80,7 +81,7 @@ const JoinButton: React.FC<Props> = (props) => {
   };
 
   useEffect(() => {
-    if (isRefresh) {
+    if (isRefresh && loginStatus) {
       checkJoinStatus(daoId);
     } else {
       if (status) {

@@ -50,19 +50,19 @@ const PromotionTaskList: React.FC<Props> = (props) => {
         onChange={(key) => handle(key)}
         defaultActiveKey={params.keyValue}
       >
-        <JumboTabs.Tab title="Pending" key="Pending">
+        <JumboTabs.Tab title="Pending" key="Pending" description={null}>
           <PromotionTask status={'Pending'} />
           <PromotionTask status={'Pending'} />
           <PromotionTask status={'Pending'} />
           <PromotionTask status={'Pending'} />
         </JumboTabs.Tab>
-        <JumboTabs.Tab title="OnGoing" key="OnGoing">
+        <JumboTabs.Tab title="OnGoing" key="OnGoing" description={null}>
           <PromotionTask status={'OnGoing'} />
         </JumboTabs.Tab>
-        <JumboTabs.Tab title="Finished" key="Finished">
+        <JumboTabs.Tab title="Finished" key="Finished" description={null}>
           <PromotionTask status={'Finished'} />
         </JumboTabs.Tab>
-        <JumboTabs.Tab title="ByMe" key="ByMe">
+        <JumboTabs.Tab title="ByMe" key="ByMe" description={null}>
           <CustomSwiper items={byMeList} spacing={10} />
         </JumboTabs.Tab>
       </JumboTabs>

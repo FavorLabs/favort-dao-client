@@ -58,22 +58,22 @@ const Children: React.FC<Props> = (props) => {
       })}
     >
       {props.content}
-      {!loginStatus && (
-        <div
-          className={styles.mask}
-          onClick={() => {
-            setLogoutDialog(true);
-          }}
-        />
-      )}
-      <div className="logoutDialog">
-        <LogoutDialog
-          visible={logoutDialog}
-          closeDialog={() => {
-            setLogoutDialog(false);
-          }}
-        />
-      </div>
+      {/*{!loginStatus && (*/}
+      {/*  <div*/}
+      {/*    className={styles.mask}*/}
+      {/*    onClick={() => {*/}
+      {/*      setLogoutDialog(true);*/}
+      {/*    }}*/}
+      {/*  />*/}
+      {/*)}*/}
+      {/*<div className="logoutDialog">*/}
+      {/*  <LogoutDialog*/}
+      {/*    visible={logoutDialog}*/}
+      {/*    closeDialog={() => {*/}
+      {/*      setLogoutDialog(false);*/}
+      {/*    }}*/}
+      {/*  />*/}
+      {/*</div>*/}
     </div>
   );
 };

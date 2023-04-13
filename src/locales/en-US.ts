@@ -37,6 +37,7 @@ export default {
   'main.mine.setting.theme-dark': 'dark',
   'main.mine.setting.about': 'About',
   'main.mine.setting.logout': 'Logout',
+  'main.mine.setting.accountCancellation': 'Account cancellation',
   // main mine dialog
   'mine.dialog.cancel': 'cancel',
   'mine.dialog.confirm': 'confirm',
@@ -175,4 +176,20 @@ export default {
   'quote.navBar.title': 'Quote Edit',
   'quote.textArea.pleaseHolder': 'Add a comment...',
   'quote.postBtn.text': 'Send',
+  // accountCancellation
+  'accountCancellation.reject': 'Reject',
+  'accountCancellation.confirm': 'Confirm',
+  'accountCancellation.navBar.title': 'Account cancellation',
+  'accountCancellation.prompt.title': 'Unregister FavorDAO',
+  'accountCancellation.prompt.text':
+    'Unable to recover after logging out, please operate with caution',
+  'accountCancellation.notice.text1':
+    'After the cancellation application is submitted, it will be reviewed within 10 days. During this period you will not be able to log in to the FavorDAO APP.',
+  'accountCancellation.notice.text2':
+    'After the logout is successful, all FavorDAO-related information on the account will be cleared!',
+  // cancellation
+  'cancellation.navBar.title': 'Account cancellation',
+  'cancellation.accountSuccess': 'Account successfully cancelled',
+  'cancellation.accountFailed': 'Account cancellation failed',
+  'cancellation.confirm': 'Confirm',
 };

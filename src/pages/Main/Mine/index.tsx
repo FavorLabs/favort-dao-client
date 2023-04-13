@@ -34,6 +34,7 @@ import langSvg from '@/assets/icon/language.svg';
 import darkSvg from '@/assets/icon/dark.svg';
 import aboutSvg from '@/assets/icon/about.svg';
 import logoutSvg from '@/assets/icon/logout.svg';
+import accountCancellation from '@/assets/icon/accountCancellation.svg';
 import pendingSvg from '@/assets/icon/pending.svg';
 import onGoingSvg from '@/assets/icon/ongoimg.svg';
 import finishedSvg from '@/assets/icon/finished.svg';
@@ -297,12 +298,22 @@ const Mine: React.FC<Props> = (props) => {
       key: 3,
       name: intl.formatMessage({ id: 'main.mine.setting.about' }),
       icon: <img src={aboutSvg} alt={''} />,
-      content: <div className={styles.aboutAction}>version 1.0.0412</div>,
+      content: <div className={styles.aboutAction}>version 1.0.0413</div>,
     },
     {
       key: 4,
       name: intl.formatMessage({ id: 'main.mine.setting.logout' }),
       icon: <img src={logoutSvg} alt={''} />,
+      content: (
+        <div className={styles.logoutAction}>
+          <img src={rightArrowSvg} alt="" />
+        </div>
+      ),
+    },
+    {
+      key: 5,
+      name: intl.formatMessage({ id: 'main.mine.setting.accountCancellation' }),
+      icon: <img src={accountCancellation} alt={''} />,
       content: (
         <div className={styles.logoutAction}>
           <img src={rightArrowSvg} alt="" />
@@ -390,6 +401,9 @@ const Mine: React.FC<Props> = (props) => {
     switch (key) {
       case 4:
         setLogoutDialog(true);
+        break;
+      case 5:
+        history.push('/accountCancellation');
         break;
     }
   };
