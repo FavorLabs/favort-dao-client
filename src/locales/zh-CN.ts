@@ -37,6 +37,7 @@ export default {
   'main.mine.setting.theme-dark': '深色',
   'main.mine.setting.about': '关于',
   'main.mine.setting.logout': '退出登录',
+  'main.mine.setting.accountCancellation': '账户注销',
   // main mine dialog
   'mine.dialog.cancel': '取消',
   'mine.dialog.confirm': '确定',
@@ -170,4 +171,19 @@ export default {
   'quote.navBar.title': '引用编辑',
   'quote.textArea.pleaseHolder': '添加评论...',
   'quote.postBtn.text': '发送',
+  // accountCancellation
+  'accountCancellation.reject': '取消',
+  'accountCancellation.confirm': '继续',
+  'accountCancellation.navBar.title': '账户注销',
+  'accountCancellation.prompt.title': '注销 FavorDAO',
+  'accountCancellation.prompt.text': '注销后无法恢复，请谨慎操作',
+  'accountCancellation.notice.text1':
+    '注销申请提交后，将会在10天内被审核。在此期间你将无法登录FavorDAO APP.',
+  'accountCancellation.notice.text2':
+    '注销成功后，该账号所有与FavorDAO相关的信息将会被清除！',
+  // cancellation
+  'cancellation.navBar.title': '账户注销',
+  'cancellation.accountSuccess': '账户注销成功',
+  'cancellation.accountFailed': '账户注销失败',
+  'cancellation.confirm': '继续',
 };

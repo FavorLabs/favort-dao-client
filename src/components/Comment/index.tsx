@@ -13,7 +13,7 @@ import {
 } from 'antd-mobile';
 import UserAvatar from '@/components/UserAvatar';
 import { useUrl, useResourceUrl } from '@/utils/hooks';
-import { getDebounce, getTime } from '@/utils/util';
+import { checkLogin, getDebounce, getTime } from '@/utils/util';
 import PostApi from '@/services/tube/PostApi';
 import {
   CommentInfo,
@@ -24,6 +24,7 @@ import { Models } from '@/declare/modelType';
 import commentOnImg from '@/assets/icon/comment-on.svg';
 import ItemSkeleton from '@/components/CustomSkeleton/CommentSkeleton/ItemSkeleton';
 import { useIntl } from '@@/plugin-locale/localeExports';
+import LogoutDialog from '@/components/LogoutDialog';
 
 export type Props = {
   postId: string;
@@ -45,6 +46,9 @@ const Comment: React.FC<Props> = (props) => {
   const avatarsResUrl = useResourceUrl('avatars');
   const textInput = useRef(null);
 
+  const loginStatus = checkLogin();
+
+  const [logoutDialog, setLogoutDialog] = useState<boolean>(false);
   const [comment, setComment] = useState<string>('');
   const [commentPopup, setCommentPopup] = useState<boolean>(false);
   const [commentCount, setCommentCount] = useState<number>(postCommentCount);
@@ -121,6 +125,7 @@ const Comment: React.FC<Props> = (props) => {
           post_id: res.post_id,
           address: res.address,
           user: {
+            id: user?.address as string,
             address: user?.address as string,
             avatar: user?.avatar as string,
             nickname: user?.nickname as string,
@@ -176,6 +181,7 @@ const Comment: React.FC<Props> = (props) => {
           id: res.id,
           content: res.content,
           user: {
+            id: user?.address as string,
             address: user?.address as string,
             avatar: user?.avatar as string,
             nickname: user?.nickname as string,
@@ -206,6 +212,15 @@ const Comment: React.FC<Props> = (props) => {
 
   return (
     <div className={styles.comment}>
+      {!loginStatus && (
+        <div
+          className={styles.mask}
+          onClick={() => {
+            setLogoutDialog(true);
+          }}
+        />
+      )}
+
       <div className={styles.commentList}>
         <div className={styles.countWrap}>
           {postCommentCount != undefined ? (
@@ -288,7 +303,11 @@ const Comment: React.FC<Props> = (props) => {
                         onClick={() => {
                           setCurrentReply({ id: item.id, idx: index });
                           setComment('');
-                          setCommentPopup(true);
+                          if (loginStatus) {
+                            setCommentPopup(true);
+                          } else {
+                            setLogoutDialog(true);
+                          }
                         }}
                       >
                         <img src={commentOnImg} alt="" />
@@ -340,11 +359,15 @@ const Comment: React.FC<Props> = (props) => {
           onClick={() => {
             setCurrentReply({ id: '', idx: 0 });
             setComment('');
-            setCommentPopup(true);
-            setTimeout(() => {
-              // @ts-ignore
-              textInput.current.focus();
-            }, 200);
+            if (loginStatus) {
+              setCommentPopup(true);
+              setTimeout(() => {
+                // @ts-ignore
+                textInput.current.focus();
+              }, 200);
+            } else {
+              setLogoutDialog(true);
+            }
           }}
         />
       </div>
@@ -386,6 +409,15 @@ const Comment: React.FC<Props> = (props) => {
           })}
         </div>
       </Popup>
+
+      <div className="logoutDialog">
+        <LogoutDialog
+          visible={logoutDialog}
+          closeDialog={() => {
+            setLogoutDialog(false);
+          }}
+        />
+      </div>
     </div>
   );
 };

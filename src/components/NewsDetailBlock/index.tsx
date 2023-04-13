@@ -68,7 +68,7 @@ const newsDetailBlock: React.FC<Props> = (props) => {
           const element = e.target;
           if (element instanceof HTMLElement) {
             if (element.className.includes('mediumInfo')) {
-              toDetail;
+              toDetail();
             }
           }
         }}

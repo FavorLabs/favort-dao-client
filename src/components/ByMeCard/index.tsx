@@ -109,13 +109,13 @@ const ByMeCard: React.FC<Props> = (props) => {
 
       <div className={styles.tab}>
         <JumboTabs className={'byJumboTabs'}>
-          <JumboTabs.Tab title="Accepted" key="Accepted">
+          <JumboTabs.Tab title="Accepted" key="Accepted" description={null}>
             <ByMeList list={acceptedList} />
           </JumboTabs.Tab>
-          <JumboTabs.Tab title="Submitted" key="Submitted">
+          <JumboTabs.Tab title="Submitted" key="Submitted" description={null}>
             <ByMeList list={submittedList} isSubmit={true} />
           </JumboTabs.Tab>
-          <JumboTabs.Tab title="Finished" key="Finished">
+          <JumboTabs.Tab title="Finished" key="Finished" description={null}>
             <ByMeList list={finishedList} />
           </JumboTabs.Tab>
         </JumboTabs>

@@ -34,4 +34,19 @@ export default {
       data: { nickname },
     });
   },
+  accountCancellation(
+    url: string,
+    data: {
+      timestamp: number;
+      wallet_addr: string;
+      signature: string;
+      type: string;
+    },
+  ) {
+    return request({
+      method: 'delete',
+      url: url + '/account',
+      data,
+    });
+  },
 };

@@ -10,7 +10,7 @@ import { Post, PostInfo } from '@/declare/tubeApiType';
 import { Models } from '@/declare/modelType';
 import PostApi from '@/services/tube/PostApi';
 import DaoApi from '@/services/tube/Dao';
-import { getContent } from '@/utils/util';
+import { checkLogin, getContent } from '@/utils/util';
 import UserAvatar from '@/components/UserAvatar';
 import CommentArea from '@/components/CommentArea';
 import ExitCommunityDialog from '@/components/ExitCommunityDialog';
@@ -35,6 +35,8 @@ const Video: React.FC<Props> = (props) => {
   const avatarsResUrl = useResourceUrl('avatars');
   const history = useHistory();
   const intl = useIntl();
+
+  const loginStatus = checkLogin();
 
   const { vid } = props.match.params;
 
@@ -235,7 +237,7 @@ const Video: React.FC<Props> = (props) => {
                               </div>
                             </div>
                           </div>
-                          {!isSelf && (
+                          {!isSelf && loginStatus && (
                             <JoinButton
                               isRefresh={true}
                               daoId={videoData?.dao?.id}

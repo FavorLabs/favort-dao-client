@@ -1,0 +1,104 @@
+.accountCancellation {
+  background: rgba(247, 247, 247, 1);
+  position: relative;
+  height: 100vh;
+
+  .content {
+    padding: 1.25rem;
+
+    .prompt {
+      margin: 0 auto;
+      width: 55%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .promptImg {
+        width: 4.375rem;
+        height: 4.375rem;
+      }
+
+      .title {
+        padding: 0.625rem 0;
+        font-size: 1rem;
+        color: rgba(33, 33, 33, 1);
+      }
+
+      .text {
+        font-size: 0.75rem;
+        color: rgba(181, 181, 181, 1);
+      }
+    }
+
+    .notice {
+      box-sizing: border-box;
+      margin-top: 1.875rem;
+      margin-bottom: 1.25rem;
+      height: calc(100vh - 3.75rem - 1.25rem - 2.75rem - 11.5625rem - 1.25rem);
+      overflow-y: auto;
+      padding: 0.9375rem 0.625rem;
+      border-radius: 0.625rem;
+      background: rgba(255, 255, 255, 1);
+
+      .noticeBlock {
+        .textBlock:last-child {
+          margin-bottom: 0;
+        }
+        .textBlock {
+          margin-bottom: 1.25rem;
+          display: flex;
+
+          .square {
+            margin-top: 0.3125rem;
+            margin-right: 0.3125rem;
+            width: 0.375rem;
+            height: 0.375rem;
+            border-radius: 50%;
+            background: rgba(255, 166, 0, 1);
+          }
+
+          .text {
+            flex: 1;
+            font-size: 0.875rem;
+            font-weight: 500;
+          }
+        }
+      }
+    }
+  }
+
+  .buttonRow {
+    position: fixed;
+    bottom: 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 1.25rem;
+    box-sizing: border-box;
+
+    .reject,
+    .confirm {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 9.8125rem;
+      height: 2.75rem;
+      border-radius: 0.125rem;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .reject {
+      color: rgba(33, 33, 33, 1);
+      background: rgba(240, 240, 240, 1);
+      //margin-right: 1.25rem;
+    }
+
+    .confirm {
+      color: rgba(255, 255, 255, 1);
+      background: rgba(255, 166, 0, 1);
+    }
+  }
+}
