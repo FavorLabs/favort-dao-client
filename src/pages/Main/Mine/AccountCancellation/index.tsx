@@ -11,6 +11,7 @@ import { useSignMessage } from 'wagmi';
 import UserApi from '@/services/tube/UserApi';
 import { useUrl } from '@/utils/hooks';
 import { message } from 'antd';
+import { useEffect, useState } from 'react';
 
 type Props = {};
 
@@ -28,6 +29,7 @@ const AccountCancellation: React.FC<Props> = (props) => {
   const { address, web3 } = useSelector((state: Models) => state.web3);
 
   const { data, signMessage } = useSignMessage();
+  const [WCV2Timestamp, setWCV2Timestamp] = useState<number>(0);
 
   const noticeList: noticeItems[] = [
     {
@@ -51,25 +53,9 @@ const AccountCancellation: React.FC<Props> = (props) => {
     if (connectType) {
       if (connectType === WalletConnect) {
         const timestamp = Date.parse(new Date().toUTCString());
+        setWCV2Timestamp(timestamp);
         const msg = `delete ${address} account at ${timestamp}`;
         signMessage({ message: msg });
-
-        try {
-          const resData = await UserApi.accountCancellation(url, {
-            timestamp,
-            signature: `0x${data}`,
-            wallet_addr: address,
-            type: 'wallet_connect',
-          });
-          if (resData.data.msg === 'success') {
-            init();
-            history.push('/cancellation/true');
-          } else {
-            history.push('/cancellation/false');
-          }
-        } catch (e) {
-          if (e instanceof Error) message.info(e.message);
-        }
       } else {
         const timestamp = Date.parse(new Date().toUTCString());
         const msg = `delete ${address} account at ${timestamp}`;
@@ -101,10 +87,30 @@ const AccountCancellation: React.FC<Props> = (props) => {
           } else {
             history.push('/cancellation/false');
           }
-        } catch (e) {
-          if (e instanceof Error) message.info(e.message);
+        } catch {
+          history.push('/cancellation/false');
         }
       }
+    }
+  };
+
+  const walletConnectCancel = async () => {
+    const signature = `0x${data}`;
+    try {
+      const resData = await UserApi.accountCancellation(url, {
+        timestamp: WCV2Timestamp,
+        signature,
+        wallet_addr: address,
+        type: 'wallet_connect',
+      });
+      if (resData.data.msg === 'success') {
+        init();
+        history.push('/cancellation/true');
+      } else {
+        history.push('/cancellation/false');
+      }
+    } catch {
+      history.push('/cancellation/false');
     }
   };
 
@@ -131,6 +137,12 @@ const AccountCancellation: React.FC<Props> = (props) => {
       },
     });
   };
+
+  useEffect(() => {
+    if (data) {
+      walletConnectCancel();
+    }
+  }, [data]);
 
   return (
     <div className={styles.accountCancellation}>

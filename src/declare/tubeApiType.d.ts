@@ -29,6 +29,12 @@ export type Page = Pagination & {
   query?: string;
 };
 
+export type DAOPage = Pagination & {
+  type?: number | string;
+  query?: string;
+  sort?: string;
+};
+
 export type CreatePost = {
   contents: Post[];
   dao_id: string;

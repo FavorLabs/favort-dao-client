@@ -6,7 +6,14 @@ import DaoApi from '@/services/tube/Dao';
 import ChatApi from '@/services/tube/Chat';
 import { InfiniteScroll } from 'antd-mobile';
 import { useUrl, useReviteUrl } from '@/utils/hooks';
-import { DaoInfo, LastMsg, Page, Post, PostInfo } from '@/declare/tubeApiType';
+import {
+  DaoInfo,
+  DAOPage,
+  LastMsg,
+  Page,
+  Post,
+  PostInfo,
+} from '@/declare/tubeApiType';
 import { Models } from '@/declare/modelType';
 import CommunityCard from '@/components/CommunityCard';
 import FavorDaoCard from '@/components/FavorDaoCard';
@@ -62,10 +69,11 @@ const DaoCommunity: React.FC<Props> = (props) => {
     text: '',
     createTime: '',
   });
-  const [pageData, setPageData] = useState<Page>({
+  const [pageData, setPageData] = useState<DAOPage>({
     page: 1,
     page_size: 5,
     type: -1,
+    sort: 'dao_follow_count:desc,created_on:desc',
   });
   const [daoPageData, setDaoPageData] = useState<Page>({
     page: 1,
@@ -256,6 +264,14 @@ const DaoCommunity: React.FC<Props> = (props) => {
       setActiveId(daoId);
     }
   }, [daoId, bookmarkList]);
+
+  useEffect(() => {
+    if (!isViewDaoGroup) {
+      setHasMore(false);
+      setAllDao([]);
+      setPageData({ ...pageData, page: 1 });
+    }
+  }, [isViewDaoGroup]);
 
   return (
     <>
