@@ -94,8 +94,7 @@ const AccountCancellation: React.FC<Props> = (props) => {
     }
   };
 
-  const walletConnectCancel = async () => {
-    const signature = `0x${data}`;
+  const walletConnectCancel = async (signature: `0x${string}`) => {
     try {
       const resData = await UserApi.accountCancellation(url, {
         timestamp: WCV2Timestamp,
@@ -140,7 +139,7 @@ const AccountCancellation: React.FC<Props> = (props) => {
 
   useEffect(() => {
     if (data) {
-      walletConnectCancel();
+      walletConnectCancel(data);
     }
   }, [data]);
 
