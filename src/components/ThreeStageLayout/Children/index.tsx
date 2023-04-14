@@ -55,7 +55,7 @@ const Children: React.FC<Props> = (props) => {
             },
           });
         }
-      })}
+      }, 50)}
     >
       {props.content}
       {/*{!loginStatus && (*/}
