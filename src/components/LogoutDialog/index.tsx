@@ -34,6 +34,7 @@ const LogoutDialog: React.FC<Props> = (props) => {
               <span
                 className={styles.confirm}
                 onClick={() => {
+                  closeDialog?.();
                   history.push('/login');
                 }}
               >
