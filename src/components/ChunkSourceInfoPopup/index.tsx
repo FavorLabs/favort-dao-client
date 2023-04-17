@@ -128,7 +128,7 @@ const ChunkSourceInfoPopup: React.FC<Props> = (props) => {
       }
     }
     // console.log('chunkArr', chunkArr,props.hashInfo.size);
-    return new Array(len).fill(1).concat(chunkArr);
+    return chunkArr;
   };
 
   const getRandomHex = () => {
