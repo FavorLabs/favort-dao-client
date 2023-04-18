@@ -82,6 +82,8 @@ const Mine: React.FC<Props> = (props) => {
   const theme = localStorage.getItem('theme');
 
   const { disconnectAsync } = useDisconnect();
+  const mobile = isMobile();
+  const Ios = ['iPhone', 'iPod', 'ios', 'iPad'];
 
   const [balance, setBalance] = useState('0');
   const [userStatistic, setUserStatistic] = useState<Statistic>({
@@ -298,7 +300,7 @@ const Mine: React.FC<Props> = (props) => {
       key: 3,
       name: intl.formatMessage({ id: 'main.mine.setting.about' }),
       icon: <img src={aboutSvg} alt={''} />,
-      content: <div className={styles.aboutAction}>version 1.0.0414</div>,
+      content: <div className={styles.aboutAction}>version 1.0.0418</div>,
     },
     {
       key: 4,
@@ -481,117 +483,120 @@ const Mine: React.FC<Props> = (props) => {
             overflowY: 'scroll',
           }}
         >
-          {(NETWORK_ID === '18' || NETWORK_ID === '19') && (
-            <>
-              <div className={`${styles.cryptoAssets} ${styles.block}`}>
-                <p className={styles.title}>
-                  {intl.formatMessage({ id: 'main.mine.crypto.title' })}
-                </p>
-                <div className={styles.itemsList}>
-                  {cryptoAssetsItems.map((item) => (
-                    <div
-                      key={item.name}
-                      className={styles.item}
-                      onClick={() => {
-                        item.path && history.push(item.path);
-                      }}
-                    >
-                      <div className={styles.icon}>{item.icon}</div>
-                      <p
-                        className={`${
-                          isDevelop ? styles.name : styles.noDevelop
-                        }`}
+          {Ios.indexOf(mobile?.[0] as string) === -1 &&
+            (NETWORK_ID === '18' || NETWORK_ID === '19') && (
+              <>
+                <div className={`${styles.cryptoAssets} ${styles.block}`}>
+                  <p className={styles.title}>
+                    {intl.formatMessage({ id: 'main.mine.crypto.title' })}
+                  </p>
+                  <div className={styles.itemsList}>
+                    {cryptoAssetsItems.map((item) => (
+                      <div
+                        key={item.name}
+                        className={styles.item}
+                        onClick={() => {
+                          item.path && history.push(item.path);
+                        }}
                       >
-                        {item.name}
-                      </p>
-                    </div>
-                  ))}
+                        <div className={styles.icon}>{item.icon}</div>
+                        <p
+                          className={`${
+                            isDevelop ? styles.name : styles.noDevelop
+                          }`}
+                        >
+                          {item.name}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-              {userInfo && (
-                <>
-                  <div className={`${styles.daoManagement} ${styles.block}`}>
-                    <p className={styles.title}>
-                      {intl.formatMessage({
-                        id: 'main.mine.DAOManagement.title',
-                      })}
-                    </p>
-                    <div className={styles.itemsList}>
-                      {daoManagementItems.map((item) => (
-                        <div
-                          key={item.name}
-                          className={styles.item}
-                          onClick={() => {
-                            item.path && history.push(item.path);
-                          }}
-                        >
-                          <div className={styles.icon}>{item.icon}</div>
-                          <p
-                            className={`${
-                              isDevelop ? styles.name : styles.noDevelop
-                            }`}
+                {userInfo && (
+                  <>
+                    <div className={`${styles.daoManagement} ${styles.block}`}>
+                      <p className={styles.title}>
+                        {intl.formatMessage({
+                          id: 'main.mine.DAOManagement.title',
+                        })}
+                      </p>
+                      <div className={styles.itemsList}>
+                        {daoManagementItems.map((item) => (
+                          <div
+                            key={item.name}
+                            className={styles.item}
+                            onClick={() => {
+                              item.path && history.push(item.path);
+                            }}
                           >
-                            {item.name}
-                          </p>
-                        </div>
-                      ))}
+                            <div className={styles.icon}>{item.icon}</div>
+                            <p
+                              className={`${
+                                isDevelop ? styles.name : styles.noDevelop
+                              }`}
+                            >
+                              {item.name}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                  <div className={`${styles.services} ${styles.block}`}>
-                    <p className={styles.title}>
-                      {intl.formatMessage({ id: 'main.mine.services.title' })}
-                    </p>
-                    <div className={styles.itemsList}>
-                      {servicesItems.map((item) => (
-                        <div
-                          key={item.name}
-                          className={styles.item}
-                          onClick={() => {
-                            item.path && history.push(item.path);
-                          }}
-                        >
-                          <div className={styles.icon}>{item.icon}</div>
-                          <p
-                            className={`${
-                              isDevelop ? styles.name : styles.noDevelop
-                            }`}
+                    <div className={`${styles.services} ${styles.block}`}>
+                      <p className={styles.title}>
+                        {intl.formatMessage({ id: 'main.mine.services.title' })}
+                      </p>
+                      <div className={styles.itemsList}>
+                        {servicesItems.map((item) => (
+                          <div
+                            key={item.name}
+                            className={styles.item}
+                            onClick={() => {
+                              item.path && history.push(item.path);
+                            }}
                           >
-                            {item.name}
-                          </p>
-                        </div>
-                      ))}
+                            <div className={styles.icon}>{item.icon}</div>
+                            <p
+                              className={`${
+                                isDevelop ? styles.name : styles.noDevelop
+                              }`}
+                            >
+                              {item.name}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                  <div className={`${styles.services} ${styles.block}`}>
-                    <p className={styles.title}>
-                      {intl.formatMessage({ id: 'main.mine.promotion.title' })}
-                    </p>
-                    <div className={styles.itemsList}>
-                      {promotionItems.map((item) => (
-                        <div
-                          key={item.name}
-                          className={styles.item}
-                          onClick={() => {
-                            item.path &&
-                              history.push(`${item.path}/${item.key}`);
-                          }}
-                        >
-                          <div className={styles.icon}>{item.icon}</div>
-                          <p
-                            className={`${
-                              isDevelop ? styles.name : styles.noDevelop
-                            }`}
+                    <div className={`${styles.services} ${styles.block}`}>
+                      <p className={styles.title}>
+                        {intl.formatMessage({
+                          id: 'main.mine.promotion.title',
+                        })}
+                      </p>
+                      <div className={styles.itemsList}>
+                        {promotionItems.map((item) => (
+                          <div
+                            key={item.name}
+                            className={styles.item}
+                            onClick={() => {
+                              item.path &&
+                                history.push(`${item.path}/${item.key}`);
+                            }}
                           >
-                            {item.name}
-                          </p>
-                        </div>
-                      ))}
+                            <div className={styles.icon}>{item.icon}</div>
+                            <p
+                              className={`${
+                                isDevelop ? styles.name : styles.noDevelop
+                              }`}
+                            >
+                              {item.name}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                </>
-              )}
-            </>
-          )}
+                  </>
+                )}
+              </>
+            )}
           <div className={`${styles.setting} ${styles.block}`}>
             {settingItems.map((item) => (
               <div
