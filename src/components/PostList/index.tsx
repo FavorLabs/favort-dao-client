@@ -41,6 +41,7 @@ const PostList: React.FC<Props> = (props) => {
   const [list, setList] = useState<PostInfo[]>([]);
   const [errored, setErrored] = useState<boolean>(false);
   const [isOnePage, setIsOnePage] = useState<boolean>(true);
+  const [isSkeleton, setIsSkeleton] = useState<boolean>(true);
 
   const loadMore = async () => {
     try {
@@ -53,6 +54,7 @@ const PostList: React.FC<Props> = (props) => {
         // @ts-ignore
         const oneListArr = JSON.parse(localStorage.getItem('postListArr'));
         if (oneListArr) {
+          setList(oneListArr);
           setHasMore(true);
           setPageData((pageData) => ({ ...pageData, page: ++pageData.page }));
         } else {
@@ -127,8 +129,12 @@ const PostList: React.FC<Props> = (props) => {
   useEffect(() => {
     // @ts-ignore
     const oneListArr = JSON.parse(localStorage.getItem('postListArr'));
-    if (pageData.page !== 1 || oneListArr) {
+    if (pageData.page !== 1) {
       setIsOnePage(false);
+      setIsSkeleton(false);
+    }
+    if (oneListArr) {
+      setIsSkeleton(false);
     }
   }, [pageData.page]);
 
@@ -203,7 +209,7 @@ const PostList: React.FC<Props> = (props) => {
             <>
               {hasMore ? (
                 <div className={styles.loading}>
-                  {isOnePage && (
+                  {isSkeleton && (
                     <>
                       <DetailSkeleton />
                       <DetailSkeleton />
