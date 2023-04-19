@@ -40,6 +40,7 @@ const PostList: React.FC<Props> = (props) => {
   const [hasMore, setHasMore] = useState(true);
   const [list, setList] = useState<PostInfo[]>([]);
   const [errored, setErrored] = useState<boolean>(false);
+  const [isOnePage, setIsOnePage] = useState<boolean>(true);
 
   const loadMore = async () => {
     try {
@@ -48,14 +49,32 @@ const PostList: React.FC<Props> = (props) => {
         : daoId
         ? (params: Page) => PostApi.getPostListByDaoId(url, daoId, params)
         : (params: Page) => PostApi.getPostListByType(url, params);
-      const { data } = await request(pageData);
+      if (isOnePage && pathname === '/latest/recommend') {
+        // @ts-ignore
+        const oneListArr = JSON.parse(localStorage.getItem('postListArr'));
+        if (oneListArr) {
+          setHasMore(true);
+          setPageData((pageData) => ({ ...pageData, page: ++pageData.page }));
+        } else {
+          const { data } = await request(pageData);
+          localStorage.setItem('postListArr', JSON.stringify(data.data.list));
+          const listArr: PostInfo[] = data.data.list;
+          setList((list) => [...list, ...listArr]);
+          setHasMore(
+            data.data.pager.total_rows > pageData.page * pageData.page_size,
+          );
+          setPageData((pageData) => ({ ...pageData, page: ++pageData.page }));
+        }
+      } else {
+        const { data } = await request(pageData);
+        const listArr: PostInfo[] = data.data.list;
+        setList((list) => [...list, ...listArr]);
+        setHasMore(
+          data.data.pager.total_rows > pageData.page * pageData.page_size,
+        );
+        setPageData((pageData) => ({ ...pageData, page: ++pageData.page }));
+      }
       setErrored(false);
-      const listArr: PostInfo[] = data.data.list;
-      setList((list) => [...list, ...listArr]);
-      setHasMore(
-        data.data.pager.total_rows > pageData.page * pageData.page_size,
-      );
-      setPageData((pageData) => ({ ...pageData, page: ++pageData.page }));
     } catch (e) {
       if (e instanceof Error) message.error(e.message);
       setErrored(true);
@@ -71,6 +90,7 @@ const PostList: React.FC<Props> = (props) => {
         ? (params: Page) => PostApi.getPostListByDaoId(url, daoId, params)
         : (params: Page) => PostApi.getPostListByType(url, params);
       const { data } = await request(pageInfo);
+      localStorage.setItem('postListArr', JSON.stringify(data.data.list));
       setErrored(false);
       const listArr: PostInfo[] = data.data.list;
       setList((list) => [...listArr]);
@@ -103,6 +123,14 @@ const PostList: React.FC<Props> = (props) => {
       refreshPage();
     }
   }, [query]);
+
+  useEffect(() => {
+    // @ts-ignore
+    const oneListArr = JSON.parse(localStorage.getItem('postListArr'));
+    if (pageData.page !== 1 || oneListArr) {
+      setIsOnePage(false);
+    }
+  }, [pageData.page]);
 
   useEffect(() => {
     if (pathname === '/latest/follow') {
@@ -175,8 +203,12 @@ const PostList: React.FC<Props> = (props) => {
             <>
               {hasMore ? (
                 <div className={styles.loading}>
-                  <DetailSkeleton />
-                  <DetailSkeleton />
+                  {isOnePage && (
+                    <>
+                      <DetailSkeleton />
+                      <DetailSkeleton />
+                    </>
+                  )}
                 </div>
               ) : (
                 <span>
