@@ -27,7 +27,6 @@ const ImageCut: React.FC<Props> = (props) => {
         <div className={styles.image}>
           <Image
             src={`${imagesResUrl}/${imgUrl + ImageMaxSize}`}
-            // src={`${imagesResUrl}/${imgUrl}`}
             className={styles.imgUrl}
           />
         </div>
