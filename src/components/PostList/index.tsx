@@ -96,7 +96,7 @@ const PostList: React.FC<Props> = (props) => {
       setErrored(false);
       const listArr: PostInfo[] = data.data.list;
       setList((list) => [...listArr]);
-      setPageData((pageData) => ({ ...pageData, page: 1 }));
+      setPageData((pageData) => ({ ...pageData, page: 2 }));
       setHasMore(data.data.pager.total_rows > pageData.page_size);
     } catch (e) {
       if (e instanceof Error) message.error(e.message);
