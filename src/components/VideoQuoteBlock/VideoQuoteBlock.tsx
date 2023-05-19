@@ -16,7 +16,7 @@ export type Props = {
 };
 
 const VideoQuoteBlock: React.FC<Props> = (props) => {
-  const { orig_contents, author_dao, created_on } = props.post;
+  const { orig_contents, author_dao, created_on, origCreatedAt } = props.post;
   const history = useHistory();
   const info = getContent(orig_contents);
   const imagesResUrl = useResourceUrl('images');
@@ -31,7 +31,7 @@ const VideoQuoteBlock: React.FC<Props> = (props) => {
 
   return (
     <div className={styles.container}>
-      <CommunityInfo daoInfo={author_dao} createTime={created_on} />
+      <CommunityInfo daoInfo={author_dao} createTime={origCreatedAt} />
 
       <div className={styles.bottom} onClick={toDetail}>
         <div className={styles.title}>{info?.[1]?.[0]?.content}</div>

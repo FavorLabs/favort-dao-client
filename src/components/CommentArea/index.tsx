@@ -104,7 +104,7 @@ const CommentArea: React.FC<Props> = (props) => {
       const postData: ReTransferPost = {
         dao_id: userInfo?.id as string,
         type: 0,
-        ref_id: post.id,
+        ref_id: postId,
         ref_type: 0,
         visibility: 1,
       };
