@@ -89,16 +89,6 @@ const CommentArea: React.FC<Props> = (props) => {
       case 1:
         history.push(`/video/${postId}`);
         break;
-      case 2:
-        if (post.orig_type === 0) {
-          history.push(`/newsletterDetail/${postId}`);
-        } else {
-          history.push(`/video/${postId}`);
-        }
-        break;
-      case 3:
-        history.push(`/newsletterDetail/${postId}`);
-        break;
       default:
         message.warning(
           `${intl.formatMessage({
@@ -113,7 +103,7 @@ const CommentArea: React.FC<Props> = (props) => {
     try {
       const postData: ReTransferPost = {
         dao_id: userInfo?.id as string,
-        type: 2,
+        type: 0,
         ref_id: post.id,
         ref_type: 0,
         visibility: 1,

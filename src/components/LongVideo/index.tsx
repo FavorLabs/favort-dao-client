@@ -17,13 +17,12 @@ export type Props = {
   post: PostInfo;
   refreshPage: () => void;
   delPost?: (post: string) => void;
-  isReTransfer?: boolean;
+  // isReTransfer?: boolean;
 };
 const LongVideo: React.FC<Props> = (props) => {
-  const { isReTransfer } = props;
+  // const { isReTransfer } = props;
   const {
     author_dao,
-    contents,
     view_count,
     upvote_count,
     dao,
@@ -31,31 +30,16 @@ const LongVideo: React.FC<Props> = (props) => {
     created_on,
     id,
     type,
-    orig_contents,
   } = props.post;
   if (!dao) return <></>;
-  const intl = useIntl();
-  const history = useHistory();
-  const videosResUrl = useResourceUrl('images');
-  const info = getContent(isReTransfer ? orig_contents : contents);
-  const time = getTime(created_on);
-  const imagesResUrl = useResourceUrl('images');
   const { userInfo } = useSelector((state: Models) => state.dao);
-  const toVideo = () => {
-    history.push(`/video/${props.post.id}`);
-  };
 
   return (
     <div className={styles.videoCard}>
       <div className={styles.main}>
         <div className={styles.top}>
           <div className={styles.left}>
-            <CommunityInfo
-              daoInfo={isReTransfer ? author_dao : dao}
-              createTime={created_on}
-              type={type}
-              dao={dao}
-            />
+            <CommunityInfo daoInfo={dao} createTime={created_on} />
           </div>
           {userInfo?.id === props.post.dao.id && (
             <PopupContent
@@ -66,24 +50,7 @@ const LongVideo: React.FC<Props> = (props) => {
           )}
         </div>
 
-        {/*<div className={styles.bottom} onClick={toVideo}>*/}
-        {/*  <div className={styles.title}>{info?.[1]?.[0]?.content}</div>*/}
-
-        {/*  <div*/}
-        {/*    className={styles.bg}*/}
-        {/*    style={{*/}
-        {/*      backgroundImage: `url(${imagesResUrl}/${*/}
-        {/*        info?.[3]?.[0]?.content + ImageMaxSize*/}
-        {/*      })`,*/}
-        {/*      backgroundSize: `100%`,*/}
-        {/*      backgroundPosition: `center center`,*/}
-        {/*      backgroundRepeat: 'no-repeat',*/}
-        {/*    }}*/}
-        {/*  >*/}
-        {/*    <img src={playImg} className={styles.play} />*/}
-        {/*  </div>*/}
-        {/*</div>*/}
-        <VideoDetailBlock post={props.post} isReTransfer={isReTransfer} />
+        <VideoDetailBlock post={props.post} />
       </div>
 
       <CommentArea
