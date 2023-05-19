@@ -12,13 +12,13 @@ import { Models } from '@/declare/modelType';
 export type Props = {
   daoInfo: DaoInfo;
   createTime: number;
-  type?: number;
-  dao?: DaoInfo;
+  // type?: number;
+  // dao?: DaoInfo;
 };
 
 const CommunityInfo: React.FC<Props> = (props) => {
   const { avatar = '', name = '', id } = props.daoInfo || {};
-  const { type, dao } = props;
+  // const { type, dao } = props;
   const avatarsResUrl = useResourceUrl('avatars');
   const createTime = getTime(props.createTime);
   const intl = useIntl();
@@ -41,20 +41,20 @@ const CommunityInfo: React.FC<Props> = (props) => {
         <div className={styles.userText}>
           <div className={styles.userName}>
             <div onClick={() => handleClick(id)}>{name}</div>
-            {(type === 2 || type === 3) && (
-              <div className={styles.ref} onClick={() => handleClick(dao?.id)}>
-                <span className={styles.text}>
-                  {intl.formatMessage({
-                    id: 'reTransfer.text',
-                  })}
-                </span>
-                <div className={styles.nickName}>
-                  {userInfo?.id === dao?.id
-                    ? `${intl.formatMessage({ id: 'reTransfer.daoName' })}`
-                    : `${dao?.name}`}
-                </div>
-              </div>
-            )}
+            {/*{(type === 2 || type === 3) && (*/}
+            {/*  <div className={styles.ref} onClick={() => handleClick(dao?.id)}>*/}
+            {/*    <span className={styles.text}>*/}
+            {/*      {intl.formatMessage({*/}
+            {/*        id: 'reTransfer.text',*/}
+            {/*      })}*/}
+            {/*    </span>*/}
+            {/*    <div className={styles.nickName}>*/}
+            {/*      {userInfo?.id === dao?.id*/}
+            {/*        ? `${intl.formatMessage({ id: 'reTransfer.daoName' })}`*/}
+            {/*        : `${dao?.name}`}*/}
+            {/*    </div>*/}
+            {/*  </div>*/}
+            {/*)}*/}
           </div>
           <p className={styles.releaseTime}>{createTime}</p>
         </div>

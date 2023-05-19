@@ -189,13 +189,23 @@ const PostList: React.FC<Props> = (props) => {
               ) : item.type === -1 ? (
                 <CommunityIntro post={item} />
               ) : item.type === 2 ? (
-                <ReTransfer
+                // <ReTransfer
+                //   post={item}
+                //   refreshPage={refreshPage}
+                //   delPost={delPost}
+                // />
+                <GraphicMessage
                   post={item}
                   refreshPage={refreshPage}
                   delPost={delPost}
                 />
               ) : item.type === 3 ? (
-                <QuoteNews
+                // <QuoteNews
+                //   post={item}
+                //   refreshPage={refreshPage}
+                //   delPost={delPost}
+                // />
+                <GraphicMessage
                   post={item}
                   refreshPage={refreshPage}
                   delPost={delPost}

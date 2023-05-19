@@ -22,7 +22,7 @@ const newsDetailBlock: React.FC<Props> = (props) => {
 
   const toDetail = () => {
     if (route !== 'newsletterDetail') {
-      if (props.post.type === 3) {
+      if (isReTransfer) {
         history.push(`/newsletterDetail/${ref_id}`);
       } else {
         history.push(`/newsletterDetail/${id}`);
@@ -40,13 +40,7 @@ const newsDetailBlock: React.FC<Props> = (props) => {
         }`}
         onClick={toDetail}
       >
-        <span
-          className={styles.daoName}
-          // onClick={(e) => {
-          //   history.push(`/daoCommunity/${author_dao.id}`);
-          //   e.preventDefault();
-          // }}
-        >
+        <span className={styles.daoName}>
           {isQuote && `@${author_dao.name}`}
         </span>
         {info[2]?.[0]?.content}

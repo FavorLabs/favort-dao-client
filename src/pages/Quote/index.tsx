@@ -79,7 +79,7 @@ const Quote: React.FC<Props> = (props) => {
     try {
       const postData: ReTransferPost = {
         dao_id: userInfo?.id as string,
-        type: 3,
+        type: 0,
         ref_id: postId,
         ref_type: 0,
         visibility: 1,
