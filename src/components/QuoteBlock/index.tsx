@@ -14,7 +14,7 @@ export type Props = {
 };
 
 const QuoteBlock: React.FC<Props> = (props) => {
-  const { author_dao, dao, created_on } = props.post;
+  const { author_dao, dao, created_on, origCreatedAt } = props.post;
 
   if (!dao) return <></>;
   return (
@@ -22,7 +22,7 @@ const QuoteBlock: React.FC<Props> = (props) => {
       <div className={styles.inContent}>
         <div className={styles.top}>
           <div className={styles.left}>
-            <CommunityInfo daoInfo={author_dao} createTime={created_on} />
+            <CommunityInfo daoInfo={author_dao} createTime={origCreatedAt} />
           </div>
         </div>
         <NewsDetailBlock post={props.post} isReTransfer={true} />

@@ -41,20 +41,6 @@ const CommunityInfo: React.FC<Props> = (props) => {
         <div className={styles.userText}>
           <div className={styles.userName}>
             <div onClick={() => handleClick(id)}>{name}</div>
-            {/*{(type === 2 || type === 3) && (*/}
-            {/*  <div className={styles.ref} onClick={() => handleClick(dao?.id)}>*/}
-            {/*    <span className={styles.text}>*/}
-            {/*      {intl.formatMessage({*/}
-            {/*        id: 'reTransfer.text',*/}
-            {/*      })}*/}
-            {/*    </span>*/}
-            {/*    <div className={styles.nickName}>*/}
-            {/*      {userInfo?.id === dao?.id*/}
-            {/*        ? `${intl.formatMessage({ id: 'reTransfer.daoName' })}`*/}
-            {/*        : `${dao?.name}`}*/}
-            {/*    </div>*/}
-            {/*  </div>*/}
-            {/*)}*/}
           </div>
           <p className={styles.releaseTime}>{createTime}</p>
         </div>

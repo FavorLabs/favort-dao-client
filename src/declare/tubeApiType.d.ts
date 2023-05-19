@@ -76,6 +76,8 @@ export type PostInfo = {
   orig_type: number;
   orig_contents: Post[];
   ref_count: number;
+
+  origCreatedAt: number;
 };
 
 export type Comment = {
