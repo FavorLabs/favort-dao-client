@@ -28,12 +28,14 @@ import { defaultTheme } from '@/config/themeConfig';
 import DaoApi from '@/services/tube/Dao';
 import Bucket from '@/services/tube/Global';
 import moment from 'moment';
+
 const currentLang = getLocale();
 import VConsole from 'vconsole';
 import { WagmiConfig, createClient, configureChains } from 'wagmi';
 import { polygon } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 import Flutter from '@/utils/flutter';
+
 if (!NETWORK_ID || (NETWORK_ID && NETWORK_ID === '19')) new VConsole();
 const { chains, provider, webSocketProvider } = configureChains(
   [polygon],
@@ -202,19 +204,11 @@ const Layout: React.FC = (props) => {
     if (!checkLogin()) return history.push('/');
     try {
       const info = await UserApi.getInfo(url);
-      let address = '';
-      let web3 = null;
-      if (connectType === WalletConnect) {
-        address = info.data.data.address;
-      } else {
-        const result = await connect(
-          connectType as WalletType,
-          true,
-          config as Config,
-        );
-        address = result.address;
-        web3 = result.web3;
-      }
+      const { web3, address } = await connect(
+        connectType as WalletType,
+        true,
+        config as Config,
+      );
       dispatch({
         type: 'global/updateState',
         payload: {
@@ -306,7 +300,7 @@ const Layout: React.FC = (props) => {
             {status ? (
               configLoading ? (
                 <Loading text={'Loading Config !!!'} status={configLoading} />
-              ) : requestLoading ? (
+              ) : !requestLoading ? (
                 <Loading
                   text={'Connecting to a p2p network'}
                   status={requestLoading}

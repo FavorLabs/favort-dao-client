@@ -5,6 +5,7 @@ import { WalletType } from '@/declare/global';
 import { isFavorApp } from '@/utils/util';
 import FlutterMethod from '@/utils/flutter';
 import { Config } from '@/config/config';
+import { EthereumProvider } from '@walletconnect/ethereum-provider';
 
 const connectMetaMask = async (refresh: boolean, config: Config) => {
   const provider = window.ethereum;
@@ -58,6 +59,25 @@ const connectUniPassFlutter = async () => {
   };
 };
 
+const connectWalletConnect = async (refresh: boolean, config: Config) => {
+  const provider = await EthereumProvider.init({
+    projectId: '02540fc4a8bded9c16aae4b484f62903',
+    showQrModal: true,
+    chains: [config.chainId],
+    rpcMap: {
+      [config.chainId]: config.chainEndpoint,
+    },
+  });
+  await provider.enable();
+  const { chainId, accounts } = provider;
+  if (chainId !== config.chainId) {
+    await provider.disconnect();
+    throw new Error('The network connected is not correct');
+  }
+  const web3 = new Web3(provider);
+  return { web3, address: accounts[0] };
+};
+
 export const connect = (
   connectType: WalletType,
   refresh = false,
@@ -71,5 +91,7 @@ export const connect = (
     ? isFavorApp()
       ? connectUniPassFlutter()
       : connectUnipass(config)
+    : connectType === WalletConnect
+    ? connectWalletConnect(refresh, config)
     : Promise.reject();
 };
